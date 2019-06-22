@@ -30,30 +30,37 @@
 </div>
 
 <!--<div id="special-sponsor">-->
-  <!--<h3>特别赞助</h3>-->
-  <!--<%_ for (const sponsor of theme.platinum_sponsors_china) { _%>-->
-  <!--<a href="<%- sponsor.url %>" target="_blank">-->
-    <!--<img src="<%- url_for(`/images/${sponsor.img}`) %>" style="width:200px">-->
-  <!--</a>-->
-  <!--<%_ } _%>-->
-  <!--<%_if (theme.platinum_sponsors_china.length < 2) { _%>-->
-  <!--<br>-->
-  <!--<a class="become-backer" href="/support-vuejs/#special-sponsor-china">-->
-    <!--成为特别赞助商-->
-  <!--</a>-->
-  <!--<%_} _%>-->
+<!--<h3>特别赞助</h3>-->
+<!--<%_ for (const sponsor of theme.platinum_sponsors_china) { _%>-->
+<!--<a href="<%- sponsor.url %>" target="_blank">-->
+<!--<img src="<%- url_for(`/images/${sponsor.img}`) %>" style="width:200px">-->
+<!--</a>-->
+<!--<%_ } _%>-->
+<!--<%_if (theme.platinum_sponsors_china.length < 2) { _%>-->
+<!--<br>-->
+<!--<a class="become-backer" href="/support-vuejs/#special-sponsor-china">-->
+<!--成为特别赞助商-->
+<!--</a>-->
+<!--<%_} _%>-->
 <!--</div>-->
+
+<div id="special-sponsor">
+  <p align="center" style="margin-top: 0px">🏆码云最有价值开源项目<br />🚀后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构！</p>
+  <a class="become-backer" style="margin-top: 0px" href="https://github.com/APIJSON/APIJSON">
+    右上角点 ⭐Star 支持
+  </a>
+</div>
 
 <div id="highlights">
   <div class="inner">
     <div class="point">
       <h2>对于前端</h2>
       <p>
-        不用再向后端同事催接口、求文档<br>
-        数据和结构完全定制，要啥有啥<br>
-        支持看请求知结果，所求即所得<br>
-        可一次获取任何数据、任何结构<br>
-        能去除重复数据，节省流量提高速度<br>
+        不用再向后端开发同事催接口、求文档<br>
+        前端能完全定制数据和结构，要啥有啥<br>
+        调用接口看请求知结果，所求即所得<br>
+        可以一次性获取任何数据、任何结构<br>
+        能够去除重复数据，节省流量提高速度<br>
       </p>
     </div>
 
@@ -88,37 +95,37 @@
 </div>
 
 <!--<div id="news">-->
-  <!--<div class="inner">-->
-    <!--<h3><label for="member_email">订阅我们的周刊 (英文)</label></h3>-->
-    <!--<form-->
-      <!--class="newsletter-form"-->
-      <!--id="revue-form"-->
-      <!--name="revue-form"-->
-      <!--target="_blank"-->
-      <!--action="https://www.getrevue.co/profile/vuenewsletter/add_subscriber"-->
-      <!--method="post"-->
-      <!--@submit="subscribe"-->
-    <!--&gt;-->
-      <!--<input-->
-        <!--class="newsletter-input"-->
-        <!--type="email"-->
-        <!--name="member[email]"-->
-        <!--id="member_email"-->
-        <!--required-->
-        <!--placeholder="邮件地址"-->
-      <!--&gt;-->
-      <!--<input-->
-        <!--class="button newsletter-button"-->
-        <!--type="submit"-->
-        <!--value="订阅"-->
-        <!--name="member[subscribe]"-->
-        <!--id="member_submit"-->
-      <!--&gt;-->
-    <!--</form>-->
-    <!--<p>-->
-      <!--你可以在 <a href="https://news.vuejs.org" target="_blank">news.vuejs.org</a> 翻阅往期的 issue，也可以收听 podcast。-->
-    <!--</p>-->
-  <!--</div>-->
+<!--<div class="inner">-->
+<!--<h3><label for="member_email">订阅我们的周刊 (英文)</label></h3>-->
+<!--<form-->
+<!--class="newsletter-form"-->
+<!--id="revue-form"-->
+<!--name="revue-form"-->
+<!--target="_blank"-->
+<!--action="https://www.getrevue.co/profile/vuenewsletter/add_subscriber"-->
+<!--method="post"-->
+<!--@submit="subscribe"-->
+<!--&gt;-->
+<!--<input-->
+<!--class="newsletter-input"-->
+<!--type="email"-->
+<!--name="member[email]"-->
+<!--id="member_email"-->
+<!--required-->
+<!--placeholder="邮件地址"-->
+<!--&gt;-->
+<!--<input-->
+<!--class="button newsletter-button"-->
+<!--type="submit"-->
+<!--value="订阅"-->
+<!--name="member[subscribe]"-->
+<!--id="member_submit"-->
+<!--&gt;-->
+<!--</form>-->
+<!--<p>-->
+<!--你可以在 <a href="https://news.vuejs.org" target="_blank">news.vuejs.org</a> 翻阅往期的 issue，也可以收听 podcast。-->
+<!--</p>-->
+<!--</div>-->
 <!--</div>-->
 
 <div id="footer">
@@ -134,7 +141,7 @@
     </a>
   </p>
   <p>遵循 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache-2.0 开源协议</a><br>
-  Copyright &copy; 2016-<%- new Date().getFullYear() %> Tommy Lemon</p>
+    Copyright &copy; 2016-<%- new Date().getFullYear() %> Tommy Lemon</p>
 </div>
 
 <div id="video-modal" class="modal">
@@ -142,35 +149,35 @@
 </div>
 
 <script>
-(function () {
-  var topScrolled = false
-  var sponsors = document.getElementById('sponsors')
-  var sponsorTop = sponsors.offsetTop
-  var sponsorActive = false
+  (function () {
+    var topScrolled = false
+    var sponsors = document.getElementById('sponsors')
+    var sponsorTop = sponsors.offsetTop
+    var sponsorActive = false
 
-  window.addEventListener('resize', function () {
-    sponsorTop = sponsors.offsetTop
-  })
+    window.addEventListener('resize', function () {
+      sponsorTop = sponsors.offsetTop
+    })
 
-  window.addEventListener('scroll', function () {
-    if (window.pageYOffset > 165 && !topScrolled) {
-      topScrolled = true
-      document.getElementById('mobile-bar').classList.remove('top')
-    } else if (window.pageYOffset <= 165 && topScrolled) {
-      topScrolled = false
-      document.getElementById('mobile-bar').classList.add('top')
-    }
-    if (window.pageYOffset > sponsorTop - 100) {
-      if (!sponsorActive) {
-        sponsorActive = true
-        sponsors.classList.add('active')
+    window.addEventListener('scroll', function () {
+      if (window.pageYOffset > 165 && !topScrolled) {
+        topScrolled = true
+        document.getElementById('mobile-bar').classList.remove('top')
+      } else if (window.pageYOffset <= 165 && topScrolled) {
+        topScrolled = false
+        document.getElementById('mobile-bar').classList.add('top')
       }
-    } else {
-      if (sponsorActive) {
-        sponsorActive = false
-        sponsors.classList.remove('active')
+      if (window.pageYOffset > sponsorTop - 100) {
+        if (!sponsorActive) {
+          sponsorActive = true
+          sponsors.classList.add('active')
+        }
+      } else {
+        if (sponsorActive) {
+          sponsorActive = false
+          sponsors.classList.remove('active')
+        }
       }
-    }
-  })
-})()
+    })
+  })()
 </script>
