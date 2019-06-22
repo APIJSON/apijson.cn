@@ -2,6 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70bb26cc-728b-4dbe-b003-cf428fe748ba" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-310x310.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-144x144.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-144x144.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-192x192.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-192x192.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-36x36.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-36x36.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-48x48.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-48x48.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-72x72.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-72x72.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-96x96.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-96x96.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-114x114.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-114x114.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-120x120.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-120x120.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-144x144.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-144x144.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-152x152.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-152x152.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-180x180.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-180x180.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-57x57.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-57x57.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-60x60.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-60x60.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-72x72.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-72x72.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-76x76.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-76x76.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-precomposed.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-precomposed.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-16x16.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-16x16.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-32x32.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-32x32.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-96x96.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-96x96.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon.ico" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon.ico" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-144x144.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-144x144.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-150x150.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-150x150.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-70x70.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-70x70.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/logo.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/logo.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/index.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/css/index.styl" afterPath="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
@@ -19,21 +45,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="52" column="10" lean-forward="false" selection-start-line="52" selection-start-column="10" selection-end-line="52" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.styl" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/vue/source/css/index.styl">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="142" column="0" lean-forward="true" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
+            <state relative-caret-position="180">
+              <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -42,8 +58,21 @@
       <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="507">
-              <caret line="1131" column="21" lean-forward="false" selection-start-line="1131" selection-start-column="21" selection-end-line="1131" selection-end-column="21" />
+            <state relative-caret-position="234">
+              <caret line="928" column="7" lean-forward="false" selection-start-line="928" selection-start-column="7" selection-end-line="928" selection-end-column="7" />
+              <folding>
+                <marker date="1561231531000" expanded="true" signature="20295:20398" ph="{...}" />
+                <marker date="1561231531000" expanded="true" signature="21568:21576" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.styl" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/themes/vue/source/css/index.styl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="124">
+              <caret line="36" column="10" lean-forward="false" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -53,17 +82,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>V</find>
-      <find>Vue.js</find>
-      <find>APIJSON</find>
-      <find>VUEW.</find>
-      <find>VUEW</find>
-      <find>VUE</find>
-      <find>VUE.</find>
-      <find>VUE.JS</find>
-      <find>https://github.com/APIJSON/APIJSON</find>
-      <find>https://github.com/v/APIJSON</find>
-      <find>https://github.com/vue/APIJSON</find>
       <find>https://github.com/vuejs/APIJSON</find>
       <find>https://github.com/vuejs/v</find>
       <find>https://github.com/vuejs/vu</find>
@@ -83,6 +101,17 @@
       <find>2014-10-</find>
       <find>2014-10-1</find>
       <find>2014-10-12</find>
+      <find>。</find>
+      <find>。i</find>
+      <find>。ic</find>
+      <find>。ico</find>
+      <find>ico</find>
+      <find>.ico</find>
+      <find>f</find>
+      <find>favi</find>
+      <find>favic</find>
+      <find>favico</find>
+      <find>favicon</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -93,6 +122,9 @@
       <replace>2016-2019</replace>
       <replace>2016-</replace>
     </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/themes</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -110,8 +142,8 @@
         <option value="$PROJECT_DIR$/public/archives/2019/02/index.html" />
         <option value="$PROJECT_DIR$/themes/vue/source/manifest.json" />
         <option value="$PROJECT_DIR$/public/css/index.css" />
-        <option value="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
         <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
+        <option value="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
       </list>
     </option>
   </component>
@@ -129,6 +161,9 @@
   <component name="ProjectFrameBounds">
     <option name="width" value="1280" />
     <option name="height" value="800" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -241,6 +276,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apijson.org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apijson.org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -300,6 +361,12 @@
     <property name="FullScreen" value="true" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/themes/vue/source/images" />
+      <recent name="$PROJECT_DIR$/themes/vue/source/images/icons" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -392,12 +459,12 @@
       <option name="presentableId" value="Default" />
       <updated>1561225816174</updated>
       <workItem from="1561225817508" duration="1508000" />
-      <workItem from="1561227825792" duration="2587000" />
+      <workItem from="1561227825792" duration="3614000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4095000" />
+    <option name="totallyTimeSpent" value="5122000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -649,10 +716,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="569" column="25" lean-forward="true" selection-start-line="569" selection-start-column="25" selection-end-line="569" selection-end-column="25" />
-          <folding>
-            <element signature="e#28962#28968#0" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -672,26 +736,69 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-310x310.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/images/logo-big.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/images/logo.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-144x144.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/images/icons/favicon-16x16.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/images/icons/favicon-96x96.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/images/icons/favicon-32x32.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/images/icons/favicon.ico">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="1131" column="21" lean-forward="false" selection-start-line="1131" selection-start-column="21" selection-end-line="1131" selection-end-column="21" />
-          <folding />
+        <state relative-caret-position="234">
+          <caret line="928" column="7" lean-forward="false" selection-start-line="928" selection-start-column="7" selection-end-line="928" selection-end-column="7" />
+          <folding>
+            <marker date="1561231531000" expanded="true" signature="20295:20398" ph="{...}" />
+            <marker date="1561231531000" expanded="true" signature="21568:21576" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/source/css/index.styl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="142" column="0" lean-forward="true" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="52" column="10" lean-forward="false" selection-start-line="52" selection-start-column="10" selection-end-line="52" selection-end-column="10" />
+        <state relative-caret-position="124">
+          <caret line="36" column="10" lean-forward="false" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
           <folding />
         </state>
       </provider>
