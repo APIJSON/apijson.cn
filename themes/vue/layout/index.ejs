@@ -16,10 +16,11 @@
         自动化接口和文档<br>JSON 协议 与 ORM 库
       </h1>
       <p>
-        <a id="modal-player" class="button has-icon" href="javascript:;">
+        <!--<a id="modal-player" class="button has-icon" href="https://github.com/APIJSON/APIJSON/wiki" target="_blank">-->
+        <a class="button has-icon" href="https://github.com/APIJSON/APIJSON/wiki" target="_blank">
           <%- partial('icons/play') %>
           WHY APIJSON?</a>
-        <a class="button white" href="<%- url_for("/v2/guide/") %>">起步</a>
+        <a class="button white" href="<%- url_for("https://vincentcheng.github.io/apijson-doc/zh/") %>" target="_blank">起步</a>
         <a class="button gray has-icon" href="https://github.com/APIJSON/APIJSON" target="_blank">
           <%- partial('icons/github-dark') %>
           GITHUB</a>
@@ -86,39 +87,39 @@
   </div>
 </div>
 
-<div id="news">
-  <div class="inner">
-    <h3><label for="member_email">订阅我们的周刊 (英文)</label></h3>
-    <form
-      class="newsletter-form"
-      id="revue-form"
-      name="revue-form"
-      target="_blank"
-      action="https://www.getrevue.co/profile/vuenewsletter/add_subscriber"
-      method="post"
-      @submit="subscribe"
-    >
-      <input
-        class="newsletter-input"
-        type="email"
-        name="member[email]"
-        id="member_email"
-        required
-        placeholder="邮件地址"
-      >
-      <input
-        class="button newsletter-button"
-        type="submit"
-        value="订阅"
-        name="member[subscribe]"
-        id="member_submit"
-      >
-    </form>
-    <p>
-      你可以在 <a href="https://news.vuejs.org" target="_blank">news.vuejs.org</a> 翻阅往期的 issue，也可以收听 podcast。
-    </p>
-  </div>
-</div>
+<!--<div id="news">-->
+  <!--<div class="inner">-->
+    <!--<h3><label for="member_email">订阅我们的周刊 (英文)</label></h3>-->
+    <!--<form-->
+      <!--class="newsletter-form"-->
+      <!--id="revue-form"-->
+      <!--name="revue-form"-->
+      <!--target="_blank"-->
+      <!--action="https://www.getrevue.co/profile/vuenewsletter/add_subscriber"-->
+      <!--method="post"-->
+      <!--@submit="subscribe"-->
+    <!--&gt;-->
+      <!--<input-->
+        <!--class="newsletter-input"-->
+        <!--type="email"-->
+        <!--name="member[email]"-->
+        <!--id="member_email"-->
+        <!--required-->
+        <!--placeholder="邮件地址"-->
+      <!--&gt;-->
+      <!--<input-->
+        <!--class="button newsletter-button"-->
+        <!--type="submit"-->
+        <!--value="订阅"-->
+        <!--name="member[subscribe]"-->
+        <!--id="member_submit"-->
+      <!--&gt;-->
+    <!--</form>-->
+    <!--<p>-->
+      <!--你可以在 <a href="https://news.vuejs.org" target="_blank">news.vuejs.org</a> 翻阅往期的 issue，也可以收听 podcast。-->
+    <!--</p>-->
+  <!--</div>-->
+<!--</div>-->
 
 <div id="footer">
   <p>

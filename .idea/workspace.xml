@@ -2,34 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70bb26cc-728b-4dbe-b003-cf428fe748ba" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-310x310.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-144x144.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-144x144.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-192x192.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-192x192.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-36x36.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-36x36.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-48x48.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-48x48.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-72x72.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-72x72.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-96x96.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/android-icon-96x96.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-114x114.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-114x114.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-120x120.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-120x120.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-144x144.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-144x144.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-152x152.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-152x152.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-180x180.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-180x180.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-57x57.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-57x57.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-60x60.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-60x60.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-72x72.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-72x72.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-76x76.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-76x76.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-precomposed.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon-precomposed.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/apple-icon.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-16x16.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-16x16.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-32x32.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-32x32.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-96x96.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon-96x96.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon.ico" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/favicon.ico" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-144x144.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-144x144.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-150x150.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-150x150.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-70x70.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/icons/ms-icon-70x70.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/images/logo.png" afterPath="$PROJECT_DIR$/themes/vue/source/images/logo.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/index.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/css/index.styl" afterPath="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -45,11 +20,31 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+            <state relative-caret-position="285">
+              <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sponsors.ejs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="14" column="25" lean-forward="false" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.styl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/vue/source/css/index.styl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="119" column="0" lean-forward="true" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -58,8 +53,8 @@
       <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="928" column="7" lean-forward="false" selection-start-line="928" selection-start-column="7" selection-end-line="928" selection-end-column="7" />
+            <state relative-caret-position="381">
+              <caret line="774" column="17" lean-forward="true" selection-start-line="774" selection-start-column="17" selection-end-line="774" selection-end-column="17" />
               <folding>
                 <marker date="1561231531000" expanded="true" signature="20295:20398" ph="{...}" />
                 <marker date="1561231531000" expanded="true" signature="21568:21576" ph="{...}" />
@@ -68,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.styl" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/themes/vue/source/css/index.styl">
+      <file leaf-file-name="_config.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/vue/_config.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="36" column="10" lean-forward="false" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
+            <state relative-caret-position="240">
+              <caret line="16" column="89" lean-forward="false" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="89" />
               <folding />
             </state>
           </provider>
@@ -82,13 +77,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>https://github.com/vuejs/APIJSON</find>
-      <find>https://github.com/vuejs/v</find>
-      <find>https://github.com/vuejs/vu</find>
-      <find>https://github.com/vuejs/vue.js</find>
-      <find>https://github.com/vuejs/vue.j</find>
-      <find>https://github.com/vuejs/vue.</find>
-      <find>https://github.com/vuejs/vue</find>
       <find>https://github.com/vuejs/vue</find>
       <find>Evan You</find>
       <find>Vue's</find>
@@ -112,6 +100,13 @@
       <find>favic</find>
       <find>favico</find>
       <find>favicon</find>
+      <find>Patreon 赞助商</find>
+      <find>special-sponsor</find>
+      <find>modal-player</find>
+      <find>platinum_sponsors</find>
+      <find>pl</find>
+      <find>pla</find>
+      <find>play</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -142,8 +137,10 @@
         <option value="$PROJECT_DIR$/public/archives/2019/02/index.html" />
         <option value="$PROJECT_DIR$/themes/vue/source/manifest.json" />
         <option value="$PROJECT_DIR$/public/css/index.css" />
-        <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
+        <option value="$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs" />
+        <option value="$PROJECT_DIR$/themes/vue/_config.yml" />
         <option value="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
+        <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
       </list>
     </option>
   </component>
@@ -250,58 +247,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="apijson.org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="apijson.org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vue" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="apijson.org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="apijson.org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vue" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -342,7 +287,73 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icons" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apijson.org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apijson.org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apijson.org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apijson.org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="style-guide" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apijson.org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apijson.org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="v2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -459,12 +470,12 @@
       <option name="presentableId" value="Default" />
       <updated>1561225816174</updated>
       <workItem from="1561225817508" duration="1508000" />
-      <workItem from="1561227825792" duration="3614000" />
+      <workItem from="1561227825792" duration="5295000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5122000" />
+    <option name="totallyTimeSpent" value="6803000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -776,18 +787,18 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
+    <entry file="file://$PROJECT_DIR$/themes/vue/_config.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        <state relative-caret-position="240">
+          <caret line="16" column="89" lean-forward="false" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="89" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="928" column="7" lean-forward="false" selection-start-line="928" selection-start-column="7" selection-end-line="928" selection-end-column="7" />
+        <state relative-caret-position="381">
+          <caret line="774" column="17" lean-forward="true" selection-start-line="774" selection-start-column="17" selection-end-line="774" selection-end-column="17" />
           <folding>
             <marker date="1561231531000" expanded="true" signature="20295:20398" ph="{...}" />
             <marker date="1561231531000" expanded="true" signature="21568:21576" ph="{...}" />
@@ -797,8 +808,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/source/css/index.styl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="36" column="10" lean-forward="false" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
+        <state relative-caret-position="157">
+          <caret line="119" column="0" lean-forward="true" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="14" column="25" lean-forward="false" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/page.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="288" column="13" lean-forward="false" selection-start-line="288" selection-start-column="13" selection-end-line="288" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_common.styl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4">
+          <caret line="51" column="2" lean-forward="false" selection-start-line="51" selection-start-column="2" selection-end-line="51" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/layout/icons/play.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="34" lean-forward="false" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
           <folding />
         </state>
       </provider>
