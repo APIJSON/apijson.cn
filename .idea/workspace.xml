@@ -3,34 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="70bb26cc-728b-4dbe-b003-cf428fe748ba" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/why-vue/arabic.js.srt" afterPath="$PROJECT_DIR$/assets/why-vue/arabic.js.srt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/why-vue/english.js.srt" afterPath="$PROJECT_DIR$/assets/why-vue/english.js.srt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/why-vue/french.js.srt" afterPath="$PROJECT_DIR$/assets/why-vue/french.js.srt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/about/index.md" afterPath="$PROJECT_DIR$/src/about/index.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/api/index.md" afterPath="$PROJECT_DIR$/src/v2/api/index.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/cookbook/client-side-storage.md" afterPath="$PROJECT_DIR$/src/v2/cookbook/client-side-storage.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/cookbook/debugging-in-vscode.md" afterPath="$PROJECT_DIR$/src/v2/cookbook/debugging-in-vscode.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/cookbook/dockerize-vuejs-app.md" afterPath="$PROJECT_DIR$/src/v2/cookbook/dockerize-vuejs-app.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/cookbook/serverless-blog.md" afterPath="$PROJECT_DIR$/src/v2/cookbook/serverless-blog.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/examples/commits.md" afterPath="$PROJECT_DIR$/src/v2/examples/commits.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/examples/themes.md" afterPath="$PROJECT_DIR$/src/v2/examples/themes.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/class-and-style.md" afterPath="$PROJECT_DIR$/src/v2/guide/class-and-style.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/filters.md" afterPath="$PROJECT_DIR$/src/v2/guide/filters.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/index.md" afterPath="$PROJECT_DIR$/src/v2/guide/index.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/installation.md" afterPath="$PROJECT_DIR$/src/v2/guide/installation.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/join.md" afterPath="$PROJECT_DIR$/src/v2/guide/join.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/plugins.md" afterPath="$PROJECT_DIR$/src/v2/guide/plugins.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/reactivity.md" afterPath="$PROJECT_DIR$/src/v2/guide/reactivity.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/team.md" afterPath="$PROJECT_DIR$/src/v2/guide/team.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/unit-testing.md" afterPath="$PROJECT_DIR$/src/v2/guide/unit-testing.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/search/index.md" afterPath="$PROJECT_DIR$/src/v2/search/index.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/_config.yml" afterPath="$PROJECT_DIR$/themes/vue/_config.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/index.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/layout.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/layout.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/sponsors-page.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/sponsors-page.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/js/vue.js" afterPath="$PROJECT_DIR$/themes/vue/source/js/vue.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/manifest.json" afterPath="$PROJECT_DIR$/themes/vue/source/manifest.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/css/index.styl" afterPath="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -45,33 +19,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="28" column="6" lean-forward="true" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
-              <folding>
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#2;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manifest.json" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/themes/vue/source/manifest.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="44" column="24" lean-forward="false" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_config.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_config.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2175">
-              <caret line="145" column="12" lean-forward="false" selection-start-line="145" selection-start-column="12" selection-end-line="145" selection-end-column="12" />
+            <state relative-caret-position="248">
+              <caret line="52" column="10" lean-forward="false" selection-start-line="52" selection-start-column="10" selection-end-line="52" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -80,8 +32,18 @@
       <file leaf-file-name="index.styl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/vue/source/css/index.styl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="44" column="15" lean-forward="false" selection-start-line="44" selection-start-column="15" selection-end-line="44" selection-end-column="15" />
+            <state relative-caret-position="442">
+              <caret line="142" column="0" lean-forward="true" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/css/index.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="507">
+              <caret line="1131" column="21" lean-forward="false" selection-start-line="1131" selection-start-column="21" selection-end-line="1131" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -138,17 +100,18 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/LICENSE" />
         <option value="$PROJECT_DIR$/_config.yml" />
         <option value="$PROJECT_DIR$/themes/vue/layout/partials/header.ejs" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/assets/why-vue/arabic.js.srt" />
-        <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
         <option value="$PROJECT_DIR$/assets/why-vue/english.js.srt" />
         <option value="$PROJECT_DIR$/public/archives/2019/02/index.html" />
         <option value="$PROJECT_DIR$/themes/vue/source/manifest.json" />
+        <option value="$PROJECT_DIR$/public/css/index.css" />
+        <option value="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
+        <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
       </list>
     </option>
   </component>
@@ -429,12 +392,12 @@
       <option name="presentableId" value="Default" />
       <updated>1561225816174</updated>
       <workItem from="1561225817508" duration="1508000" />
-      <workItem from="1561227825792" duration="1322000" />
+      <workItem from="1561227825792" duration="2587000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2830000" />
+    <option name="totallyTimeSpent" value="4095000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -474,9 +437,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#2;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -620,14 +581,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/vue/source/css/index.styl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="44" column="15" lean-forward="false" selection-start-line="44" selection-start-column="15" selection-end-line="44" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -711,20 +664,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="28" column="6" lean-forward="true" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#2;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/source/manifest.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
           <caret line="44" column="24" lean-forward="false" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="1131" column="21" lean-forward="false" selection-start-line="1131" selection-start-column="21" selection-end-line="1131" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/css/index.styl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="142" column="0" lean-forward="true" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="52" column="10" lean-forward="false" selection-start-line="52" selection-start-column="10" selection-end-line="52" selection-end-column="10" />
           <folding />
         </state>
       </provider>
