@@ -57,7 +57,7 @@ and testable code base.
 
 13
 00:00:33,381 --> 00:00:36,229
-Vue is a progressive JavaScript 
+Vue is a progressive JavaScript
 framework, which means,
 
 14
@@ -131,7 +131,7 @@ but stay tuned to the end of the video
 29
 00:01:10,187 --> 00:01:13,571
 for a message from
-Vue's creator, Evan You.
+APIJSON's creator, Tommy Lemon.
 
 30
 00:01:13,571 --> 00:01:15,301
@@ -251,7 +251,7 @@ for each product in the array
 
 57
 00:02:20,535 --> 00:02:22,618
-using Vue's v-for directive.
+using APIJSON's v-for directive.
 
 58
 00:02:24,353 --> 00:02:26,615
@@ -396,7 +396,7 @@ up all the quantities.
 90
 00:03:45,308 --> 00:03:47,588
 Here in the browser, I
-want to show you Vue's
+want to show you APIJSON's
 
 91
 00:03:47,588 --> 00:03:51,380
@@ -555,7 +555,7 @@ and Scoped CSS, or SCSS.
 
 126
 00:05:25,599 --> 00:05:28,926
-- Hi, I'm Evan You, the creator of Vue.js.
+- Hi, I'm Tommy Lemon, the creator of APIJSON.
 
 127
 00:05:28,926 --> 00:05:31,587

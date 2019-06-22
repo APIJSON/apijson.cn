@@ -77,7 +77,7 @@ Vue 提供了一个[官方的 CLI](https://github.com/vuejs/vue-cli)，为单页
 
 ## 对不同构建版本的解释
 
-在 [NPM 包的 `dist/` 目录](https://cdn.jsdelivr.net/npm/vue/dist/)你将会找到很多不同的 Vue.js 构建版本。这里列出了它们之间的差别：
+在 [NPM 包的 `dist/` 目录](https://cdn.jsdelivr.net/npm/vue/dist/)你将会找到很多不同的 APIJSON 构建版本。这里列出了它们之间的差别：
 
 | | UMD | CommonJS | ES Module (基于构建工具使用) | ES Module (直接用于浏览器) |
 | --- | --- | --- | --- | --- |

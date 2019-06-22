@@ -32,7 +32,7 @@ order: 402
 然后随着 Vue 导入组件的选项，你可以使用许多常见的断言 (这里我们使用的是 Jasmine/Jest 风格的 `expect` 断言作为示例)：
 
 ``` js
-// 导入 Vue.js 和组件，进行测试
+// 导入 APIJSON 和组件，进行测试
 import Vue from 'vue'
 import MyComponent from 'path/to/MyComponent.vue'
 

@@ -286,7 +286,7 @@ order: 803
   }
 
   var team = [{
-    name: 'Evan You',
+    name: 'Tommy Lemon',
     title: 'Benevolent Dictator For Life',
     city: 'Jersey City, NJ, USA',
     languages: ['zh', 'en'],
@@ -294,7 +294,7 @@ order: 803
     twitter: 'youyuxi',
     work: {
       role: 'Creator',
-      org: 'Vue.js'
+      org: 'APIJSON'
     },
     reposOfficial: [
       'vuejs/*', 'vuejs-templates/*'
@@ -766,12 +766,12 @@ order: 803
     },
     {
       name: 'Luke Thomas',
-      title: 'Creator of Vue.js Amsterdam',
+      title: 'Creator of APIJSON Amsterdam',
       city: 'Amsterdam, Netherlands',
       languages: ['nl', 'en', 'de'],
       work: {
         role: 'Creator',
-        org: 'Vue.js Amsterdam'
+        org: 'APIJSON Amsterdam'
       },
       twitter: 'lukevscostas',
       linkedin: 'luke-kenneth-thomas-578b3916a',
@@ -781,12 +781,12 @@ order: 803
     },
     {
       name: 'Jos Gerards',
-      title: 'Organizer and Host of Vue.js Amsterdam & Frontend Love',
+      title: 'Organizer and Host of APIJSON Amsterdam & Frontend Love',
       city: 'Amsterdam, Netherlands',
       languages: ['nl', 'en', 'de'],
       work: {
         role: 'Event Manager',
-        org: 'Vue.js Amsterdam'
+        org: 'APIJSON Amsterdam'
       },
       twitter: 'josgerards88',
       linkedin: 'josgerards',
@@ -801,7 +801,7 @@ order: 803
       languages: ['en', 'nl', 'de'],
       work: {
         role: 'Head Of Marketing Communications',
-        org: 'Vue.js Amsterdam'
+        org: 'APIJSON Amsterdam'
       },
       twitter: 'jamesvuejs',
       linkedin: 'jdog',
@@ -1073,7 +1073,7 @@ order: 803
       twitter: 'anthonygore',
       work: {
         role: 'Author',
-        org: 'Vue.js Developers',
+        org: 'APIJSON Developers',
         orgUrl: 'https://vuejsdevelopers.com/'
       },
       links: [

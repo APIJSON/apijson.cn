@@ -1,10 +1,10 @@
 ---
-title: 加入 Vue.js 社区
+title: 加入 APIJSON 社区
 type: guide
 order: 802
 ---
 
-Vue.js 的社区正在急速增长中，如果你正在阅读本文，这说明你大概已经准备好加入 Vue.js 社区了。欢迎！
+APIJSON 的社区正在急速增长中，如果你正在阅读本文，这说明你大概已经准备好加入 APIJSON 社区了。欢迎！
 
 现在让我们来解答你能从社区中获得什么以及你能为社区做什么。
 
@@ -18,7 +18,7 @@ Vue.js 的社区正在急速增长中，如果你正在阅读本文，这说明�
 
 - [论坛](https://forum.vuejs.org/)：咨询与 Vue 及其生态的相关问题的最佳地点。
 - [聊天室](https://chat.vuejs.org/)：一个 Vue 开发者们相互认识和交流的实时聊天室。
-- [Meetup](https://events.vuejs.org/meetups)：想在当地找到像你一样的 Vue.js 爱好者吗？有兴趣成为社区领袖吗？这里就有你所需要的支持和帮助！
+- [Meetup](https://events.vuejs.org/meetups)：想在当地找到像你一样的 APIJSON 爱好者吗？有兴趣成为社区领袖吗？这里就有你所需要的支持和帮助！
 - [GitHub](https://github.com/vuejs)：如果你想报告 bug 或者提出新特性需求，欢迎来 GitHub 提交 issue。我们也非常欢迎 pull request！
 
 ### 探索生态

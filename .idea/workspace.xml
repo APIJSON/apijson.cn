@@ -2,8 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70bb26cc-728b-4dbe-b003-cf428fe748ba" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/LICENSE" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/why-vue/arabic.js.srt" afterPath="$PROJECT_DIR$/assets/why-vue/arabic.js.srt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/why-vue/english.js.srt" afterPath="$PROJECT_DIR$/assets/why-vue/english.js.srt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/why-vue/french.js.srt" afterPath="$PROJECT_DIR$/assets/why-vue/french.js.srt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/about/index.md" afterPath="$PROJECT_DIR$/src/about/index.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/api/index.md" afterPath="$PROJECT_DIR$/src/v2/api/index.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/cookbook/client-side-storage.md" afterPath="$PROJECT_DIR$/src/v2/cookbook/client-side-storage.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/cookbook/debugging-in-vscode.md" afterPath="$PROJECT_DIR$/src/v2/cookbook/debugging-in-vscode.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/cookbook/dockerize-vuejs-app.md" afterPath="$PROJECT_DIR$/src/v2/cookbook/dockerize-vuejs-app.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/cookbook/serverless-blog.md" afterPath="$PROJECT_DIR$/src/v2/cookbook/serverless-blog.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/examples/commits.md" afterPath="$PROJECT_DIR$/src/v2/examples/commits.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/examples/themes.md" afterPath="$PROJECT_DIR$/src/v2/examples/themes.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/class-and-style.md" afterPath="$PROJECT_DIR$/src/v2/guide/class-and-style.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/filters.md" afterPath="$PROJECT_DIR$/src/v2/guide/filters.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/index.md" afterPath="$PROJECT_DIR$/src/v2/guide/index.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/installation.md" afterPath="$PROJECT_DIR$/src/v2/guide/installation.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/join.md" afterPath="$PROJECT_DIR$/src/v2/guide/join.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/plugins.md" afterPath="$PROJECT_DIR$/src/v2/guide/plugins.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/reactivity.md" afterPath="$PROJECT_DIR$/src/v2/guide/reactivity.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/team.md" afterPath="$PROJECT_DIR$/src/v2/guide/team.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/guide/unit-testing.md" afterPath="$PROJECT_DIR$/src/v2/guide/unit-testing.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/v2/search/index.md" afterPath="$PROJECT_DIR$/src/v2/search/index.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/_config.yml" afterPath="$PROJECT_DIR$/themes/vue/_config.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/index.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/layout.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/layout.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/sponsors-page.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/sponsors-page.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/js/vue.js" afterPath="$PROJECT_DIR$/themes/vue/source/js/vue.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/manifest.json" afterPath="$PROJECT_DIR$/themes/vue/source/manifest.json" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,8 +48,8 @@
       <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="56" lean-forward="true" selection-start-line="11" selection-start-column="56" selection-end-line="11" selection-end-column="56" />
+            <state relative-caret-position="135">
+              <caret line="28" column="6" lean-forward="true" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
               <folding>
                 <element signature="n#style#0;n#img#0;n#a#0;n#div#2;n#!!top" expanded="true" />
               </folding>
@@ -30,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main_menu.ejs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/main_menu.ejs">
+      <file leaf-file-name="manifest.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/themes/vue/source/manifest.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="660">
+              <caret line="44" column="24" lean-forward="false" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -44,7 +71,7 @@
         <entry file="file://$PROJECT_DIR$/_config.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2175">
-              <caret line="145" column="12" lean-forward="true" selection-start-line="145" selection-start-column="12" selection-end-line="145" selection-end-column="12" />
+              <caret line="145" column="12" lean-forward="false" selection-start-line="145" selection-start-column="12" selection-end-line="145" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -64,13 +91,45 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>特别赞助</find>
       <find>V</find>
       <find>Vue.js</find>
+      <find>APIJSON</find>
+      <find>VUEW.</find>
+      <find>VUEW</find>
+      <find>VUE</find>
+      <find>VUE.</find>
+      <find>VUE.JS</find>
+      <find>https://github.com/APIJSON/APIJSON</find>
+      <find>https://github.com/v/APIJSON</find>
+      <find>https://github.com/vue/APIJSON</find>
+      <find>https://github.com/vuejs/APIJSON</find>
+      <find>https://github.com/vuejs/v</find>
+      <find>https://github.com/vuejs/vu</find>
+      <find>https://github.com/vuejs/vue.js</find>
+      <find>https://github.com/vuejs/vue.j</find>
+      <find>https://github.com/vuejs/vue.</find>
+      <find>https://github.com/vuejs/vue</find>
+      <find>https://github.com/vuejs/vue</find>
+      <find>Evan You</find>
+      <find>Vue's</find>
+      <find>2014-2019</find>
+      <find>2014-201</find>
+      <find>2014-20</find>
+      <find>2014-2</find>
+      <find>2014-</find>
+      <find>2014-10</find>
+      <find>2014-10-</find>
+      <find>2014-10-1</find>
+      <find>2014-10-12</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>APIJSON</replace>
+      <replace>https://github.com/APIJSON/APIJSON</replace>
+      <replace>Tommy Lemon</replace>
+      <replace>APIJSON's</replace>
+      <replace>2016-2019</replace>
+      <replace>2016-</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -82,10 +141,14 @@
         <option value="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/LICENSE" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/_config.yml" />
-        <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
         <option value="$PROJECT_DIR$/themes/vue/layout/partials/header.ejs" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/assets/why-vue/arabic.js.srt" />
+        <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
+        <option value="$PROJECT_DIR$/assets/why-vue/english.js.srt" />
+        <option value="$PROJECT_DIR$/public/archives/2019/02/index.html" />
+        <option value="$PROJECT_DIR$/themes/vue/source/manifest.json" />
       </list>
     </option>
   </component>
@@ -366,20 +429,21 @@
       <option name="presentableId" value="Default" />
       <updated>1561225816174</updated>
       <workItem from="1561225817508" duration="1508000" />
-      <workItem from="1561227825792" duration="566000" />
+      <workItem from="1561227825792" duration="1322000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2074000" />
+    <option name="totallyTimeSpent" value="2830000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31930104" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -500,6 +564,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-630">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -514,6 +579,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -521,6 +587,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-5415">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -549,6 +616,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -584,29 +652,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_config.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2175">
-          <caret line="145" column="12" lean-forward="true" selection-start-line="145" selection-start-column="12" selection-end-line="145" selection-end-column="12" />
+          <caret line="145" column="12" lean-forward="false" selection-start-line="145" selection-start-column="12" selection-end-line="145" selection-end-column="12" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="56" lean-forward="true" selection-start-line="11" selection-start-column="56" selection-end-line="11" selection-end-column="56" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#2;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -618,10 +668,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assets/why-vue/arabic.js.srt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8370">
+          <caret line="558" column="29" lean-forward="true" selection-start-line="558" selection-start-column="29" selection-end-line="558" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="2" lean-forward="false" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/main_menu.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/archives/2019/02/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="569" column="25" lean-forward="true" selection-start-line="569" selection-start-column="25" selection-end-line="569" selection-end-column="25" />
+          <folding>
+            <element signature="e#28962#28968#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#7;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/why-vue/english.js.srt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="146" column="0" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="28" column="6" lean-forward="true" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#2;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="44" column="24" lean-forward="false" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
           <folding />
         </state>
       </provider>

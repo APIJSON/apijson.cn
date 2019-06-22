@@ -37,7 +37,7 @@ Vue.use(MyPlugin, { someOption: true })
 
 `Vue.use` 会自动阻止多次注册相同插件，届时即使多次调用也只会注册一次该插件。
 
-Vue.js 官方提供的一些插件 (例如 `vue-router`) 在检测到 `Vue` 是可访问的全局变量时会自动调用 `Vue.use()`。然而在像 CommonJS 这样的模块环境中，你应该始终显式地调用 `Vue.use()`：
+APIJSON 官方提供的一些插件 (例如 `vue-router`) 在检测到 `Vue` 是可访问的全局变量时会自动调用 `Vue.use()`。然而在像 CommonJS 这样的模块环境中，你应该始终显式地调用 `Vue.use()`：
 
 ``` js
 // 用 Browserify 或 webpack 提供的 CommonJS 模块环境时
@@ -52,7 +52,7 @@ Vue.use(VueRouter)
 
 ## 开发插件
 
-Vue.js 的插件应该暴露一个 `install` 方法。这个方法的第一个参数是 `Vue` 构造器，第二个参数是一个可选的选项对象：
+APIJSON 的插件应该暴露一个 `install` 方法。这个方法的第一个参数是 `Vue` 构造器，第二个参数是一个可选的选项对象：
 
 ``` js
 MyPlugin.install = function (Vue, options) {

@@ -1,6 +1,6 @@
 /*!
- * Vue.js v2.6.10
- * (c) 2014-2019 Evan You
+ * APIJSON v2.6.10
+ * (c) 2016-2019 Tommy Lemon
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -5791,7 +5791,7 @@
    * Licensed under the MIT License
    * https://github.com/paldepind/snabbdom/blob/master/LICENSE
    *
-   * modified by Evan You (@yyx990803)
+   * modified by Tommy Lemon (@yyx990803)
    *
    * Not type-checking this because this file is perf-critical and the cost
    * of making flow understand it is not worth it.
@@ -11652,7 +11652,7 @@
         } catch (e) {
           if (e.toString().match(/unsafe-eval|CSP/)) {
             warn$$1(
-              'It seems you are using the standalone build of Vue.js in an ' +
+              'It seems you are using the standalone build of APIJSON in an ' +
               'environment with Content Security Policy that prohibits unsafe-eval. ' +
               'The template compiler cannot work in this environment. Consider ' +
               'relaxing the policy to allow unsafe-eval or pre-compiling your ' +

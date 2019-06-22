@@ -34,80 +34,80 @@ new Vue({
         name: 'vue-argon-design-system',
         title: 'Vue Argon Design System',
         free: true,
-        description: 'Free Vue.js Design System'
+        description: 'Free APIJSON Design System'
       },
       {
         name: 'vue-black-dashboard-pro',
         title: 'Vue Black Dashboard Pro',
         free: false,
         price: 59,
-        description: 'Premium Vue.js Admin Template'
+        description: 'Premium APIJSON Admin Template'
       },
       {
         name: 'vue-paper-dashboard-2-pro',
         title: 'Vue Paper Dashboard 2 Pro',
         free: false,
         price: 59,
-        description: 'Premium Vue.js Admin Template'
+        description: 'Premium APIJSON Admin Template'
       },
       {
         name: 'vue-material-kit',
         title: 'Vue Material Kit',
         free: true,
-        description: 'Free Vue.js UI Kit'
+        description: 'Free APIJSON UI Kit'
       },
       {
         name: 'vue-black-dashboard',
         title: 'Vue Black Dashboard',
         free: true,
-        description: 'Free Vue.js Admin Template'
+        description: 'Free APIJSON Admin Template'
       },
       {
         name: 'vue-now-ui-kit-pro',
         title: 'Vue Now UI Kit Pro',
         free: false,
         price: 79,
-        description: 'Premium Vue.js UI Kit'
+        description: 'Premium APIJSON UI Kit'
       },
       {
         name: 'vue-now-ui-dashboard-pro',
         title: 'Vue Now UI Dashboard Pro',
         free: false,
         price: 59,
-        description: 'Premium Vue.js Admin Template'
+        description: 'Premium APIJSON Admin Template'
       },
       {
         name: 'vue-now-ui-kit',
         title: 'Vue Now UI Kit',
         free: true,
-        description: 'Free Vue.js UI Kit'
+        description: 'Free APIJSON UI Kit'
       },
       {
         name: 'vue-light-bootstrap-dashboard-pro',
         title: 'Vue Light Bootstrap Dashboard Pro',
         free: false,
         price: 49,
-        description: 'Premium Vue.js Admin Template'
+        description: 'Premium APIJSON Admin Template'
       },
       {
         name: 'vue-material-dashboard-pro',
         title: 'Vue Material Dashboard Pro',
         free: false,
         price: 59,
-        description: 'Premium Vue.js Admin Template'
+        description: 'Premium APIJSON Admin Template'
       },
       {
         name: 'vue-material-kit-pro',
         title: 'Vue Material Kit Pro',
         free: false,
         price: 89,
-        description: 'Premium Vue.js UI Kit'
+        description: 'Premium APIJSON UI Kit'
       },
       {
         name: 'vue-light-bootstrap-dashboard',
         title: 'Vue Light Bootstrap Dashboard',
         free: true,
-        description: 'Free Vue.js Admin Template'
+        description: 'Free APIJSON Admin Template'
       }
     ]
   }

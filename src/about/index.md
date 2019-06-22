@@ -51,7 +51,7 @@ order: 0
 序号 | 对应文档文件名 | 中文标题 |  翻译贡献者 | 校对主要贡献者
 ----- | ------------- | --- | --- | --- | ---
 25 |  comparison.md |   对比其他框架 | [yongbolv](https://github.com/yongbolv) | [yangzj1992](https://github.com/yangzj1992)
-26 |  join.md |  加入 Vue.js 社区 | [daix6](https://github.com/daix6) | [zhouzihanntu](https://github.com/zhouzihanntu)
+26 |  join.md |  加入 APIJSON 社区 | [daix6](https://github.com/daix6) | [zhouzihanntu](https://github.com/zhouzihanntu)
 
 ## API翻译贡献
 

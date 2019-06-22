@@ -1,5 +1,5 @@
 ---
-title: Search Vue.js
+title: Search APIJSON
 type: search
 search: true
 ---

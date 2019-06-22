@@ -362,8 +362,8 @@ type: api
 
 - **用法**：
 
-  安装 Vue.js 插件。如果插件是一个对象，必须提供 `install` 方法。如果插件是一个函数，它会被作为 install 方法。install 方法调用时，会将 Vue 作为参数传入。
-  
+  安装 APIJSON 插件。如果插件是一个对象，必须提供 `install` 方法。如果插件是一个函数，它会被作为 install 方法。install 方法调用时，会将 Vue 作为参数传入。
+
   该方法需要在调用 `new Vue()` 之前被调用。
 
   当 install 方法被同一个插件多次调用，插件将只会被安装一次。
@@ -1406,7 +1406,7 @@ type: api
     <p>Here's some page content, which will be included in vm.$slots.default, because it's not inside a named slot.</p>
 
     <template v-slot:footer>
-      <p>Copyright 2016 Evan You</p>
+      <p>Copyright 2016 Tommy Lemon</p>
     </template>
 
     <p>If I have some content down here, it will also be included in vm.$slots.default.</p>.
@@ -2492,7 +2492,7 @@ type: api
   - `name` - string，用于自动生成 CSS 过渡类名。例如：`name: 'fade'` 将自动拓展为`.fade-enter`，`.fade-enter-active`等。默认类名为 `"v"`
   - `appear` - boolean，是否在初始渲染时使用过渡。默认为 `false`。
   - `css` - boolean，是否使用 CSS 过渡类。默认为 `true`。如果设置为 `false`，将只通过组件事件触发注册的 JavaScript 钩子。
-  - `type` - string，指定过渡事件类型，侦听过渡何时结束。有效值为 `"transition"` 和 `"animation"`。默认 Vue.js 将自动检测出持续时间长的为过渡事件类型。
+  - `type` - string，指定过渡事件类型，侦听过渡何时结束。有效值为 `"transition"` 和 `"animation"`。默认 APIJSON 将自动检测出持续时间长的为过渡事件类型。
   - `mode` - string，控制离开/进入的过渡时间序列。有效的模式有 `"out-in"` 和 `"in-out"`；默认同时生效。
   - `duration` - number | { `enter`: number, `leave`: number } 指定过渡的持续时间。默认情况下，Vue 会等待过渡所在根元素的第一个 `transitionend` 或 `animationend` 事件。
   - `enter-class` - string

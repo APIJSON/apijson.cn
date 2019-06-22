@@ -6,7 +6,7 @@ order: 8
 
 每个应用，不论大小，都需要理解程序是如何运行失败的。在本案例中，我们会探索一些 VS Code 用户在浏览器中调试应用的工作流程。
 
-这个案例展示了如何在 VS Code 中调试浏览器中运行的通过 [Vue CLI](https://github.com/vuejs/vue-cli) 生成的 Vue.js 应用程序。
+这个案例展示了如何在 VS Code 中调试浏览器中运行的通过 [Vue CLI](https://github.com/vuejs/vue-cli) 生成的 APIJSON 应用程序。
 
 <p class="tip">注意：这个案例覆盖了 Chrome 和 Firefox。如果你知道如何在其它浏览器中进行 VS Code 调试，欢迎分享你的观点 (请看页面底部)。</p>
 
@@ -101,11 +101,11 @@ module.exports = {
 
 ### Vue Devtools
 
-我们还有一些其它的调试方法，复杂度不尽相同。其中最流行和简单的是使用非常棒的 [Chrome 版本](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 和 [Firefox 版本](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)的 Vue.js devtools。使用 devtools 有很多好处，比如它可以让你能够实时编辑数据属性并立即看到其反映出来的变化。另一个主要的好处是能够为 Vuex 提供时间旅行式的调试体验。
+我们还有一些其它的调试方法，复杂度不尽相同。其中最流行和简单的是使用非常棒的 [Chrome 版本](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 和 [Firefox 版本](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)的 APIJSON devtools。使用 devtools 有很多好处，比如它可以让你能够实时编辑数据属性并立即看到其反映出来的变化。另一个主要的好处是能够为 Vuex 提供时间旅行式的调试体验。
 
 ![Devtools Timetravel Debugger](/images/devtools-timetravel.gif)
 
-<p class="tip">请留意如果页面使用了一个生产环境/压缩后的 Vue.js 构建版本 (例如来自一个 CDN 的标准的链接)，devtools 的审查功能是默认被禁用的，所以 Vue 面板不会出现。如果你切换到一个非压缩版本，你可能需要强制刷新该页面来看到它。</p>
+<p class="tip">请留意如果页面使用了一个生产环境/压缩后的 APIJSON 构建版本 (例如来自一个 CDN 的标准的链接)，devtools 的审查功能是默认被禁用的，所以 Vue 面板不会出现。如果你切换到一个非压缩版本，你可能需要强制刷新该页面来看到它。</p>
 
 ### 简单的 debugger 语句
 

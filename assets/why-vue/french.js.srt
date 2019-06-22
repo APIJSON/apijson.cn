@@ -131,7 +131,7 @@ mais restez jusqu'à la fin pour
 29
 00:01:10,187 --> 00:01:13,571
 un message du créateur
-de Vue, Evan You.
+de Vue, Tommy Lemon.
 
 30
 00:01:13,571 --> 00:01:15,301
@@ -555,7 +555,7 @@ et du CSS à portée limitée.
 
 126
 00:05:25,599 --> 00:05:28,926
-- Bonjour, c'est Evan You, créateur de Vue.js.
+- Bonjour, c'est Tommy Lemon, créateur de APIJSON.
 
 127
 00:05:28,926 --> 00:05:31,587

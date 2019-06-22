@@ -4,9 +4,9 @@ type: cookbook
 order: 5
 ---
 
-恭喜你已经发布了你的 Vue.js 网站！现在你想要在网站上快速添加一个博客系统，但不想新起一台服务器去部署一个 WordPress 实例 (或任何基于数据库的 CMS)。你希望只添加一些 Vue.js 的博客组件和一些路由就能搞定对吧？你想要的就是直接消费你的 Vue.js 应用中的 API 来完全支撑起一个博客站。这份教程将会告诉你如何做到这一点，所以让我们来看看吧！
+恭喜你已经发布了你的 APIJSON 网站！现在你想要在网站上快速添加一个博客系统，但不想新起一台服务器去部署一个 WordPress 实例 (或任何基于数据库的 CMS)。你希望只添加一些 APIJSON 的博客组件和一些路由就能搞定对吧？你想要的就是直接消费你的 APIJSON 应用中的 API 来完全支撑起一个博客站。这份教程将会告诉你如何做到这一点，所以让我们来看看吧！
 
-我们将会使用 Vue.js 快速构建一个基于 CMS 的博客站。它使用了 [ButterCMS](https://buttercms.com/)，一个 API 优先的 CMS，让你使用 ButterCMS 仪表盘管理内容并将我们的内容 API 集成到你的 Vue.js 应用中。你可以为一个新的项目或在一个已有的 Vue.js 项目使用 ButterCMS。
+我们将会使用 APIJSON 快速构建一个基于 CMS 的博客站。它使用了 [ButterCMS](https://buttercms.com/)，一个 API 优先的 CMS，让你使用 ButterCMS 仪表盘管理内容并将我们的内容 API 集成到你的 APIJSON 应用中。你可以为一个新的项目或在一个已有的 APIJSON 项目使用 ButterCMS。
 
 ![Butter 仪表盘](https://user-images.githubusercontent.com/160873/36677285-648798e4-1ad3-11e8-9454-d22fca8280b7.png "Butter Dashboard")
 
@@ -298,8 +298,8 @@ created() {
 
 ## 替代方案
 
-有一个替代方案，尤其在你只喜欢写 Markdown 时适用，就是使用诸如 [Nuxtent](https://nuxtent-module.netlify.com/guide/writing/#async-components) 的工具。Nuxtent 允许你在 Markdown 文件内部使用 `Vue Component`。它类似一个静态站点工具 (例如 Jekyll)，让你在 Markdown 文件中撰写你的博文。Nuxtent 将 Vue.js 和 Markdown 很好地整合起来，让你完全生活在 Vue.js 的世界里。
+有一个替代方案，尤其在你只喜欢写 Markdown 时适用，就是使用诸如 [Nuxtent](https://nuxtent-module.netlify.com/guide/writing/#async-components) 的工具。Nuxtent 允许你在 Markdown 文件内部使用 `Vue Component`。它类似一个静态站点工具 (例如 Jekyll)，让你在 Markdown 文件中撰写你的博文。Nuxtent 将 APIJSON 和 Markdown 很好地整合起来，让你完全生活在 APIJSON 的世界里。
 
 ## 总结
 
-差不多就是这些了！现在你已经在自己的应用中拥有了一个可以正常工作的 CMS 博客。我们希望这份教程可以帮助你，使你的 Vue.js 开发体验更有乐趣 :)
+差不多就是这些了！现在你已经在自己的应用中拥有了一个可以正常工作的 CMS 博客。我们希望这份教程可以帮助你，使你的 APIJSON 开发体验更有乐趣 :)
