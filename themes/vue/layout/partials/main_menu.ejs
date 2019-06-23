@@ -1,13 +1,32 @@
-<li>
-  <form id="search-form">
-    <input type="text" id="search-query-<%- context %>" class="search-query st-default-search-input">
-  </form>
+<!--<li>-->
+  <!--<form id="search-form">-->
+    <!--<input type="text" id="search-query-<%- context %>" class="search-query st-default-search-input">-->
+  <!--</form>-->
+<!--</li>-->
+
+<!-- FIXME 尝试加输入框，且点击后，浏览器打开新标签页，不行 -->
+<!--<li>-->
+  <!--<form id="search-form" style="position: absolute"  href="https://vincentcheng.github.io/apijson-doc/zh" target="_blank">-->
+    <!--<input disabled type="text" id="search-query-<%- context %>" class="search-query st-default-search-input" >-->
+  <!--</form>-->
+  <!--<button style="width: 160px" href="https://vincentcheng.github.io/apijson-doc/zh" target="_blank"/>-->
+<!--</li>-->
+
+<li style="vertical-align: middle" >
+  <a href="https://gitee.com/TommyLemon/APIJSON" target="_blank">
+    <img style="margin-bottom: -4px" height="24" width="60" src="https://gitee.com/logo-black.svg?20171024" >
+  </a>
 </li>
-<%- partial('partials/learn_dropdown') %>
-<%- partial('partials/ecosystem_dropdown') %>
-<li>
-  <a href="<%- url_for("/v2/guide/team.html") %>" class="nav-link team<%- page.path.match(/team\.html/) ? ' current' : '' %>">团队</a>
-</li>
-<%- partial('partials/support_vue_dropdown') %>
-<%- partial('partials/language_dropdown') %>
-<li><a href="https://github.com/vuejs/cn.vuejs.org/" target="_blank" class="nav-link contribute">参与翻译</a></li>
+<li><a href="https://vincentcheng.github.io/apijson-doc/zh" target="_blank" class="nav-link contribute">文档</a></li>
+<li><a href="http://i.youku.com/apijson" target="_blank" class="nav-link contribute">视频</a></li>
+<li><a href="https://github.com/search?o=desc&q=apijson&s=stars&type=Repositories" target="_blank" class="nav-link contribute">源码</a></li>
+
+
+<!--<%- partial('partials/learn_dropdown') %>-->
+<!--<%- partial('partials/ecosystem_dropdown') %>-->
+<!--<li>-->
+  <!--<a href="<%- url_for("/v2/guide/team.html") %>" class="nav-link team<%- page.path.match(/team\.html/) ? ' current' : '' %>">团队</a>-->
+<!--</li>-->
+<!--<%- partial('partials/support_vue_dropdown') %>-->
+<!--<%- partial('partials/language_dropdown') %>-->
+<!--<li><a href="https://github.com/vuejs/cn.vuejs.org/" target="_blank" class="nav-link contribute">参与翻译</a></li>-->

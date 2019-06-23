@@ -4,10 +4,7 @@
     <list default="true" id="70bb26cc-728b-4dbe-b003-cf428fe748ba" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/index.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/partials/header.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/partials/header.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl" afterPath="$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/css/_sponsors-sidebar.styl" afterPath="$PROJECT_DIR$/themes/vue/source/css/_sponsors-sidebar.styl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/css/index.styl" afterPath="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/partials/main_menu.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/partials/main_menu.ejs" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,25 +19,16 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="48" column="22" lean-forward="true" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+            <state relative-caret-position="168">
+              <caret line="157" column="16" lean-forward="true" selection-start-line="157" selection-start-column="16" selection-end-line="157" selection-end-column="16" />
               <folding>
                 <element signature="n#style#0;n#p#0;n#div#2;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#div#2;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#5;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_sponsors-index.styl" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="59" column="14" lean-forward="false" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -48,18 +36,8 @@
       <file leaf-file-name="_sponsors-sidebar.styl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_sponsors-sidebar.styl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="22" column="12" lean-forward="false" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main_menu.ejs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/main_menu.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="234">
+              <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -75,15 +53,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/css/index.css">
+      <file leaf-file-name="main_menu.ejs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/main_menu.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="1022" column="1" lean-forward="false" selection-start-line="1022" selection-start-column="1" selection-end-line="1022" selection-end-column="1" />
+            <state relative-caret-position="225">
+              <caret line="15" column="65" lean-forward="true" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="65" />
               <folding>
-                <marker date="1561233876000" expanded="true" signature="20295:20398" ph="{...}" />
-                <marker date="1561233876000" expanded="true" signature="21568:21576" ph="{...}" />
+                <element signature="n#style#0;n#li#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#0;n#li#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="learn_dropdown.ejs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/learn_dropdown.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -185,9 +173,10 @@
         <option value="$PROJECT_DIR$/public/css/index.css" />
         <option value="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
         <option value="$PROJECT_DIR$/themes/vue/layout/partials/header.ejs" />
-        <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
         <option value="$PROJECT_DIR$/themes/vue/source/css/_sponsors-sidebar.styl" />
         <option value="$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl" />
+        <option value="$PROJECT_DIR$/themes/vue/layout/partials/main_menu.ejs" />
+        <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
       </list>
     </option>
   </component>
@@ -463,12 +452,12 @@
       <option name="presentableId" value="Default" />
       <updated>1561225816174</updated>
       <workItem from="1561225817508" duration="1508000" />
-      <workItem from="1561227825792" duration="7159000" />
+      <workItem from="1561227825792" duration="10349000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8667000" />
+    <option name="totallyTimeSpent" value="11857000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -511,6 +500,7 @@
           <folding>
             <element signature="n#style#0;n#p#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#5;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -783,14 +773,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_common.styl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4">
-          <caret line="51" column="2" lean-forward="false" selection-start-line="51" selection-start-column="2" selection-end-line="51" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/layout/icons/play.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -815,14 +797,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/index.css">
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="1022" column="1" lean-forward="false" selection-start-line="1022" selection-start-column="1" selection-end-line="1022" selection-end-column="1" />
-          <folding>
-            <marker date="1561233876000" expanded="true" signature="20295:20398" ph="{...}" />
-            <marker date="1561233876000" expanded="true" signature="21568:21576" ph="{...}" />
-          </folding>
+        <state relative-caret-position="501">
+          <caret line="59" column="14" lean-forward="false" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_common.styl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="85" column="19" lean-forward="true" selection-start-line="85" selection-start-column="4" selection-end-line="85" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -836,36 +823,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/main_menu.ejs">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="65" lean-forward="true" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="65" />
+          <folding>
+            <element signature="n#style#0;n#li#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#li#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="766" column="18" lean-forward="false" selection-start-line="766" selection-start-column="18" selection-end-line="766" selection-end-column="18" />
+          <folding>
+            <marker date="1561233876000" expanded="true" signature="20295:20398" ph="{...}" />
+            <marker date="1561233876000" expanded="true" signature="21568:21576" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/learn_dropdown.ejs">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_sponsors-sidebar.styl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="22" column="12" lean-forward="false" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+        <state relative-caret-position="234">
+          <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="48" column="22" lean-forward="true" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+        <state relative-caret-position="168">
+          <caret line="157" column="16" lean-forward="true" selection-start-line="157" selection-start-column="16" selection-end-line="157" selection-end-column="16" />
           <folding>
             <element signature="n#style#0;n#p#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#5;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="59" column="14" lean-forward="false" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
