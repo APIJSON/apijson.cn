@@ -22,17 +22,17 @@ $ npm start # 开发服务器地址为 http://localhost:4000
 * 发 issue 讨论译法或书写格式
 * 发 issue 讨论部署或协作流程上的问题
 
-有劳在翻译之前移步 [wiki](https://github.com/vuejs/cn.vuejs.org/wiki) 了解相关注意事项。
+有劳在翻译之前移步 [wiki](https://github.com/APIJSON/apijson.org/wiki) 了解相关注意事项。
 
 **注意：**
 
 1. 原则上这里只进行英文版对应的翻译工作，如果觉得原文有改进之处，或任何不仅针对中文版，而受益所有语言版本的想法，建议直接在英文版仓库讨论。
-2. 原则上这里不适合讨论 Vue 的使用问题，建议相关问题在 Vue 的[官方论坛](https://forum.vuejs.org/) (英文)、[聊天室](https://chat.vuejs.org/) (英文) 或各大主流技术社区讨论，以便得到更多人的帮助和更充分的讨论。
+2. 原则上这里不适合讨论 APIJSON 的使用问题，建议相关问题在 APIJSON 的[官方论坛](https://forum.apijson.org/) (英文)、[聊天室](https://chat.vuejs.org/) (英文) 或各大主流技术社区讨论，以便得到更多人的帮助和更充分的讨论。
 
 ## 致谢
 
-网站在创立之初得到了很多朋友们的帮助，大家一起分工协作完成了整站的翻译工作。[这个页面](https://cn.vuejs.org/about/)集中记录了大家这段时期的努力和付出，以表谢意！
+网站在创立之初得到了很多朋友们的帮助，大家一起分工协作完成了整站的翻译工作。[这个页面](https://apijson.org/about/)集中记录了大家这段时期的努力和付出，以表谢意！
 
 **感谢所有参与翻译的朋友们！**
 
-目前网站已处于维护状态，最新的文档/翻译贡献情况可以参阅 GitHub 提供的 [contributors](https://github.com/vuejs/cn.vuejs.org/graphs/contributors) 页面。
+目前网站已处于维护状态，最新的文档/翻译贡献情况可以参阅 GitHub 提供的 [contributors](https://github.com/APIJSON/apijson.org/graphs/contributors) 页面。
