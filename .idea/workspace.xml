@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="70bb26cc-728b-4dbe-b003-cf428fe748ba" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/_config.yml" afterPath="$PROJECT_DIR$/themes/vue/_config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/index.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs" afterPath="$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl" afterPath="$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,7 +22,7 @@
       <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
+            <state relative-caret-position="317">
               <caret line="99" column="25" lean-forward="false" selection-start-line="99" selection-start-column="17" selection-end-line="99" selection-end-column="25" />
               <folding />
             </state>
@@ -32,20 +32,37 @@
       <file leaf-file-name="sponsors.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" column="43" lean-forward="true" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
+            <state relative-caret-position="212">
+              <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
               <folding>
+                <element signature="n#style#0;n#a#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h4#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h4#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#1;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_config.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="_sponsors-index.styl" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="232">
+              <caret line="31" column="17" lean-forward="false" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_config.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/vue/_config.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="24" column="32" lean-forward="true" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
+            <state relative-caret-position="277">
+              <caret line="80" column="45" lean-forward="true" selection-start-line="80" selection-start-column="45" selection-end-line="80" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -55,10 +72,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>favicon</find>
-      <find>Patreon 赞助商</find>
-      <find>special-sponsor</find>
-      <find>modal-player</find>
       <find>pl</find>
       <find>pla</find>
       <find>play</find>
@@ -85,6 +98,10 @@
       <find>&quot;/images</find>
       <find>&quot;/v2</find>
       <find>&quot;/</find>
+      <find>&lt; %</find>
+      <find>% &gt;</find>
+      <find>&lt;a href=&quot;</find>
+      <find>height=&quot;75&quot; width=&quot;75&quot; &gt;&lt;/a&gt;</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -100,6 +117,10 @@
       <replace>&quot;images</replace>
       <replace>&quot;v2</replace>
       <replace>&quot;</replace>
+      <replace>&lt;%</replace>
+      <replace>%&gt;</replace>
+      <replace>- url: '</replace>
+      <replace>'       img: '</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/themes</dir>
@@ -124,12 +145,12 @@
         <option value="$PROJECT_DIR$/themes/vue/source/css/index.styl" />
         <option value="$PROJECT_DIR$/themes/vue/layout/partials/platinum_sponsors.ejs" />
         <option value="$PROJECT_DIR$/public/css/index.css" />
-        <option value="$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl" />
         <option value="$PROJECT_DIR$/themes/vue/source/css/_sponsors-sidebar.styl" />
         <option value="$PROJECT_DIR$/themes/vue/layout/index.ejs" />
         <option value="$PROJECT_DIR$/public/index.html" />
-        <option value="$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs" />
         <option value="$PROJECT_DIR$/themes/vue/_config.yml" />
+        <option value="$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs" />
+        <option value="$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl" />
       </list>
     </option>
   </component>
@@ -419,12 +440,12 @@
       <option name="presentableId" value="Default" />
       <updated>1561225816174</updated>
       <workItem from="1561225817508" duration="1508000" />
-      <workItem from="1561227825792" duration="18292000" />
+      <workItem from="1561227825792" duration="20391000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19800000" />
+    <option name="totallyTimeSpent" value="21899000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -639,14 +660,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="52" column="3" lean-forward="false" selection-start-line="52" selection-start-column="3" selection-end-line="52" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_sponsors-sidebar.styl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="307">
@@ -771,9 +784,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/themes/vue/_config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="80" column="45" lean-forward="true" selection-start-line="80" selection-start-column="45" selection-end-line="80" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/layout/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
+        <state relative-caret-position="317">
           <caret line="99" column="25" lean-forward="false" selection-start-line="99" selection-start-column="17" selection-end-line="99" selection-end-column="25" />
           <folding />
         </state>
@@ -781,18 +802,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/layout/partials/sponsors.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="43" lean-forward="true" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
+        <state relative-caret-position="212">
+          <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
           <folding>
+            <element signature="n#style#0;n#a#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h4#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h4#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#1;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/vue/_config.yml">
+    <entry file="file://$PROJECT_DIR$/themes/vue/source/css/_sponsors-index.styl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="24" column="32" lean-forward="true" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
+        <state relative-caret-position="232">
+          <caret line="31" column="17" lean-forward="false" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
           <folding />
         </state>
       </provider>

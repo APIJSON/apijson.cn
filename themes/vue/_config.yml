@@ -41,90 +41,67 @@ platinum_sponsors:
     img: 'juting.vip.png'
     name: 聚听有声
 gold_sponsors:
-  - url: 'https://www.vuemastery.com/'
-    img: vuemastery.png
-    name: VueMastery
-  - url: 'https://laravel.com'
-    img: laravel.png
-    name: Laravel
-  - url: 'https://chaitin.cn/en/'
-    img: chaitin.png
-    name: Chaitin
-  - url: 'https://htmlburger.com'
-    img: html_burger.png
-    name: HTML Burger
-  - url: 'https://www.frontenddeveloperlove.com/'
-    img: frontend_love.png
-    name: Frontend Love
-  - url: 'https://onsen.io/vue/'
-    img: onsen_ui.png
-    name: Onsen UI
-  - url: 'https://neds.com.au/'
-    img: neds.png
-    name: Neds
-  - url: 'https://icons8.com/'
-    img: icons_8.png
-    name: Icons 8
-  - url: 'https://vuejobs.com/?ref=vuejs'
-    img: vuejobs.png
-    name: VueJobs
-  - url: 'https://www.valuecoders.com'
-    img: valuecoders.png
-    name: ValueCoders
-  - url: 'https://tidelift.com/subscription/npm/vue'
-    img: tidelift.png
-    name: Tidelift
-  - url: >-
-      http://www.syncfusion.com/?utm_source=vuejs&utm_medium=list&utm_campaign=vuejsjslistcy19
-    img: syncfusion.png
-    name: SyncFusion
-  - url: 'https://opteo.com/vue'
-    img: opteo.png
-    name: Opteo
-  - url: 'https://devsquad.com/'
-    img: devsquad.png
-    name: DevSquad
-  - url: 'https://www.firesticktricks.com/'
-    img: firestick_tricks.png
-    name: Firestick Tricks
-  - url: 'https://intygrate.com/'
-    img: intygrate.png
-    name: Intygrate
-  - url: 'https://isleofcode.com/'
-    img: isle_of_code.png
-    name: Isle of Code
-  - url: 'https://passionatepeople.io/'
-    img: passionate_people.png
-    name: Passionate People
-  - url: 'http://en.shopware.com/'
-    img: shopware_ag.png
-    name: shopware AG
-  - url: >-
-      https://x-team.com/join/?utm_source=vuejsorg&utm_medium=sponsor&utm_campaign=vuejsorg-patreon
-    img: x_team.png
-    name: X-Team
-  - url: 'https://www.vpnranks.com/'
-    img: vpnranks.png
-    name: VPNRanks
-  - url: 'https://www.simplyswitch.com/'
-    img: energy_comparison.png
-    name: Energy Comparison
-  - url: 'https://www.bacancytechnology.com'
-    img: bacancy_technology.png
-    name: Bacancy Technology
-  - url: 'https://blokt.com/'
-    img: blokt_cryptocurrency_news.png
-    name: Blokt Cryptocurrency News
-  - url: 'https://www.jqwidgets.com/vue/'
-    img: jqwidgets_ltd.png
-    name: jQWidgets LTD
-  - url: 'https://www.y8.com/'
-    img: y8.png
-    name: Y8
+  - url: 'https://github.com/TommyLemon'
+    img: 'https://avatars1.githubusercontent.com/u/5738175?s=400&u=5b2f372f0c03fae8f249d2d754e38971c2e17b92&v=4'
+    name: Contributer
+  - url: 'https://github.com/TommyLemon/APIJSON/pull/41'
+    img: 'https://avatars0.githubusercontent.com/u/39320217?s=460&v=4'
+    name: Contributer
+  - url: 'https://github.com/TommyLemon/APIJSON/pull/43'
+    img: 'https://avatars0.githubusercontent.com/u/23173448?s=460&v=4'
+    name: Contributer
+  - url: 'https://github.com/TommyLemon/APIJSON/pull/47'
+    img: 'https://avatars2.githubusercontent.com/u/31512287?s=400&v=4'
+    name: Contributer
+  - url: 'https://github.com/TommyLemon/APIJSON/pull/70'
+    img: 'https://avatars1.githubusercontent.com/u/22228201?s=400&v=4'
+    name: Contributer
+  - url: 'https://github.com/TommyLemon/APIJSON/pull/74'
+    img: 'https://avatars0.githubusercontent.com/u/1274536?s=400&v=4'
+    name: Contributer
+  - url: 'https://github.com/APIJSON/APIJSON/pull/92'
+    img: 'https://avatars3.githubusercontent.com/u/6327228?s=400&v=4'
+    name: Contributer
+  - url: 'https://github.com/TommyLemon/APIJSON/pull/69'
+    img: 'https://avatars0.githubusercontent.com/u/13880474?s=400&v=4'
+    name: Contributer
+  - url: 'https://github.com/TommyLemon/APIJSON/pull/72'
+    img: 'https://avatars1.githubusercontent.com/u/10663804?s=400&v=4'
+    name: Contributer
+  - url: 'https://github.com/TommyLemon/APIJSON/pull/33'
+    img: 'https://avatars1.githubusercontent.com/u/5328313?s=460&v=4'
+    name: Contributer
 silver_sponsors:
-  - url: 'https://dopamine.bg/'
-    img: dopamine.png
-    name: Dopamine
+  - url: 'https://github.com/liaozb/APIJSON.NET'
+    img: 'https://avatars3.githubusercontent.com/u/12622501?s=400&v=4'
+    name: Author
+  - url: 'https://github.com/qq547057827/apijson-php'
+    img: 'https://avatars3.githubusercontent.com/u/1657532?s=400&v=4'
+    name: Author
+  - url: 'https://github.com/TEsTsLA/apijson'
+    img: 'https://avatars2.githubusercontent.com/u/17310639?s=400&v=4'
+    name: Author
+  - url: 'https://github.com/zhangchunlin/uliweb-apijson'
+    img: 'https://avatars0.githubusercontent.com/u/359281?s=400&v=4'
+    name: Author
+  - url: 'https://github.com/crazytaxi824/APIJSON'
+    img: 'https://avatars3.githubusercontent.com/u/16500384?s=400&v=4'
+    name: Author
+  - url: 'https://github.com/luckyxiaomo/APIJSONKOTLIN'
+    img: 'https://avatars2.githubusercontent.com/u/42728605?s=400&v=4'
+    name: Author
+  - url: 'https://github.com/Zerounary/APIJSONParser'
+    img: 'https://avatars2.githubusercontent.com/u/31512287?s=400&v=4'
+    name: Author
+  - url: 'https://gitee.com/zhiyuexin/ApiJsonByJFinal'
+    img: 'https://avatar.gitee.com/uploads/90/490_zhiyuexin.jpg!avatar100?1368664499'
+    name: Author
+  - url: 'https://github.com/Airforce-1/SpringServer1.2-APIJSON'
+    img: 'https://avatars3.githubusercontent.com/u/6212428?s=400&v=4'
+    name: Author
+  - url: 'https://github.com/vincentCheng/apijson-doc'
+    img: 'https://avatars3.githubusercontent.com/u/6327228?s=400&v=4'
+    name: Author
 bronze_sponsors:
   - url: 'http://tighten.co/'
     img: tighten_co.png
