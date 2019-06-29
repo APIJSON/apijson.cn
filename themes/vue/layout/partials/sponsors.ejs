@@ -16,7 +16,7 @@
 
 <%_ for (const sponsor of theme.platinum_sponsors) {_%>
 <a href="<%- sponsor.url %>" target="_blank" style="width: 160px;">
-  <img src="<%- url_for(`${sponsor.img}`) %>" style="width: 160px;" />
+  <img src="<%- url_for(`images/${sponsor.img}`) %>" style="width: 160px;" />
 </a>
 <%_ } _%>
 <br>

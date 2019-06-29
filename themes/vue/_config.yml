@@ -14,31 +14,31 @@ special_sponsors:
     description: 几分钟内在云端构建发布 API，免费试用。
 platinum_sponsors:
   - url: 'http://www.transsion.com'
-    img: 'http://www.transsion.com/static/images/logo.jpg'
+    img: 'www.transsion.com.jpeg'
     name: TRANSSION
   - url: 'http://shebaochina.com'
-    img: 'http://shebaochina.com/static/cn/img/index/logo.png'
+    img: 'shebaochina.com.png'
     name: 社保科技
   - url: 'http://www.8soo.com'
-    img: 'http://ww1.sinaimg.cn/large/756dd729gw1f9n5ckuq6vj208902it8v.jpg'
+    img: 'www.8sso.com.jpeg'
     name: 八搜券
   - url: 'http://www.xxwolo.com'
-    img: 'http://img.qichacha.com/Product/a917fcca-fbb1-44a2-a079-56985ebf8f9c.jpg'
+    img: 'www.xxwolo.com.jpeg'
     name: 星星网络
   - url: 'http://www.aipaipai-inc.com'
-    img: 'http://www.aipaipai-inc.com/uploadfile/upload/2019042913403029.png'
+    img: 'www.aipaipai-inc.com.png'
     name: 爱拍拍
   - url: 'https://www.shulian8.com'
-    img: 'https://bookstore-prod.oss-cn-hangzhou.aliyuncs.com/%E5%90%8E%E5%8F%B0%E9%A1%B5%E9%9D%A2_03.png'
+    img: 'www.shulian8.com.png'
     name: 树联智能
   - url: 'http://www.hec-bang.com'
-    img: 'http://www.hec-bang.com/assets/images/logo-200x50.png'
+    img: 'www.hec-bang.com.png'
     name: 华张科技
   - url: 'http://www.xmfish.com'
-    img: 'http://www.xmfish.com/images/chanel/www/f_logo.gif'
+    img: 'www.xmfish.com.gif'
     name: 厦门小鱼
   - url: 'http://juting.vip'
-    img: 'http://i.juting.vip/wp-file/2018/12/logo1-1.png'
+    img: 'juting.vip.png'
     name: 聚听有声
 gold_sponsors:
   - url: 'https://www.vuemastery.com/'
