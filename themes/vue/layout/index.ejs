@@ -79,22 +79,57 @@
 
 <!-- TODO 加入 APIJSON GIF 演示轮播图，自动轮播组件可用上面的 special-sponsor -->
 <!--<div id="special-sponsor">-->
-<!--<h3>特别赞助</h3>-->
-<!--<%_ for (const sponsor of theme.platinum_sponsors_china) { _%>-->
-<!--<a href="<%- sponsor.url %>" target="_blank">-->
-<!--<img src="<%- url_for(`/images/${sponsor.img}`) %>" style="width:200px">-->
-<!--</a>-->
-<!--<%_ } _%>-->
-<!--<%_if (theme.platinum_sponsors_china.length < 2) { _%>-->
-<!--<br>-->
-<!--<a class="become-backer" href="/support-vuejs/#special-sponsor-china">-->
-<!--成为特别赞助商-->
-<!--</a>-->
-<!--<%_} _%>-->
+  <!--<h3>特别赞助</h3>-->
+  <!--< %_ for (const sponsor of theme.platinum_sponsors_china) { _% >-->
+  <!--<a href="< %- sponsor.url % >" target="_blank">-->
+    <!--<img src="< %- url_for(`/images/${sponsor.img}`) % >" style="width:200px">-->
+  <!--</a>-->
+  <!--< %_ } _% >-->
+  <!--< %_if (theme.platinum_sponsors_china.length < 2) { _% >-->
+  <!--<br>-->
+  <!--<a class="become-backer" href="/support-vuejs/#special-sponsor-china">-->
+    <!--在线体验-->
+  <!--</a>-->
+  <!--< %_} _% >-->
 <!--</div>-->
 
 
-<!-- TODO 恢复注释，内容改为 登录用户 和 贡献者 -->
+<div id="news" style="background-color: #f6f6f6">
+  <div class="inner">
+    <img src="<%- url_for("/images/functions/APIJSON_Auto_get.jpg") %>" style="width: 80%;margin-top: 20px">
+    <p>
+      多表关联查询、结构自由组合、多个测试账号、一键共享测试用例
+    </p>
+  </div>
+
+  <!--<div style="background-color: #ffffff;height: 20px;margin-bottom: 20px" ></div>-->
+
+  <div class="inner">
+    <img src="<%- url_for("/images/functions/APIJSON_Auto_code.jpg") %>" style="width: 80%;margin-top: 120px">
+    <p>
+      自动生成封装请求JSON的Android与iOS代码、一键自动生成JavaBean或解析Response的代码
+    </p>
+  </div>
+
+  <!--<div style="background-color: #ffffff;height: 20px;margin-bottom: 20px" ></div>-->
+
+  <div class="inner">
+    <img src="<%- url_for("/images/functions/APIJSON_Auto_doc.jpg") %>" style="width: 80%;margin-top: 120px">
+    <p>
+      自动保存请求记录、自动生成接口文档，可添加常用请求、快捷查看一键恢复
+    </p>
+  </div>
+
+  <div class="inner">
+    <img src="<%- url_for("/images/functions/APIJSON_Auto_test.jpg") %>" style="width: 80%;margin-top: 120px">
+    <p>
+      一键自动接口回归测试，不需要写任何代码(注解、注释等全都不要)
+    </p>
+  </div>
+</div>
+
+
+<!-- 登录用户 和 贡献者 -->
 <div id="sponsors">
   <div class="inner">
     <%- partial('partials/sponsors') %>
@@ -102,50 +137,50 @@
 </div>
 
 <!--<div id="news">-->
-  <!--<div class="inner">-->
-    <!--<h3><label for="member_email">订阅我们的周刊 (英文)</label></h3>-->
-    <!--<form-->
-      <!--class="newsletter-form"-->
-      <!--id="revue-form"-->
-      <!--name="revue-form"-->
-      <!--target="_blank"-->
-      <!--action="https://www.getrevue.co/profile/vuenewsletter/add_subscriber"-->
-      <!--method="post"-->
-      <!--@submit="subscribe"-->
-    <!--&gt;-->
-      <!--<input-->
-        <!--class="newsletter-input"-->
-        <!--type="email"-->
-        <!--name="member[email]"-->
-        <!--id="member_email"-->
-        <!--required-->
-        <!--placeholder="邮件地址"-->
-      <!--&gt;-->
-      <!--<input-->
-        <!--class="button newsletter-button"-->
-        <!--type="submit"-->
-        <!--value="订阅"-->
-        <!--name="member[subscribe]"-->
-        <!--id="member_submit"-->
-      <!--&gt;-->
-    <!--</form>-->
-    <!--<p>-->
-      <!--你可以在 <a href="https://news.vuejs.org" target="_blank">news.vuejs.org</a> 翻阅往期的 issue，也可以收听 podcast。-->
-    <!--</p>-->
-  <!--</div>-->
+<!--<div class="inner">-->
+<!--<h3><label for="member_email">订阅我们的周刊 (英文)</label></h3>-->
+<!--<form-->
+<!--class="newsletter-form"-->
+<!--id="revue-form"-->
+<!--name="revue-form"-->
+<!--target="_blank"-->
+<!--action="https://www.getrevue.co/profile/vuenewsletter/add_subscriber"-->
+<!--method="post"-->
+<!--@submit="subscribe"-->
+<!--&gt;-->
+<!--<input-->
+<!--class="newsletter-input"-->
+<!--type="email"-->
+<!--name="member[email]"-->
+<!--id="member_email"-->
+<!--required-->
+<!--placeholder="邮件地址"-->
+<!--&gt;-->
+<!--<input-->
+<!--class="button newsletter-button"-->
+<!--type="submit"-->
+<!--value="订阅"-->
+<!--name="member[subscribe]"-->
+<!--id="member_submit"-->
+<!--&gt;-->
+<!--</form>-->
+<!--<p>-->
+<!--你可以在 <a href="https://news.vuejs.org" target="_blank">news.vuejs.org</a> 翻阅往期的 issue，也可以收听 podcast。-->
+<!--</p>-->
+<!--</div>-->
 <!--</div>-->
 
 <div id="footer">
   <!--<p>-->
-    <!--<a class="social-icon" href="https://github.com/vuejs/vue" target="_blank">-->
-      <!--<%- partial('icons/github') %>-->
-    <!--</a>-->
-    <!--<a class="social-icon" href="https://twitter.com/vuejs" target="_blank">-->
-      <!--<%- partial('icons/twitter') %>-->
-    <!--</a>-->
-    <!--<a class="social-icon" href="https://medium.com/the-vue-point" target="_blank">-->
-      <!--<%- partial('icons/medium') %>-->
-    <!--</a>-->
+  <!--<a class="social-icon" href="https://github.com/vuejs/vue" target="_blank">-->
+  <!--<%- partial('icons/github') %>-->
+  <!--</a>-->
+  <!--<a class="social-icon" href="https://twitter.com/vuejs" target="_blank">-->
+  <!--<%- partial('icons/twitter') %>-->
+  <!--</a>-->
+  <!--<a class="social-icon" href="https://medium.com/the-vue-point" target="_blank">-->
+  <!--<%- partial('icons/medium') %>-->
+  <!--</a>-->
   <!--</p>-->
   <p>遵循 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache-2.0 开源协议</a><br>
     Copyright &copy; 2016-<%- new Date().getFullYear() %> Tommy Lemon</p>
