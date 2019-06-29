@@ -1,34 +1,27 @@
 <!--
-<%_ if (theme.platinum_sponsors_china.length) { _%>
+< %_ if (theme.platinum_sponsors_china.length) { _% >
 <h3>中国区特别赞助商</h3>
-<%_ for (const sponsor of theme.platinum_sponsors_china) {_%>
-<a href="<%- sponsor.url %>" target="_blank" style="width: 160px;">
-  <img src="<%- url_for(`/images/${sponsor.img}`) %>" style="width: 160px;">
+< %_ for (const sponsor of theme.platinum_sponsors_china) {_% >
+<a href="< %- sponsor.url % >" target="_blank" style="width: 160px;">
+  <img src="< %- url_for(`/images/${sponsor.img}`) % >" style="width: 160px;">
 </a>
-<%_ } _%>
+< %_ } _% >
 <br>
 <br>
 <br>
-<%_ } _%>
+< %_ } _% >
 -->
 
-<h3>已登记使用 APIJSON 的 企业/项目</h3>
+<h3>使用 APIJSON 的 企业或项目</h3>
 
 <%_ for (const sponsor of theme.platinum_sponsors) {_%>
 <a href="<%- sponsor.url %>" target="_blank" style="width: 160px;">
-  <img src="<%- url_for(`/images/${sponsor.img}`) %>" style="width: 160px;" alt="<%-sponsor.name-%>">
-</a>
-<%_ } _%>
-<br>
-<br>
-<%_ for (const sponsor of theme.gold_sponsors) {_%>
-<a href="<%- sponsor.url %>" target="_blank" style="width: 120px;">
-  <img src="<%- url_for(`/images/${sponsor.img}`) %>" style="width: 120px;" alt="<%-sponsor.name-%>">
+  <img src="<%- url_for(`${sponsor.img}`) %>" style="width: 160px;" />
 </a>
 <%_ } _%>
 <br>
 
-<a class="become-sponsor button white" href="<%- url_for("/support-vuejs/") %>">成为赞助者！</a>
+<a class="become-sponsor button white" href="<%- url_for("/support-vuejs/") %>">登记使用</a>
 
 <div class="open-collective-sponsors">
   <h3>APIJSON 生态及社区的贡献者</h3>
@@ -61,9 +54,9 @@ window.addEventListener('load', function () {
 <br>
 <br>
 
-<h3>中国区视频托管赞助商</h3>
-<%_ for (const sponsor of theme.video_sponsors_china) {_%>
-<a href="<%- sponsor.url %>" target="_blank" style="width: 120px;">
-  <img src="<%- url_for(`/images/${sponsor.img}`) %>" style="width: 120px;">
-</a>
-<%_ } _%>
+<!--<h3>中国区视频托管赞助商</h3>-->
+<!--< %_ for (const sponsor of theme.video_sponsors_china) {_% >-->
+<!--<a href="< %- sponsor.url % >" target="_blank" style="width: 120px;">-->
+  <!--<img src="< %- url_for(`/images/${sponsor.img}`) % >" style="width: 120px;">-->
+<!--</a>-->
+<!--< %_ } _% >-->

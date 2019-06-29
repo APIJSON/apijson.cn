@@ -29,25 +29,11 @@
   </div>
 </div>
 
-<!--<div id="special-sponsor">-->
-<!--<h3>特别赞助</h3>-->
-<!--<%_ for (const sponsor of theme.platinum_sponsors_china) { _%>-->
-<!--<a href="<%- sponsor.url %>" target="_blank">-->
-<!--<img src="<%- url_for(`/images/${sponsor.img}`) %>" style="width:200px">-->
-<!--</a>-->
-<!--<%_ } _%>-->
-<!--<%_if (theme.platinum_sponsors_china.length < 2) { _%>-->
-<!--<br>-->
-<!--<a class="become-backer" href="/support-vuejs/#special-sponsor-china">-->
-<!--成为特别赞助商-->
-<!--</a>-->
-<!--<%_} _%>-->
-<!--</div>-->
 
 <div id="special-sponsor">
   <p align="center" style="margin-top: 0px">🏆码云最有价值开源项目<br />🚀后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构！</p>
   <!--<a class="become-backer" style="margin-top: 0px" href="https://github.com/APIJSON/APIJSON">-->
-    <!--右上角点 ⭐Star 支持-->
+  <!--右上角点 ⭐Star 支持-->
   <!--</a>-->
   <a class="become-backer" style="margin-top: 0px;width: 100px" href="http://apijson.org/auto" target="_blank">
     在线测试
@@ -92,46 +78,61 @@
 </div>
 
 <!-- TODO 加入 APIJSON GIF 演示轮播图，自动轮播组件可用上面的 special-sponsor -->
+<!--<div id="special-sponsor">-->
+<!--<h3>特别赞助</h3>-->
+<!--<%_ for (const sponsor of theme.platinum_sponsors_china) { _%>-->
+<!--<a href="<%- sponsor.url %>" target="_blank">-->
+<!--<img src="<%- url_for(`/images/${sponsor.img}`) %>" style="width:200px">-->
+<!--</a>-->
+<!--<%_ } _%>-->
+<!--<%_if (theme.platinum_sponsors_china.length < 2) { _%>-->
+<!--<br>-->
+<!--<a class="become-backer" href="/support-vuejs/#special-sponsor-china">-->
+<!--成为特别赞助商-->
+<!--</a>-->
+<!--<%_} _%>-->
+<!--</div>-->
+
 
 <!-- TODO 恢复注释，内容改为 登录用户 和 贡献者 -->
-<!--<div id="sponsors">-->
-  <!--<div class="inner">-->
-    <!--%- partial('partials/sponsors') %-->
-  <!--</div>-->
-<!--</div>-->
+<div id="sponsors">
+  <div class="inner">
+    <%- partial('partials/sponsors') %>
+  </div>
+</div>
 
 <!--<div id="news">-->
-<!--<div class="inner">-->
-<!--<h3><label for="member_email">订阅我们的周刊 (英文)</label></h3>-->
-<!--<form-->
-<!--class="newsletter-form"-->
-<!--id="revue-form"-->
-<!--name="revue-form"-->
-<!--target="_blank"-->
-<!--action="https://www.getrevue.co/profile/vuenewsletter/add_subscriber"-->
-<!--method="post"-->
-<!--@submit="subscribe"-->
-<!--&gt;-->
-<!--<input-->
-<!--class="newsletter-input"-->
-<!--type="email"-->
-<!--name="member[email]"-->
-<!--id="member_email"-->
-<!--required-->
-<!--placeholder="邮件地址"-->
-<!--&gt;-->
-<!--<input-->
-<!--class="button newsletter-button"-->
-<!--type="submit"-->
-<!--value="订阅"-->
-<!--name="member[subscribe]"-->
-<!--id="member_submit"-->
-<!--&gt;-->
-<!--</form>-->
-<!--<p>-->
-<!--你可以在 <a href="https://news.vuejs.org" target="_blank">news.vuejs.org</a> 翻阅往期的 issue，也可以收听 podcast。-->
-<!--</p>-->
-<!--</div>-->
+  <!--<div class="inner">-->
+    <!--<h3><label for="member_email">订阅我们的周刊 (英文)</label></h3>-->
+    <!--<form-->
+      <!--class="newsletter-form"-->
+      <!--id="revue-form"-->
+      <!--name="revue-form"-->
+      <!--target="_blank"-->
+      <!--action="https://www.getrevue.co/profile/vuenewsletter/add_subscriber"-->
+      <!--method="post"-->
+      <!--@submit="subscribe"-->
+    <!--&gt;-->
+      <!--<input-->
+        <!--class="newsletter-input"-->
+        <!--type="email"-->
+        <!--name="member[email]"-->
+        <!--id="member_email"-->
+        <!--required-->
+        <!--placeholder="邮件地址"-->
+      <!--&gt;-->
+      <!--<input-->
+        <!--class="button newsletter-button"-->
+        <!--type="submit"-->
+        <!--value="订阅"-->
+        <!--name="member[subscribe]"-->
+        <!--id="member_submit"-->
+      <!--&gt;-->
+    <!--</form>-->
+    <!--<p>-->
+      <!--你可以在 <a href="https://news.vuejs.org" target="_blank">news.vuejs.org</a> 翻阅往期的 issue，也可以收听 podcast。-->
+    <!--</p>-->
+  <!--</div>-->
 <!--</div>-->
 
 <div id="footer">
