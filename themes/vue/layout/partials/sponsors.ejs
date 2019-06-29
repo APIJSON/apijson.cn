@@ -12,7 +12,7 @@
 < %_ } _% >
 -->
 
-<h3>使用 APIJSON 的 企业或项目</h3>
+<h3>谁在使用 APIJSON ？</h3>
 
 <%_ for (const sponsor of theme.platinum_sponsors) {_%>
 <a href="<%- sponsor.url %>" target="_blank" style="width: 160px;">
@@ -21,20 +21,20 @@
 <%_ } _%>
 <br>
 
-<a class="become-sponsor button white" href="https://github.com/APIJSON/APIJSON/issues/73">登记使用</a>
+<a class="become-sponsor button white" href="https://github.com/APIJSON/APIJSON/issues/73">更多 APIJSON 使用者</a>
 
 <div class="open-collective-sponsors">
-  <h3>APIJSON 生态及社区的贡献者</h3>
+  <h3>生态及社区的贡献者</h3>
   <h4 style="margin-bottom: 10px">主项目的贡献者</h4>
   <%_ for (const sponsor of theme.gold_sponsors) {_%>
   <a href="<%- sponsor.url %>" target="_blank" style="width: 60px;padding: 0px;margin: 0px">
-    <img src="<%- url_for(`${sponsor.img}`) %>" style="width: auto;height: 60px" />
+    <img src="<%- url_for(`${sponsor.img}`) %>" style="width: auto;height: 60px;border-radius: 60px;" />
   </a>
   <%_ } _%>
   <h4 style="margin-bottom: 10px">其它项目的作者</h4>
   <%_ for (const sponsor of theme.silver_sponsors) {_%>
   <a href="<%- sponsor.url %>" target="_blank" style="width: 60px;padding: 0px;margin: 0px">
-    <img src="<%- url_for(`${sponsor.img}`) %>" style="width: auto;height: 60px" />
+    <img src="<%- url_for(`${sponsor.img}`) %>" style="width: auto;height: 60px;border-radius: 60px;" />
   </a>
   <%_ } _%>
 </div>
