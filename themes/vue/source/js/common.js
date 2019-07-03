@@ -284,7 +284,8 @@
       videoModal.classList.toggle('open')
       document.body.classList.toggle('stop-scroll')
       document.body.appendChild(overlay)
-      videoWrapper.innerHTML = '<iframe style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;" src="//player.youku.com/embed/XMzMwMTYyODMyNA==?autoplay=true&client_id=37ae6144009e277d" frameborder="0" allowfullscreen></iframe>'
+      // videoWrapper.innerHTML = '<iframe style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;" src="//player.youku.com/embed/XMzU0MDg0NzI4NA==?autoplay=true&client_id=a2hzp.8244740.0.0" frameborder="0" allowfullscreen></iframe>'
+      videoWrapper.innerHTML = '<iframe style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;" src="//player.bilibili.com/player.html?aid=57365937&cid=18527724&page=1" frameborder="0" allowfullscreen></iframe>'
       isOpen = true
     })
 
