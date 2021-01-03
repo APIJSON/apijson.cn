@@ -1,6 +1,6 @@
 /*!
  * APIJSON v2.6.10
- * (c) 2016-2019 Tommy Lemon
+ * (c) 2016-2021 Tommy Lemon
  * Released under the MIT License.
  */
 (function (global, factory) {
