@@ -15,18 +15,19 @@
 </p>
 
 ---
-
-机器学习测试、自动生成代码、自动静态检查、自动生成文档与注释等，做最先进的接口管理工具。<br />
-在常用功能上远超 Postman, Swagger, YApi, Rap 等其它各种 开源、商业 的 API 管理/测试 工具。<br />
+敏捷开发最强大易用的 HTTP 接口工具，机器学习零代码测试、生成代码与静态检查、生成文档与光标悬浮注释。<br />
+在常用功能上远超 Postman, Swagger, YApi, Rap 等其它各种 开源、商业 的 API 文档/测试 工具。<br />
 支持 HTTP GET/POST API，智能显示和切换；支持一键导入 Swagger, Rap, YApi 的用例和文档。<br />
-针对 APIJSON 做了静态检查、生成代码、格式化等大量优化。
+不仅适用于 RESTful、类 RESTful、GRPC 的 API，还是腾讯 [APIJSON](https://github.com/Tencent/APIJSON) 官方建议的文档与测试工具。<br />
+内部用户包括 腾讯互娱、腾讯技术工程 等事业部，外部用户包含 500强上市公司深圳传音、行业领头羊社保科技 等。
 
 ### 特点功能
 
-* 自动生成接口文档，清晰可读永远最新
-* 自动校验与格式化，支持高亮和收展
-* 自动生成各种语言代码，一键下载
-* 自动管理与测试接口用例，一键共享
+* 自动生成接口文档，光标悬浮注释
+* 自动校验与格式化参数，支持高亮和收展
+* 自动生成各种语言前后端代码，一键下载
+* 自动机器学习零代码测试接口，一键运行
+* 自动管理接口测试用例，一键共享
 * 自动给请求JSON加注释，一键切换
 * 自动保存历史请求记录，一键恢复
 
@@ -36,31 +37,14 @@
 腾讯 AI 测试圈子演讲(部分)
 </h3>
 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.001.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.002.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.003.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.004.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.005.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.006.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.007.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.008.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.009.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.010.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.011.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.012.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.013.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.014.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.015.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.016.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.017.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.018.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.019.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.020.jpeg)
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.021.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.022.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.023.jpeg) 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/Share/scenes/scenes.024.jpeg) 
-
+![](https://oscimg.oschina.net/oscnet/up-88c1699d9e1cd17d67705cb8b0271030daf.JPEG) 
+![](https://oscimg.oschina.net/oscnet/up-9cfe7bf3ed3d7f0b5053694f5042b4d36ed.JPEG) 
+![](https://oscimg.oschina.net/oscnet/up-520f379b2d0e9be7415963a69e940d0fc4c.JPEG) 
+![](https://oscimg.oschina.net/oscnet/up-9ae302efd6c74c20c393ad7ead39be8adba.JPEG) 
+![](https://oscimg.oschina.net/oscnet/up-fd316d5b63060f75ec1790a657497ad6286.JPEG) 
+![](https://oscimg.oschina.net/oscnet/up-6ffb15bdcc7d54fedb55d2368c1e0ba72f3.JPEG) 
+![](https://oscimg.oschina.net/oscnet/up-d3075ac2a481ddd89e28818b461ecc3f66c.JPEG) 
+![](https://oscimg.oschina.net/oscnet/up-442dd6c67edf259327f34b25e4d7e7c5b15.JPEG) 
 
 
 <br />
@@ -118,7 +102,7 @@ https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server
 
 
 ### 其它项目
-[APIJSON](https://github.com/Tencent/APIJSON) 🏆码云最有价值开源项目 🚀后端接口和文档自动化，前端(客户端) 定制返回 JSON 的数据和结构！
+[APIJSON](https://github.com/Tencent/APIJSON) 腾讯零代码、热更新、自动化 ORM 库 🏆 后端接口和文档自动化，前端(客户端) 定制返回 JSON 的数据和结构
 
 [apijson-doc](https://github.com/vincentCheng/apijson-doc) APIJSON 官方文档，提供排版清晰、搜索方便的文档内容展示，包括设计规范、图文教程等
 
@@ -144,7 +128,7 @@ https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server
 
 [SpringServer1.2-APIJSON](https://github.com/Airforce-1/SpringServer1.2-APIJSON) 智慧党建服务器端，提供 上传 和 下载 文件的接口
 
-[UnitAuto](https://github.com/TommyLemon/UnitAuto) 机器学习自动化单元测试平台，零代码、全方位、自动化 测试 方法/函数 的正确性和可用性
+[UnitAuto](https://github.com/TommyLemon/UnitAuto) 机器学习单元测试平台，零代码、全方位、自动化 测试 方法/函数 的正确性和可用性
 
 感谢热心的作者们的贡献，点 ⭐Star 支持下他们吧。
 
