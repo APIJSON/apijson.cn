@@ -7,7 +7,7 @@
 <p align="center" >
   <a href="https://github.com/TommyLemon/APIAuto#%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95">使用文档</a>
   <a href="http://i.youku.com/apijson">视频教程</a>
-  <a href="http://apijson.org/auto">在线体验</a>
+  <a href="http://apijson.cn/api">在线体验</a>
 </p>
 
 <p align="center" >
@@ -68,7 +68,7 @@
 ### 部署方法
 
 可以直接下载源码解压后用浏览器打开 index.html，建议用 Chrome 或 火狐 (Safari、Edge、IE 等可能有兼容问题)。<br />
-也可以直接访问官网的线上环境 http://apijson.org/auto 或开发环境 http://apijson.org:8000/auto 。<br />
+也可以直接访问官网的线上环境 http://apijson.cn/api 或开发环境 http://apijson.org:8000/api 。<br />
 <br />
 把左侧 URL 输入框内基地址改为你主机的地址(例如 http://localhost:8080 )，<br />
 然后在右上角 设置 下拉菜单内修改 数据库类型Database、数据库模式Schema。<br />

@@ -4545,7 +4545,7 @@
 
             var rsp = JSON.parse(JSON.stringify(currentResponse || {}))
             rsp = JSONResponse.array2object(rsp, 'methodArgs', ['methodArgs'], true)
-            
+
             var find = false;
             if (isCodeChange && hasCode) {  // 走异常分支
               for (var i = 0; i < exceptions.length; i++) {

@@ -92,14 +92,14 @@ var CodeUtil = {
         depth ++;
         names[depth] = key;
 
-        comment = CodeUtil.getComment4Request(tableList, names[depth - 1], key, null, method, false, database, language, isReq, names, isRestful);
+        comment = CodeUtil.getComment4Request(tableList, names[depth - 1], key, {}, method, false, database, language, isReq, names, isRestful);
       }
       else {
         if (line.endsWith('}')) {
           isInSubquery = false;
 
           if (line.endsWith('{}')) { //对象，判断是不是Table，再加对应的注释
-            comment = CodeUtil.getComment4Request(tableList, names[depth], key, null, method, false, database, language, isReq, names, isRestful);
+            comment = CodeUtil.getComment4Request(tableList, names[depth], key, {}, method, false, database, language, isReq, names, isRestful);
           }
           else {
             depth --;
@@ -110,8 +110,23 @@ var CodeUtil = {
           continue;
         }
         else { //其它，直接在后面加上注释
-          var isArray = line.endsWith('['); // []  不影响
-          value = isArray ? [] : line.substring(index + 2).trim()
+          if (line.endsWith('[')) { // []  不影响
+            value = []
+          }
+          else {
+            value = line.substring(index + 2).trim()
+            if (value.startsWith('"')) {
+              value = value.substring(1, value.lastIndexOf('"'))
+            }
+            else {
+              try {
+                value = JSON.parse(value)
+              }
+              catch (e) {
+                console.log(e)
+              }
+            }
+          }
           // alert('depth = ' + depth + '; line = ' + line + '; isArray = ' + isArray);
           comment = CodeUtil.getComment4Request(tableList, names[depth], key, value, method, isInSubquery, database, language, isReq, names, isRestful);
         }
@@ -1093,7 +1108,11 @@ var CodeUtil = {
         var combine = isTable ? value['@combine'] : null;
         var schema = isTable ? value['@schema'] : null;
         var database = isTable ? value['@database'] : null;
+        var raw = isTable ? value['@raw'] : null;
         var role = isTable ? value['@role'] : null;
+        var explain = isTable ? value['@explain'] : null;
+        var json = isTable ? value['@json'] : null;
+        var cache = isTable ? value['@cache'] : null;
 
         if (isTable) {
           delete value['@column'];
@@ -1103,7 +1122,11 @@ var CodeUtil = {
           delete value['@combine'];
           delete value['@schema'];
           delete value['@database'];
+          delete value['@raw'];
           delete value['@role'];
+          delete value['@explain'];
+          delete value['@json'];
+          delete value['@cache'];
         }
 
         s += CodeUtil.parseJavaRequest(key, value, depth + 1, isSmart);
@@ -1117,7 +1140,11 @@ var CodeUtil = {
           s = combine == null ? s : s + '\n' + nextPrefix + name + '.setCombine(' + CodeUtil.getCode4Value(CodeUtil.LANGUAGE_JAVA, combine) + ');';
           s = schema == null ? s : s + '\n' + nextPrefix + name + '.setSchema(' + CodeUtil.getCode4Value(CodeUtil.LANGUAGE_JAVA, schema) + ');';
           s = database == null ? s : s + '\n' + nextPrefix + name + '.setDatabase(' + CodeUtil.getCode4Value(CodeUtil.LANGUAGE_JAVA, database) + ');';
+          s = raw == null ? s : s + '\n' + nextPrefix + name + '.setRaw(' + CodeUtil.getCode4Value(CodeUtil.LANGUAGE_JAVA, raw) + ');';
           s = role == null ? s : s + '\n' + nextPrefix + name + '.setRole(' + CodeUtil.getCode4Value(CodeUtil.LANGUAGE_JAVA, role) + ');';
+          s = explain == null ? s : s + '\n' + nextPrefix + name + '.setExplain(' + CodeUtil.getCode4Value(CodeUtil.LANGUAGE_JAVA, explain) + ');';
+          s = json == null ? s : s + '\n' + nextPrefix + name + '.setJson(' + CodeUtil.getCode4Value(CodeUtil.LANGUAGE_JAVA, json) + ');';
+          s = cache == null ? s : s + '\n' + nextPrefix + name + '.setCache(' + CodeUtil.getCode4Value(CodeUtil.LANGUAGE_JAVA, cache) + ');';
         }
 
         s += '\n\n' + nextPrefix + parentKey + '.put("' + key + '", ' + name + ');';
@@ -1219,6 +1246,9 @@ var CodeUtil = {
           }
           if (key == '@role') {
             return '\n' + parentKey + '.setRole(' + valStr + ');';
+          }
+          if (key == '@explain') {
+            return '\n' + parentKey + '.setExplain(' + valStr + ');';
           }
         }
 
@@ -5678,6 +5708,12 @@ var CodeUtil = {
       return '';
     }
 
+    var typeOfValue = CodeUtil.getType4Request(value);
+    var valuesIsNotString = typeOfValue != 'string';
+    var valuesIsNotNumber = typeOfValue != 'number';
+    var valuesIsNotBoolean = typeOfValue != 'boolean';
+    var isValueNotEmpty = valuesIsNotString ? (typeOfValue != 'array' ? value != null : value.length > 0) : StringUtil.isEmpty(value, true) != true;
+
     if (isRestful == true) {
       if (StringUtil.isEmpty(key, true)) {
         return '';
@@ -5692,8 +5728,8 @@ var CodeUtil = {
       pathKeys.push(key);
 
       try {
-        var c = CodeUtil.getCommentFromDoc(tableList, name, key, method, database, language, false, isReq, pathKeys, isRestful, value == null ? {} : value);
-        return StringUtil.isEmpty(c) ? ' ! 字段 ' + key + ' 不存在！' : CodeUtil.getComment(c, false, '  ');
+        var c = CodeUtil.getCommentFromDoc(tableList, name, key, method, database, language, false, isReq, pathKeys, isRestful, value);
+        return StringUtil.isEmpty(c) ? ' ! 字段 ' + key + ' 不存在！' : (c.startsWith(' ! ') ? c : CodeUtil.getComment(c, false, '  '));
       }
       catch (e) {
         return e.message;
@@ -5709,7 +5745,7 @@ var CodeUtil = {
         var objName = key.substring(0, aliaIndex >= 0 ? aliaIndex : key.length - 2);
 
         if (JSONObject.isTableKey(objName)) {
-          var c = CodeUtil.getCommentFromDoc(tableList, objName, null, method, database, language);
+          var c = CodeUtil.getCommentFromDoc(tableList, objName, null, method, database, language, false, isReq, pathKeys, isRestful, value);
           return StringUtil.isEmpty(c) ? ' ! 表 ' + objName + ' 不存在！' : CodeUtil.getComment(
             (aliaIndex < 0 ? '' : '新建别名: ' + key.substring(aliaIndex + 1, key.length - 2) + ' < ') + objName + ': ' + c, false, '  ');
         }
@@ -5717,19 +5753,22 @@ var CodeUtil = {
 
       return '';
     }
-    else if (value == null || value instanceof Object) {
+    else if (value instanceof Object) {
+      if (isRestful != true && StringUtil.isEmpty(key, true)) {
+        return ' ' + CodeUtil.getComment('根对象，可在内部加 format,tag,version,@role,@database,@schema,@explain,@cache 等全局关键词键值对', false, '  ');
+      }
 
       if (isRestful != true && key.endsWith('@')) {
         if (key == '@from@') {
-          return CodeUtil.getComment('数据来源：匿名子查询，例如 {"from":"Table", "Table":{}}', false, '  ');
+          return CodeUtil.getComment('数据来源：子查询' + (isValueNotEmpty ? '，里面必须有 from 键值对和 表对象 Table:{}' : '，例如 { "from":"User", "User":{} }'), false, '  ');
         }
 
         var aliaIndex = name == null ? -1 : name.indexOf(':');
         var objName = aliaIndex < 0 ? name : name.substring(0, aliaIndex);
         if (JSONObject.isTableKey(objName)) {
-          return CodeUtil.getComment('子查询 < ' + CodeUtil.getCommentFromDoc(tableList, objName, key.substring(0, key.length - 1), method, database, language), false, '  ');
+          return CodeUtil.getComment('子查询 < ' + CodeUtil.getCommentFromDoc(tableList, objName, key.substring(0, key.length - 1), method, database, language, false, isReq, pathKeys, isRestful, value), false, '  ');
         }
-        return CodeUtil.getComment('子查询 ' + StringUtil.get(name) + "，需要被下面的表字段相关 key 引用赋值", false, '  ');
+        return CodeUtil.getComment('子查询，可在内部加 from,range 或 数组关键词 等键值对，需要被下面的表字段相关 key 引用赋值', false, '  ');
       }
 
       if (isRestful != true && JSONObject.isArrayKey(key)) {
@@ -5746,16 +5785,21 @@ var CodeUtil = {
         var firstIndex = objName.indexOf('-');
         var firstKey = firstIndex < 0 ? objName : objName.substring(0, firstIndex);
         alias = alias.length <= 0 ? '' : '新建别名: ' + alias + ' < ';
-        return CodeUtil.getComment((JSONObject.isTableKey(firstKey) ? '提取' + objName + ' < ' : '') + alias + '数组', false, '  ');
+        return CodeUtil.getComment((JSONObject.isTableKey(firstKey) ? '提取' + objName + ' < ' : '') + alias + '数组，可在内部加 count,page,query,join 等关键词键值对', false, '  ');
       }
 
       var aliaIndex = key.indexOf(':');
       var objName = aliaIndex < 0 ? key : key.substring(0, aliaIndex);
 
-      if (isRestful == true || JSONObject.isTableKey(objName)) {
-        var c = CodeUtil.getCommentFromDoc(tableList, objName, null, method, database, language);
+      var isTableKey = JSONObject.isTableKey(objName)
+      if (isRestful == true || isTableKey) {
+        var c = CodeUtil.getCommentFromDoc(tableList, objName, null, method, database, language, false, isReq, pathKeys, isRestful, value);
         return StringUtil.isEmpty(c) ? ' ! 表不存在！' : CodeUtil.getComment(
           (aliaIndex < 0 ? '' : '新建别名: ' + key.substring(aliaIndex + 1, key.length) + ' < ' + objName + ': ') + c, false, '  ');
+      }
+
+      if (isRestful != true && isTableKey != true && StringUtil.isEmpty(objName) != true) {
+        return CodeUtil.getComment('普通对象。如果要对应数据库表请把 ' + objName + ' 改成 ' + StringUtil.firstCase(objName, true) + ' 这种以大写字母开头的 APIJSON 表名！数据库表不一样要这样，MySQL 默认大小写不敏感。', false, '  ');
       }
 
       return '';
@@ -5764,22 +5808,22 @@ var CodeUtil = {
     if (isRestful != true && (isInSubquery || JSONObject.isArrayKey(name))) {
       switch (key) {
         case 'count':
-          return CodeUtil.getType4Request(value) != 'number' ? ' ! value必须是Number类型！' : CodeUtil.getComment('最多数量: 例如 5 10 20 ...', false, '  ');
+          return value != null && valuesIsNotNumber ? ' ! value必须是Number类型！' : CodeUtil.getComment('每页数量' + (isValueNotEmpty ? '' : '，例如 5 10 20 等'), false, '  ');
         case 'page':
-          if (CodeUtil.getType4Request(value) != 'number') {
+          if (value != null && valuesIsNotNumber) {
             return ' ! value必须是Number类型！';
           }
-          return value < 0 ? ' ! 必须 >= 0 ！' : CodeUtil.getComment('分页页码: 例如 0 1 2 ...', false, '  ');
+          return value != null && value < 0 ? ' ! 必须 >= 0 ！' : CodeUtil.getComment('分页页码' + (isValueNotEmpty ? '' : ': 例如 0 1 2 ...'), false, '  ');
         case 'query':
           var query = CodeUtil.QUERY_TYPES[value];
           return StringUtil.isEmpty(query) ? ' ! value必须是[' + CodeUtil.QUERY_TYPE_KEYS.join() + ']中的一种！' : CodeUtil.getComment('查询内容：0-数据 1-总数 2-全部', false, '  ');
         case 'join':
-          if (CodeUtil.getType4Request(value) != 'string') {
+          if (valuesIsNotString) {
             return ' ! value必须是String类型！';
           }
 
           var s = '';
-          var items = value.length < 3 ? null : StringUtil.split(value.substring(1, value.length - 1));
+          var items = value.length < 1 ? null : StringUtil.split(value);
           if (items != null && items.length > 0) {
 
             var chars = Object.keys(CodeUtil.JOIN_TYPES);
@@ -5788,14 +5832,14 @@ var CodeUtil = {
               var item = items[i] || '';
 
               if (item.endsWith('@') != true) {
-                return ' ! ' + item + ' 不合法 ! 必须以 @ 结尾，例如 &/User/id@ ！';
+                return ' ! ' + item + ' 不合法 ! 必须以 @ 结尾' + (isValueNotEmpty ? '' : '，例如 "&/User/id@" ！');
               }
 
               var index = item.indexOf('/');
               var lastIndex = item.lastIndexOf('/');
 
               if (index < 0 || lastIndex <= index + 1) {
-                return ' ! ' + item + ' 不合法 ! 必须有两个不相邻的 /，例如 &/User/id@ ！';
+                return ' ! ' + item + ' 不合法 ! 必须有两个不相邻的 /' + (isValueNotEmpty ? '' : '，例如 "&/User/id@" ！');
               }
 
               var c = index <= 0 ? '|' : item.substring(0, index);
@@ -5804,11 +5848,15 @@ var CodeUtil = {
               }
 
               var t = item.substring(index + 1, lastIndex);
+              var ind = t.indexOf(':')
+              var a = ind < 0 ? '' : t.substring(ind + 1)
+              t = ind < 0 ? t : t.substring(0, ind)
+
               if (JSONObject.isTableKey(t) != true) {
-                return ' ! 表名 ' + t + ' 不合法 ! 必须是 Table 这种大驼峰格式，例如 User ！';
+                return ' ! 表名 ' + t + ' 不合法 ! 必须是 Table 这种大驼峰格式' + (isValueNotEmpty ? '' : '，例如 "User" "Comment" "ViewTable" 等 ！');
               }
 
-              s += CodeUtil.JOIN_TYPES[c] + ' JOIN ' + t + ' ';
+              s += CodeUtil.JOIN_TYPES[c] + ' JOIN ' + t + (a.length <= 0 ? '' : ' AS ' + a) + ' ';
             }
           }
 
@@ -5818,12 +5866,12 @@ var CodeUtil = {
           if (isInSubquery) {
             switch (key) {
               case 'range':
-                if (CodeUtil.getType4Request(value) != 'string') {
+                if (valuesIsNotString) {
                   return ' ! value必须是String类型！';
                 }
-                return CodeUtil.SUBQUERY_RANGES.indexOf(value.substring(1, value.length - 1)) < 0 ? ' ! value必须是[' + CodeUtil.SUBQUERY_RANGES.join() + ']中的一种！' : CodeUtil.getComment('比较范围：ANY-任意 ALL-全部', false, '  ');
+                return CodeUtil.SUBQUERY_RANGES.indexOf(value) < 0 ? ' ! value必须是[' + CodeUtil.SUBQUERY_RANGES.join() + ']中的一种！' : CodeUtil.getComment('比较范围：ANY-任意 ALL-全部', false, '  ');
               case 'from':
-                return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String类型！' : CodeUtil.getComment('数据来源：例如 User，同一层级必须有对应的 "User": {...}', false, '  ');
+                return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('数据来源' + (isValueNotEmpty ? '，同一层级必须有对应的 "' + value + '":{...}' : '，例如 "User"，同一层级必须有对应的 "User":{...}'), false, '  ');
             }
           }
           break;
@@ -5837,40 +5885,41 @@ var CodeUtil = {
     if (isRestful != true && JSONObject.isTableKey(objName)) {
       switch (key) {
         case '@column':
-          return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String类型！' : CodeUtil.getComment('返回字段：例如 id,name;json_length(contactIdList):contactCount;...', false, '  ');
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('返回字段' + (isValueNotEmpty ? '' : '：例如 "name" "toId:parentId" "id,userId;json_length(praiseUserIdList):praiseCount" 等'), false, '  ');
         case '@from@': //value 类型为 Object 时 到不了这里，已在上方处理
-          return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String或Object类型！' : CodeUtil.getComment('数据来源：引用赋值 子查询 "' + value.substring(1, value.length - 1) + '@":{...} ', false, '  ');
+          return valuesIsNotString && typeOfValue != 'object' ? ' ! value必须是String或Object类型！' : CodeUtil.getComment('数据来源：引用赋值 子查询 "' + value + '@":{...} ', false, '  ');
         case '@group':
-          return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String类型！' : CodeUtil.getComment('分组方式：例如 userId,momentId,...', false, '  ');
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('分组方式' + (isValueNotEmpty ? '' : '，例如 "userId" "momentId,toId" 等'), false, '  ');
         case '@having':
-          return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String类型！' : CodeUtil.getComment('SQL函数：例如 max(id)>100;sum(balance)<=10000;...', false, '  ');
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('SQL函数' + (isValueNotEmpty ? '' : '，例如 "max(id)>100" "length(phone)>0;sum(balance)<=10000" 等'), false, '  ');
         case '@order':
-          return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String类型！' : CodeUtil.getComment('排序方式：+升序，-降序，例如 name+,date-,...', false, '  ');
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('排序方式：+升序，-降序' + (isValueNotEmpty ? '' : '，例如 "date-" "name+,id-" 等'), false, '  ');
         case '@combine':
-          return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String类型！' : CodeUtil.getComment('条件组合：例如 name?,|tag?,&id{},!id,...', false, '  ');
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('条件组合' + (isValueNotEmpty ? '' : '，例如 "name$,tag$" "!userId<,!toId" 等'), false, '  ');
         case '@schema':
-          return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String类型！' : CodeUtil.getComment('集合空间：例如 sys apijson ...', false, '  ');
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('集合空间' + (isValueNotEmpty ? '' : '，例如 "sys" "apijson" 等'), false, '  ');
+        case '@raw':
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('原始SQL' + (isValueNotEmpty ? '' : '，例如 "@column" "id{},@having" 等'), false, '  ');
+        case '@json':
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('转为JSON' + (isValueNotEmpty ? '' : '，例如 "request" "gets,heads" 等'), false, '  ');
         case '@database':
-          try {
-            value = value.substring(1, value.length - 1);
-          } catch (e) {}
-          return CodeUtil.DATABASE_KEYS.indexOf(value) < 0 ? ' ! value必须是[' + CodeUtil.DATABASE_KEYS.join() + ']中的一种！' : CodeUtil.getComment('数据库：例如 MYSQL POSTGRESQL SQLSERVER ORACLE ...', false, '  ');
+          return CodeUtil.DATABASE_KEYS.indexOf(value) < 0 ? ' ! value必须是[' + CodeUtil.DATABASE_KEYS.join() + ']中的一种！' : CodeUtil.getComment('数据库：例如 "MYSQL" "POSTGRESQL" "SQLSERVER" "ORACLE" 等', false, '  ');
         case '@role':
-          try {
-            value = value.substring(1, value.length - 1);
-          } catch (e) {}
           var role = CodeUtil.ROLES[value];
           return StringUtil.isEmpty(role) ? ' ! value必须是[' + CodeUtil.ROLE_KEYS.join() + ']中的一种！' : CodeUtil.getComment('来访角色：' + role, false, '  ');
         case '@cache':
           var cache = CodeUtil.CACHE_TYPES[value];
           return StringUtil.isEmpty(cache) ? ' ! value必须是[' + CodeUtil.CACHE_TYPE_KEYS.join() + ']中的一种！' : CodeUtil.getComment('缓存方式：0-全部 1-磁盘 2-内存', false, '  ');
         case '@explain':
-          return CodeUtil.getType4Request(value) != 'boolean' ? ' ! value必须是Boolean类型！' : CodeUtil.getComment('性能分析：true-开启 false-关闭', false, '  ');
+          return valuesIsNotBoolean ? ' ! value必须是Boolean类型！' : CodeUtil.getComment('性能分析：true-开启 false-关闭', false, '  ');
       }
       if (key.startsWith('@')) {
+        if (key.endsWith('()')) {
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('存储过程' + (isValueNotEmpty ? '' : '：例如 "getCommentByUserId(id,@limit,@offset)"'), false, '  ');
+        }
         return '';
       }
-      var c = CodeUtil.getCommentFromDoc(tableList, objName, key, method, database, language);
+      var c = CodeUtil.getCommentFromDoc(tableList, objName, key, method, database, language, null, isReq, pathKeys, isRestful, value);
       return StringUtil.isEmpty(c) ? ' ! 字段不存在！' : CodeUtil.getComment(c, false, '  ');
     }
 
@@ -5881,32 +5930,26 @@ var CodeUtil = {
           // if (method == 'GET' || method == 'HEAD') {
           //   return '';
           // }
-          return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String类型！' : CodeUtil.getComment('请求标识：' + (method == 'GET' || method == 'HEAD' ? 'GET, HEAD 请求不会自动解析，仅为后续迭代可能的手动优化而预留' : '例如 User Comment[] Privacy-CIRCLE ...'), false, '  ');
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('请求标识' + (method == 'GET' || method == 'HEAD' ? '，GET,HEAD 请求不会自动解析，仅为后续迭代可能的手动优化而预留' : (isValueNotEmpty ? '' : '，例如 "User" "Comment[]" "Privacy-CIRCLE" 等')), false, '  ');
         case 'version':
           if (method == 'GET' || method == 'HEAD') {
             return '';
           }
-          return CodeUtil.getType4Request(value) != 'number' ? ' ! value必须是Number类型！' : CodeUtil.getComment('版本号: 例如 1 2 3 ...', false, '  ');
+          return value != null && valuesIsNotNumber ? ' ! value必须是Number类型！' : CodeUtil.getComment('版本号' + (isValueNotEmpty ? '' : '，例如 1 2 3 等'), false, '  ');
         case 'format':
-          return CodeUtil.getType4Request(value) != 'boolean' ? ' ! value必须是Boolean类型！' : CodeUtil.getComment('格式化: true-是 false-否', false, '  ');
+          return valuesIsNotBoolean ? ' ! value必须是Boolean类型！' : CodeUtil.getComment('格式化: true-是 false-否', false, '  ');
         case '@schema':
-          return CodeUtil.getType4Request(value) != 'string' ? ' ! value必须是String类型！' : CodeUtil.getComment('集合空间：例如 sys apijson ...', false, '  ');
+          return valuesIsNotString ? ' ! value必须是String类型！' : CodeUtil.getComment('集合空间' + (isValueNotEmpty ? '' : '，例如 "sys" "apijson" 等'), false, '  ');
         case '@database':
-          try {
-            value = value.substring(1, value.length - 1);
-          } catch (e) {}
-          return CodeUtil.DATABASE_KEYS.indexOf(value) < 0 ? ' ! value必须是[' + CodeUtil.DATABASE_KEYS.join() + ']中的一种！' : CodeUtil.getComment('数据库：例如 MYSQL POSTGRESQL SQLSERVER ORACLE ...', false, '  ');
+          return CodeUtil.DATABASE_KEYS.indexOf(value) < 0 ? ' ! value必须是[' + CodeUtil.DATABASE_KEYS.join() + ']中的一种！' : CodeUtil.getComment('数据库' + (isValueNotEmpty ? '' : '，例如 "MYSQL" "POSTGRESQL" "SQLSERVER" "ORACLE" 等'), false, '  ');
         case '@role':
-          try {
-            value = value.substring(1, value.length - 1);
-          } catch (e) {}
           var role = CodeUtil.ROLES[value];
           return StringUtil.isEmpty(role) ? ' ! value必须是[' + CodeUtil.ROLE_KEYS.join() + ']中的一种！' : CodeUtil.getComment('默认角色：' + role, false, '  ');
         case '@cache':
           var cache = CodeUtil.CACHE_TYPES[value];
           return StringUtil.isEmpty(cache) ? ' ! value必须是[' + CodeUtil.CACHE_TYPE_KEYS.join() + ']中的一种！' : CodeUtil.getComment('缓存方式：0-全部 1-磁盘 2-内存', false, '  ');
         case '@explain':
-          return CodeUtil.getType4Request(value) != 'boolean' ? ' ! value必须是Boolean类型！' : CodeUtil.getComment('性能分析：true-开启 false-关闭', false, '  ');
+          return valuesIsNotBoolean ? ' ! value必须是Boolean类型！' : CodeUtil.getComment('性能分析：true-开启 false-关闭', false, '  ');
       }
     }
 
@@ -5927,6 +5970,14 @@ var CodeUtil = {
     log('getCommentFromDoc  tableName = ' + tableName + '; columnName = ' + columnName
       + '; method = ' + method + '; database = ' + database + '; language = ' + language
       + '; onlyTableAndColumn = ' + onlyTableAndColumn + '; tableList = \n' + JSON.stringify(tableList));
+
+    var typeOfValue = CodeUtil.getType4Request(value);
+    var valuesIsNotString = typeOfValue != 'string';
+    var valuesIsNotNumber = typeOfValue != 'number';
+    var valuesIsNotArray = typeOfValue != 'array';
+    var valuesIsNotObject = typeOfValue != 'object';
+    var valuesIsNotStringOrArrayOrObject = valuesIsNotString && valuesIsNotArray && valuesIsNotObject;
+    var isValueNotEmpty = valuesIsNotString ? (typeOfValue != 'array' ? value != null : value.length > 0) : StringUtil.isEmpty(value, true) != true;
 
     if (isRestful == true && StringUtil.isEmpty(columnName, true) == false && StringUtil.isEmpty(CodeUtil.thirdParty, true) == false) { // } && CodeUtil.thirdParty == 'YAPI') {
       var apiMap = CodeUtil.thirdPartyApiMap;
@@ -6023,7 +6074,7 @@ var CodeUtil = {
         //功能符 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
         if (columnName.endsWith("()")) {//方法，查询完后处理，先用一个Map<key,function>保存？
-          return '远程函数';
+          return '远程函数' + (isValueNotEmpty ? '' : '，例如 "isContain(praiseUserIdList,userId)"');
         }
 
 
@@ -6033,16 +6084,20 @@ var CodeUtil = {
           // var refLastPath =
           // at = '引用赋值: ' + tableName + '.' + columnName + '=' + ;
 
-          at = '引用赋值';
+          at = '引用赋值' + (isValueNotEmpty ? '' : '，例如 "User/id" "[]/Moment/id" 等');
           columnName = columnName.substring(0, columnName.length - 1);
         }
 
         if (columnName.endsWith("$")) {//搜索，查询时处理
-          fun = '模糊搜索';
+          if (value != null && valuesIsNotStringOrArrayOrObject) {
+            return ' ! value必须是String,Array或Object类型！';
+          }
+
+          fun = '模糊搜索' + (isValueNotEmpty ? '' : '，例如 "%c%" "S%" "%end" 等');
           key = columnName.substring(0, columnName.length - 1);
         }
         else if (columnName.endsWith("~")) {//匹配正则表达式，查询时处理
-          fun = '正则匹配';
+          fun = '正则匹配' + (isValueNotEmpty ? '' : '，例如 "C" "^[0-9]+$" "^[a-zA-Z]+$" 等');
           key = columnName.substring(0, columnName.length - 1);
           if (key.endsWith("*")) {
             key = key.substring(0, key.length - 1);
@@ -6050,49 +6105,55 @@ var CodeUtil = {
           }
         }
         else if (columnName.endsWith("%")) {//连续范围 BETWEEN AND，查询时处理
-          fun = '连续范围';
+          if (value != null && valuesIsNotStringOrArrayOrObject) {
+            return ' ! value必须是String,Array或Object类型！';
+          }
+          fun = '连续范围' + (isValueNotEmpty ? '' : '，例如 "82001,82020" "2018-01-01,2020-01-01" ["1-10", "90-100"] 等');
           key = columnName.substring(0, columnName.length - 1);
         }
         else if (columnName.endsWith("{}")) {//被包含，或者说key对应值处于value的范围内。查询时处理
-          fun = '匹配 选项/条件';
+          if (value != null && valuesIsNotStringOrArrayOrObject) {
+            return ' ! value必须是String,Array或Object类型！';
+          }
+          fun = '匹配 选项/条件' + (isValueNotEmpty ? '' : '，例如 ' + (valuesIsNotString ? '[1, 2, 3] ["%c%", "S%", "%end"] 等' : '">100" "%2=0;<=100000" 等'));
           key = columnName.substring(0, columnName.length - 2);
         }
         else if (columnName.endsWith("<>")) {//包含，或者说value处于key对应值的范围内。查询时处理
-          fun = '包含选项';
+          fun = '包含选项' + (isValueNotEmpty ? '' : '，例如 1 "Test" [82001, 82002] 等');
           key = columnName.substring(0, columnName.length - 2);
         }
         else if (columnName.endsWith("}{")) {//存在，EXISTS。查询时处理
-          fun = '是否存在';
+          fun = '是否存在' + (isValueNotEmpty ? '' : '，例如 { "from":"Comment", "Comment":{ "@column":"userId" } }');
           key = columnName.substring(0, columnName.length - 2);
         }
         else if (columnName.endsWith("+")) {//延长，PUT查询时处理
           if (method != 'PUT') {//不为PUT就抛异常
             return ' ! 功能符 + - 只能用于PUT请求！';
           }
-          fun = '增加/扩展';
+          fun = '增加/扩展' + (isValueNotEmpty ? '' : '，例如 1 9.9 "a" [82001, 82002] 等');
           key = columnName.substring(0, columnName.length - 1);
         }
         else if (columnName.endsWith("-")) {//缩减，PUT查询时处理
           if (method != 'PUT') {//不为PUT就抛异常
             return ' ! 功能符 + - 只能用于PUT请求！';
           }
-          fun = '减少/去除';
+          fun = '减少/去除' + (isValueNotEmpty ? '' : '，例如 1 9.9 "a" [82001, 82002] 等');
           key = columnName.substring(0, columnName.length - 1);
         }
         else if (columnName.endsWith(">=")) {//大于或等于
-          fun = '大于或等于';
+          fun = '大于或等于' + (isValueNotEmpty ? '' : '，例如 1 9.9 "2020-01-01" 等');
           key = columnName.substring(0, columnName.length - 2);
         }
         else if (columnName.endsWith("<=")) {//小于或等于
-          fun = '小于或等于';
+          fun = '小于或等于' + (isValueNotEmpty ? '' : '，例如 1 9.9 "2020-01-01" 等');
           key = columnName.substring(0, columnName.length - 2);
         }
         else if (columnName.endsWith(">")) {//大于
-          fun = '大于';
+          fun = '大于' + (isValueNotEmpty ? '' : '，例如 1 9.9 "2020-01-01" 等');
           key = columnName.substring(0, columnName.length - 1);
         }
         else if (columnName.endsWith("<")) {//小于
-          fun = '小于';
+          fun = '小于' + (isValueNotEmpty ? '' : '，例如 1 9.9 "2020-01-01" 等');
           key = columnName.substring(0, columnName.length - 1);
         }
         else {
@@ -6143,10 +6204,14 @@ var CodeUtil = {
       log('getDoc [] for ' + i + ': columnList = \n' + format(JSON.stringify(columnList)));
 
       var name;
+      var columnNames = []
       for (var j = 0; j < columnList.length; j++) {
         column = (columnList[j] || {}).Column;
         name = column == null ? null : column.column_name;
         if (name == null || key != name) {
+          if (name != null) {
+            columnNames.push(name)
+          }
           continue;
         }
 
@@ -6165,15 +6230,16 @@ var CodeUtil = {
         return (p.length <= 0 ? '' : p + key + ': ') + CodeUtil.getType4Language(language, column.column_type, true) + ', ' + (o || {}).column_comment;
       }
 
-      break;
+      return onlyTableAndColumn ? '' : ' ! 字段 ' + key + ' 不存在！只能是 [' + columnNames.join() + '] 中的一个！';
     }
 
     return '';
   },
 
   getType4Request: function (value) {
-    var t = typeof value;
-    return t != 'string' ? t : typeof JSON.parse(value);
+    // var t = typeof value;
+    // return t != 'string' ? t : typeof JSON.parse(value);
+    return value instanceof Array ? 'array' : typeof value;
   }
 
 }
