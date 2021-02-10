@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70bb26cc-728b-4dbe-b003-cf428fe748ba" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/images/www.toutou.com.cn.jpg" afterPath="$PROJECT_DIR$/public/images/www.toutou.com.cn.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/index.html" afterPath="$PROJECT_DIR$/public/index.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -21,8 +20,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="311" column="77" lean-forward="true" selection-start-line="311" selection-start-column="77" selection-end-line="311" selection-end-column="77" />
+            <state relative-caret-position="223">
+              <caret line="308" column="88" lean-forward="false" selection-start-line="308" selection-start-column="88" selection-end-line="308" selection-end-column="88" />
               <folding>
                 <element signature="n#style#0;n#p#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#7;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -30,6 +29,7 @@
                 <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#1;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#1;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#2;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#2;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#3;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#3;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -39,13 +39,13 @@
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h4#0;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#10;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1612942468000" expanded="true" signature="25146:25219" ph="..." />
-                <marker date="1612942468000" expanded="true" signature="25299:25350" ph="..." />
-                <marker date="1612942468000" expanded="true" signature="25435:25486" ph="..." />
-                <marker date="1612942468000" expanded="true" signature="25590:25641" ph="..." />
-                <marker date="1612942468000" expanded="true" signature="25739:25751" ph="..." />
-                <marker date="1612942468000" expanded="true" signature="25739:25790" ph="..." />
-                <marker date="1612942468000" expanded="true" signature="25900:25951" ph="..." />
+                <marker date="1612942703000" expanded="true" signature="25162:25235" ph="..." />
+                <marker date="1612942703000" expanded="true" signature="25315:25366" ph="..." />
+                <marker date="1612942703000" expanded="true" signature="25451:25502" ph="..." />
+                <marker date="1612942703000" expanded="true" signature="25606:25657" ph="..." />
+                <marker date="1612942703000" expanded="true" signature="25755:25767" ph="..." />
+                <marker date="1612942703000" expanded="true" signature="25755:25806" ph="..." />
+                <marker date="1612942703000" expanded="true" signature="25916:25967" ph="..." />
               </folding>
             </state>
           </provider>
@@ -685,12 +685,12 @@
       <workItem from="1610464465734" duration="241000" />
       <workItem from="1610468535321" duration="306000" />
       <workItem from="1612593574017" duration="6428000" />
-      <workItem from="1612941432070" duration="780000" />
+      <workItem from="1612941432070" duration="877000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62541000" />
+    <option name="totallyTimeSpent" value="62638000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -1035,8 +1035,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="311" column="77" lean-forward="true" selection-start-line="311" selection-start-column="77" selection-end-line="311" selection-end-column="77" />
+        <state relative-caret-position="223">
+          <caret line="308" column="88" lean-forward="false" selection-start-line="308" selection-start-column="88" selection-end-line="308" selection-end-column="88" />
           <folding>
             <element signature="n#style#0;n#p#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#7;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1044,6 +1044,7 @@
             <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#1;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#1;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#2;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#2;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#3;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#3;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1053,13 +1054,13 @@
             <element signature="n#style#0;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h4#0;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#10;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1612942468000" expanded="true" signature="25146:25219" ph="..." />
-            <marker date="1612942468000" expanded="true" signature="25299:25350" ph="..." />
-            <marker date="1612942468000" expanded="true" signature="25435:25486" ph="..." />
-            <marker date="1612942468000" expanded="true" signature="25590:25641" ph="..." />
-            <marker date="1612942468000" expanded="true" signature="25739:25751" ph="..." />
-            <marker date="1612942468000" expanded="true" signature="25739:25790" ph="..." />
-            <marker date="1612942468000" expanded="true" signature="25900:25951" ph="..." />
+            <marker date="1612942703000" expanded="true" signature="25162:25235" ph="..." />
+            <marker date="1612942703000" expanded="true" signature="25315:25366" ph="..." />
+            <marker date="1612942703000" expanded="true" signature="25451:25502" ph="..." />
+            <marker date="1612942703000" expanded="true" signature="25606:25657" ph="..." />
+            <marker date="1612942703000" expanded="true" signature="25755:25767" ph="..." />
+            <marker date="1612942703000" expanded="true" signature="25755:25806" ph="..." />
+            <marker date="1612942703000" expanded="true" signature="25916:25967" ph="..." />
           </folding>
         </state>
       </provider>
