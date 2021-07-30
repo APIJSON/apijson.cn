@@ -575,17 +575,18 @@
       language: CodeUtil.LANGUAGE_KOTLIN,
       header: {},
       page: 0,
-      count: 100,
+      count: 50,
       search: '',
       testCasePage: 0,
-      testCaseCount: 50,
+      testCaseCount: 0,
       testCaseSearch: '',
       randomPage: 0,
-      randomCount: 50,
+      randomCount: 0,
       randomSearch: '',
       randomSubPage: 0,
-      randomSubCount: 50,
-      randomSubSearch: ''
+      randomSubCount: 0,
+      randomSubSearch: '',
+      picDelayTime: 0
     },
     methods: {
 
@@ -776,7 +777,7 @@
         url = url || this.getUrl()
         var index = url.lastIndexOf('.')
         if (index <= 0) {
-          throw new Error('必须要有类名！完整的 URL 必须符合格式 package.Class.name ！')
+          throw new Error('必须要有类名！完整的 URL 必须符合格式 package.Class.method ！')
         }
         url = url.substring(0, index)
         index = url.lastIndexOf('.')
@@ -793,7 +794,7 @@
         url = url || this.getUrl()
         var index = url.lastIndexOf('.')
         if (index <= 0) {
-          throw new Error('必须要有类名！完整的 URL 必须符合格式 package.Class.name ！')
+          throw new Error('必须要有类名！完整的 URL 必须符合格式 package.Class.method ！')
         }
         url = url.substring(0, index)
         index = url.lastIndexOf('.')
@@ -1070,7 +1071,7 @@
       deleteDoc: function () {
         var isDeleteRandom = this.isDeleteRandom
         var item = (isDeleteRandom ? this.currentRandomItem : this.currentDocItem) || {}
-        var doc = (isDeleteRandom ? item.Output : item.Input) || {}
+        var doc = (isDeleteRandom ? item.Input : item.Flow) || {}
 
         var type = isDeleteRandom ? '随机配置' : '方法'
         if (doc.id == null) {
@@ -1091,16 +1092,16 @@
         var url = this.server + '/delete'
         var req = isDeleteRandom ? {
           format: false,
-          'Output': {
-            'id': doc.id
-          },
-          'tag': 'Output'
-        } : {
-          format: false,
           'Input': {
             'id': doc.id
           },
           'tag': 'Input'
+        } : {
+          format: false,
+          'Flow': {
+            'id': doc.id
+          },
+          'tag': 'Flow'
         }
         this.request(true, REQUEST_TYPE_JSON, url, req, {}, function (url, res, err) {
           App.onResponse(url, res, err)
@@ -1108,8 +1109,8 @@
           var rpObj = res.data || {}
 
           if (isDeleteRandom) {
-            if (rpObj.Output != null && rpObj.Output.code == CODE_SUCCESS) {
-              if (((item.Output || {}).toId || 0) <= 0) {
+            if (rpObj.Input != null && rpObj.Input.code == CODE_SUCCESS) {
+              if (((item.Input || {}).toId || 0) <= 0) {
                 App.randoms.splice(item.index, 1)
               }
               else {
@@ -1118,7 +1119,7 @@
               // App.showRandomList(true, App.currentRemoteItem)
             }
           } else {
-            if (rpObj.Input != null && rpObj.Input.code == CODE_SUCCESS) {
+            if (rpObj.Flow != null && rpObj.Flow.code == CODE_SUCCESS) {
               App.remotes.splice(item.index, 1)
               App.showTestCase(true, App.isLocalShow)
             }
@@ -1171,7 +1172,7 @@
             return
           }
 
-          if (isRandom && (((item || {}).Output || {}).id || 0) <= 0) {
+          if (isRandom && (((item || {}).Input || {}).id || 0) <= 0) {
             this.randomSubs.splice(index, 1)
             return
           }
@@ -1185,12 +1186,12 @@
         this.currentRandomItem = item
         this.isRandomListShow = false
         this.isRandomSubListShow = false
-        var random = (item || {}).Output || {}
+        var random = (item || {}).Input || {}
         this.randomTestTitle = random.name
         this.testRandomCount = random.count
-        vRandom.value = StringUtil.get(random.config) || ''
+        vRandom.value = StringUtil.get(random.config)
 
-        var response = ((item || {}).TestRecord || {}).response
+        var response = ((item || {}).Output || {}).response
         if (StringUtil.isEmpty(response, true) == false) {
             App.jsoncon = StringUtil.trim(response)
             App.view = 'code'
@@ -1292,7 +1293,7 @@
         if (App.isExportRemote == false) { //下载到本地
 
           if (App.isTestCaseShow) { //文档
-            saveTextAs('# ' + App.exTxt.name + '\n主页: https://github.com/APIJSON/APIJSON'
+            saveTextAs('# ' + App.exTxt.name + '\n主页: https://github.com/Tencent/APIJSON'
               + '\n\nBASE_URL: ' + this.getBaseUrl()
               + '\n\n\n## 测试用例(Markdown格式，可用工具预览) \n\n' + App.getDoc4TestCase()
               + '\n\n\n\n\n\n\n\n## 文档(Markdown格式，可用工具预览) \n\n' + doc
@@ -1393,7 +1394,7 @@
                 break;
             }
 
-            saveTextAs('# ' + App.exTxt.name + '\n主页: https://github.com/APIJSON/APIJSON'
+            saveTextAs('# ' + App.exTxt.name + '\n主页: https://github.com/Tencent/APIJSON'
               + '\n\n\nURL: ' + StringUtil.get(vUrl.value)
               + '\n\n\nHeader:\n' + StringUtil.get(vHeader.value)
               + '\n\n\nRequest:\n' + StringUtil.get(vInput.value)
@@ -1440,7 +1441,7 @@
             format: false,
             'Input': {
               toId: 0,
-              documentId: did,
+              flowId: did,
               count: App.requestCount,
               name: App.exTxt.name,
               config: vRandom.value
@@ -1470,189 +1471,19 @@
             var rpObj = res.data || {}
 
             if (isExportRandom) {
-              if (rpObj.Output != null && rpObj.Output.code == CODE_SUCCESS) {
+              if (rpObj.Input != null && rpObj.Input.code == CODE_SUCCESS) {
                 App.randoms = []
-                App.showRandomList(true, (App.currentRemoteItem || {}).Input)
+                App.showRandomList(true, (App.currentRemoteItem || {}).Flow)
               }
             }
             else {
-              if (rpObj.Input != null && rpObj.Input.code == CODE_SUCCESS) {
-
-                //自动生成随机配置（遍历 JSON，对所有可变值生成配置，排除 @key, key@, key() 等固定值）
-                var config = StringUtil.trim(App.newRandomConfig(null, '', App.getRequest(vInput.value, {})))
-                if (config == '') {
-                  App.remotes = []
-                  App.showTestCase(true, false)
-                  return;
-                }
-
-                App.request(true, REQUEST_TYPE_JSON, App.server + '/post', {
-                  format: false,
-                  'Output': {
-                    documentId: rpObj.Input.id,
-                    count: App.requestCount,
-                    name: '默认配置(上传测试用例时自动生成)',
-                    config: config
-                  },
-                  TestRecord: {
-                    host: App.getBaseUrl(),
-                    response: ''
-                  },
-                  'tag': 'Output'
-                }, {}, function (url, res, err) {
-                  if (res.data != null && res.data.Output != null && res.data.Output.code == CODE_SUCCESS) {
-                    alert('已自动生成并上传随机配置:\n' + config)
-                    App.isRandomListShow = true
-                  }
-                  else {
-                    alert('已自动生成，但上传以下随机配置失败:\n' + config)
-                    vRandom.value = config
-                  }
-                  App.onResponse(url, res, err)
-
-                  App.remotes = []
-                  App.showTestCase(true, false)
-                })
-              }
+              App.remotes = []
+              App.showTestCase(true, false)
             }
           })
         }
       },
 
-      newRandomConfig: function (path, key, value) {
-        if (key == null) {
-          return ''
-        }
-        if (path == '' && (key == 'tag' || key == 'version' || key == 'format')) {
-          return ''
-        }
-
-        var config = ''
-        var childPath = path == null || path == '' ? key : path + '/' + key
-        var prefix = '\n' + childPath + ': '
-
-        if (value instanceof Array) {
-          var val
-          if (value.length <= 0) {
-            val = ''
-          }
-          else {
-            if (value.length <= 1) {
-              val = ', ' + JSON.stringify(value)
-            }
-            else if (value.length <= 2) {
-              val = ', ' + JSON.stringify([value[0]]) + ', ' + JSON.stringify([value[1]]) + ', ' + JSON.stringify(value)
-            }
-            else {
-              val = ', ' + JSON.stringify([value[0]]) + ', ' + JSON.stringify([value[value.length - 1]]) + ', ' + JSON.stringify([value[Math.floor(value.length / 2)]]) + ', ' + JSON.stringify(value)
-            }
-          }
-          config += prefix + 'ORDER_IN(undefined, null, []' + val + ')'
-        }
-        else if (value instanceof Object) {
-          for(var k in value) {
-            var v = value[k]
-
-            var isAPIJSONArray = v instanceof Object && v instanceof Array == false
-              && k.startsWith('@') == false && (k.endsWith('[]') || k.endsWith('@'))
-            if (isAPIJSONArray) {
-              if (k.endsWith('@')) {
-                delete v.from
-                delete v.range
-              }
-
-              prefix = '\n' + (childPath == null || childPath == '' ? '' : childPath + '/') + k + '/'
-              if (v.hasOwnProperty('page')) {
-                config += prefix + 'page: ' + 'ORDER_INT(0, 10)'
-                delete v.page
-              }
-              if (v.hasOwnProperty('count')) {
-                config += prefix + 'count: ' + 'ORDER_IN(undefined, null, 0, 1, 5, 10, 20'
-                  + ([0, 1, 5, 10, 20].indexOf(v.count) >= 0 ? ')' : ', ' + v.count + ')')
-                delete v.count
-              }
-              if (v.hasOwnProperty('query')) {
-                config += prefix + 'query: ' + 'ORDER_IN(undefined, null, 0, 1, 2)'
-                delete v.query
-              }
-            }
-
-            config += App.newRandomConfig(childPath, k, v)
-          }
-        }
-        else {
-          //自定义关键词
-          if (key.startsWith('@')) {
-            return config
-          }
-
-          if (typeof value == 'boolean') {
-            config += prefix + 'ORDER_IN(undefined, null, false, true)'
-          }
-          else if (typeof value == 'number') {
-            var isId = key == 'id' || key.endsWith('Id') || key.endsWith('_id') || key.endsWith('_ID')
-            if (isId) {
-              config += prefix + 'ORDER_IN(undefined, null, ' + value + ')'
-              if (value >= 1000000000) { //PHP 等语言默认精确到秒 1000000000000) {
-                config += '\n// 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(' + Math.round(0.9 * value) + ', ' + Math.round(1.1 * value) + ')'
-              }
-              else {
-                config += '\n// 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(1, ' + (10 * value) + ')'
-              }
-            }
-            else {
-              var valStr = String(value)
-              var dotIndex = valStr.indexOf('.')
-              var hasDot = dotIndex >= 0
-              var keep = dotIndex < 0 ? 2 : valStr.length - dotIndex - 1
-
-              if (value < 0) {
-                config += prefix + (hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(' + (100 * value) + (hasDot ? ', 0, ' + keep + ')' : ', 0)')
-              }
-              else if (value > 0 && value < 1) {  // 0-1 比例
-                config += prefix + 'RANDOM_NUM(0, 1, ' + keep + ')'
-              }
-              else if ((hasDot && value > 0 && value <= 100) || (hasDot != true && value > 5 && value <= 100)) {  // 10% 百分比
-                config += prefix + (hasDot ? 'RANDOM_NUM(0, 100, ' + keep + ')' : 'RANDOM_INT(0, 100)')
-              }
-              else {
-                config += prefix + (dotIndex < 0 && value <= 10
-                      ? 'ORDER_INT(0, 10)'
-                      : ((hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(0, ' + 100 * value + (hasDot ? ', ' + keep + ')' : ')'))
-                  )
-                var hasDot = String(value).indexOf('.') >= 0
-
-                if (value < 0) {
-                  config += '\n// 可替代上面的 ' + prefix.substring(1) + (hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(' + (100 * value) + ', 0)'
-                }
-                else if (value > 0 && value < 1) {  // 0-1 比例
-                  config += '\n// 可替代上面的 ' + prefix.substring(1) + 'RANDOM_NUM(0, 1)'
-                }
-                else if (value >= 0 && value <= 100) {  // 10% 百分比
-                  config += '\n// 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(0, 100)'
-                }
-                else {
-                  config += '\n// 可替代上面的 ' + prefix.substring(1) + (hasDot != true && value < 10 ? 'ORDER_INT(0, 9)' : ((hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(0, ' + 100 * value + ')'))
-                }
-              }
-            }
-          }
-          else if (typeof value == 'string') {
-            //引用赋值 || 远程函数 || 匹配条件范围
-            if (key.endsWith('@') || key.endsWith('()') || key.endsWith('{}')) {
-              return config
-            }
-
-            config += prefix + 'ORDER_IN(undefined, null, ""' + (value == '' ? ')' : ', "' + value + '")')
-          }
-          else {
-            config += prefix + 'ORDER_IN(undefined, null' + (value == null ? ')' : ', ' + JSON.stringify(value) + ')')
-          }
-
-        }
-
-        return config
-      },
 
 
 
@@ -1786,8 +1617,8 @@
               'genericExceptions': methodItem.genericExceptionTypeList == null ? null : methodItem.genericExceptionTypeList.join(), //  .replace(/[.]/g, '/').join(),
               'detail': methodItem.name
             },
-            'TestRecord': {
-              'randomId': 0,
+            'Output': {
+              'inputId': 0,
 	      'host': App.getBaseUrl(),
               'testAccountId': currentAccountId,
               'response': ''
@@ -1810,7 +1641,9 @@
               var branch = vUrl.value
               vUrl.value = StringUtil.get(App.host) + branch
               App.host = ''
-              App.showUrl(false, branch)
+
+              vUrlComment.value = isSingle || StringUtil.isEmpty(App.urlComment, true) ? '' : vUrl.value + App.urlComment;  //导致重复加前缀 App.showUrl(false, branch)
+
               App.showTestCase(true, false)
             }
 
@@ -2282,10 +2115,11 @@
           version: 1, // 全局默认版本号，非必须
           remember: vRemember.checked,
           format: false,
-          defaults: {
-            '@database': App.database,
-            '@schema': App.schema
-          }
+          // 后端决定
+          // defaults: {
+          //   '@database': App.database,
+          //   '@schema': App.schema
+          // }
         }
 
         if (isAdminOperation) {
@@ -2319,6 +2153,10 @@
               var item = App.accounts[App.currentAccountIndex]
               item.isLoggedIn = false
               App.onClickAccount(App.currentAccountIndex, item) //自动登录测试账号
+
+              if (user.id > 0) {
+                App.showTestCase(true, false)
+              }
             }
 
           })
@@ -2800,20 +2638,20 @@
 
           if (type == 'random' || type == 'randomSub') {
 
-            var r = item == null ? null : item.Output
+            var r = item == null ? null : item.Input
             if (r == null || r.id == null) {
-              alert('请选择有效的选项！item.Output.id == null !')
+              alert('请选择有效的选项！item.Input.id == null !')
               return
             }
 
-            //修改 Output 的 count
+            //修改 Input 的 count
             this.request(true, REQUEST_TYPE_JSON, this.server + '/put', {
-              Output: {
+              Input: {
                 id: r.id,
                 count: r.count,
                 name: r.name
               },
-              tag: 'Output'
+              tag: 'Input'
             }, {}, function (url, res, err) {
 
               var isOk = (res.data || {}).code == CODE_SUCCESS
@@ -2934,7 +2772,7 @@
             this.saveCache(this.server, 'randomSubCount', this.randomSubCount)
 
             this.randomSubs = null
-            this.showRandomList(true, (this.currentRemoteItem || {}).Output, true)
+            this.showRandomList(true, (this.currentRemoteItem || {}).Input, true)
             break
           default:
             docObj = null
@@ -3039,18 +2877,20 @@
             break;
         }
 
-        s += '\n\n#### 开放源码 '
-          + '\nAPIJSON 接口工具: https://github.com/TommyLemon/UIAuto '
-          + '\nAPIJSON 官方文档: https://github.com/vincentCheng/apijson-doc '
-          + '\nAPIJSON 英文文档: https://github.com/ruoranw/APIJSONdocs '
-          + '\nAPIJSON 官方网站: https://github.com/APIJSON/apijson.org '
-          + '\nAPIJSON -Java版: https://github.com/APIJSON/APIJSON '
-          + '\nAPIJSON - C# 版: https://github.com/liaozb/APIJSON.NET '
-          + '\nAPIJSON - PHP版: https://github.com/qq547057827/apijson-php '
-          + '\nAPIJSON -Node版: https://github.com/kevinaskin/apijson-node '
-          + '\nAPIJSON - Go 版: https://github.com/crazytaxi824/APIJSON '
-          + '\nAPIJSON -Python: https://github.com/zhangchunlin/uliweb-apijson '
-          + '\n感谢热心的作者们的贡献，GitHub 右上角点 ⭐Star 支持下他们吧 ^_^';
+        if (((App.User || {}).id || 0) > 0) {
+          s += '\n\n#### 开放源码 '
+            + '\nAPIJSON 接口测试: https://github.com/TommyLemon/APIAuto '
+            + '\nAPIJSON 单元测试: https://github.com/TommyLemon/UnitAuto '
+            + '\nAPIJSON 官方文档: https://github.com/vincentCheng/apijson-doc '
+            + '\nAPIJSON 英文文档: https://github.com/ruoranw/APIJSONdocs '
+            + '\nAPIJSON 官方网站: https://github.com/APIJSON/apijson.org '
+            + '\nAPIJSON -Java版: https://github.com/Tencent/APIJSON '
+            + '\nAPIJSON - C# 版: https://github.com/liaozb/APIJSON.NET '
+            + '\nAPIJSON - PHP版: https://github.com/qq547057827/apijson-php '
+            + '\nAPIJSON -Node版: https://github.com/kevinaskin/apijson-node '
+            + '\nAPIJSON -Python: https://github.com/zhangchunlin/uliweb-apijson '
+            + '\n感谢热心的作者们的贡献，GitHub 右上角点 ⭐Star 支持下他们吧 ^_^';
+        }
 
         return s;
       },
@@ -3455,7 +3295,7 @@
 
           // for (var i = 0; i < (limit != null ? limit : list.length); i ++) {  //limit限制子项测试个数
           //   const item = list[i]
-          //   const random = item == null ? null : item.Output
+          //   const random = item == null ? null : item.Input
           //   if (random == null || random.name == null) {
           //     doneCount ++
           //     continue
@@ -3517,7 +3357,9 @@
               alert("测试完成")
             }
             else {
-              App.loopRandomTestResult(list, inputList, allCount, offset, header)
+              setTimeout(function () {
+                App.loopRandomTestResult(list, inputList, allCount, offset, header)
+              }, 2000)
             }
             return;
           }
@@ -3529,13 +3371,32 @@
             App.currentOutputList.push(outputList)
           }
 
+          App.picDelayTime = 0
           for (var j = 0; j < outputList.length; j++) {
             doneCount ++
             App.testRandomProcess = doneCount >= allCount ? '' : ('已测数量: ' + doneCount)
-            var ind = j + offset
-            for (var k = ind; k < list.length; k++) {
-              if (list[k] != null && list[k].Input.id == (outputList[j] || {}).inputId) {
-                App.compareResponse(allCount, list, k, inputList[k], outputList[j], true, App.currentAccountIndex, false, err)
+
+            const oj = outputList[j]
+            var oInputId = oj == null ? null : oj.inputId
+            if (oInputId == null || oInputId <= 0) {
+              continue
+            }
+
+            // 部分非手动触发的事件(切换界面、HTTP 请求 Response 等) 导致位移不准确，必须全量匹配 var ind = j + offset
+            for (var k = 0; k < list.length; k++) {
+              const ik = list[k]
+              if (ik != null && ik.Input != null && ik.Input.id == oInputId) {
+                const resultIndex = k
+                setTimeout(function () {  // 让图片切换更平滑，且保持和选项断言结果同时出现
+                  App.compareResponse(allCount, list, resultIndex, ik, {
+                    'Output': oj, code: 200, msg: 'success'
+                  }, true, App.currentAccountIndex, false, err)
+                  // App.compareResponse(allCount, list, k, inputList[k], App.currentOutputList[k], true, App.currentAccountIndex, false, err)
+                }, App.picDelayTime) // 200*resultIndex)
+
+                if (StringUtil.isEmpty(oj.screenshotUrl, false) != true) {
+                  App.picDelayTime += 500
+                }
                 break
               }
             }
@@ -3557,7 +3418,7 @@
        */
       testRandomSingle: function (show, testList, testSubList, item, type, url, json, header, callback) {
         item = item || {}
-        var random = item.Output = item.Output || {}
+        var random = item.Input = item.Input || {}
         var subs = item['[]'] || []
         var existCount = subs.length
         subs = existCount <= 0 ? subs : JSON.parse(JSON.stringify(subs))
@@ -3566,11 +3427,11 @@
         var respCount = 0;
 
         for (var i = 0; i < count; i ++) {
-          // var constConfig = i < existCount ? ((subs[i] || {}).Output || {}).config : this.getRandomConstConfig(random.config, random.id) //第1遍，把 key : expression 改为 key : value
+          // var constConfig = i < existCount ? ((subs[i] || {}).Input || {}).config : this.getRandomConstConfig(random.config, random.id) //第1遍，把 key : expression 改为 key : value
           // var constJson = this.getRandomJSON(JSON.parse(JSON.stringify(json)), constConfig, random.id) //第2遍，用新的 random config 来修改原 json
 
           const which = i;
-          var rawConfig = testSubList && i < existCount ? ((subs[i] || {}).Output || {}).config : random.config
+          var rawConfig = testSubList && i < existCount ? ((subs[i] || {}).Input || {}).config : random.config
           this.parseRandom(
             JSON.parse(JSON.stringify(json)), rawConfig, random.id
             , ! testSubList, testSubList && i >= existCount, testSubList && i >= existCount
@@ -3582,22 +3443,22 @@
                 if (which >= existCount) {
                   //异步导致顺序错乱 subs.push({
                   subs[which] = {
-                    Output: {
+                    Input: {
                       id: -i - 1, //表示未上传
                       toId: random.id == null ? 1 : random.id,  // 1 为了没选择测试用例时避免用 toId 判断子项错误
                       userId: random.userId,
-                      documentId: random.documentId,
+                      flowId: random.flowId,
                       count: 1,
                       name: randomName || 'Temp ' + i,
                       config: constConfig
                     },
                     //不再需要，因为子项里前面一部分就是已上传的，而且这样更准确，交互更直观
-                    // TestRecord: {  //解决子项始终没有对比标准
+                    // Input: {  //解决子项始终没有对比标准
                     //   id: 0, //不允许子项撤回 tr.id, //表示未上传
                     //   userId: random.userId,
-                    //   documentId: random.documentId,
+                    //   flowId: random.flowId,
                     //   testAccountId: tr.testAccountId,
-                    //   randomId: -i - 1,
+                    //   inputId: -i - 1,
                     //   response: tr.response,
                     //   standard: tr.standard,
                     //   time: tr.time,
@@ -3625,6 +3486,8 @@
                   var httpReq = {
                     "package": constJson.package || App.getPackage(url),
                     "class": constJson.class || App.getClass(url),
+                    "this": constJson.this,
+                    "constructor": constJson.constructor,
                     "classArgs": constJson.classArgs,
                     "method": constJson.name || App.getMethod(url),
                     "methodArgs": constJson.methodArgs,
@@ -3672,8 +3535,8 @@
           var count = this.testRandomCount || 0;
           this.isRandomSubListShow = count > 1;
           this.testRandomSingle(show, false, this.isRandomSubListShow, {
-              Output: {
-                toId: 0, // ((this.currentRandomItem || {}).Output || {}).id || 0,
+              Input: {
+                toId: 0, // ((this.currentRandomItem || {}).Input || {}).id || 0,
                 userId: (this.User || {}).id,
                 count: count,
                 name: this.randomTestTitle,
@@ -3793,10 +3656,11 @@
               if (generateName) {
                 var valStr;
                 if (val instanceof Array) {
-                  valStr = '[' + val.length + ']';
+                  valStr = val.length <= 0 ? '[]' : '[..' + val.length + '..]';
                 }
                 else if (val instanceof Object) {
-                  valStr = '{...}';
+                  var kl = Object.keys(val).length
+                  valStr = kl <= 0 ? '{}' : '{..' + kl + '..}';
                 }
                 else if (typeof val == 'boolean') {
                   valStr = '' + val;
@@ -4111,6 +3975,8 @@
             httpReq = {
               "package": document.package,
               "class": document.class,
+              "this": document.this,
+              "constructor": document.constructor,
               "classArgs": App.getRequest(document.classArgs, []),
               "method": document.name,
               "methodArgs": App.getRequest(document.methodArgs, []),
@@ -4128,11 +3994,17 @@
             if (httpReq.name == null) {
               httpReq.name = document.name
             }
+            if (httpReq.constructor == null) {
+              httpReq.constructor = document.constructor
+            }
             if (httpReq.classArgs == null) {
               httpReq.classArgs = App.getRequest(document.classArgs, [])
             }
             if (httpReq.methodArgs == null) {
               httpReq.methodArgs = App.getRequest(document.methodArgs, [])
+            }
+            if (httpReq.this == null) {
+              httpReq.this = document.this
             }
           }
 
@@ -4152,10 +4024,9 @@
 
       compareResponse: function (allCount, list, index, item, response, isRandom, accountIndex, justRecoverTest, err) {
         var it = item || {} //请求异步
-        var d = (isRandom ? App.currentRemoteItem.Input : it.Input) || {} //请求异步
-        var r = isRandom ? it.Output : null //请求异步
-        var tr = it.TestRecord || {} //请求异步
-
+        var d = (isRandom ? App.currentRemoteItem.Flow : it.Flow) || {} //请求异步
+        var r = isRandom ? it.Input : null //请求异步
+        var tr = it.Output || {} //请求异步
 
         if (err != null) {
           tr.compare = {
@@ -4170,6 +4041,10 @@
 
           var rsp = JSON.parse(JSON.stringify(App.removeDebugInfo(response) || {}))
           rsp = JSONResponse.array2object(rsp, 'methodArgs', ['methodArgs'], true)
+
+          var afterImgUrl = (rsp.Output || {}).screenshotUrl
+          var beforeRsp = StringUtil.isEmpty(afterImgUrl) || StringUtil.isEmpty(tr.response, true) ? null : JSON.parse(tr.response)
+          App.showImgDiff(beforeRsp == null ? null : (beforeRsp.Output || {}).screenshotUrl, afterImgUrl)
 
           tr.compare = JSONResponse.compareResponse(standard, rsp, '', App.isMLEnabled, null, ['call()[]']) || {}
         }
@@ -4217,16 +4092,21 @@
 
         if (isRandom) {
           r = r || {}
-          it.Output = r
+          it.Input = r
 
           this.updateToRandomSummary(it, 1)
         }
         else {
-          it.Input = d
+          it.Flow = d
         }
-        it.TestRecord = tr
+        it.Output = tr
 
         Vue.set(list, index, it)
+
+        var pic = ((response || {}).Output || {}).screenshotUrl
+        if (StringUtil.isEmpty(pic) != true) {
+          vComment.setAttribute("src", App.project + '/download?filePath=' + encodeURI(pic))
+        }
 
         if (justRecoverTest) {
           return
@@ -4237,7 +4117,7 @@
 
         this.log('doneCount = ' + doneCount + '; d.name = ' + (isRandom ? r.name : d.name) + '; it.compareType = ' + it.compareType)
 
-        var documentId = isRandom ? r.documentId : d.id
+        var flowId = isRandom ? r.flowId : d.id
         if (this.tests == null) {
           this.tests = {}
         }
@@ -4246,9 +4126,9 @@
         }
 
         var tests = this.tests[String(accountIndex)] || {}
-        var t = tests[documentId]
+        var t = tests[flowId]
         if (t == null) {
-          t = tests[documentId] = {}
+          t = tests[flowId] = {}
         }
         t[isRandom ? (r.id > 0 ? r.id : (r.toId + '' + r.id)) : 0] = response
 
@@ -4266,16 +4146,16 @@
 
       //更新父级总览数据
       updateToRandomSummary: function (item, change) {
-        var random = item == null || change == null ? null : item.Output
+        var random = item == null || change == null ? null : item.Input
         var toId = random == null ? null : random.toId
         if (toId != null && toId > 0) {
 
           for (var i in App.randoms) {
 
             var toIt = App.randoms[i]
-            if (toIt != null && toIt.Output != null && toIt.Output.id == toId) {
+            if (toIt != null && toIt.Input != null && toIt.Input.id == toId) {
 
-              var toRandom = toIt.Output
+              var toRandom = toIt.Input
               var id = toRandom == null ? 0 : toRandom.id
               var count = id == null || id <= 0 ? 0 : toRandom.count
               if (count != null && count > 1) {
@@ -4319,6 +4199,62 @@
         return obj
       },
 
+      showImgDiff: function (beforeImgUrl, afterImgUrl) {
+        if (StringUtil.isEmpty(beforeImgUrl, true) || StringUtil.isEmpty(afterImgUrl, true)) {
+          return
+        }
+
+        axios({
+          method: "get",
+          url: App.project + '/download?filePath=' + encodeURI(beforeImgUrl),
+          responseType: 'arraybuffer'
+        })
+          .then(res => {
+            const beforePic = res.data == null ? null : new Uint8ClampedArray(res.data)
+            if (beforePic instanceof Uint8ClampedArray != true) {
+              return
+            }
+
+            axios({
+              method: "get",
+              url: App.project + '/download?filePath=' + encodeURI(afterImgUrl),
+              responseType: 'arraybuffer'
+            })
+              .then(res2 => {
+                console.log("response: ", res2);
+                var afterPic = res2.data == null ? null : new Uint8ClampedArray(res2.data)
+                if (afterPic instanceof Uint8ClampedArray != true) {
+                  return
+                }
+
+                var ctx = vDiff.getContext('2d');
+                var diffImgData = ctx.createImageData(1080, 2340) // new Uint8ClampedArray(4*2340*1080)
+
+                var numDiffPixels = ImgDiffUtil.pixelmatch(beforePic, afterPic, diffImgData.data, 1080, 2340, {threshold: 0.1, diffMask: true});
+                console.log('numDiffPixels = ' + numDiffPixels)
+
+                if (numDiffPixels <= 0 || diffImgData.byteLength <= 0) {
+                  vDiff.style.display = 'none'
+                }
+                else {
+                  vDiff.style.display = 'block'
+
+                  // var ctx = vDiff.getContext('2d');
+                  // var imageData = new ImageData(diffImgData, 1080, 2340);
+                  // ctx.putImageData(imageData, 0, 0);
+                  ctx.putImageData(diffImgData, 0, 0);
+                }
+              })
+              .catch(error2 => {
+                console.log("response: ", error2);
+              });
+
+          })
+          .catch(error => {
+            console.log("response: ", error);
+          });
+      },
+
       /**
        * @param index
        * @param item
@@ -4330,13 +4266,13 @@
           document = App.currentRemoteItem || {}
         }
         else {
-          document = item.Input = item.Input || {}
+          document = item.Flow = item.Flow || {}
         }
-        var random = isRandom ? item.Output : null
-        var testRecord = item.TestRecord = item.TestRecord || {}
+        var random = isRandom ? item.Input : null
+        var testRecord = item.Output = item.Output || {}
 
         saveTextAs(
-          '# APIJSON自动化回归测试-前\n主页: https://github.com/APIJSON/APIJSON'
+          '# APIJSON自动化回归测试-前\n主页: https://github.com/Tencent/APIJSON'
           + '\n\n接口名称: \n' + document.name
           + '\n返回结果: \n' + JSON.stringify(JSON.parse(testRecord.response || '{}'), null, '    ')
           , '测试：' + document.name + '-前.txt'
@@ -4351,7 +4287,7 @@
         setTimeout(function () {
           var tests = App.tests[String(App.currentAccountIndex)] || {}
           saveTextAs(
-            '# APIJSON自动化回归测试-后\n主页: https://github.com/APIJSON/APIJSON'
+            '# APIJSON自动化回归测试-后\n主页: https://github.com/Tencent/APIJSON'
             + '\n\n接口名称: \n' + document.name
             + '\n返回结果: \n' + JSON.stringify(tests[document.id][isRandom ? random.id : 0] || {}, null, '    ')
             , '测试：' + document.name + '-后.txt'
@@ -4361,7 +4297,7 @@
           if (StringUtil.isEmpty(testRecord.standard, true) == false) {
             setTimeout(function () {
               saveTextAs(
-                '# APIJSON自动化回归测试-标准\n主页: https://github.com/APIJSON/APIJSON'
+                '# APIJSON自动化回归测试-标准\n主页: https://github.com/Tencent/APIJSON'
                 + '\n\n接口名称: \n' + document.name
                 + '\n测试结果: \n' + JSON.stringify(testRecord.compare || '{}', null, '    ')
                 + '\n测试标准: \n' + JSON.stringify(JSON.parse(testRecord.standard || '{}'), null, '    ')
@@ -4380,7 +4316,7 @@
        */
       handleTest: function (right, index, item, isRandom) {
         item = item || {}
-        var random = item.Output = item.Output || {}
+        var random = item.Input = item.Input || {}
         var document;
         if (isRandom) {
           if ((random.count || 0) > 1) {
@@ -4393,12 +4329,12 @@
           document = this.currentRemoteItem || {}
         }
         else {
-          document = item.Input = item.Input || {}
+          document = item.Flow = item.Flow || {}
         }
-        var testRecord = item.TestRecord = item.TestRecord || {}
+        var testRecord = item.Output = item.Output || {}
 
         var tests = this.tests[String(this.currentAccountIndex)] || {}
-        var currentResponse = (tests[isRandom ? random.documentId : document.id] || {})[
+        var currentResponse = (tests[isRandom ? random.flowId : document.id] || {})[
           isRandom ? (random.id > 0 ? random.id : (random.toId + '' + random.id)) : 0
         ] || {}
 
@@ -4413,6 +4349,38 @@
 
           this.view = 'code'
           this.jsoncon = res || ''
+
+          var beforeRsp = (StringUtil.isEmpty(testRecord.response, true) ? null : JSON.parse(testRecord.response)) || {}
+          var beforeImgUrl = (beforeRsp.Output || {}).screenshotUrl
+          var afterImgUrl = (currentResponse.Output || {}).screenshotUrl
+
+          var pic = isBefore ? afterImgUrl : beforeImgUrl
+          if (StringUtil.isEmpty(pic)) {  // 往前寻找最近的截屏
+            if (list != null && list.length > index) {
+              while (index > 0) {
+                index --
+                var prevItem = list[index] || {}
+                var prevInput = prevItem.Input
+                var prevInputId = prevInput == null ? null : prevInput.id
+                if (prevInputId != null) {
+                  var beforeOutput = prevItem.Output || {}
+                  if (beforeOutput == null || beforeOutput.inputId != prevInputId) {
+                    continue
+                  }
+
+                  var afterOutput = ((tests[prevInput.flowId] || {})[prevInput.toId <= 0 ? prevInputId : (prevInput.toId + '' + prevInput.id)] || {}).Output
+                  beforeImgUrl = beforeOutput.screenshotUrl
+                  afterImgUrl = (afterOutput || {}).screenshotUrl
+                  pic = isBefore ? afterImgUrl : beforeImgUrl
+                }
+              }
+            }
+          }
+
+          if (StringUtil.isEmpty(pic) != true) {
+            vComment.setAttribute("src", App.project + '/download?filePath=' + encodeURI(pic))
+            App.showImgDiff(beforeImgUrl, afterImgUrl)
+          }
         }
         else {
           var url
@@ -4420,17 +4388,17 @@
           if (isBefore) { //撤回原来错误提交的校验标准
             url = this.server + '/delete'
             const req = {
-              TestRecord: {
+              Output: {
                 id: testRecord.id, //TODO 权限问题？ item.userId,
               },
-              tag: 'TestRecord'
+              tag: 'Output'
             }
 
             this.request(true, REQUEST_TYPE_JSON, url, req, {}, function (url, res, err) {
               App.onResponse(url, res, err)
 
               var data = res.data || {}
-              if (data.code != CODE_SUCCESS && testRecord!= null && testRecord.id != null) {
+              if (data.code != CODE_SUCCESS && testRecord != null && testRecord.id != null) {
                 alert('撤回最新的校验标准 异常：\n' + data.msg)
                 return
               }
@@ -4442,7 +4410,7 @@
               item.compareMessage = '查看结果'
               item.compareColor = 'white'
               item.hintMessage = '没有校验标准！'
-              item.TestRecord = null
+              item.Output = null
 
               App.updateTestRecord(0, list, index, item, currentResponse, isRandom, App.currentAccountIndex, true)
             })
@@ -4456,21 +4424,67 @@
             // }
 
 
-            var standard = StringUtil.isEmpty(testRecord.standard, true) ? null : JSON.parse(testRecord.standard);
+            var standard = (StringUtil.isEmpty(testRecord.standard, true) ? null : JSON.parse(testRecord.standard)) || {};
+
             var code = currentResponse.code;
             var thrw = currentResponse.throw;
+            var msg = currentResponse.msg;
+
+            var hasCode = standard.code != null;
+            var isCodeChange = standard.code != code;
+            var exceptions = standard.exceptions || [];
+
             delete currentResponse.code; //code必须一致
             delete currentResponse.throw; //throw必须一致
 
             var rsp = JSON.parse(JSON.stringify(currentResponse || {}))
             rsp = JSONResponse.array2object(rsp, 'methodArgs', ['methodArgs'], true)
 
+            var find = false;
+            if (isCodeChange && hasCode) {  // 走异常分支
+              for (var i = 0; i < exceptions.length; i++) {
+                var ei = exceptions[i];
+                if (ei != null && ei.code == code && ei.throw == thrw) {
+                  find = true;
+                  ei.repeat = (ei.repeat || 0) + 1;  // 统计重复出现次数
+                  break;
+                }
+              }
+
+              if (find) {
+                delete currentResponse.msg;
+              }
+            }
+
+
             var isML = this.isMLEnabled;
-            var stddObj = isML ? JSONResponse.updateStandard(standard || {}, rsp, ['call()[]']) : {};
-            stddObj.code = code;
+            var stddObj = isML ? (isCodeChange && hasCode ? standard : JSONResponse.updateStandard(standard, rsp, ['call()[]'])) : {};
+
             currentResponse.code = code;
-            stddObj.throw = thrw;
             currentResponse.throw = thrw;
+
+            if (isCodeChange) {
+              if (hasCode != true) {  // 走正常分支
+                stddObj.code = code;
+                stddObj.throw = thrw;
+              }
+              else {  // 走异常分支
+                currentResponse.msg = msg;
+
+                if (find != true) {
+                  exceptions.push({
+                    code: code,
+                    'throw': thrw,
+                    msg: msg
+                  })
+
+                  stddObj.exceptions = exceptions;
+                }
+              }
+            }
+            else {
+              stddObj.repeat = (stddObj.repeat || 0) + 1;  // 统计重复出现次数
+            }
 
             const isNewRandom = isRandom && random.id <= 0
 
@@ -4478,28 +4492,28 @@
             // if (isML != true) {
             url = this.server + '/post'
             const req = {
-              Output: isNewRandom != true ? null : {
+              Input: isNewRandom != true ? null : {
                 toId: random.toId,
-                documentId: random.documentId,
+                flowId: random.flowId,
                 name: random.name,
                 count: random.count,
                 config: random.config
               },
-              TestRecord: {
-                documentId: isNewRandom ? null : (isRandom ? random.documentId : document.id),
-                randomId: isRandom && ! isNewRandom ? random.id : null,
+              Output: {
+                flowId: isNewRandom ? null : (isRandom ? random.flowId : document.id),
+                inputId: isRandom && ! isNewRandom ? random.id : null,
                 host: App.getBaseUrl(),
                 compare: JSON.stringify(testRecord.compare || {}),
                 response: JSON.stringify(currentResponse || {}),
                 standard: isML ? JSON.stringify(stddObj) : null
               },
-              tag: isNewRandom ? 'Output' : 'TestRecord'
+              tag: isNewRandom ? 'Input' : 'Output'
             }
             // }
             // else {
             //   url = App.server + '/post/testrecord/ml'
             //   req = {
-            //     documentId: document.id
+            //     flowId: document.id
             //   }
             // }
 
@@ -4521,7 +4535,7 @@
                 item.compareMessage = '查看结果'
                 item.compareColor = 'white'
                 item.hintMessage = '结果正确'
-                var testRecord = item.TestRecord || {}
+                var testRecord = item.Output || {}
                 testRecord.compare = {
                   code: 0,
                   msg: '结果正确'
@@ -4530,19 +4544,19 @@
                 // testRecord.standard = stdd
 
                 if (isRandom) {
-                  var r = req == null ? null : req.Output
-                  if (r != null && (data.Output || {}).id != null) {
-                    r.id = data.Output.id
-                    item.Output = r
+                  var r = req == null ? null : req.Input
+                  if (r != null && (data.Input || {}).id != null) {
+                    r.id = data.Input.id
+                    item.Input = r
                   }
-                  if ((data.TestRecord || {}).id != null) {
-                    testRecord.id = data.TestRecord.id
+                  if ((data.Output || {}).id != null) {
+                    testRecord.id = data.Output.id
                     if (r != null) {
-                      testRecord.randomId = r.id
+                      testRecord.inputId = r.id
                     }
                   }
                 }
-                item.TestRecord = testRecord
+                item.Output = testRecord
 
 
                 //
@@ -4566,16 +4580,16 @@
 
       updateTestRecord: function (allCount, list, index, item, response, isRandom) {
         item = item || {}
-        var doc = (isRandom ? item.Output : item.Input) || {}
+        var doc = item.Input || {}
 
         this.request(true, REQUEST_TYPE_JSON, this.server + '/get', {
-          TestRecord: {
-            documentId: isRandom ? doc.documentId : doc.id,
-            randomId: isRandom ? doc.id : null,
+          Output: {
+            flowId: doc.flowId,
+            inputId: doc.id,
             testAccountId: App.getCurrentAccountId(),
             'host': App.getBaseUrl(),
             '@order': 'time-',
-            '@column': 'id,userId,documentId,randomId,response' + (App.isMLEnabled ? ',standard' : ''),
+            '@column': 'id,userId,flowId,inputId,response' + (App.isMLEnabled ? ',standard' : ''),
             '@having': App.isMLEnabled ? 'length(standard)>2' : null  // '@having': App.isMLEnabled ? 'json_length(standard)>0' : null
           }
         }, {}, function (url, res, err) {
@@ -4587,7 +4601,7 @@
             return
           }
 
-          item.TestRecord = data.TestRecord
+          item.Output = data.Output
           App.compareResponse(allCount, list, index, item, response, isRandom, App.currentAccountIndex, true, err);
         })
       },
@@ -4611,7 +4625,7 @@
       //显示详细信息, :data-hint :data, :hint 都报错，只能这样
       setTestHint(index, item, isRandom) {
         item = item || {};
-        var toId = isRandom ? ((item.Output || {}).toId || 0) : 0;
+        var toId = isRandom ? ((item.Input || {}).toId || 0) : 0;
         var h = item.hintMessage;
         this.$refs[isRandom ? (toId <= 0 ? 'testRandomResultButtons' : 'testRandomSubResultButtons') : 'testResultButtons'][index].setAttribute('data-hint', h || '');
       },
@@ -4714,32 +4728,15 @@
 
       //无效，只能在index里设置 vUrl.value = this.getCache('', 'URL_BASE')
       this.listHistory()
+      // this.transfer()
 
-      var isLoggedIn = ((this.User || {}).id || 0) > 0
-      this.type = isLoggedIn ? OPERATE_TYPE_REVIEW : OPERATE_TYPE_RECORD
-      if (isLoggedIn != true) {
-        vOutput.value = '请登录，未登录只能录制及简单测试，而且录制后不能上传'
-        this.view = 'error'
+      if (this.User != null && this.User.id != null && this.User.id > 0) {
+          setTimeout(function () {
+            App.showTestCase(true, false)  // 本地历史仍然要求登录  App.User == null || App.User.id == null)
+          }, 1000)
       }
-      else {
-        this.request(false, REQUEST_TYPE_JSON, this.server + '/get', {
-          format: false,
-          'Flow': {
-            '@order': 'time-'
-          },
-          'Device': {
-            'id@': '/Flow/deviceId'
-          },
-          'System': {
-            'id@': '/Flow/systemId'
-          },
-          '@role': 'LOGIN'
-        }, {}, function (url, res, err) {
-          App.onResponse(url, res, err)
-          App.currentDocItem = res.data
-          App.restoreRemote(res.data)
-        })
-      }
+
+
     }
   })
 })()

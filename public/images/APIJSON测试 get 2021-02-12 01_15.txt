@@ -1,0 +1,976 @@
+# APIJSON测试 get 2021-02-12 01:15
+主页: https://github.com/Tencent/APIJSON
+
+
+URL: http://apijson.cn:8080/get
+
+
+Header:
+
+
+
+Request:
+{
+    "[]": {
+        "count": 5,
+        "page": 0,
+        "join": "</User/id@",
+        "Moment": {
+            "@order": "date+",
+            "@column": "id,userId;date_format(date,%Y-%m-%d %H:%m)",
+            "@explain": true,
+            "content~": "o",
+            "userId!": 82001,
+            "@combine": "userId!,content~"
+        },
+        "User": {
+            "id@": "/Moment/userId",
+            "@column": "id,name,head"
+        },
+        "[]": {
+            "count": 6,
+            "join": "@/User/id@",
+            "Comment": {
+                "@order": "date-",
+                "momentId@": "[]/Moment/id"
+            },
+            "User": {
+                "id@": "/Comment/userId",
+                "@column": "DISTINCT id,name;concat(%,name,%):concat"
+            }
+        }
+    }
+}
+                                                                                                                                                                                                              
+
+
+
+Response:
+{
+    "[]": [
+        {
+            "Moment": {
+                "@explain": {
+                    "sql": "SELECT `Moment`.`id`,`Moment`.`userId`,date_format(`Moment`.`date`,'%Y-%m-%d %H:%m'), `User`.`id`,`User`.`name`,`User`.`head` FROM `sys`.`Moment` AS `Moment`  \n   LEFT JOIN ( SELECT `id`,`name`,`head` FROM `sys`.`apijson_user` ) AS `User` ON `User`.`id` = `Moment`.`userId` WHERE  (  (`Moment`.`userId` != 82001) OR (`Moment`.`content` REGEXP BINARY 'o')  )  ORDER BY `Moment`.`date` ASC  LIMIT 5",
+                    "list": [
+                        {
+                            "id": 1,
+                            "select_type": "SIMPLE",
+                            "table": "Moment",
+                            "type": "ALL",
+                            "possible_keys": "userId",
+                            "rows": 159,
+                            "filtered": 100,
+                            "Extra": "Using where; Using filesort"
+                        },
+                        {
+                            "id": 1,
+                            "select_type": "SIMPLE",
+                            "table": "apijson_user",
+                            "type": "eq_ref",
+                            "possible_keys": "PRIMARY",
+                            "key": "PRIMARY",
+                            "key_len": "8",
+                            "ref": "sys.Moment.userId",
+                            "rows": 1,
+                            "filtered": 100
+                        }
+                    ]
+                },
+                "id": 371,
+                "userId": 82002,
+                "date_format(`Moment`.`date`,'%Y-%m-%d %H:%m')": "2017-02-01 19:02"
+            },
+            "User": {
+                "id": 82002,
+                "name": "Happy~",
+                "head": "http://static.oschina.net/uploads/user/1174/2348263_50.png?t=1439773471000"
+            },
+            "[]": [
+                {
+                    "Comment": {
+                        "id": 1594290846627,
+                        "toId": 1589255358661,
+                        "userId": 82001,
+                        "momentId": 371,
+                        "date": "2020-07-09 18:34:06.0",
+                        "content": "自己可以恢复2自己吗？"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1594290803016,
+                        "toId": 1511407702981,
+                        "userId": 82001,
+                        "momentId": 371,
+                        "date": "2020-07-09 18:33:23.0",
+                        "content": "丰富"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1594290780472,
+                        "toId": 1589255368635,
+                        "userId": 82001,
+                        "momentId": 371,
+                        "date": "2020-07-09 18:33:00.0",
+                        "content": "哈哈哈"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1594290735773,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 371,
+                        "date": "2020-07-09 18:32:15.0",
+                        "content": "哈哈"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1589255390204,
+                        "toId": 1589255382551,
+                        "userId": 82001,
+                        "momentId": 371,
+                        "date": "2020-05-12 11:49:50.0",
+                        "content": "u好赶紧"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1589255382551,
+                        "toId": 116,
+                        "userId": 82001,
+                        "momentId": 371,
+                        "date": "2020-05-12 11:49:42.0",
+                        "content": "u好v发"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                }
+            ]
+        },
+        {
+            "Moment": {
+                "id": 470,
+                "userId": 38710,
+                "date_format(`Moment`.`date`,'%Y-%m-%d %H:%m')": "2017-02-01 19:02"
+            },
+            "User": {
+                "id": 38710,
+                "name": "TommyLemon",
+                "head": "http://static.oschina.net/uploads/user/1218/2437072_100.jpg?t=1461076033000"
+            },
+            "[]": [
+                {
+                    "Comment": {
+                        "id": 1528278187969,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 470,
+                        "date": "2018-06-06 17:43:07.0",
+                        "content": "啊啊啊啊"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1517303775429,
+                        "toId": 1490863903900,
+                        "userId": 82001,
+                        "momentId": 470,
+                        "date": "2018-01-30 17:16:15.0",
+                        "content": "？？？"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1491740899179,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 470,
+                        "date": "2017-04-09 20:28:19.0",
+                        "content": "www"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1490863903900,
+                        "toId": 0,
+                        "userId": 82006,
+                        "momentId": 470,
+                        "date": "2017-03-30 16:51:43.0",
+                        "content": "SOGA"
+                    },
+                    "User": {
+                        "id": 82006,
+                        "name": "Meria",
+                        "concat": "%Meria%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1490863507114,
+                        "toId": 4,
+                        "userId": 82003,
+                        "momentId": 470,
+                        "date": "2017-03-30 16:45:07.0",
+                        "content": "yes"
+                    },
+                    "User": {
+                        "id": 82003,
+                        "name": "Wechat",
+                        "concat": "%Wechat%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 4,
+                        "toId": 0,
+                        "userId": 38710,
+                        "momentId": 470,
+                        "date": "2017-02-01 19:20:50.0",
+                        "content": "This is a Content...-4"
+                    },
+                    "User": {
+                        "id": 38710,
+                        "name": "TommyLemon",
+                        "concat": "%TommyLemon%"
+                    }
+                }
+            ]
+        },
+        {
+            "Moment": {
+                "id": 58,
+                "userId": 90814,
+                "date_format(`Moment`.`date`,'%Y-%m-%d %H:%m')": "2017-02-01 19:02"
+            },
+            "User": {
+                "id": 90814,
+                "name": "007",
+                "head": "http://static.oschina.net/uploads/user/51/102723_50.jpg?t=1449212504000"
+            },
+            "[]": [
+                {
+                    "Comment": {
+                        "id": 1516862537978,
+                        "toId": 1515057869554,
+                        "userId": 70793,
+                        "momentId": 58,
+                        "date": "2018-01-25 14:42:17.0",
+                        "content": "绝地逃亡吃鸡"
+                    },
+                    "User": {
+                        "id": 70793,
+                        "name": "Strong",
+                        "concat": "%Strong%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1515057869554,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 58,
+                        "date": "2018-01-04 17:24:29.0",
+                        "content": ",王者荣耀"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1515057864174,
+                        "toId": 1515057857464,
+                        "userId": 82001,
+                        "momentId": 58,
+                        "date": "2018-01-04 17:24:24.0",
+                        "content": "哦轻松"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1515057861094,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 58,
+                        "date": "2018-01-04 17:24:21.0",
+                        "content": "蓉蓉"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1515057857464,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 58,
+                        "date": "2018-01-04 17:24:17.0",
+                        "content": "你说"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1515057852156,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 58,
+                        "date": "2018-01-04 17:24:12.0",
+                        "content": "你说"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                }
+            ]
+        },
+        {
+            "Moment": {
+                "id": 170,
+                "userId": 70793,
+                "date_format(`Moment`.`date`,'%Y-%m-%d %H:%m')": "2017-02-01 19:02"
+            },
+            "User": {
+                "id": 70793,
+                "name": "Strong",
+                "head": "http://static.oschina.net/uploads/user/585/1170143_50.jpg?t=1390226446000"
+            },
+            "[]": [
+                {
+                    "Comment": {
+                        "id": 1518365470893,
+                        "toId": 44,
+                        "userId": 82001,
+                        "momentId": 170,
+                        "date": "2018-02-12 00:11:10.0",
+                        "content": "野蜂飞舞"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1517730034960,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 170,
+                        "date": "2018-02-04 15:40:34.0",
+                        "content": "陌陌陌陌"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1516951826863,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 170,
+                        "date": "2018-01-26 15:30:26.0",
+                        "content": "黑珍珠"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1511374274194,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 170,
+                        "date": "2017-11-23 02:11:14.0",
+                        "content": "哦哦哦"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1511374269759,
+                        "toId": 99,
+                        "userId": 82001,
+                        "momentId": 170,
+                        "date": "2017-11-23 02:11:09.0",
+                        "content": "记录里"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1509346556395,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 170,
+                        "date": "2017-10-30 14:55:56.0",
+                        "content": "测试"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                }
+            ]
+        },
+        {
+            "Moment": {
+                "id": 301,
+                "userId": 93793,
+                "date_format(`Moment`.`date`,'%Y-%m-%d %H:%m')": "2017-02-01 19:02"
+            },
+            "User": {
+                "id": 93793,
+                "name": "Mike",
+                "head": "http://static.oschina.net/uploads/user/48/96331_50.jpg"
+            },
+            "[]": [
+                {
+                    "Comment": {
+                        "id": 1554286215772,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 301,
+                        "date": "2019-04-03 18:10:15.0",
+                        "content": "hjkj"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1551409858047,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 301,
+                        "date": "2019-03-01 11:10:58.0",
+                        "content": "您"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1541496033857,
+                        "toId": 0,
+                        "userId": 82001,
+                        "momentId": 301,
+                        "date": "2018-11-06 17:20:33.0",
+                        "content": "能解决"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 158,
+                        "toId": 0,
+                        "userId": 93793,
+                        "momentId": 301,
+                        "date": "2018-07-13 01:28:23.0",
+                        "content": "This is a Content...-157"
+                    },
+                    "User": {
+                        "id": 93793,
+                        "name": "Mike",
+                        "concat": "%Mike%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1524190981549,
+                        "toId": 1522657767636,
+                        "userId": 82003,
+                        "momentId": 301,
+                        "date": "2018-04-20 10:23:01.0",
+                        "content": "这个6"
+                    },
+                    "User": {
+                        "id": 82003,
+                        "name": "Wechat",
+                        "concat": "%Wechat%"
+                    }
+                },
+                {
+                    "Comment": {
+                        "id": 1522657767636,
+                        "toId": 120,
+                        "userId": 82001,
+                        "momentId": 301,
+                        "date": "2018-04-02 16:29:27.0",
+                        "content": "云画"
+                    },
+                    "User": {
+                        "id": 82001,
+                        "name": "测试账号",
+                        "concat": "%测试账号%"
+                    }
+                }
+            ]
+        }
+    ],
+    "ok": true,
+    "code": 200,
+    "msg": "success",
+    "sql:generate|cache|execute|maxExecute": "41|35|6|200",
+    "depth:count|max": "5|5",
+    "time:start|duration|end": "1613063715112|33|1613063715145"
+}
+
+
+## 解析 Response 的代码(Java):
+
+
+JSONObject response = JSON.parseObject(resultJson);
+
+
+{   // [] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    JSONArray list = response.getJSONArray("[]");
+    if (list == null) {
+        list = new JSONArray();
+    }
+
+    for (int i = 0; i < list.size(); i ++) {
+        JSONObject listItem = list.getJSONObject(i);
+        if (listItem == null) {
+            continue;
+        }
+        System.out.println("\nlistItem = list[" + i + "] = \n" + listItem + "\n\n");
+        // TODO 你的代码
+
+
+        {   // Moment <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            Moment moment = listItem.getObject("Moment", Moment.class);
+            if (moment == null) {
+                moment = new Moment();
+            }
+
+
+            {   // @explain <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                JSONObject explain = moment.getExplain();
+                if (explain == null) {
+                    explain = new JSONObject();
+                }
+
+                String sql = explain.getString("sql");
+                System.out.println("explain.sql = " + sql);
+
+                {   // list <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                    JSONArray list4 = explain.getJSONArray("list");
+                    if (list4 == null) {
+                        list4 = new JSONArray();
+                    }
+
+                    for (int i4 = 0; i4 < list4.size(); i4 ++) {
+                        JSONObject list4Item4 = list4.getJSONObject(i4);
+                        if (list4Item4 == null) {
+                            continue;
+                        }
+                        System.out.println("\nlist4Item4 = list4[" + i4 + "] = \n" + list4Item4 + "\n\n");
+                        // TODO 你的代码
+
+                        long id = list4Item4.getLongValue("id");
+                        System.out.println("list4Item4.id = " + id);
+                        String selectType = list4Item4.getString("select_type");
+                        System.out.println("list4Item4.selectType = " + selectType);
+                        String table = list4Item4.getString("table");
+                        System.out.println("list4Item4.table = " + table);
+                        String type = list4Item4.getString("type");
+                        System.out.println("list4Item4.type = " + type);
+                        String possibleKeys = list4Item4.getString("possible_keys");
+                        System.out.println("list4Item4.possibleKeys = " + possibleKeys);
+                        int rows = list4Item4.getIntValue("rows");
+                        System.out.println("list4Item4.rows = " + rows);
+                        int filtered = list4Item4.getIntValue("filtered");
+                        System.out.println("list4Item4.filtered = " + filtered);
+                        String extra = list4Item4.getString("Extra");
+                        System.out.println("list4Item4.extra = " + extra);
+                    }
+                }   // list >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+            }   // @explain >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+            long id = moment.getId();
+            System.out.println("moment.id = " + id);
+            long userId = moment.getUserId();
+            System.out.println("moment.userId = " + userId);
+            String dateFormat(`Moment`.`date`,'%Y%m%d %HAs%m') = moment.getDateFormat(`Moment`.`date`,'%Y%m%d %HAs%m')();
+            System.out.println("moment.dateFormat(`Moment`.`date`,'%Y%m%d %HAs%m') = " + dateFormat(`Moment`.`date`,'%Y%m%d %HAs%m'));
+        }   // Moment >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+        {   // User <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            User user = listItem.getObject("User", User.class);
+            if (user == null) {
+                user = new User();
+            }
+
+            long id = user.getId();
+            System.out.println("user.id = " + id);
+            String name = user.getName();
+            System.out.println("user.name = " + name);
+            String head = user.getHead();
+            System.out.println("user.head = " + head);
+        }   // User >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+        {   // [] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            JSONArray list2 = listItem.getJSONArray("[]");
+            if (list2 == null) {
+                list2 = new JSONArray();
+            }
+
+            for (int i2 = 0; i2 < list2.size(); i2 ++) {
+                JSONObject list2Item2 = list2.getJSONObject(i2);
+                if (list2Item2 == null) {
+                    continue;
+                }
+                System.out.println("\nlist2Item2 = list2[" + i2 + "] = \n" + list2Item2 + "\n\n");
+                // TODO 你的代码
+
+
+                {   // Comment <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                    Comment comment = list2Item2.getObject("Comment", Comment.class);
+                    if (comment == null) {
+                        comment = new Comment();
+                    }
+
+                    long id = comment.getId();
+                    System.out.println("comment.id = " + id);
+                    long toId = comment.getToId();
+                    System.out.println("comment.toId = " + toId);
+                    long userId = comment.getUserId();
+                    System.out.println("comment.userId = " + userId);
+                    long momentId = comment.getMomentId();
+                    System.out.println("comment.momentId = " + momentId);
+                    String date = comment.getDate();
+                    System.out.println("comment.date = " + date);
+                    String content = comment.getContent();
+                    System.out.println("comment.content = " + content);
+                }   // Comment >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+                {   // User <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                    User user = list2Item2.getObject("User", User.class);
+                    if (user == null) {
+                        user = new User();
+                    }
+
+                    long id = user.getId();
+                    System.out.println("user.id = " + id);
+                    String name = user.getName();
+                    System.out.println("user.name = " + name);
+                    String concat = user.getConcat();
+                    System.out.println("user.concat = " + concat);
+                }   // User >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+            }
+        }   // [] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    }
+}   // [] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+boolean ok = response.getBooleanValue("ok");
+System.out.println("response.ok = " + ok);
+int code = response.getIntValue("code");
+System.out.println("response.code = " + code);
+String msg = response.getString("msg");
+System.out.println("response.msg = " + msg);
+
+
+
+
+/**
+ * 返回结果处理配置(目前未用上)
+ * 次启动服务器时加载整个表到内存。
+ */
+@Keep
+open class Response {
+
+    // [] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    @SerializedName("[]")
+    open var list: List<ListItem?>? = null  // = mutableListOf()  // 
+
+    @Keep
+    open class ListItem {
+
+        // Moment <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+        @SerializedName("Moment")
+        open var moment: Moment? = null  // = Moment()  // 
+
+        /**
+         * 动态
+         */
+        @Keep
+        open class Moment {
+
+            // @explain <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+            @SerializedName("@explain")
+            open var explain: @explain? = null  // = @explain()  // 
+
+            @Keep
+            open class @explain {
+
+                @SerializedName("sql")
+                open var sql: String? = null  // = ""  // 
+
+                // list <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+                @SerializedName("list")
+                open var list3: List<List3Item3?>? = null  // = mutableListOf()  // 
+
+                @Keep
+                open class List3Item3 {
+
+                    @SerializedName("id")
+                    open var id: Long? = null  // = 0  // 
+
+                    @SerializedName("select_type")
+                    open var selectType: String? = null  // = ""  // 
+
+                    @SerializedName("table")
+                    open var table: String? = null  // = ""  // 
+
+                    @SerializedName("type")
+                    open var type: String? = null  // = ""  // 
+
+                    @SerializedName("possible_keys")
+                    open var possibleKeys: String? = null  // = ""  // 
+
+                    @SerializedName("rows")
+                    open var rows: Int? = null  // = 0  // 
+
+                    @SerializedName("filtered")
+                    open var filtered: Int? = null  // = 0  // 
+
+                    @SerializedName("Extra")
+                    open var extra: String? = null  // = ""  // 
+
+                }
+
+                // list >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+            }
+
+            // @explain >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+            @SerializedName("id")
+            open var id: Long? = null  // = 0  // Long(15), 唯一标识
+
+            @SerializedName("userId")
+            open var userId: Long? = null  // = 0  // Long(15), 用户id
+
+            @SerializedName("date_format(`Moment`.`date`,'%Y-%m-%d %H:%m')")
+            open var dateFormat(`Moment`.`date`,'%Y%m%d %HAs%m'): String? = null  // = ""  // 
+
+        }
+
+        // Moment >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+        // User <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+        @SerializedName("User")
+        open var user: User? = null  // = User()  // 
+
+        /**
+         * 用户公开信息表。
+         * 安全要求高，不想泄漏真实名称。对外名称为 User
+         */
+        @Keep
+        open class User {
+
+            @SerializedName("id")
+            open var id: Long? = null  // = 0  // Long(15), 唯一标识
+
+            @SerializedName("name")
+            open var name: String? = null  // = ""  // String(20), 名称
+
+            @SerializedName("head")
+            open var head: String? = null  // = ""  // String(300), 头像url
+
+        }
+
+        // User >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+        // [] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+        @SerializedName("[]")
+        open var list1: List<List1Item1?>? = null  // = mutableListOf()  // 
+
+        @Keep
+        open class List1Item1 {
+
+            // Comment <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+            @SerializedName("Comment")
+            open var comment: Comment? = null  // = Comment()  // 
+
+            /**
+             * 评论
+             */
+            @Keep
+            open class Comment {
+
+                @SerializedName("id")
+                open var id: Long? = null  // = 0  // Long(15), 唯一标识
+
+                @SerializedName("toId")
+                open var toId: Long? = null  // = 0  // Long(15), 被回复的id
+
+                @SerializedName("userId")
+                open var userId: Long? = null  // = 0  // Long(15), 评论人 User 的 id
+
+                @SerializedName("momentId")
+                open var momentId: Long? = null  // = 0  // Long(15), 动态id
+
+                @SerializedName("date")
+                open var date: String? = null  // = ""  // Timestamp, 创建日期
+
+                @SerializedName("content")
+                open var content: String? = null  // = ""  // String(1000), 内容
+
+            }
+
+            // Comment >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+            // User <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+            @SerializedName("User")
+            open var user: User? = null  // = User()  // 
+
+            /**
+             * 用户公开信息表。
+             * 安全要求高，不想泄漏真实名称。对外名称为 User
+             */
+            @Keep
+            open class User {
+
+                @SerializedName("id")
+                open var id: Long? = null  // = 0  // Long(15), 唯一标识
+
+                @SerializedName("name")
+                open var name: String? = null  // = ""  // String(20), 名称
+
+                @SerializedName("concat")
+                open var concat: String? = null  // = ""  // 
+
+            }
+
+            // User >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+        }
+
+        // [] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+    }
+
+    // [] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+    @SerializedName("ok")
+    open var ok: Boolean? = null  // = false  // 
+
+    @SerializedName("code")
+    open var code: Int? = null  // = 0  // 
+
+    @SerializedName("msg")
+    open var msg: String? = null  // = ""  // 
+
+}

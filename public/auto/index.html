@@ -102,15 +102,16 @@
             </a>
 
             <span class="pop-btn">
-                <a href="javascript:void(0)" >
+                <a href="javascript:void(0)" style="padding: 14px">
                    {{ User.id != null && User.id > 0 ? User.name : '设置' }}
                 </a>
-                <ul class="themes pop" style="z-index: 200;padding: 0px;margin-top: 10px;width: 300px">
+                <ul class="themes pop" style="z-index: 200;padding: 0px;margin-top: 8px;width: 300px">
                   <a style="border-bottom: #DDD 1px solid;width: 100%" href="javascript:void(0)" @click="showConfig(! isDelegateEnabled, 9)">托管服务器代理: {{ isDelegateEnabled ? '已开启，点击关闭' : '已关闭，点击开启' }}</a>
-                  <a style="border-bottom: #DDD 1px solid;width: 100%" href="javascript:void(0)" @click="showConfig(! isPreviewEnabled, 10)">预览请求输入框:  {{ isPreviewEnabled ? '已开启，点击关闭' : '已关闭，点击开启' }}</a>
+                  <a style="border-bottom: #DDD 1px solid;width: 100%" href="javascript:void(0)" @click="showConfig(! isPreviewEnabled, 10)">预览左侧输入框:  {{ isPreviewEnabled ? '已开启，点击关闭' : '已关闭，点击开启' }}</a>
+                  <a v-show="User.id != null && User.id > 0" style="border-bottom: #DDD 1px solid;width: 100%" href="javascript:void(0)" @click="showConfig(! isEditResponse, 11)">当前编辑模式:  {{ isEditResponse ? 'Response 后端响应结果' : 'Request 前端请求参数' }}</a>
                   <a style="border-bottom: #DDD 1px solid;width: 100%" href="javascript:void(0)" @click="showConfig(StringUtil.isEmpty(host, true), 3)">{{ StringUtil.isEmpty(host, true) ? '隐藏(固定)URL Host: 可用空格隔开' : '显示(编辑)URL Host: \n' + host }}</a>
                   <a style="border-bottom: #DDD 1px solid;width: 100%;display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden;" href="javascript:void(0)" @click="showConfig(! isRandomShow, 5)">{{ isRandomShow ? '隐藏(固定)随机测试 Random Test' : '显示(编辑)随机测试 Random Test' }}</a>
-                  <a style="border-bottom: #DDD 1px solid;width: 100%;display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden;" href="javascript:void(0)" @click="showConfig(! isHeaderShow, 4)">{{ isHeaderShow ? '隐藏(固定)请求头 Request Header' : '显示(编辑)请求头 Request Header' }}</a>
+                  <a style="border-bottom: #DDD 1px solid;width: 100%;display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden;" href="javascript:void(0)" @click="showConfig(! isHeaderShow, 4)">{{ (isHeaderShow ? '隐藏(固定)' : '显示(编辑)') + (isEditResponse ? '响应头 Response Header' : '请求头 Request Header' ) }}</a>
                   <a style="border-bottom: #DDD 1px solid;width: 100%" href="javascript:void(0)" @click="showConfig(true, 2)">生成代码(封装,解析) : {{ language || '例如 Java' }}</a>
                   <a style="border-bottom: #DDD 1px solid;width: 100%" href="javascript:void(0)" @click="showConfig(true, 0)">数据库类型 Database: {{ database || '例如 MYSQL' }}</a>
                   <a style="border-bottom: #DDD 1px solid;width: 100%" href="javascript:void(0)" @click="showConfig(true, 1)">数据库模式   Schema: {{ schema || '例如 sys' }}</a>
@@ -132,12 +133,12 @@
     <div class="side-left">
         <div v-show="! isTestCaseShow" class="left-bar" >
             <button class="transfer" id="vTransfer" @click="transfer()">' / "</button>
-            <button v-show="types != null && types.length > 1" class="transfer" id="vType" @click="changeType()">{{ getTypeName(type) }}</button>
+            <button v-show="types != null && types.length > 1" class="transfer" id="vType" :disabled="isEditResponse" @click="changeType()">{{ getTypeName(type) }}</button>
             <div style="height: 100%;display: flex;flex-grow: 1">
-                <input class="url" id="vUrlComment" type="text" style="width: 100%; position: absolute; z-index: -100; color: darkseagreen;background: #0000;"  />
-                <input class="url" id="vUrl" type="text" @keyup="doOnKeyUp(event)" placeholder="请输入请求的接口地址" style="z-index: 0; background: #0000;" />
+                <input class="url" id="vUrlComment" :disabled="isEditResponse" type="text" style="width: 100%; position: absolute; z-index: -100; color: darkseagreen;background: #0000;"  />
+                <input class="url" id="vUrl" :disabled="isEditResponse" type="text" @keyup="doOnKeyUp(event)" placeholder="请输入请求的接口地址" style="z-index: 0; background: #0000;" />
             </div>
-            <button class="send" id="vSend" @click="send(false)">发送请求</button>
+            <button class="send" id="vSend" @click="send(false)">{{ isEditResponse ? '模拟返回' : '发送请求' }}</button>
         </div>
         <div v-show="isTestCaseShow" class="left-bar">
             <!--<svg class="icon" style="margin-left: 10px">-->
@@ -171,16 +172,14 @@
             <ul v-show="isTestCaseShow" class="historys" style="width: 100%;height: 100%;overflow: hidden;overflow-y: scroll;padding-bottom: 50px">
                 <li v-for="(item, index) in testCases" >
                     <div style="display: inline-table">
-                        <button v-show="types != null && types.length > 1" style="width: 48px;margin-right: 6px;padding: 0px;position: relative" id="vDocType" @click="restoreRemoteAndTest(item)">{{ getTypeName(item.Document.type) }}</button>
-                        <a class="hint--rounded hint--no-animate" ref="testCaseTexts" @mouseover="setRequestHint(index, item)" href="javascript:void(0)" @click="restoreRemote(item)" > {{(item.Document.version > 0 ? 'V' + item.Document.version : 'V*') + ' ' + item.Document.name  + '    ' + item.Document.url}}</a>
+                        <button v-show="types != null && types.length > 1" style="width: 48px;margin-right: 6px;padding: 0px;position: relative" id="vDocType" @click="restoreRemoteAndTest(index, item)">{{ getTypeName(item.Document.type) }}</button>
+                        <a class="hint--rounded hint--no-animate" ref="testCaseTexts" @mouseover="setRequestHint(index, item)" href="javascript:void(0)" @click="restoreRemote(index, item)" :style="{ color: index == currentDocIndex ? 'black' : 'gray' }"> {{(item.Document.version > 0 ? 'V' + item.Document.version : 'V*') + ' ' + item.Document.name  + '    ' + item.Document.url}}</a>
                         <div :style="{ background: item.compareColor }" v-show="item.compareType != null" style="position: absolute;top: 8px;right: 36px;display: inline-block;">
                             <button class="hint--left" ref="testResultButtons" @mouseover="setTestHint(index, item)" v-show="item.compareType != null" @click="handleTest(false, index, item)" style="position: relative;">{{ item.compareMessage + (item.showType == 'before' ? '-前' : '-后') }}</button>
                             <svg class="icon" style="position: relative;margin-left: 10px" @click="downloadTest(index, item)">
                                 <use xlink:href="svg/icon.svg#export-txt"></use>
-                            </svg>
-                            <button v-show="(item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null)" @click="handleTest(true, index, item)">{{ item.showType == 'before' ? '错的，撤回' : '对的，纠正' }}</button>
-                            <!-- 仅用来占位，解决上面按钮隐藏后，下载图标纵向没对齐 -->
-                            <button v-show="! ((item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null))" style="color: white;background: white;border-color: white;" disabled>对的，纠正</button>
+                            </svg>   <!-- 中间 button 仅用来占位，解决上面按钮隐藏后，下载图标纵向没对齐 -->
+                            <button v-show="(item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null)" @click="handleTest(true, index, item)">{{ item.showType == 'before' ? '错的，撤回' : '对的，纠正' }}</button><button v-show="! ((item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null))" style="color: white;background: white;border-color: white;" disabled>对的，纠正</button><button style="padding-left: 1px; padding-right: 1px; width: 50px" :style="{ color: item.durationColor }" class="hint--left" ref="testResultDurationButtons" @mouseover="setTestHint(index, item, false, true)" @click="handleTest(true, index, item, false, true)">{{ (item.showType == 'before' ? item.durationBeforeShowStr : item.durationShowStr) || '?' }}</button>
                         </div>
                         <svg v-show="isLocalShow || (item.Document != null && item.Document.userId == User.id)" class="icon" style="margin-right: 5px; top: 13px" @click="remove(item, index, true)">
                             <use xlink:href="svg/icon.svg#trash"></use>
@@ -242,17 +241,15 @@
                         <!-- 临时生成的配置子项 -->
                         <ul v-show="isRandomSubListShow" class="historys" style="width: 100%;height: 100%;overflow: hidden;overflow-y: scroll; padding-bottom: 100px">
                             <li style="width: 100%" v-for="(item, index) in randomSubs" >
-                                <a v-show="! isRandomEditable" class="hint--rounded hint--no-animate" ref="randomSubTexts" @mouseover="setRequestHint(index, item, true)" href="javascript:void(0)" @click="restoreRandom(item)" >{{ (item.Random || {}).name }}</a>
+                                <a v-show="! isRandomEditable" class="hint--rounded hint--no-animate" ref="randomSubTexts" @mouseover="setRequestHint(index, item, true)" href="javascript:void(0)" @click="restoreRandom(index, item)" :style="{ color: index == currentRandomSubIndex ? 'black' : 'gray' }">{{ (item.Random || {}).name }}</a>
                                 <input v-show="isRandomEditable" style="width: 96%" v-model="(item.Random || {}).name" @keyup="doOnKeyUp(event, 'randomSub', false, item)" />
 
                                 <div :style="{ background: item.compareColor }" v-show="! isRandomEditable && item.compareType != null" style="position: absolute;top: 8px;right: 36px;display: inline-block;">
                                     <button class="hint--left" ref="testRandomSubResultButtons" @mouseover="setTestHint(index, item, true)" v-show="item.compareType != null" @click="handleTest(false, index, item, true)" style="position: relative;">{{ item.compareMessage + (item.showType == 'before' ? '-前' : '-后') }}</button>
                                     <svg class="icon" style="position: relative;margin-left: 10px" @click="downloadTest(index, item, true)">
                                         <use xlink:href="svg/icon.svg#export-txt"></use>
-                                    </svg>
-                                    <button v-show="(item.showType != 'before' && item.compareType != 0) || (item.showType == 'before'&& (item.TestRecord || {}).id != null)" @click="handleTest(true, index, item, true)">{{ item.showType == 'before' ? '错的，撤回' : '对的，纠正' }}</button>
-                                    <!-- 仅用来占位，解决上面按钮隐藏后，下载图标纵向没对齐 -->
-                                    <button v-show="! ((item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null))" style="color: white;background: white;border-color: white;" disabled>对的，纠正</button>
+                                    </svg>   <!-- 中间 button 仅用来占位，解决上面按钮隐藏后，下载图标纵向没对齐 -->
+                                    <button v-show="(item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null)" @click="handleTest(true, index, item, true)">{{ item.showType == 'before' ? '错的，撤回' : '对的，纠正' }}</button><button v-show="! ((item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null))" style="color: white;background: white;border-color: white;" disabled>对的，纠正</button><button style="padding-left: 1px; padding-right: 1px; width: 50px" :style="{ color: item.durationColor }" class="hint--left" ref="testRandomSubResultDurationButtons" @mouseover="setTestHint(index, item, true, true)" @click="handleTest(true, index, item, true, true)">{{ (item.showType == 'before' ? item.durationBeforeShowStr : item.durationShowStr) || '?' }}</button>
                                 </div>
                                 <svg v-show="item.Random != null && item.Random.userId == User.id" class="icon" style="margin-right: 5px; top: 13px" @click="remove(item, index, true, true)">
                                     <use xlink:href="svg/icon.svg#trash"></use>
@@ -276,7 +273,7 @@
                             <li style="width: 100%; display: inline-table" v-for="(item, index) in randoms" >
                                 <input v-model="(item.Random || {}).count" style="min-width: 12px; max-width: 30px; width: auto; text-align: center" type="number" @keyup="doOnKeyUp(event, 'random', false, item)" />
                                 <a style="margin-left: 4px; ">次</a>
-                                <a v-show="! isRandomEditable" style="top: 13px; left: 68px; position: absolute" class="hint--rounded hint--no-animate" ref="randomTexts" @mouseover="setRequestHint(index, item, true)" href="javascript:void(0)" @click="restoreRandom(item)" >{{ (item.Random || {}).name }}</a>
+                                <a v-show="! isRandomEditable" style="top: 13px; left: 68px; position: absolute" class="hint--rounded hint--no-animate" ref="randomTexts" @mouseover="setRequestHint(index, item, true)" href="javascript:void(0)" @click="restoreRandom(index, item)" :style="{ color: index == currentRandomIndex ? 'black' : 'gray' }">{{ (item.Random || {}).name }}</a>
                                 <input v-show="isRandomEditable" style="top: 10px; left: 68px; position: absolute; display: inline-flex; width: 64%" v-model="(item.Random || {}).name" @keyup="doOnKeyUp(event, 'random', false, item)" />
 
                                 <button v-show="((item.Random || {}).count || 0) > 1 && (item.totalCount || 0) <= 0" style="position: absolute;top: 10px;right: 36px;display: inline-block;" @click="handleTest(true, index, item, true)">{{ '查看 ' + ((item.subs || item['[]']) || []).length + ' 个子项' }}</button>
@@ -290,10 +287,8 @@
                                         <button class="hint--left" ref="testRandomResultButtons" @mouseover="setTestHint(index, item, true)" v-show="item.compareType != null" @click="handleTest(false, index, item, true)" style="position: relative;">{{ item.compareMessage + (item.showType == 'before' ? '-前' : '-后') }}</button>
                                         <svg class="icon" style="position: relative;margin-left: 10px" @click="downloadTest(index, item, true)">
                                             <use xlink:href="svg/icon.svg#export-txt"></use>
-                                        </svg>
-                                        <button v-show="(item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null)" @click="handleTest(true, index, item, true)">{{ item.showType == 'before' ? '错的，撤回' : '对的，纠正' }}</button>
-                                        <!-- 仅用来占位，解决上面按钮隐藏后，下载图标纵向没对齐 -->
-                                        <button v-show="! ((item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null))" style="color: white;background: white;border-color: white;" disabled>对的，纠正</button>
+                                        </svg>   <!-- 中间 button 仅用来占位，解决上面按钮隐藏后，下载图标纵向没对齐 -->
+                                        <button v-show="(item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null)" @click="handleTest(true, index, item, true)">{{ item.showType == 'before' ? '错的，撤回' : '对的，纠正' }}</button><button v-show="! ((item.showType != 'before' && item.compareType != 0) || (item.showType == 'before' && (item.TestRecord || {}).id != null))" style="color: white;background: white;border-color: white;" disabled>对的，纠正</button><button style="padding-left: 1px; padding-right: 1px; width: 50px" :style="{ color: item.durationColor }" class="hint--left" ref="testRandomResultDurationButtons" @mouseover="setTestHint(index, item, true, true)" @click="handleTest(true, index, item, true, true)">{{ (item.showType == 'before' ? item.durationBeforeShowStr : item.durationShowStr) || '?' }}</button>
                                     </div>
                                 </div>
 
@@ -342,7 +337,7 @@ User/id: RANDOM_INT(82001, 82020)  // 随机整数
 
                     <div v-show="isHeaderShow" style="width: 100%; height: 150px; position: relative;" >
                         <div class="left-bar" style="border-top: #DDD 1px solid; position: relative">
-                            <a style="padding-left: 10px;padding-right: 2px;font-size: medium;color: black" >请求头 Request Header<a style="display: flex;flex-grow: 1;padding-right: 10px;padding-top: 2px"> (每行都按 key : value 格式)</a></a>
+                            <a style="padding-left: 10px;padding-right: 2px;font-size: medium;color: black" >{{ (isEditResponse ? '响应头 Response Header' : '请求头 Request Header' ) }}<a style="display: flex;flex-grow: 1;padding-right: 10px;padding-top: 2px"> (每行都按 key: value 格式)</a></a>
                             <a class="hint--top @cli-tool" data-hint="隐藏" style="float: right;padding: 8px;height: 100%"  href="javascript:void(0)" @click="showConfig(false, 4)">
                                 <svg class="icon close-icon"  >
                                     <use xlink:href="svg/icon.svg#close"></use>
