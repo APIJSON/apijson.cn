@@ -20,8 +20,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="517" column="10" lean-forward="true" selection-start-line="517" selection-start-column="10" selection-end-line="517" selection-end-column="10" />
+            <state relative-caret-position="208">
+              <caret line="280" column="62" lean-forward="false" selection-start-line="280" selection-start-column="62" selection-end-line="280" selection-end-column="62" />
               <folding>
                 <element signature="n#style#0;n#iframe#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -30,6 +30,12 @@
                 <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#div#1;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#div#2;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#8;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#1;n#div#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#2;n#div#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#3;n#div#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#7;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#22;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#22;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -48,15 +54,15 @@
                 <element signature="n#style#0;n#img#0;n#a#51;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#56;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#56;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1627676778000" expanded="false" signature="14614:14663" ph="..." />
-                <marker date="1627676778000" expanded="false" signature="14744:14793" ph="..." />
-                <marker date="1627676778000" expanded="true" signature="40364:40437" ph="..." />
-                <marker date="1627676778000" expanded="true" signature="40515:40566" ph="..." />
-                <marker date="1627676778000" expanded="true" signature="40651:40702" ph="..." />
-                <marker date="1627676778000" expanded="true" signature="40806:40857" ph="..." />
-                <marker date="1627676778000" expanded="true" signature="40955:40967" ph="..." />
-                <marker date="1627676778000" expanded="true" signature="40955:41006" ph="..." />
-                <marker date="1627676778000" expanded="true" signature="41116:41167" ph="..." />
+                <marker date="1627677880000" expanded="false" signature="15632:15681" ph="..." />
+                <marker date="1627677880000" expanded="false" signature="15762:15811" ph="..." />
+                <marker date="1627677880000" expanded="true" signature="41382:41455" ph="..." />
+                <marker date="1627677880000" expanded="true" signature="41533:41584" ph="..." />
+                <marker date="1627677880000" expanded="true" signature="41669:41720" ph="..." />
+                <marker date="1627677880000" expanded="true" signature="41824:41875" ph="..." />
+                <marker date="1627677880000" expanded="true" signature="41973:41985" ph="..." />
+                <marker date="1627677880000" expanded="true" signature="41973:42024" ph="..." />
+                <marker date="1627677880000" expanded="true" signature="42134:42185" ph="..." />
               </folding>
             </state>
           </provider>
@@ -120,11 +126,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>https://gitee.com/APIJSON/APIJSON</find>
-      <find>hh.com</find>
-      <find>/auto</find>
-      <find>* **</find>
-      <find>**</find>
       <find>bilibi</find>
       <find>bilib</find>
       <find>bili</find>
@@ -150,6 +151,11 @@
       <find>server:</find>
       <find>备</find>
       <find>great</find>
+      <find>ta</find>
+      <find>new</find>
+      <find>blan</find>
+      <find>blank</find>
+      <find>:void</find>
     </findStrings>
     <replaceStrings>
       <replace>2016-</replace>
@@ -576,12 +582,12 @@
       <workItem from="1621354255917" duration="392000" />
       <workItem from="1621761226470" duration="416000" />
       <workItem from="1624695253767" duration="415000" />
-      <workItem from="1627674399121" duration="2157000" />
+      <workItem from="1627674399121" duration="3000000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76439000" />
+    <option name="totallyTimeSpent" value="77282000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -590,6 +596,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31930104" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32739726" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -602,7 +609,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32739726" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -617,11 +623,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/themes/vue/source/images/bit.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/vue/source/images/youku.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -932,10 +933,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/v2/cookbook/unit-testing-vue-components.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="103" column="46" lean-forward="true" selection-start-line="103" selection-start-column="46" selection-end-line="103" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="517" column="10" lean-forward="true" selection-start-line="517" selection-start-column="10" selection-end-line="517" selection-end-column="10" />
+        <state relative-caret-position="208">
+          <caret line="280" column="62" lean-forward="false" selection-start-line="280" selection-start-column="62" selection-end-line="280" selection-end-column="62" />
           <folding>
             <element signature="n#style#0;n#iframe#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -944,6 +953,12 @@
             <element signature="n#style#0;n#a#0;n#div#1;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#1;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#div#2;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#8;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#1;n#div#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#2;n#div#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#3;n#div#0;n#div#9;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#7;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#22;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#22;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -962,15 +977,15 @@
             <element signature="n#style#0;n#img#0;n#a#51;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#56;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#56;n#div#0;n#div#0;n#div#8;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1627676778000" expanded="false" signature="14614:14663" ph="..." />
-            <marker date="1627676778000" expanded="false" signature="14744:14793" ph="..." />
-            <marker date="1627676778000" expanded="true" signature="40364:40437" ph="..." />
-            <marker date="1627676778000" expanded="true" signature="40515:40566" ph="..." />
-            <marker date="1627676778000" expanded="true" signature="40651:40702" ph="..." />
-            <marker date="1627676778000" expanded="true" signature="40806:40857" ph="..." />
-            <marker date="1627676778000" expanded="true" signature="40955:40967" ph="..." />
-            <marker date="1627676778000" expanded="true" signature="40955:41006" ph="..." />
-            <marker date="1627676778000" expanded="true" signature="41116:41167" ph="..." />
+            <marker date="1627677880000" expanded="false" signature="15632:15681" ph="..." />
+            <marker date="1627677880000" expanded="false" signature="15762:15811" ph="..." />
+            <marker date="1627677880000" expanded="true" signature="41382:41455" ph="..." />
+            <marker date="1627677880000" expanded="true" signature="41533:41584" ph="..." />
+            <marker date="1627677880000" expanded="true" signature="41669:41720" ph="..." />
+            <marker date="1627677880000" expanded="true" signature="41824:41875" ph="..." />
+            <marker date="1627677880000" expanded="true" signature="41973:41985" ph="..." />
+            <marker date="1627677880000" expanded="true" signature="41973:42024" ph="..." />
+            <marker date="1627677880000" expanded="true" signature="42134:42185" ph="..." />
           </folding>
         </state>
       </provider>
