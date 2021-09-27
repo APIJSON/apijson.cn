@@ -571,7 +571,7 @@
       schema: 'sys',
       server: 'http://apijson.cn:8080',  // admin.Flow does not exist  'http://apijson.org:8080',
       // server: 'http://47.74.39.68:9090',  // apijson.org
-      project: 'http://apijson.cn:8081',  //apijson.org:8000
+      project: 'http://apijson.cn:8081',  //apijson.cn
       language: CodeUtil.LANGUAGE_KOTLIN,
       header: {},
       page: 0,
@@ -2366,7 +2366,7 @@
             throw new Error(e2.message)
           }
 
-          vOutput.value = output = 'OK，请点击 [开始] 按钮来测试。[点击这里查看视频教程](http://i.youku.com/apijson)' // + code;
+          vOutput.value = output = 'OK，请点击 [开始] 按钮来测试。[点击这里查看视频教程](https://www.bilibili.com/video/BV1kk4y1z7bW?seid=12328608249180257258)' // + code;
 
           App.showDoc()
           vUrlComment.value = isSingle || StringUtil.isEmpty(App.urlComment, true) ? '' : vUrl.value + App.urlComment;
@@ -2885,8 +2885,9 @@
             + '\nAPIJSON 英文文档: https://github.com/ruoranw/APIJSONdocs '
             + '\nAPIJSON 官方网站: https://github.com/APIJSON/apijson.org '
             + '\nAPIJSON -Java版: https://github.com/Tencent/APIJSON '
+            + '\nAPIJSON - Go 版: https://gitee.com/tiangao/apijson-go '
             + '\nAPIJSON - C# 版: https://github.com/liaozb/APIJSON.NET '
-            + '\nAPIJSON - PHP版: https://github.com/qq547057827/apijson-php '
+            + '\nAPIJSON - PHP版: https://github.com/xianglong111/APIJSON-php '
             + '\nAPIJSON -Node版: https://github.com/kevinaskin/apijson-node '
             + '\nAPIJSON -Python: https://github.com/zhangchunlin/uliweb-apijson '
             + '\n感谢热心的作者们的贡献，GitHub 右上角点 ⭐Star 支持下他们吧 ^_^';

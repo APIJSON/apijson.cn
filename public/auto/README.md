@@ -21,9 +21,22 @@
 不仅适用于 RESTful、类 RESTful、GRPC 的 API，还是腾讯 [APIJSON](https://github.com/Tencent/APIJSON) 官方建议的文档与测试工具。<br />
 腾讯内部用户包括 互娱、技术工程、云与智慧 等，外部用户包含 500强上市公司深圳传音、行业领头羊社保科技 等。
 
-#### 先后被腾讯 TEG 工具开发组、微信支付部门、腾讯 IEG 工具开发组邀请分享了 
+#### 和华为云副总裁并列，QECon-全球软件质量&效能 大会分享总结
+零代码开发和测试 成为大会主会场回看预约海报唯一分会场演讲范例 <br />
+https://www.bilibili.com/video/BV1yv411p7Y4
+
+<img width="1360" alt="wecom-temp-377bbd0daf5aed716baf7ebcb003d94c" src="https://user-images.githubusercontent.com/5738175/121370207-1b35de00-c96f-11eb-840e-cc2ff2995888.png">
+
+<img width="390" src="https://user-images.githubusercontent.com/5738175/125167121-86bed580-e1d1-11eb-9dc6-2ea190146fe6.png">
+
+现场录播回放视频：QECon大会-零代码开发和测试(APIJSON和APIAuto)<br />
+https://www.bilibili.com/video/BV1yv411p7Y4
+<br />
+
+#### 腾讯内先后被 TEG 工具开发组、微信支付部门、IEG 工具开发组、CDG 金融支付组 邀请分享了 
 * APIAuto-机器学习 HTTP 接口工具
 * 零代码测试工具与实践(API•单元•UI)
+* 零代码开发和测试(API测试•单元测试•API开发)
 * 零代码开发和测试(API测试•单元测试•API开发)
 
 ![image](https://user-images.githubusercontent.com/5738175/116197821-c72cbc80-a767-11eb-8df1-5dc6f1d46e8f.png)
@@ -84,7 +97,7 @@
 ### 部署方法
 
 可以直接下载源码解压后用浏览器打开 index.html，建议用 Chrome 或 火狐 (Safari、Edge、IE 等可能有兼容问题)。<br />
-也可以直接访问官网的线上环境 http://apijson.cn/api 或开发环境 http://apijson.org:8000/api 。<br />
+也可以直接访问官方网站 http://apijson.cn/api <br />
 <br />
 把左侧 URL 输入框内基地址改为你主机的地址(例如 http://localhost:8080 )，<br />
 然后在右上角 设置 下拉菜单内修改 数据库类型Database、数据库模式Schema。<br />
@@ -97,11 +110,24 @@ https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server
 
 ### 常见问题
 #### 1.无法访问接口
+Chrome 90+ 对 CORS 请求禁止携带 Cookie 或 Chrome 80-89 强制 same-site Cookie 的策略导致 <br />
 https://github.com/TommyLemon/APIAuto/issues/9
 
 #### 2.没有生成文档
+右上角设置项与数据库实际配置不一致 等  <br />
 https://github.com/Tencent/APIJSON/issues/85
 
+#### 3.托管服务器访问不了
+不能代理接口、不能展示文档、不能对断言结果纠错 等 <br />
+https://github.com/TommyLemon/APIAuto/issues/12
+
+#### 4.apijson.org 访问不了
+管理后台网页改用 http://apijson.cn/api ，托管服务地址改为 http://47.74.39.68:9090  <br />
+https://github.com/TommyLemon/APIAuto/issues/13
+
+
+更多常见问题 <br />
+https://github.com/TommyLemon/APIAuto
 
 ### 感谢开源
 * jsonon

@@ -98,8 +98,7 @@
         }
 
         var method = App.getMethod();
-        var mIndex = method == null ? -1 : method.indexOf('/');
-        var isRestful = mIndex > 0 && mIndex < method.length - 1;
+        var isRestful = ! JSONObject.isAPIJSONPath(method);
 
         try {
           if (val instanceof Array) {
@@ -228,8 +227,7 @@
           var column = null
 
           var method = App.isTestCaseShow ? ((App.currentRemoteItem || {}).Document || {}).url : App.getMethod();
-          var mIndex = method == null ? -1 : method.indexOf('/');
-          var isRestful = mIndex > 0 && mIndex < method.length - 1;
+          var isRestful = ! JSONObject.isAPIJSONPath(method);
 
           if (val instanceof Object && (val instanceof Array == false)) {
 
@@ -570,6 +568,7 @@
       isMLEnabled: false,
       isDelegateEnabled: false,
       isPreviewEnabled: false,
+      isEncodeEnabled: true,
       isEditResponse: false,
       isLocalShow: false,
       uploadTotal: 0,
@@ -593,13 +592,13 @@
         balance: null //点击更新提示需要判空 0.00
       },
       type: REQUEST_TYPE_JSON,
-      types: [ REQUEST_TYPE_PARAM, REQUEST_TYPE_JSON, REQUEST_TYPE_FORM, REQUEST_TYPE_DATA,  REQUEST_TYPE_GRPC ],  //默认展示
+      types: [ REQUEST_TYPE_PARAM, REQUEST_TYPE_JSON],  // 很多人喜欢用 GET 接口测试，默认的 JSON 看不懂 , REQUEST_TYPE_FORM, REQUEST_TYPE_DATA,  REQUEST_TYPE_GRPC ],  //默认展示
       host: '',
       database: 'MYSQL', // 查文档必须，除非后端提供默认配置接口  // 用后端默认的，避免用户总是没有配置就问为什么没有生成文档和注释  'MYSQL',// 'POSTGRESQL',
       schema: 'sys',  // 查文档必须，除非后端提供默认配置接口  // 用后端默认的，避免用户总是没有配置就问为什么没有生成文档和注释   'sys',
-      server: 'http://apijson.cn:9090',  // Chrome 90+ 跨域问题非常难搞，开发模式启动都不行了 'http://apijson.org:9090',  //apijson.org:8000
+      server: 'http://apijson.cn:9090',  // Chrome 90+ 跨域问题非常难搞，开发模式启动都不行了 'http://apijson.org:9090',  //apijson.cn
       // server: 'http://47.74.39.68:9090',  // apijson.org
-      thirdParty: 'SWAGGER /v2/api-docs',  //apijson.org:8000
+      thirdParty: 'SWAGGER /v2/api-docs',  //apijson.cn
       // thirdParty: 'RAP /repository/joined /repository/get',
       // thirdParty: 'YAPI /api/interface/list_menu /api/interface/get',
       language: CodeUtil.LANGUAGE_KOTLIN,
@@ -801,6 +800,10 @@
         var url = new String(vUrl.value).trim()
         var index = this.getBaseUrlLength(url)
         url = index <= 0 ? url : url.substring(index)
+        index = url.indexOf("?")
+        if (index >= 0) {
+          url = url.substring(0, index)
+        }
         return url.startsWith('/') ? url.substring(1) : url
       },
       //获取请求的tag
@@ -1049,7 +1052,7 @@
                         response: api.res_body == null ? null : JSON.parse(api.res_body),
                         detail: name
                         + '\n' + (api.up_time == null ? '' : (typeof api.up_time != 'number' ? api.up_time : new Date(1000*api.up_time).toLocaleString()))
-                        + '\nhttp://apijson.org/yapi/project/1/interface/api/' + api._id
+                        + '\nhttp://apijson.cn/yapi/project/1/interface/api/' + api._id
                         + '\n\n' + (StringUtil.isEmpty(api.markdown, true) ? StringUtil.trim(api.description) : api.markdown.trim().replace(/\\_/g, '_'))
                       }
                     }
@@ -1092,6 +1095,10 @@
               App.saveCache('', 'isPreviewEnabled', show)
 
               App.onChange(false)
+              break
+            case 12:
+              App.isEncodeEnabled = show
+              App.saveCache('', 'isEncodeEnabled', show)
               break
             case 11:
               var did = ((App.currentRemoteItem || {}).Document || {}).id
@@ -1137,6 +1144,10 @@
           App.isPreviewEnabled = show
           App.saveCache('', 'isPreviewEnabled', show)
           // vRequestMarkdown.innerHTML = ''
+        }
+        else if (index == 12) {
+          App.isEncodeEnabled = show
+          App.saveCache('', 'isEncodeEnabled', show)
         }
         else if (index == 11) {
           App.isEditResponse = show
@@ -2219,7 +2230,7 @@
           typeAndParam.type, api.title, api.path, typeAndParam.param, header
           ,  (StringUtil.trim(api.username) + ': ' + StringUtil.trim(api.title)
           + '\n' + (api.up_time == null ? '' : (typeof api.up_time != 'number' ? api.up_time : new Date(1000*api.up_time).toLocaleString()))
-          + '\nhttp://apijson.org/yapi/project/1/interface/api/' + api._id
+          + '\nhttp://apijson.cn/yapi/project/1/interface/api/' + api._id
           + '\n\n' + (StringUtil.isEmpty(api.markdown, true) ? StringUtil.trim(api.description) : api.markdown.trim().replace(/\\_/g, '_')))
           , api.username
         )
@@ -3115,7 +3126,7 @@
           vSend.disabled = false;
 
           if (App.isEditResponse != true) {
-            vOutput.value = output = 'OK，请点击 [发送请求] 按钮来测试。[点击这里查看视频教程](http://i.youku.com/apijson)' + code;
+            vOutput.value = output = 'OK，请点击 [发送请求] 按钮来测试。[点击这里查看视频教程](https://i.youku.com/i/UNTg1NzI1MjQ4MA==/videos?spm=a2hzp.8244740.0.0)' + code;
 
             App.showDoc()
           }
@@ -3147,8 +3158,7 @@
 
             if (! isSingle) {
               var method = App.getMethod();  // m 已经 toUpperCase 了
-              var mIndex = method.indexOf('/');
-              var isRestful = mIndex > 0 && mIndex < method.length - 1;
+              var isRestful = ! JSONObject.isAPIJSONPath(method);
               if (isRestful != true) {
                 method = method.toUpperCase();
               }
@@ -3398,7 +3408,8 @@
         // axios.defaults.withcredentials = true
         axios({
           method: (type == REQUEST_TYPE_PARAM ? 'get' : 'post'),
-          url: (isAdminOperation == false && this.isDelegateEnabled ? (this.server + '/delegate?' + (type == REQUEST_TYPE_GRPC ? '$_type=GRPC&' : '') + '$_delegate_url=') : '' ) + StringUtil.noBlank(url),
+          url: (isAdminOperation == false && this.isDelegateEnabled ? (this.server + '/delegate?' + (type == REQUEST_TYPE_GRPC ? '$_type=GRPC&' : '') + '$_delegate_url=') : '' )
+          + (App.isEncodeEnabled ? encodeURI(StringUtil.noBlank(url)) : StringUtil.noBlank(url)),
           params: (type == REQUEST_TYPE_PARAM || type == REQUEST_TYPE_FORM ? req : null),
           data: (type == REQUEST_TYPE_JSON || type == REQUEST_TYPE_GRPC ? req : (type == REQUEST_TYPE_DATA ? toFormData(req) : null)),
           headers: header,  //Accept-Encoding（HTTP Header 大小写不敏感，SpringBoot 接收后自动转小写）可能导致 Response 乱码
@@ -3751,8 +3762,9 @@
             + '\nAPIJSON 英文文档: https://github.com/ruoranw/APIJSONdocs '
             + '\nAPIJSON 官方网站: https://github.com/APIJSON/apijson.org '
             + '\nAPIJSON -Java版: https://github.com/Tencent/APIJSON '
+            + '\nAPIJSON - Go 版: https://gitee.com/tiangao/apijson-go '
             + '\nAPIJSON - C# 版: https://github.com/liaozb/APIJSON.NET '
-            + '\nAPIJSON - PHP版: https://github.com/qq547057827/apijson-php '
+            + '\nAPIJSON - PHP版: https://github.com/xianglong111/APIJSON-php '
             + '\nAPIJSON -Node版: https://github.com/kevinaskin/apijson-node '
             + '\nAPIJSON -Python: https://github.com/zhangchunlin/uliweb-apijson '
             + '\n感谢热心的作者们的贡献，GitHub 右上角点 ⭐Star 支持下他们吧 ^_^';
@@ -4305,10 +4317,10 @@
           //   alert('请把URL改成你自己的！\n例如 http://localhost:8080')
           //   return
           // }
-          if (baseUrl.indexOf('/apijson.org') >= 0) {
-            alert('请把URL改成 http://apijson.cn:8080 或 你自己的！\n例如 http://localhost:8080')
-            return
-          }
+          // if (baseUrl.indexOf('/apijson.org') >= 0) {
+          //   alert('请把URL改成 http://apijson.cn:8080 或 你自己的！\n例如 http://localhost:8080')
+          //   return
+          // }
 
           const list = (testSubList ? this.randomSubs : this.randoms) || []
           var allCount = list.length
@@ -4853,10 +4865,10 @@
         //   alert('请把URL改成你自己的！\n例如 http://localhost:8080')
         //   return
         // }
-        if (baseUrl.indexOf('/apijson.org') >= 0) {
-          alert('请把URL改成 http://apijson.cn:8080 或 你自己的！\n例如 http://localhost:8080')
-          return
-        }
+        // if (baseUrl.indexOf('/apijson.org') >= 0) {
+        //   alert('请把URL改成 http://apijson.cn:8080 或 你自己的！\n例如 http://localhost:8080')
+        //   return
+        // }
 
         const list = App.remotes || []
         const allCount = list.length
@@ -5577,6 +5589,7 @@
         this.locals = this.getCache('', 'locals') || []
 
         this.isDelegateEnabled = this.getCache('', 'isDelegateEnabled') || this.isDelegateEnabled
+        this.isEncodeEnabled = this.getCache('', 'isEncodeEnabled') || this.isEncodeEnabled
         //预览了就不能编辑了，点开看会懵 this.isPreviewEnabled = this.getCache('', 'isPreviewEnabled') || this.isPreviewEnabled
         this.isHeaderShow = this.getCache('', 'isHeaderShow') || this.isHeaderShow
         this.isRandomShow = this.getCache('', 'isRandomShow') || this.isRandomShow
@@ -5625,11 +5638,36 @@
       this.listHistory()
       this.transfer()
 
-      if (this.User != null && this.User.id != null && this.User.id > 0) {
-        setTimeout(function () {
+      setTimeout(function () {
+        var rawReq = getRequest()
+        if (rawReq != null && StringUtil.isEmpty(rawReq.json, true) == false) {
+          vUrlComment.value = ""
+          vComment.value = ""
+
+          if (StringUtil.isEmpty(rawReq.url, true) == false) {
+            vType.value = StringUtil.toUpperCase(rawReq.type, true)
+          }
+
+          if (StringUtil.isEmpty(rawReq.url, true) == false) {
+            vUrl.value = StringUtil.trim(rawReq.url)
+          }
+
+          vInput.value = StringUtil.trim(rawReq.json)
+
+          App.onChange(false)
+          App.send(false)
+
+          var url = vUrl.value
+          if (rawReq.jump == "true" || (rawReq.jump != "false" && (url.endsWith("/get") || url.endsWith("/head")) ) ) {
+            setTimeout(function () {
+              window.open(vUrl.value + "/" + encodeURIComponent(vInput.value))
+            }, 1000)
+          }
+        }
+        else if (App.User != null && App.User.id != null && App.User.id > 0) {
           App.showTestCase(true, false)  // 本地历史仍然要求登录  App.User == null || App.User.id == null)
-        }, 1000)
-      }
+        }
+      }, 1000)
     }
   })
 })()

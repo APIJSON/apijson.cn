@@ -565,9 +565,9 @@
       branch: 'countArray',
       database: 'MYSQL',// 'POSTGRESQL',
       schema: '', //后端决定 'admin',  // 'sys'
-      server: 'http://apijson.org:9090',  //apijson.org:8000
+      server: 'http://apijson.cn:9090',  //apijson.cn
       // server: 'http://47.74.39.68:9090',  // apijson.org
-      project: 'http://apijson.cn:8080',  //apijson.org:8000
+      project: 'http://apijson.cn:8080',  //apijson.cn
       language: CodeUtil.LANGUAGE_KOTLIN,
       header: {},
       page: 0,
@@ -885,8 +885,8 @@
               alert('请先输入请求内容！')
               return
             }
-            if (App.view != 'code') {
-              alert('请先测试请求，确保是正确可用的！')
+            if (App.view == 'error') {  // App.view != 'code') {
+              alert('发现错误，请输入正确的内容！')  // alert('请先测试请求，确保是正确可用的！')
               return
             }
             if (isRandom) {
@@ -1399,7 +1399,7 @@
           App.isTestCaseShow = false
 
           var currentAccountId = App.getCurrentAccountId()
-          var currentResponse = StringUtil.isEmpty(App.jsoncon, true) ? {} : App.removeDebugInfo(JSON.parse(App.jsoncon));
+          var currentResponse = App.view != 'code' || StringUtil.isEmpty(App.jsoncon, true) ? {} : App.removeDebugInfo(JSON.parse(App.jsoncon));
 
           var code = currentResponse.code;
           var thrw = currentResponse.throw;
@@ -3221,8 +3221,9 @@
             + '\nAPIJSON 英文文档: https://github.com/ruoranw/APIJSONdocs '
             + '\nAPIJSON 官方网站: https://github.com/APIJSON/apijson.org '
             + '\nAPIJSON -Java版: https://github.com/Tencent/APIJSON '
+            + '\nAPIJSON - Go 版: https://gitee.com/tiangao/apijson-go '
             + '\nAPIJSON - C# 版: https://github.com/liaozb/APIJSON.NET '
-            + '\nAPIJSON - PHP版: https://github.com/qq547057827/apijson-php '
+            + '\nAPIJSON - PHP版: https://github.com/xianglong111/APIJSON-php '
             + '\nAPIJSON -Node版: https://github.com/kevinaskin/apijson-node '
             + '\nAPIJSON -Python: https://github.com/zhangchunlin/uliweb-apijson '
             + '\n感谢热心的作者们的贡献，GitHub 右上角点 ⭐Star 支持下他们吧 ^_^';
