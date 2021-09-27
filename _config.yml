@@ -5,14 +5,14 @@
 # Site
 title: APIJSON
 subtitle:
-description: "自动化接口和文档 JSON 协议 与 ORM 库"
-author: Tommy Lemon
+description: "零代码、热更新、全自动接口和文档 ORM 库"
+author: Tencent
 email:
 language: zh-CN
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://apijson.org
+url: http://apijson.cn
 root: /
 permalink: :year/:month/:day/:title/
 tag_dir: tags
