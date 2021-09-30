@@ -363,6 +363,36 @@
 
 // APIJSON <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+
+  function getRequestFromURL() {
+    var url = window.location.search;
+
+    var index = url == null ? -1 : url.indexOf("?")
+    if(index < 0) { //判断是否有参数
+      return null;
+    }
+
+    var theRequest = null;
+    var str = url.substring(index + 1);  //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+    var arr = str.split("&");  //截除“&”生成一个数组
+
+    var len = arr == null ? 0 : arr.length;
+    for(var i = 0; i < len; i++) {
+      var part = arr[i];
+      var ind = part == null ? -1 : part.indexOf("=");
+      if (ind <= 0) {
+        continue
+      }
+
+      if (theRequest == null) {
+        theRequest = {};
+      }
+      theRequest[part.substring(0, ind)] = decodeURIComponent(part.substring(ind+1));
+    }
+
+    return theRequest;
+  }
+
   var PLATFORM_POSTMAN = 'POSTMAN'
   var PLATFORM_SWAGGER = 'SWAGGER'
   var PLATFORM_YAPI = 'YAPI'
@@ -528,6 +558,7 @@
       testRandomCount: 1,
       testRandomProcess: '',
       compareColor: '#0000',
+      isRandomTest: false,
       isDelayShow: false,
       isSaveShow: false,
       isExportShow: false,
@@ -872,6 +903,74 @@
         return header
       },
 
+      // 分享 APIAuto 特有链接，打开即可还原分享人的 JSON 参数、设置项、搜索关键词、分页数量及页码等配置
+      shareLink: function (isRandom) {
+        var jsonStr = null
+        if (App.isTestCaseShow != true) {
+          try {
+            jsonStr = JSON.stringify(encode(JSON.parse(vInput.value)))
+          } catch (e) {  // 可能包含注释
+            log(e)
+            jsonStr = encode(StringUtil.trim(vInput.value))
+          }
+        }
+
+        // URL 太长导致打不开标签
+        var settingStr = null
+        try {
+          settingStr = JSON.stringify({
+            requestVersion: App.requestVersion,
+            requestCount: App.requestCount,
+            isTestCaseShow: App.isTestCaseShow,
+            // isHeaderShow: App.isHeaderShow,
+            // isRandomShow: App.isRandomShow,
+            isRandomListShow: App.isRandomShow ? App.isRandomListShow : undefined,
+            isRandomSubListShow: App.isRandomListShow ? App.isRandomSubListShow : undefined,
+            // isRandomEditable: App.isRandomEditable,
+            isCrossEnabled: App.isCrossEnabled,
+            isMLEnabled: App.isMLEnabled,
+            isDelegateEnabled: App.isDelegateEnabled,
+            isPreviewEnabled: App.isPreviewEnabled,
+            isEncodeEnabled: App.isEncodeEnabled,
+            isEditResponse: App.isEditResponse,
+            isLocalShow: App.isTestCaseShow ? App.isLocalShow : undefined,
+            page: App.page,
+            count: App.count,
+            testCasePage: App.testCasePage,
+            testCaseCount: App.testCaseCount,
+            testRandomCount: App.testRandomCount,
+            randomPage: App.randomPage,
+            randomCount: App.randomCount,
+            randomSubPage: App.randomSubPage,
+            randomSubCount: App.randomSubCount,
+            host: StringUtil.isEmpty(App.host, true) ? undefined : encodeURIComponent(App.host),
+            search: StringUtil.isEmpty(App.search, true) ? undefined : encodeURIComponent(App.search),
+            testCaseSearch: StringUtil.isEmpty(App.testCaseSearch, true) ? undefined : App.testCaseSearch,
+            randomSearch: StringUtil.isEmpty(App.randomSearch, true) ? undefined : encodeURIComponent(App.randomSearch),
+            randomSubSearch: StringUtil.isEmpty(App.randomSubSearch, true) ? undefined : encodeURIComponent(App.randomSubSearch)
+          })
+        } catch (e){
+          log(e)
+        }
+
+        var headerStr = App.isTestCaseShow || StringUtil.isEmpty(vHeader.value, true) ? null : encodeURIComponent(StringUtil.trim(vHeader.value))
+        var randomStr = App.isTestCaseShow || StringUtil.isEmpty(vRandom.value, true) ? null : encodeURIComponent(StringUtil.trim(vRandom.value))
+
+        var href = window.location.href || 'http://apijson.cn/api'
+        var ind = href == null ? -1 : href.indexOf('?')  // url 后带参数只能 encodeURIComponent
+
+        // 实测 561059 长度的 URL 都支持，只是输入框显示长度约为 2000
+        window.open((ind < 0 ? href : href.substring(0, ind))
+          + (App.view != 'code' ? "?send=false" : (isRandom ? "?send=random" : "?send=true"))
+          + "&type=" + StringUtil.trim(App.type)
+          + "&url=" + encodeURIComponent(StringUtil.trim(vUrl.value))
+          + (StringUtil.isEmpty(jsonStr, true) ? '' : "&json=" + jsonStr)
+          + (StringUtil.isEmpty(headerStr, true) ? '' : "&header=" + headerStr)
+          + (StringUtil.isEmpty(randomStr, true) ? '' : "&random=" + randomStr)
+          + (StringUtil.isEmpty(settingStr, true) ? '' : "&setting=" + settingStr)
+        )
+      },
+
       // 显示保存弹窗
       showSave: function (show) {
         if (show) {
@@ -891,10 +990,18 @@
         if (show) {
           if (isRemote) { //共享测试用例
             App.isExportRandom = isRandom
+
+            if (isRandom != true) {  // 分享搜索关键词和分页信息也挺好 } && App.isTestCaseShow != true) {  // 没有拿到列表，没用
+              setTimeout(function () {
+                App.shareLink(App.isRandomTest)
+              }, 1000)
+            }
+            
             if (App.isTestCaseShow) {
               alert('请先输入请求内容！')
               return
             }
+
             if (App.view == 'error') {  // App.view != 'code') {
               alert('发现错误，请输入正确的内容！')  // alert('请先测试请求，确保是正确可用的！')
               return
@@ -2741,7 +2848,7 @@
         cache[key] = value
         localStorage.setItem('APIAuto:' + url, JSON.stringify(cache))
       },
-      getCache: function (url, key) {
+      getCache: function (url, key, defaultValue) {
         var cache = localStorage.getItem('APIAuto:' + url)
         try {
           cache = JSON.parse(cache)
@@ -2749,7 +2856,8 @@
           App.log('login  App.send >> try { cache = JSON.parse(cache) } catch(e) {\n' + e.message)
         }
         cache = cache || {}
-        return key == null ? cache : cache[key]
+        var val = key == null ? cache : cache[key]
+        return val == null && defaultValue != null ? defaultValue : val
       },
 
       /**登录确认
@@ -3809,7 +3917,7 @@
         var page = this.page || 0
 
         var search = StringUtil.isEmpty(this.search, true) ? null : '%' + StringUtil.trim(this.search) + '%'
-        App.request(false, REQUEST_TYPE_JSON, this.getBaseUrl() + '/get', {
+        this.request(false, REQUEST_TYPE_JSON, this.getBaseUrl() + '/get', {
           format: false,
           '@database': StringUtil.isEmpty(App.database, true) ? undefined : App.database,
           // '@schema': StringUtil.isEmpty(App.schema, true) ? undefined : App.schema,
@@ -4298,6 +4406,7 @@
        * @param show
        */
       onClickTestRandom: function () {
+        this.isRandomTest = true
         this.testRandom(! this.isRandomListShow && ! this.isRandomSubListShow, this.isRandomListShow, this.isRandomSubListShow)
       },
       testRandom: function (show, testList, testSubList, limit) {
@@ -4824,7 +4933,14 @@
 
       },
 
-
+      onClickSend: function () {
+        this.isRandomTest = false
+        this.send(false)
+      },
+      onClickTest: function () {
+        this.isRandomTest = false
+        this.test(false, this.isCrossEnabled ? -1 : this.currentAccountIndex)
+      },
       /**回归测试
        * 原理：
        1.遍历所有上传过的测试用例（URL+请求JSON）
@@ -5464,7 +5580,7 @@
                 item.TestRecord = testRecord
 
 
-                //
+
                 // if (! isNewRandom) {
                 //   if (isRandom) {
                 //     App.showRandomList(true, App.currentRemoteItem)
@@ -5575,7 +5691,7 @@
         }
         var types = this.getCache('', 'types')
         if (types != null && types.length > 0) {
-          this.types = types
+          this.types = types instanceof Array ? types : StringUtil.split(types)
         }
         var server = this.getCache('', 'server')
         if (StringUtil.isEmpty(server, true) == false) {
@@ -5586,13 +5702,13 @@
           this.thirdParty = thirdParty
         }
 
-        this.locals = this.getCache('', 'locals') || []
+        this.locals = this.getCache('', 'locals', [])
 
-        this.isDelegateEnabled = this.getCache('', 'isDelegateEnabled') || this.isDelegateEnabled
-        this.isEncodeEnabled = this.getCache('', 'isEncodeEnabled') || this.isEncodeEnabled
-        //预览了就不能编辑了，点开看会懵 this.isPreviewEnabled = this.getCache('', 'isPreviewEnabled') || this.isPreviewEnabled
-        this.isHeaderShow = this.getCache('', 'isHeaderShow') || this.isHeaderShow
-        this.isRandomShow = this.getCache('', 'isRandomShow') || this.isRandomShow
+        this.isDelegateEnabled = this.getCache('', 'isDelegateEnabled', this.isDelegateEnabled)
+        this.isEncodeEnabled = this.getCache('', 'isEncodeEnabled', this.isEncodeEnabled)
+        //预览了就不能编辑了，点开看会懵 this.isPreviewEnabled = this.getCache('', 'isPreviewEnabled', this.isPreviewEnabled)
+        this.isHeaderShow = this.getCache('', 'isHeaderShow', this.isHeaderShow)
+        this.isRandomShow = this.getCache('', 'isRandomShow', this.isRandomShow)
       } catch (e) {
         console.log('created  try { ' +
           '\nvar url = this.getCache(, url) ...' +
@@ -5611,63 +5727,149 @@
       }
 
       try { //可能URL_BASE是const类型，不允许改，这里是初始化，不能出错
-        this.User = this.getCache(this.server, 'User') || {}
-        this.isCrossEnabled = this.getCache(this.server, 'isCrossEnabled') || this.isCrossEnabled
-        this.isMLEnabled = this.getCache(this.server, 'isMLEnabled') || this.isMLEnabled
+        this.User = this.getCache(this.server, 'User', {})
+        this.isCrossEnabled = this.getCache(this.server, 'isCrossEnabled', this.isCrossEnabled)
+        this.isMLEnabled = this.getCache(this.server, 'isMLEnabled', this.isMLEnabled)
         this.crossProcess = this.isCrossEnabled ? '交叉账号:已开启' : '交叉账号:已关闭'
         this.testProcess = this.isMLEnabled ? '机器学习:已开启' : '机器学习:已关闭'
         // this.host = this.getBaseUrl()
-        this.page = this.getCache(this.server, 'page') || this.page
-        this.count = this.getCache(this.server, 'count') || this.count
-        this.testCasePage = this.getCache(this.server, 'testCasePage') || this.testCasePage
-        this.testCaseCount = this.getCache(this.server, 'testCaseCount') || this.testCaseCount
-        this.randomPage = this.getCache(this.server, 'randomPage') || this.randomPage
-        this.randomCount = this.getCache(this.server, 'randomCount') || this.randomCount
-        this.randomSubPage = this.getCache(this.server, 'randomSubPage') || this.randomSubPage
-        this.randomSubCount = this.getCache(this.server, 'randomSubCount') || this.randomSubCount
+        this.page = this.getCache(this.server, 'page', this.page)
+        this.count = this.getCache(this.server, 'count', this.count)
+        this.testCasePage = this.getCache(this.server, 'testCasePage', this.testCasePage)
+        this.testCaseCount = this.getCache(this.server, 'testCaseCount', this.testCaseCount)
+        this.randomPage = this.getCache(this.server, 'randomPage', this.randomPage)
+        this.randomCount = this.getCache(this.server, 'randomCount', this.randomCount)
+        this.randomSubPage = this.getCache(this.server, 'randomSubPage', this.randomSubPage)
+        this.randomSubCount = this.getCache(this.server, 'randomSubCount', this.randomSubCount)
 
         CodeUtil.thirdPartyApiMap = this.getCache(this.thirdParty, 'thirdPartyApiMap')
       } catch (e) {
         console.log('created  try { ' +
-          '\nthis.User = this.getCache(this.server, User) || {}' +
+          '\nthis.User = this.getCache(this.server, User, {})' +
           '\n} catch (e) {\n' + e.message)
       }
 
-
       //无效，只能在index里设置 vUrl.value = this.getCache('', 'URL_BASE')
+
       this.listHistory()
-      this.transfer()
 
-      setTimeout(function () {
-        var rawReq = getRequest()
-        if (rawReq != null && StringUtil.isEmpty(rawReq.json, true) == false) {
-          vUrlComment.value = ""
-          vComment.value = ""
+      var rawReq = getRequestFromURL()
+      if (rawReq == null || StringUtil.isEmpty(rawReq.type, true)) {
+        this.transfer()
 
-          if (StringUtil.isEmpty(rawReq.url, true) == false) {
-            vType.value = StringUtil.toUpperCase(rawReq.type, true)
+        if (this.User != null && this.User.id != null && this.User.id > 0) {
+          this.showTestCase(true, false)  // 本地历史仍然要求登录  App.User == null || App.User.id == null)
+        }
+      }
+      else {
+        setTimeout(function () {
+          isSingle = ! isSingle
+
+          var hasTestArg = false  // 避免 http://localhost:63342/APIAuto/index.html?_ijt=fh8di51h7qip2d1s3r3bqn73nt 这种无意义参数
+          if (StringUtil.isEmpty(rawReq.type, true) == false) {
+            hasTestArg = true
+            App.type = StringUtil.toUpperCase(rawReq.type, true)
+            if (App.types != null && App.types.indexOf(App.type) < 0) {
+              App.types.push(App.type)
+            }
           }
 
           if (StringUtil.isEmpty(rawReq.url, true) == false) {
+            hasTestArg = true
             vUrl.value = StringUtil.trim(rawReq.url)
           }
 
-          vInput.value = StringUtil.trim(rawReq.json)
+          if (StringUtil.isEmpty(rawReq.json, true) == false) {
+            hasTestArg = true
+            vInput.value = StringUtil.trim(rawReq.json)
+          }
+
+          if (StringUtil.isEmpty(rawReq.header, true) == false) {
+            hasTestArg = true
+            vHeader.value = StringUtil.trim(rawReq.header, true)
+            App.isHeaderShow = true
+          }
+
+          if (StringUtil.isEmpty(rawReq.random, true) == false) {
+            hasTestArg = true
+            vRandom.value = StringUtil.trim(rawReq.random, true)
+            App.isRandomShow = true
+            App.isRandomListShow = false
+          }
+
+          // URL 太长导致截断和乱码
+          if (StringUtil.isEmpty(rawReq.setting, true) == false) {
+            var save = rawReq.save == 'true'
+            try {
+              var setting = JSON.parse(StringUtil.trim(rawReq.setting, true)) || {}
+
+              var delayTime = 0
+              if (setting.count != App.count || setting.page != App.page || setting.search != App.search) {
+                delayTime += 2000
+                App.getDoc(function (d) {
+                  App.setDoc(d);
+                })
+              }
+
+              for (var k in setting) {
+                var v = k == null ? null : setting[k]
+                if (v == null) {
+                  continue
+                }
+                App[k] = v  // App.$data[k] = app[k]
+
+                if (save) {
+                  App.saveCache('', k, v)
+                }
+              }
+
+              if (setting.isRandomShow && setting.isRandomListShow) {
+                delayTime += 2000
+                App.showRandomList(true, setting.isRandomSubListShow ? App.currentRandomItem : null, setting.isRandomSubListShow)
+              }
+
+              if (setting.isTestCaseShow) {
+                delayTime += 2000
+                App.showTestCase(true, setting.isLocalShow)
+              }
+            } catch (e) {
+              log(e)
+            }
+          }
+
+          if (hasTestArg) {
+            vUrlComment.value = ""
+            vComment.value = ""
+          }
 
           App.onChange(false)
-          App.send(false)
 
-          var url = vUrl.value
-          if (rawReq.jump == "true" || (rawReq.jump != "false" && (url.endsWith("/get") || url.endsWith("/head")) ) ) {
+          if (hasTestArg && rawReq.send != "false" && rawReq.send != "null") {
             setTimeout(function () {
-              window.open(vUrl.value + "/" + encodeURIComponent(vInput.value))
-            }, 1000)
+              if (rawReq.send == 'random') {
+                App.onClickTestRandom()
+              } else if (App.isTestCaseShow) {
+                App.onClickTest()
+              } else {
+                App.send(false)
+              }
+
+              var url = vUrl.value || ''
+              if (rawReq.jump == "true" || rawReq.jump == "null"
+                || (rawReq.jump != "false" && App.isTestCaseShow != true && rawReq.send != 'random'
+                  && (url.endsWith("/get") || url.endsWith("/head"))
+                )
+              ) {
+                setTimeout(function () {
+                  window.open(vUrl.value + "/" + encodeURIComponent(JSON.stringify(encode(JSON.parse(vInput.value)))))
+                }, 2000)
+              }
+            }, delayTime)
           }
-        }
-        else if (App.User != null && App.User.id != null && App.User.id > 0) {
-          App.showTestCase(true, false)  // 本地历史仍然要求登录  App.User == null || App.User.id == null)
-        }
-      }, 1000)
+        }, 1000)
+
+      }
+
     }
   })
 })()
