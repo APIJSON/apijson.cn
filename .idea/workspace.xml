@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70bb26cc-728b-4dbe-b003-cf428fe748ba" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/api/js/main.js" afterPath="$PROJECT_DIR$/public/api/js/main.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -166,10 +165,17 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/api/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="3172" column="28" lean-forward="true" selection-start-line="3172" selection-start-column="28" selection-end-line="3172" selection-end-column="28" />
+            <state relative-caret-position="255">
+              <caret line="5861" column="31" lean-forward="true" selection-start-line="5861" selection-start-column="31" selection-end-line="5861" selection-end-column="31" />
               <folding>
-                <marker date="1633547872000" expanded="true" signature="134187:134193" ph="©" />
+                <element signature="e#188882#189035#0" expanded="false" />
+                <element signature="e#189126#190049#0" expanded="false" />
+                <element signature="e#190583#191826#0" expanded="false" />
+                <element signature="e#190626#190777#0" expanded="false" />
+                <element signature="e#192461#192925#0" expanded="false" />
+                <element signature="e#193179#193714#0" expanded="false" />
+                <element signature="e#193734#193824#0" expanded="false" />
+                <marker date="1633549743000" expanded="true" signature="134539:134545" ph="©" />
               </folding>
             </state>
           </provider>
@@ -189,9 +195,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>apijson.org:8000</find>
-      <find>apijson.org:</find>
-      <find>apijson.org</find>
       <find>tencent</find>
       <find>yueyue</find>
       <find>278</find>
@@ -219,9 +222,11 @@
       <find>showtestca</find>
       <find>send: fun</find>
       <find>var App</find>
+      <find>getcur</find>
+      <find>getcurr</find>
+      <find>App.</find>
     </findStrings>
     <replaceStrings>
-      <replace>&quot;images</replace>
       <replace>&quot;v2</replace>
       <replace>&quot;</replace>
       <replace>&lt;%</replace>
@@ -251,6 +256,7 @@
       <replace>width: 36px</replace>
       <replace>apijson.cn</replace>
       <replace />
+      <replace>this.</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/themes</dir>
@@ -656,12 +662,12 @@
       <workItem from="1632766659388" duration="1660000" />
       <workItem from="1632770570691" duration="2777000" />
       <workItem from="1632984625891" duration="4135000" />
-      <workItem from="1633526706166" duration="7819000" />
+      <workItem from="1633526706166" duration="9810000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96418000" />
+    <option name="totallyTimeSpent" value="98409000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -693,7 +699,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -1104,10 +1112,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/api/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="3172" column="28" lean-forward="true" selection-start-line="3172" selection-start-column="28" selection-end-line="3172" selection-end-column="28" />
+        <state relative-caret-position="255">
+          <caret line="5861" column="31" lean-forward="true" selection-start-line="5861" selection-start-column="31" selection-end-line="5861" selection-end-column="31" />
           <folding>
-            <marker date="1633547872000" expanded="true" signature="134187:134193" ph="©" />
+            <element signature="e#188882#189035#0" expanded="false" />
+            <element signature="e#189126#190049#0" expanded="false" />
+            <element signature="e#190583#191826#0" expanded="false" />
+            <element signature="e#190626#190777#0" expanded="false" />
+            <element signature="e#192461#192925#0" expanded="false" />
+            <element signature="e#193179#193714#0" expanded="false" />
+            <element signature="e#193734#193824#0" expanded="false" />
+            <marker date="1633549743000" expanded="true" signature="134539:134545" ph="©" />
           </folding>
         </state>
       </provider>
