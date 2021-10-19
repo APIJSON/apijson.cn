@@ -3100,6 +3100,9 @@
 
         if (isAdminOperation) {
           // alert('logout  isAdminOperation  this.saveCache(this.server, User, {})')
+          this.delegateId = null
+          this.saveCache(this.server, 'delegateId', null)
+
           this.saveCache(this.server, 'User', {})
         }
 
@@ -3157,7 +3160,9 @@
         this.User.id = 0
         this.Privacy = {}
         this.remotes = []
+        // 导致刚登录成功就马上退出 this.delegateId = null
         this.saveCache(this.server, 'User', this.User) //应该用lastBaseUrl,baseUrl应随watch输入变化重新获取
+        // this.saveCache(this.server, 'delegateId', this.delegateId) //应该用lastBaseUrl,baseUrl应随watch输入变化重新获取
       },
 
       /**计时回调
@@ -3184,30 +3189,37 @@
             throw new Error(e2.message)
           }
 
-          before = this.toDoubleJSON(StringUtil.trim(before));
-          log('onHandle  before = \n' + before);
+          before = StringUtil.trim(before);
 
           var afterObj;
           var after;
-          try {
-            afterObj = jsonlint.parse(before);
-            after = JSON.stringify(afterObj, null, "    ");
-            before = after;
-          }
-          catch (e) {
-            log('main.onHandle', 'try { return jsonlint.parse(before); \n } catch (e) {\n' + e.message)
-            log('main.onHandle', 'return jsonlint.parse(this.removeComment(before));')
+          var code = '';
+
+          if (StringUtil.isEmpty(before)) {
+            afterObj = {};
+            after = '';
+          } else {
+            before = this.toDoubleJSON(StringUtil.trim(before));
+            log('onHandle  before = \n' + before);
 
             try {
-              afterObj = jsonlint.parse(this.removeComment(before));
+              afterObj = jsonlint.parse(before);
               after = JSON.stringify(afterObj, null, "    ");
-            } catch (e2) {
-              throw new Error('请求 JSON 格式错误！请检查并编辑请求！\n\n如果JSON中有注释，请 手动删除 或 点击左边的 \'/" 按钮 来去掉。\n\n' + e2.message)
+              before = after;
             }
-          }
+            catch (e) {
+              log('main.onHandle', 'try { return jsonlint.parse(before); \n } catch (e) {\n' + e.message)
+              log('main.onHandle', 'return jsonlint.parse(this.removeComment(before));')
+
+              try {
+                afterObj = jsonlint.parse(this.removeComment(before));
+                after = JSON.stringify(afterObj, null, "    ");
+              } catch (e2) {
+                throw new Error('请求 JSON 格式错误！请检查并编辑请求！\n\n如果JSON中有注释，请 手动删除 或 点击左边的 \'/" 按钮 来去掉。\n\n' + e2.message)
+              }
+            }
 
           //关键词let在IE和Safari上不兼容
-          var code = '';
           if (this.isEditResponse != true) {
             try {
               code = this.getCode(after); //必须在before还是用 " 时使用，后面用会因为解析 ' 导致失败
@@ -3217,20 +3229,22 @@
             }
           }
 
-          if (isSingle) {
-            if (before.indexOf('"') >= 0) {
-              before = before.replace(/"/g, "'");
+            if (isSingle) {
+              if (before.indexOf('"') >= 0) {
+                before = before.replace(/"/g, "'");
+              }
             }
-          }
-          else {
-            if (before.indexOf("'") >= 0) {
-              before = before.replace(/'/g, '"');
+            else {
+              if (before.indexOf("'") >= 0) {
+                before = before.replace(/'/g, '"');
+              }
             }
+
+            vInput.value = before
+              + '\n\n\n                                                                                                       '
+              + '                                                                                                       \n';  //解决遮挡
           }
 
-          vInput.value = StringUtil.trim(before)
-            + '\n                                                                                                       '
-            + '                                                                                                       \n';  //解决遮挡
           vSend.disabled = false;
 
           if (this.isEditResponse != true) {
@@ -3248,9 +3262,7 @@
             }
 
             var m = this.getMethod();
-            var c = isSingle ? '' : StringUtil.trim(CodeUtil.parseComment(after, docObj == null ? null : docObj['[]'], m, this.database, this.language, this.isEditResponse != true, standardObj))
-              + '\n                                                                                                       '
-              + '                                                                                                       \n';  //解决遮挡
+            var c = isSingle ? '' : StringUtil.trim(CodeUtil.parseComment(after, docObj == null ? null : docObj['[]'], m, this.database, this.language, this.isEditResponse != true, standardObj));
             //TODO 统计行数，补全到一致 vInput.value.lineNumbers
 
             if (isSingle != true && afterObj.tag == null) {
@@ -3260,6 +3272,9 @@
               }
             }
             vComment.value = c
+              + '\n\n\n                                                                                                       '
+              + '                                                                                                       \n';  //解决遮挡
+
             vUrlComment.value = isSingle || StringUtil.isEmpty(this.urlComment, true)
               ? '' : vUrl.value + CodeUtil.getComment(this.urlComment, false, '  ')
               + ' - ' + (this.requestVersion > 0 ? 'V' + this.requestVersion : 'V*');
@@ -3506,9 +3521,12 @@
       //请求
       request: function (isAdminOperation, type, url, req, header, callback) {
         type = type || REQUEST_TYPE_JSON
+        url = StringUtil.noBlank(url)
+
+        var isDelegate = (isAdminOperation == false && this.isDelegateEnabled) || (isAdminOperation && url.indexOf('://apijson.cn:9090') > 0)
 
         if (header != null && header.Cookie != null) {
-          if (this.isDelegateEnabled) {
+          if (isDelegate) {
             header['Set-Cookie'] = header.Cookie
             delete header.Cookie
           }
@@ -3517,11 +3535,24 @@
           }
         }
 
+        if (isDelegate && this.delegateId != null && (header == null || header['Apijson-Delegate-Id'] == null)) {
+          if (header == null) {
+            header = {};
+          }
+          header['Apijson-Delegate-Id'] = this.delegateId
+        }
+
         // axios.defaults.withcredentials = true
         axios({
           method: (type == REQUEST_TYPE_PARAM ? 'get' : 'post'),
-          url: (isAdminOperation == false && this.isDelegateEnabled ? (this.server + '/delegate?' + (type == REQUEST_TYPE_GRPC ? '$_type=GRPC&' : '') + '$_delegate_url=') : '' )
-          + (this.isEncodeEnabled ? encodeURI(StringUtil.noBlank(url)) : StringUtil.noBlank(url)),
+          url: (isDelegate
+              ? (
+                this.server + '/delegate?' + (type == REQUEST_TYPE_GRPC ? '$_type=GRPC&' : '')
+                + (StringUtil.isEmpty(this.delegateId, true) ? '' : '$_delegate_id=' + this.delegateId + '&') + '$_delegate_url=' + encodeURIComponent(url)
+              ) : (
+                this.isEncodeEnabled ? encodeURI(url) : url
+              )
+          ),
           params: (type == REQUEST_TYPE_PARAM || type == REQUEST_TYPE_FORM ? req : null),
           data: (type == REQUEST_TYPE_JSON || type == REQUEST_TYPE_GRPC ? req : (type == REQUEST_TYPE_DATA ? toFormData(req) : null)),
           headers: header,  //Accept-Encoding（HTTP Header 大小写不敏感，SpringBoot 接收后自动转小写）可能导致 Response 乱码
@@ -3530,6 +3561,16 @@
         })
           .then(function (res) {
             res = res || {}
+
+            if (isDelegate) {
+              var hs = res.headers || {}
+              var delegateId = hs['Apijson-Delegate-Id'] || hs['apijson-delegate-id']
+              if (delegateId != null && delegateId != App.delegateId) {
+                App.delegateId = delegateId
+                App.saveCache(App.server, 'delegateId', delegateId)
+              }
+            }
+
 	    //any one of then callback throw error will cause it calls then(null)
             // if ((res.config || {}).method == 'options') {
             //   return
@@ -3561,6 +3602,10 @@
           })
           .catch(function (err) {
             log('send >> error:\n' + err)
+            if (isAdminOperation) {
+              App.delegateId = null
+            }
+
             if (callback != null) {
               callback(url, {}, err)
               return
@@ -5745,6 +5790,7 @@
         this.randomCount = this.getCache(this.server, 'randomCount', this.randomCount)
         this.randomSubPage = this.getCache(this.server, 'randomSubPage', this.randomSubPage)
         this.randomSubCount = this.getCache(this.server, 'randomSubCount', this.randomSubCount)
+        this.delegateId = this.getCache(this.server, 'delegateId', this.delegateId)
 
         CodeUtil.thirdPartyApiMap = this.getCache(this.thirdParty, 'thirdPartyApiMap')
       } catch (e) {
@@ -5762,7 +5808,9 @@
         this.transfer()
 
         if (this.User != null && this.User.id != null && this.User.id > 0) {
-          this.showTestCase(true, false)  // 本地历史仍然要求登录  this.User == null || this.User.id == null)
+          setTimeout(function () {
+            App.showTestCase(true, false)  // 本地历史仍然要求登录  this.User == null || this.User.id == null)
+          }, 1000)
         }
       }
       else {
