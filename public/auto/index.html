@@ -193,6 +193,8 @@
                 <div v-show="! isPreviewEnabled" style="width: 100%;height: 100%;position: absolute;display: flex;flex-grow: 1" >
                     <textarea id="vComment" style="width: 100%; height: 100%; position: absolute; z-index: 0; color: darkseagreen; background-color: white;" wrap="off" disabled>
                     </textarea>
+                    <textarea v-show="! isEditResponse" id="vWarning" style="width: 100%; height: 100%; position: absolute; z-index: 0; color: orangered; background-color: #0000;" wrap="off" disabled>
+                    </textarea>
                     <textarea id="vInput" @keyup="onChange(true)" style="width: 100%;height: 100%; position: absolute; z-index: 100; background: #0000;" wrap="off" placeholder="{  // 根对象，可在内部加 format,tag,version,@role,@database,@schema,@datasource,@explain,@cache 等全局关键词键值对
   '[]': {  // 数组，可在内部加 count,page,query,join 等关键词键值对
     'count': 5,  // 每页数量
@@ -225,31 +227,33 @@
   }
 }
 
-
 /*
-  JSON 下方可以写段注释，
-  可以是普通文本或 Markdown 格式文本。
+JSON 右侧可以写行注释，两个空格加两个斜杆 ' //' 开头；
+JSON 下方可以写段注释，'/*' 开头 '*/' 结尾，都在每行最前，
+段注释可以是普通文本或 Markdown 格式文本，一般用于枚举值等额外说明。
 
-  ### 例如一个表格
-  开发流程 | 传统方式 | APIJSON
-     ---  |   ---   |  ---
-  实现接口 | 写代码 + 写文档 | 都不用写
-  兼容旧版 | v2, v3.. 接口  | 都不用写
+### 例如一个表格
+开发流程 | 传统方式 | APIJSON
+   ---  |   ---   |  ---
+实现接口 | 写代码 + 写文档 | 都不用写
+兼容旧版 | v2, v3.. 接口  | 都不用写
 
-  ### 例如一段代码
-  ```js
-  // 前端解析并打印 Response JSON
-  var list = data['[]'] || []
-  for (var i = 0; i < list.length; i ++) {
-     console.log('[]/' + i + '=' + JSON.stringify(list[i]))
-  }
-  ```
+### 例如一段代码
+```js
+// 前端解析并打印 Response JSON
+var list = data['[]'] || []
+for (var i = 0; i < list.length; i ++) {
+   console.log('[]/' + i + '=' + JSON.stringify(list[i]))
+}
+```
 
-  ### 例如一张图片
-  ![](http://apijson.cn/images/logo-big.png)
+### 例如一张图片
+![](http://apijson.cn/images/logo-big.png)
 
-  #### 右上角设置项 > 预览请求输入框，显示对应的预览效果
+## 快捷键
+Ctrl + I 或 Command + I 格式化 JSON
 
+#### 右上角设置项 > 预览请求输入框，显示对应的预览效果
 */
 
 
@@ -267,8 +271,13 @@
 }
 
 /*
-  注释可省略，但如果未省略则前面两个空格必须；
-  清空文本内容可查看规则。
+以上 JSON 文本支持 JSON5 格式。清空文本内容可查看规则。
+注释可省略。行注释前必须有两个空格；段注释必须在 JSON 下方。
+
+## 快捷键
+Ctrl + I 或 Command + I 格式化 JSON
+
+#### 右上角设置项 > 预览请求输入框，显示对应的预览效果
 */
 
 
@@ -293,7 +302,7 @@
                             </a>
                             <a v-show="(currentRemoteItem || {}).Document != null" class="hint--top @cli-tool" data-hint="添加" style="font-size:xx-large; margin-bottom: 2px; color: black;"
                                href="javascript:void(0)" @click="if(isRandomListShow || isRandomSubListShow) { randomTestTitle = null; isRandomListShow = false; isRandomSubListShow = false; } else { showExport(true, true, true) }"> + </a>
-                            <a v-show="false" href="javascript:void(0)" style="font-size: small;" class="hint--top"  data-hint="共享"  @click="showExport(true, true)">
+                            <a v-show="false" href="javascript:void(0)" style="font-size: small;" class="hint--top"  data-hint="上传/共享"  @click="showExport(true, true)">
                                 <svg class="icon">
                                     <use xlink:href="svg/icon.svg#share"></use>
                                 </svg>
@@ -383,16 +392,16 @@
                                   placeholder="# 常用：
 RANDOM_IN(val0:Any, val1:Any ...)  // 从选项内随机取值
 RANDOM_INT(min:Integer, max:Integer)  // 从范围内随机取整数
-RANDOM_DB(min:Integer, max:Integer)  // 从数据库随机取值
+RANDOM_DB(min:Integer, max:Integer, table:String, column:String)  // 从数据库随机取值
 RANDOM_NUM(min:Number, max:Number, precision:Integer)  // 从范围内随机取小数
 RANDOM_STR(minLength:Integer, maxLength:Integer, regexp:String)  // 从长度范围内随机取字符串
 ORDER_IN(val0:Any, val1:Any ...)  // 从选项内顺序取值
 ORDER_INT(min:Integer, max:Integer)  // 从范围内顺序取整数
-ORDER_DB(min:Integer, max:Integer)  // 从数据库顺序取值
+ORDER_DB(min:Integer, max:Integer, table:String, column:String)  // 从数据库顺序取值
 其中 RANDOM 开头的是随机函数；ORDER 开头的是顺序函数，可以使用 + - 升降序 和 step 跨步，例如 ORDER_IN-(1, 2, 3) 降序取值，ORDER_INT+3(0, 100) 间隔 step = 3 位来升序取整数。
 # 模板：
 format: ORDER_IN(true, false, null, undefined)  // 从选项中顺序取值
-User/id id>: RANDOM_DB()  // 用 id> 替换 User 内的 id，从数据库随机取值
+User/id: RANDOM_DB()  // 从数据库随机取值，等价于 User/id: RANDOM_DB(null, null, 'User', 'id')
 []/page: Math.round(100*Math.random())  // 通过 JavaScript 代码来自定义 [] 内的 page
 ">
 User/id: RANDOM_INT(82001, 82020)  // 随机整数
@@ -449,7 +458,7 @@ My-Header: 'Secret' + Math.random()  // 示例，代码执行结果作为实际�
                   <use xlink:href="svg/icon.svg#save"></use>
                 </svg>
               </a>
-              <ul class="historys pop" style="width: 240px">
+              <ul class="historys pop" style="width: 304px"> <!-- 没必要太长，遮挡范围过大 // 490 刚好与 URL 输入框左对齐 -->
                   <li v-for="(his, index) in historys">
                     <a href="javascript:void(0)" @click="restore(his, his.response)"  > {{his.name}}</a>
 
@@ -492,7 +501,7 @@ My-Header: 'Secret' + Math.random()  // 示例，代码执行结果作为实际�
                         </svg>
                     </a>
 
-                    <a href="javascript:void(0)" class="hint--top"  data-hint="共享"   @click="showExport(true, true)">
+                    <a href="javascript:void(0)" class="hint--top"  data-hint="上传/共享"   @click="showExport(true, true)">
                         <svg class="icon">
                             <use xlink:href="svg/icon.svg#share"></use>
                         </svg>
@@ -792,6 +801,7 @@ My-Header: 'Secret' + Math.random()  // 示例，代码执行结果作为实际�
 <script type="text/javascript" language="JavaScript" charset="UTF-8" src="apijson/JSONResponse.js" ></script>
 <script type="text/javascript" language="JavaScript" charset="UTF-8" src="apijson/CodeUtil.js" ></script>
 <!-- 必须在main.js前 TODO 可能有冲突，代码写入vue文件？ >>>>>>>>>>>>>>>> -->
+<script src="https://unpkg.com/json5@^2.0.0/dist/index.min.js"></script>
 
 
 <script src="js/main.js"></script>
@@ -805,6 +815,7 @@ My-Header: 'Secret' + Math.random()  // 示例，代码执行结果作为实际�
   var vSend = document.getElementById("vSend");
 
   var vInput = document.getElementById("vInput");
+  var vWarning = document.getElementById("vWarning");
   var vComment = document.getElementById("vComment");
   var vHeader = document.getElementById("vHeader");
   var vRandom = document.getElementById("vRandom");
@@ -836,6 +847,8 @@ My-Header: 'Secret' + Math.random()  // 示例，代码执行结果作为实际�
   function onScrollChanged() {
     $(vComment).scrollLeft(vInput.scrollLeft);
     $(vComment).scrollTop(vInput.scrollTop);
+    $(vWarning).scrollLeft(vInput.scrollLeft);
+    $(vWarning).scrollTop(vInput.scrollTop);
   }
 
   //vComment跟随vInput滚动，避免JSON重叠"露馅"
@@ -850,8 +863,11 @@ My-Header: 'Secret' + Math.random()  // 示例，代码执行结果作为实际�
   $(vUrl).on('scroll', onURLScrollChanged);
 
 
-
   function markdownToHTML(md, isRequest) {
+    if (editormd == null) {
+      return;
+    }
+
     if (isRequest) {
       vRequestMarkdown.innerHTML = '';
     }
