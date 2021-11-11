@@ -193,7 +193,8 @@ let repositoryConfig = {
  * base: "/apijson-doc/",要写在“themeConfig”的外面，并且只能填写仓库的“名字”
  */
 module.exports = {
-  base: "/apijson-doc/",
+  port: 8000,
+  base: "/doc/",
   title: "apijson-doc",
   description: "Apijson 的官方文档",
   head: [["link", { rel: "icon", href: "/APIJSON_Logo.png" }]],

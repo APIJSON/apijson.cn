@@ -2936,7 +2936,7 @@
         this.password = user.password
       },
 
-      setRememberLogin(remember) {
+      setRememberLogin: function(remember) {
         vRemember.checked = remember || false
       },
 
@@ -5769,7 +5769,7 @@
       },
 
       //显示详细信息, :data-hint :data, :hint 都报错，只能这样
-      setRequestHint(index, item, isRandom) {
+      setRequestHint: function(index, item, isRandom) {
         item = item || {}
         var d = isRandom ? item.Random : item.Document;
         // var r = d == null ? null : (isRandom ? d.config : d.request);
@@ -5785,7 +5785,7 @@
       },
 
       //显示详细信息, :data-hint :data, :hint 都报错，只能这样
-      setTestHint(index, item, isRandom, isDuration) {
+      setTestHint: function(index, item, isRandom, isDuration) {
         item = item || {};
         var toId = isRandom ? ((item.Random || {}).toId || 0) : 0;
         var h = isDuration ? item.durationHint : item.hintMessage;
@@ -5812,7 +5812,7 @@
         return result
       }
     },
-    created () {
+    created: function() {
       try { //可能URL_BASE是const类型，不允许改，这里是初始化，不能出错
         var url = this.getCache('', 'URL_BASE')
         if (StringUtil.isEmpty(url, true) == false) {

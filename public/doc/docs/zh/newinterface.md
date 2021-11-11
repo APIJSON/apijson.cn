@@ -21,9 +21,23 @@ CREATE TABLE `b_stone` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
-## 在 Model 中添加对象并配置权限
 
-项目的 model 目录下，新增一个类
+## 角色访问权限配置
+
+APIJSON 3.7.0  版开始，依赖了 apijson-framework.jar 的不需要写任何代码：
+
+#### 2.1）在 Access 表里加一行记录即可
+
+![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON/APIJSON_access_config-small.jpg) 
+
+<br />
+<br />
+
+~~如果低于 3.7.0 或者未依赖 apijson-framework.jar，而是直接依赖 apijson-orm.jar，则需要编写代码：~~
+
+#### ~~2.1）在Model中添加对象并配置权限~~
+
+~~项目的model目录下，新增一个类~~
 
 ```java
 package apijson.demo.server.model;
@@ -35,11 +49,13 @@ public class Stone {
 }
 ```
 
-注解`@MethodAccess`的配置，可以参考其他类
+~~注解`@MethodAccess`的配置，可以参考其他类~~
 
-由于我们的类名和数据库表名不一致，需要注册一下。如果一样就不需要了。
 
-设置数据库的实际表名`DemoSQLConfig`，38 行
+
+~~由于我们的类名和数据库表名不一致，需要注册一下。如果一样就不需要了。~~
+
+~~设置数据库的实际表名`DemoSQLConfig`，38行~~
 
 ```java
 //表名映射，隐藏真实表名，对安全要求很高的表可以这么做
@@ -50,9 +66,11 @@ public class Stone {
 	}
 ```
 
-注册权限是必须的，这样程序才能使用你配置的类权限去管理你的接口
 
-`DemoSQLConfig`，48 行
+
+~~注册权限是必须的，这样程序才能使用你配置的类权限去管理你的接口~~
+
+~~脚本`DemoVerifier.java`的48行~~
 
 ```java
 static { //注册权限
@@ -61,16 +79,36 @@ static { //注册权限
 		ACCESS_MAP.put(Stone.class.getSimpleName(), getAccessMap(Stone.class.getAnnotation(MethodAccess.class)));
 	}
 ```
-## 权限管理 Access 表的配置
 
-在access数据表中添加一条数据,比如你的表名是：eye_director,而entity的类名是：EyeDirector
+<br />
+<br />
+                                                                             
 
-```sql
-INSERT INTO `apijson`.`access` (`id`, `debug`, `name`, `alias`, `get`, `head`, `gets`, `heads`, `post`, `put`, `delete`, `date`) VALUES ('19', '0', 'eye_director', 'EyeDirector', '["UNKNOWN", "LOGIN", "CONTACT", "CIRCLE", "OWNER", "ADMIN"]', '["UNKNOWN", "LOGIN", "CONTACT", "CIRCLE", "OWNER", "ADMIN"]', '["LOGIN", "CONTACT", "CIRCLE", "OWNER", "ADMIN"]', '["LOGIN", "CONTACT", "CIRCLE", "OWNER", "ADMIN"]', '["OWNER", "ADMIN"]', '["OWNER", "ADMIN"]', '["OWNER", "ADMIN"]', '2020-03-02 18:23:37');
+## 请求参数校验 Request 表配置
+
+  ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON/APIJSON_request_config-small.jpg) 
+可这样设置 structure 字段来配置自动校验请求 JSON 参数： <br />
+```json
+"VERIFY":{
+  "type{}":[0,1,2]
+}
 ```
-
-## 接口管理 Request 表的配置
-
-（此处需要作者补充）
-
+就能校验 type 的值是不是 0，1，2中的一个。<br />
+还有 <br />
+```js
+"VERIFY": { "money&{}":">0,<=10000" }              //自动验证是否 money>0 & money<=10000
+"TYPE": { "balance": "Double" }                    //自动验证balance类型是否为Double
+"UNIQUE": "phone"                                  //强制phone的值为数据库中没有的
+"NECESSARY": "id,name"                             //强制传id,name两个字段
+"DISALLOW": "balance"                              //禁止传balance字段
+"INSERT": { "@role": "OWNER" }                     //如果没传@role就自动添加
+"UPDATE": { "id@": "User/id" }                     //强制放入键值对
+```
+全部操作符见 [Operation.java](https://github.com/Tencent/APIJSON/blob/master/APIJSONORM/src/main/java/apijson/orm/Operation.java) 的注释
+<br />
+<br />
+  
 :first_quarter_moon_with_face:此处的介绍都只是简要介绍，只是为了引导刚刚接触 APIJSON 的道友快速了解 APIJSON，并不代表 APIJSON 只有这些功能，具体功能详情参考下列图表
+  
+#### 完整功能图表
+https://github.com/Tencent/APIJSON/blob/master/Document.md#3

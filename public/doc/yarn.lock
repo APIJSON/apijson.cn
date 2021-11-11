@@ -7549,8 +7549,8 @@ vuepress-plugin-smooth-scroll@^0.0.3:
 
 vuepress@^1.8.2:
   version "1.8.2"
-  resolved "https://registry.npmmirror.com/vuepress/download/vuepress-1.8.2.tgz?cache=0&sync_timestamp=1635479439783&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvuepress%2Fdownload%2Fvuepress-1.8.2.tgz#97e8bf979630611fc7b621fc4cc35b798ee5e847"
-  integrity sha1-l+i/l5YwYR/HtiH8TMNbeY7l6Ec=
+  resolved "https://registry.yarnpkg.com/vuepress/-/vuepress-1.8.2.tgz#97e8bf979630611fc7b621fc4cc35b798ee5e847"
+  integrity sha512-BU1lUDwsA3ghf7a9ga4dsf0iTc++Z/l7BR1kUagHWVBHw7HNRgRDfAZBDDQXhllMILVToIxaTifpne9mSi94OA==
   dependencies:
     "@vuepress/core" "1.8.2"
     "@vuepress/theme-default" "1.8.2"

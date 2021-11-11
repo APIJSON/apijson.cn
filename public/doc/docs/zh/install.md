@@ -12,13 +12,14 @@ Eclipse Java EE IDE for Web Developers.Version: Mars.1 Release (4.5.1)
 
 ## 下载项目
 
-```git
-git clone https://github.com/TommyLemon/APIJSON.git
+```bash
+git clone https://github.com/APIJSON/APIJSON-Demo.git
 ```
 
-或者，直接下载 ZIP 打包好的项目文件。
+或者，直接下载ZIP打包好的项目文件。
 
-![install1](../.vuepress/public/assets/install1.png)
+![image](https://user-images.githubusercontent.com/5738175/135412855-574cae7b-402c-4fe0-9959-711e580799af.png)
+
 
 ## 导入项目
 
@@ -26,14 +27,16 @@ Eclipse 导入：
 
 顶部菜单 File > Import > Maven > Existing Maven Projects > Next > Browse
 
-选择项目所在目录/APIJSON-Master/APIJSON-Java-Server/APIJSONBoot
+[APIJSON-Demo-Master/APIJSON-Java-Server/APIJSONDemo](https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server/APIJSONDemo)
 
-当报依赖错误的时候，将同目录下的 libs 里面的 jar 包添加到 Build Path 中。
-![install2](../.vuepress/public/assets/install2.png)
+报依赖错误的时候，同目录下的`lib`里面的`jar`添加到`Build Path`中。
 
-为了方便修改源代码，你可以像我一样不添加 libs/apijson-orm-3.5.1.jar 文件到 Build Path 中。而是将 libs/apijson-orm-3.5.1.jar 的源码，复制到当前项目里，然后添加到 Build Path 中。
+![1542345887787](assets/1542345887787.png)
 
-源代码在 APIJSON-Master/APIJSON-Java-Server/APIJSONORM。
+为了方便修改源代码，你可以像我一样不添加`libs/apijson-orm.jar`文件到`Build Path`中。而是`libs/apijson-orm.jar`的源码，复制到当前项目里。
+
+源代码在 <br >
+https://github.com/Tencent/APIJSON/tree/master/APIJSONORM
 
 ## 错误修改
 
