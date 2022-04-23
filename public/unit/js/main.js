@@ -567,9 +567,63 @@
       isLoginShow: false,
       isConfigShow: false,
       isDeleteShow: false,
-      currentDocItem: {},
-      currentRemoteItem: {},
-      currentRandomItem: {},
+      currentDocItem: {
+        "Method":{
+          "id":1648471968021,
+          "userId":82001,
+          "static":0,
+          "ui":0,
+          "type":"double",
+          "genericType":"double",
+          "package":"unitauto.test",
+          "class":"TestUtil",
+          "method":"divide",
+          "methodArgs":"[{\"type\":\"long\",\"value\":1},{\"type\":\"long\",\"value\":2}]",
+          "request":"{\n    \"static\": true,\n    \"methodArgs\": [\n        {   // 可省略来自动判断的 type : Boolean,Integer,BigDecimal,String,JSONObject,JSONArray\n            \"type\": \"long\",\n            \"value\": 1\n        },\n        {\n            \"type\": \"long\",\n            \"value\": 2\n        }\n    ]\n}\n\n/* 注释可省略，但如果未省略则前面两个空格必须；清空文本内容可查看规则。 */\n\n\n                                                                                                                                                                                                              \n",
+          "detail":": double  // 除法运算",
+          "date":"2022-03-28 20:52:48.0",
+          "arguments":"",
+          "defination":"divide(): double",
+          "constructorArguments":""
+        },
+        "TestRecord":{
+          "id":1649186005068,
+          "userId":82001,
+          "documentId":1648471968021,
+          "response":"{\"msg\":\"success\",\"type\":\"double\",\"return\":0.5,\"methodArgs\":[{\"type\":\"long\",\"value\":1},{\"type\":\"long\",\"value\":2}],\"code\":200}",
+          "standard":"{\"notnull\":true,\"type\":\"object\",\"valueLevel\":0,\"values\":[{\"msg\":{\"notnull\":true,\"type\":\"string\",\"valueLevel\":3,\"values\":[],\"lengthLevel\":1,\"lengths\":[7]},\"type\":{\"notnull\":true,\"type\":\"string\",\"valueLevel\":3,\"values\":[],\"lengthLevel\":1,\"lengths\":[6]},\"return\":{\"notnull\":true,\"type\":\"number\",\"valueLevel\":1,\"values\":[0.5],\"lengthLevel\":1,\"lengths\":[1]},\"methodArgs\":{\"notnull\":true,\"type\":\"object\",\"valueLevel\":0,\"values\":[{\"0\":{\"notnull\":true,\"type\":\"object\",\"valueLevel\":0,\"values\":[{\"type\":{\"notnull\":true,\"type\":\"string\",\"valueLevel\":3,\"values\":[],\"lengthLevel\":1,\"lengths\":[4]},\"value\":{\"notnull\":true,\"type\":\"integer\",\"valueLevel\":0,\"values\":[1],\"lengthLevel\":1,\"lengths\":[]}}]},\"1\":{\"notnull\":true,\"type\":\"object\",\"valueLevel\":0,\"values\":[{\"type\":{\"notnull\":true,\"type\":\"string\",\"valueLevel\":3,\"values\":[],\"lengthLevel\":1,\"lengths\":[4]},\"value\":{\"notnull\":true,\"type\":\"integer\",\"valueLevel\":0,\"values\":[2],\"lengthLevel\":1,\"lengths\":[]}}]}}]}}],\"code\":200}"
+        }
+      },
+      currentRemoteItem: {
+        "Method":{
+          "id":1648471968021,
+          "userId":82001,
+          "static":0,
+          "ui":0,
+          "type":"double",
+          "genericType":"double",
+          "package":"unitauto.test",
+          "class":"TestUtil",
+          "method":"divide",
+          "methodArgs":"[{\"type\":\"long\",\"value\":1},{\"type\":\"long\",\"value\":2}]",
+          "request":"{\n    \"static\": true,\n    \"methodArgs\": [\n        {   // 可省略来自动判断的 type : Boolean,Integer,BigDecimal,String,JSONObject,JSONArray\n            \"type\": \"long\",\n            \"value\": 1\n        },\n        {\n            \"type\": \"long\",\n            \"value\": 2\n        }\n    ]\n}\n\n/* 注释可省略，但如果未省略则前面两个空格必须；清空文本内容可查看规则。 */\n\n\n                                                                                                                                                                                                              \n",
+          "detail":": double  // 除法运算",
+          "date":"2022-03-28 20:52:48.0",
+          "arguments":"",
+          "defination":"divide(): double",
+          "constructorArguments":""
+        },
+        "TestRecord":{
+          "id":1649186005068,
+          "userId":82001,
+          "documentId":1648471968021,
+          "response":"{\"msg\":\"success\",\"type\":\"double\",\"return\":0.5,\"methodArgs\":[{\"type\":\"long\",\"value\":1},{\"type\":\"long\",\"value\":2}],\"code\":200}",
+          "standard":"{\"notnull\":true,\"type\":\"object\",\"valueLevel\":0,\"values\":[{\"msg\":{\"notnull\":true,\"type\":\"string\",\"valueLevel\":3,\"values\":[],\"lengthLevel\":1,\"lengths\":[7]},\"type\":{\"notnull\":true,\"type\":\"string\",\"valueLevel\":3,\"values\":[],\"lengthLevel\":1,\"lengths\":[6]},\"return\":{\"notnull\":true,\"type\":\"number\",\"valueLevel\":1,\"values\":[0.5],\"lengthLevel\":1,\"lengths\":[1]},\"methodArgs\":{\"notnull\":true,\"type\":\"object\",\"valueLevel\":0,\"values\":[{\"0\":{\"notnull\":true,\"type\":\"object\",\"valueLevel\":0,\"values\":[{\"type\":{\"notnull\":true,\"type\":\"string\",\"valueLevel\":3,\"values\":[],\"lengthLevel\":1,\"lengths\":[4]},\"value\":{\"notnull\":true,\"type\":\"integer\",\"valueLevel\":0,\"values\":[1],\"lengthLevel\":1,\"lengths\":[]}}]},\"1\":{\"notnull\":true,\"type\":\"object\",\"valueLevel\":0,\"values\":[{\"type\":{\"notnull\":true,\"type\":\"string\",\"valueLevel\":3,\"values\":[],\"lengthLevel\":1,\"lengths\":[4]},\"value\":{\"notnull\":true,\"type\":\"integer\",\"valueLevel\":0,\"values\":[2],\"lengthLevel\":1,\"lengths\":[]}}]}}]}}],\"code\":200}"
+        }
+      },
+      currentRandomItem: {
+
+      },
       isAdminOperation: false,
       loginType: 'login',
       isExportRemote: false,
@@ -607,13 +661,13 @@
       branch: 'countArray',
       database: undefined,  // 后端决定 'MYSQL',// 'POSTGRESQL',
       schema: undefined,  // 后端决定 'admin',  // 'sys'
-      server: 'http://apijson.cn:9090',  //apijson.cn
+      server: 'http://apijson.cn:8080',  //apijson.cn
       // server: 'http://47.74.39.68:9090',  // apijson.org
-      project: 'http://apijson.cn:8080',  //apijson.cn
+      project: 'http://apijson.cn:8080', // 'http://localhost:8081',
       language: CodeUtil.LANGUAGE_KOTLIN,
       header: {},
       page: 0,
-      count: 100,
+      count: 20,
       search: '',
       testCasePage: 0,
       testCaseCount: 50,
@@ -993,11 +1047,11 @@
           if (isRemote) { //共享测试用例
             this.isExportRandom = isRandom
 
-            if (isRandom != true) {  // 分享搜索关键词和分页信息也挺好 } && this.isTestCaseShow != true) {  // 没有拿到列表，没用
-              setTimeout(function () {
-                App.shareLink(App.isRandomTest)
-              }, 1000)
-            }
+//            if (isRandom != true) {  // 分享搜索关键词和分页信息也挺好 } && this.isTestCaseShow != true) {  // 没有拿到列表，没用
+//              setTimeout(function () {
+//                App.shareLink(App.isRandomTest)
+//              }, 1000)
+//            }
 
             if (this.isTestCaseShow) {
               alert('请先输入请求内容！')
@@ -1120,9 +1174,11 @@
               }
               else if (index == 13) {
                 vInput.value = this.getCache(this.project, 'request4MethodList') || '{'
-                  + '\n    "mock": true,  // 生成模拟参数值'
+                  + '\n    "query": 2,  // 查询类型：0-数据，1-总数，2-全部'
+                  + '\n    "mock": true,  // 是否生成模拟参数值'
                   + '\n    "package": "' + this.getPackage() + '",  // 包名，不填默认全部'
-                  + '\n    "class": "' + this.getClass() + '"  // 类名，不填默认全部'
+                  + '\n    "class": "' + this.getClass() + '",  // 类名，不填默认全部'
+                  + '\n    "types": null,  // 类型，不填默认全部，填 ["int", "String"] 这种则只查对应参数的方法 '
                   + '\n}'
                 this.onChange(false)
                 this.request(false, REQUEST_TYPE_JSON, this.project + this.exTxt.name
@@ -1916,35 +1972,56 @@
             }
             break
           case 13:
-            this.saveCache(this.project, 'request4MethodList', vInput.value)
-            this.request(false, REQUEST_TYPE_JSON, this.project + this.exTxt.name, this.getRequest(vInput.value), this.getHeader(vHeader.value), function (url, res, err) {
-              if (App.isSyncing) {
-                alert('正在同步，请等待完成')
-                return
-              }
-              App.isSyncing = true
-              App.onResponse(url, res, err)
-
-              var classList = (res.data || {}).classList
-              if (classList == null) { // || apis.length <= 0) {
-                alert('没有查到 Project 文档！请开启跨域代理，并检查 URL 是否正确！')
-                return
-              }
-
-              App.uploadTotal = 0
-              App.uploadDoneCount = 0
-              App.uploadFailCount = 0
-
-              for (var i in classList) {
-                try {
-                  App.sync2DB(classList[i])
-                } catch (e) {
-                  App.uploadFailCount ++
-                  App.exTxt.button = 'All:' + App.uploadTotal + '\nDone:' + App.uploadDoneCount + '\nFail:' + App.uploadFailCount
+              this.saveCache(this.project, 'request4MethodList', vInput.value)
+              this.request(false, REQUEST_TYPE_JSON, this.project + this.exTxt.name, this.getRequest(vInput.value), this.getHeader(vHeader.value), function (url, res, err) {
+                if (App.isSyncing) {
+                  alert('正在同步，请等待完成')
+                  return
                 }
-              }
+                
+                App.isSyncing = true
+                App.onResponse(url, res, err)
 
-            })
+                var data = res.data || {}
+                var code = data.code
+                if (code != CODE_SUCCESS) {
+                  alert('查询 Project 文档报错！' + data.msg)
+                  return
+                }
+
+                var packageList = data.packageList
+                if (packageList == null || packageList.length <= 0) {
+                  alert('没有查到 Project 文档！请开启跨域代理，并检查 URL 是否正确！')
+                  return
+                }
+                
+                App.uploadTotal = 0
+                App.uploadDoneCount = 0
+                App.uploadFailCount = 0
+
+                for (var j in packageList) {
+                  var packageItem = packageList[j]
+                  var classList = (packageItem || {}).classList
+                  if (classList == null || classList.length <= 0) {
+                      alert('没有查到 Project 文档！请开启跨域代理，并检查 URL 是否正确！')
+                      return
+                  }
+               
+                  for (var i in classList) {
+                    try {
+                      var classItem = classList[i]
+                      if (StringUtil.isEmpty(classItem['package'], true)) {
+                    	  classItem['package'] = packageItem['package']
+                      }
+                      App.sync2DB(classItem)
+                    } catch (e) {
+                      App.uploadFailCount++
+                      App.exTxt.button = 'All:' + App.uploadTotal + '\nDone:' + App.uploadDoneCount + '\nFail:' + App.uploadFailCount
+                    }
+                  }
+                }
+
+              })
             break
         }
       },
@@ -2546,7 +2623,7 @@
         this.password = user.password
       },
 
-      setRememberLogin(remember) {
+      setRememberLogin: function (remember) {
         vRemember.checked = remember || false
       },
 
@@ -2579,7 +2656,7 @@
         }
 
         if (isAdminOperation) {
-          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.server + '/login', req, {}, function (url, res, err) {
+          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.server + '/login', req, this.getHeader(vHeader.value), function (url, res, err) {
             if (callback) {
               callback(url, res, err)
               return
@@ -2635,7 +2712,7 @@
 
           this.showTestCase(false, this.isLocalShow)
           this.onChange(false)
-          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.project + '/login', req, {}, function (url, res, err) {
+          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.project + '/login', req, this.getHeader(vHeader.value), function (url, res, err) {
             if (callback) {
               callback(url, res, err)
               return
@@ -2673,22 +2750,16 @@
       /**注册
        */
       register: function (isAdminOperation) {
-        this.showUrl(isAdminOperation, '/register')
-        vInput.value = JSON.stringify(
-          {
-            Privacy: {
-              phone: this.account,
-              _password: this.password
-            },
-            User: {
-              name: 'APIJSONUser'
-            },
-            verify: vVerify.value
+        this.request(isAdminOperation, REQUEST_TYPE_JSON, '/register', {
+          Privacy: {
+            phone: this.account,
+            _password: this.password
           },
-          null, '    ')
-        this.showTestCase(false, false)
-        this.onChange(false)
-        this.send(isAdminOperation, function (url, res, err) {
+          User: {
+            name: 'APIJSONUser'
+          },
+          verify: vVerify.value
+        }, this.getHeader(vHeader.value), function (url, res, err) {
           App.onResponse(url, res, err)
 
           var rpObj = res.data
@@ -2707,19 +2778,13 @@
       /**重置密码
        */
       resetPassword: function (isAdminOperation) {
-        this.showUrl(isAdminOperation, '/put/password')
-        vInput.value = JSON.stringify(
-          {
-            verify: vVerify.value,
-            Privacy: {
-              phone: this.account,
-              _password: this.password
-            }
-          },
-          null, '    ')
-        this.showTestCase(false, this.isLocalShow)
-        this.onChange(false)
-        this.send(isAdminOperation, function (url, res, err) {
+        this.request(isAdminOperation, REQUEST_TYPE_JSON, '/put/password', {
+          verify: vVerify.value,
+          Privacy: {
+            phone: this.account,
+            _password: this.password
+          }
+        }, this.getHeader(vHeader.value), function (url, res, err) {
           App.onResponse(url, res, err)
 
           var rpObj = res.data
@@ -2751,7 +2816,7 @@
 
         // alert('logout  isAdminOperation = ' + isAdminOperation + '; url = ' + url)
         if (isAdminOperation) {
-          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.server + '/logout', req, {}, function (url, res, err) {
+          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.server + '/logout', req, this.getHeader(vHeader.value), function (url, res, err) {
             if (callback) {
               callback(url, res, err)
               return
@@ -2767,24 +2832,20 @@
         else {
           this.showTestCase(false, this.isLocalShow)
           this.onChange(false)
-          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.project + '/logout', req, {}, callback)
+          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.project + '/logout', req, this.getHeader(vHeader.value), callback)
         }
       },
 
       /**获取验证码
        */
       getVerify: function (isAdminOperation) {
-        this.showUrl(isAdminOperation, '/post/verify')
         var type = this.loginType == 'login' ? 0 : (this.loginType == 'register' ? 1 : 2)
-        vInput.value = JSON.stringify(
-          {
-            type: type,
-            phone: this.account
-          },
-          null, '    ')
         this.showTestCase(false, this.isLocalShow)
         this.onChange(false)
-        this.send(isAdminOperation, function (url, res, err) {
+        this.request(isAdminOperation, REQUEST_TYPE_JSON, '/post/verify', {
+          type: type,
+          phone: this.account
+        }, this.getHeader(vHeader.value), function (url, res, err) {
           App.onResponse(url, res, err)
 
           var data = res.data || {}
@@ -3149,6 +3210,9 @@
       request: function (isAdminOperation, type, url, req, header, callback) {
         type = type || REQUEST_TYPE_JSON
         url = StringUtil.noBlank(url)
+        if (url.startsWith('/')) {
+          url = (isAdminOperation ? this.server : this.project) + url
+        }
 
         var isDelegate = (isAdminOperation == false && this.isDelegateEnabled) || (isAdminOperation && url.indexOf('://apijson.cn:9090') > 0)
 
@@ -3590,44 +3654,90 @@
        */
       getDoc: function (callback) {
 
-        var count = this.count || 100  //超过就太卡了
+        var count = 15 // this.count || 20  //超过就太卡了
         var page = this.page || 0
 
-        var search = StringUtil.isEmpty(this.search, true) ? null : '%' + StringUtil.trim(this.search) + '%'
+        var search = StringUtil.isEmpty(this.search, true) ? null : StringUtil.trim(this.search)
+        var condition = {
+        	'len&{}': "length(package)>0;length(class)>0;length(method)>0",
+        	'package%$': search,
+            'class%$': search,
+//            'method%$': search,
+            '@combine': StringUtil.isEmpty(search) ? null : 'package%$ | class%$'  // 'package%$ | class%$ | method%$'
+        }
+        		
         this.request(false, REQUEST_TYPE_JSON, this.server + '/get', {
           format: false,
           '@database': this.database,
           '@schema': this.schema,
           '[]': {
+//          'query': 2,  // 可能 DISTINCT 关键词加空格导致拼接成了 count(*)
             'count': count,
             'page': page,
-            'Method': {
+            'Method': Object.assign({
               '@column': 'DISTINCT package',
-              '@order': 'package+',
-              'package$': search,
-              'class$': search,
-              '@combine': StringUtil.isEmpty(search) ? null : 'package$,class$'
+              '@order': 'package-'
+            }, condition),
+//            'Method[]': {
+//              'query': 2,
+//              'count': 0,
+//              'Method': {
+//                '@from@': {
+//                  'from': 'Method',
+//                  'join': '</Method:count',
+//                  'Method': {
+//                    'package@': '[]/Method/package',
+//                    'class{}': "length(class)>0",
+//                    'package%$': search,
+//                    'class%$': search,
+//                    '@combine': StringUtil.isEmpty(search) ? null : 'package%$ | class%$',
+//                    '@order': 'class+,constructor+,genericClassArgs+',
+//                    'arguments()': 'getMethodArguments(genericClassArgs)',
+//			          'Method:count': {
+//			            'package@': '[]/Method/package',
+//			            'class@': "/class",
+//			            '@column': "count(1):methodTotal"
+//			          }
+//                  },
+//                  'Method:count': {
+//                    'package@': '[]/Method/package',
+//                    'class@': "/Method/class",
+//                    '@column': "count(1):methodTotal"
+//                  }
+//                }
+//              }
+//            },
+//          'total@': '/Method[]/total'
+            '[]': {
+            	'query': 2,
+            	'count': 5,
+            	'Method': Object.assign({
+            		'package@': '[]/Method/package',
+            		'@raw': '@column',
+            		'@column': "DISTINCT package,class,constructor;(CASE genericClassArgs WHEN '[]' THEN NULL ELSE genericClassArgs END):genericClassArgs",
+            		'@order': 'class+,constructor+,genericClassArgs+',
+            		'arguments()': 'getMethodArguments(genericClassArgs)'
+            	}, condition),
+            	'Method:count': Object.assign({
+            		'package@': '[]/Method/package',
+            		'class@': "/Method/class",
+//            		'constructor@': '/Method/constructor',
+//            		'genericClassArgs@': '/Method/genericClassArgs',
+            		'@column': "count(1):total"
+            	}, condition)
             },
-            'Method[]': {
-              'count': 0,
-              'Method:group': {
-                'package@': '[]/Method/package',
-                '@column': 'DISTINCT class',
-                '@order': 'class+',
-                '@having': 'length(class)>0',
-                'package$': search,
-                'class$': search,
-                '@combine': StringUtil.isEmpty(search) ? null : 'package$,class$'
-              },
-              'Method': {
-                'package@': '[]/Method/package',
-                'class@': '/Method:group/class',
-                '@column': 'class,constructor,genericClassArgs',
-                '@order': 'class+',
-                'arguments()': "getMethodArguments(genericClassArgs)",
-              }
-            }
-          }
+            'total@': '/[]/total'
+          },
+//          'total@': '/[]/total',
+          'Method:package': Object.assign({
+              '@column': 'count(DISTINCT package):total'
+          }, condition),
+          'Method:class': Object.assign({
+              '@column': 'count(DISTINCT package,class):total'
+          }, condition),
+          'Method:method': Object.assign({
+        	  '@column': 'count(DISTINCT package,class,method):total'
+          }, condition)
         }, {}, function (url, res, err) {
           if (err != null || res == null || res.data == null) {
             log('getDoc  err != null || res == null || res.data == null >> return;');
@@ -3635,85 +3745,198 @@
             return;
           }
 
-//      log('getDoc  docRq.responseText = \n' + docRq.responseText);
+//        log('getDoc  docRq.responseText = \n' + docRq.responseText);
           docObj = res.data || {};  //避免后面又调用 onChange ，onChange 又调用 getDoc 导致死循环
+          
+          var finalCallback = function (url2, res2, err2) {
+        	  var data2 = (res2 || {}).data || {}
+        	  var realPackageTotal = data2.packageTotal || 0
+        	  var realClassTotal = data2.classTotal || 0
+        	  var realMethodTotal = data2.methodTotal || 0
 
-          //转为文档格式
-          var doc = '';
-          var item;
+        	  //转为文档格式
 
-          //[] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-          var list = docObj == null ? null : docObj['[]'];
-          CodeUtil.tableList = list;
-          if (list != null) {
-            if (DEBUG) {
-              log('getDoc  [] = \n' + format(JSON.stringify(list)));
-            }
+        	  //[] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        	  var packageTotal = (docObj['Method:package'] || {}).total || 0
+        	  var classTotal = (docObj['Method:class'] || {}).total || 0
+        	  var methodTotal = (docObj['Method:method'] || {}).total || 0
+        	  var doc = App.getTotalAndCoverageString('包', packageTotal, realPackageTotal)
+        	  + '\n' +  App.getTotalAndCoverageString('类', classTotal, realClassTotal)
+        	  + '\n' +  App.getTotalAndCoverageString('方法', methodTotal, realMethodTotal)
+        	  
+        	  var list = docObj == null ? null : docObj['[]'];
+        	  CodeUtil.tableList = list;
+        	  if (list != null) {
+        		  if (DEBUG) {
+        			  log('getDoc  [] = \n' + format(JSON.stringify(list)));
+        		  }
 
-            var table;
-            var columnList;
-            var column;
-            for (var i = 0; i < list.length; i++) {
-              item = list[i];
+        		  var table;
+        		  var columnList;
+        		  var column;
+        		  for (var i = 0; i < list.length; i++) {
+        			  var item = list[i];
 
-              //Table
-              table = item == null ? null : item.Method
-              if (table == null) {
-                continue;
-              }
-              if (DEBUG) {
-                log('getDoc [] for i=' + i + ': table = \n' + format(JSON.stringify(table)));
-              }
+        			  //package
+        			  table = item == null ? null : item.Method
+        			  var pkg = table == null ? null : table['package']
+        			  if (StringUtil.isEmpty(pkg, true)) {
+        				  continue;
+        			  }
+        			  
+        			  if (DEBUG) {
+        				  log('getDoc [] for i=' + i + ': table = \n' + format(JSON.stringify(table)));
+        			  }
+        			 
+        			  var classTotal = item.total || 0
+        			  var realClassTotal = App.getRealClassTotal(data2, pkg);
 
-              var pkg = table.package
+        			  doc += '\n### ' + (i + 1) + '. ' + pkg + ' - ' + App.getTotalAndCoverageString('类', classTotal, realClassTotal) + '\n'
 
-              doc += '\n### ' + (i + 1) + '. ' + pkg + '\n'
+        			  columnList = item['[]'];
+        			  if (columnList == null) {
+        				  continue;
+        			  }
+        			  if (DEBUG) {
+        				  log('getDoc [] for ' + i + ': columnList = \n' + format(JSON.stringify(columnList)));
+        			  }
 
-              columnList = item['Method[]'];
-              if (columnList == null) {
-                continue;
-              }
-              if (DEBUG) {
-                log('getDoc [] for ' + i + ': columnList = \n' + format(JSON.stringify(columnList)));
-              }
+        			  var name;
+        			  for (var j = 0; j < columnList.length; j++) {
+        				  column = columnList[j];
+        				  //class
+        				  clazz = column == null ? null : column.Method;
+        				  cls = clazz == null ? null : clazz['class'];
+        				  if (StringUtil.isEmpty(cls, true)) {
+        					  continue;
+        				  }
 
-              var name;
-              for (var j = 0; j < columnList.length; j++) {
-                column = (columnList[j] || {});
-                name = column == null ? null : column.class;
-                if (name == null) {
-                  continue;
-                }
+        				  if (DEBUG) {
+        					  log('getDoc [] for j=' + j + ': column = \n' + format(JSON.stringify(column)));
+        				  }
 
-                if (DEBUG) {
-                  log('getDoc [] for j=' + j + ': column = \n' + format(JSON.stringify(column)));
-                }
+        				  doc += '\n' + (j + 1) + ') ' + cls;
+        				  if (StringUtil.isEmpty(clazz.arguments, true) == false) {
+        					  doc += '(' + StringUtil.get(clazz.arguments) + ')';
+        				  }
 
-                doc += '\n' + (j + 1) + ') ' + name + '(' + StringUtil.get(column.arguments) + ')';
+        				  var methodTotal = (column['Method:count'] || {}).total || 0;
+        				  var realMethodTotal = App.getRealMethodTotal(data2, pkg, cls);
+        				  doc += ' - ' + App.getTotalAndCoverageString('方法', methodTotal, realMethodTotal)
+        			  }
 
-              }
+        			  doc += '\n\n\n';
 
-              doc += '\n\n\n';
+        		  }
 
-            }
+        	  }
+
+        	  doc += '\n\n';
+
+        	  //[] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+        	  App.onChange(false);
+
+        	  callback(doc);
+
+//      	  log('getDoc  callback(doc); = \n' + doc);
 
           }
+          
+          finalCallback()
 
-          doc += '\n\n';
+          App.request(false, REQUEST_TYPE_JSON, App.project + '/method/list', {
+        	  'query': 1,
+        	  'package': App.getPackage(),
+//        	  'class': App.getClass()
+          }, {}, finalCallback)
 
-          //[] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-          App.onChange(false);
-
-          callback(doc);
-
-//      log('getDoc  callback(doc); = \n' + doc);
         });
 
       },
+      
+      getTotalAndCoverageString: function(typeName, count, total) {
+    	  count = count || 0
+    	  total = total || 0
+    	  
+    	  return '共 ' + total + ' 个' + (typeName || '子项') + '，覆盖 ' + count  + ' 个'
+		  + (Number.isInteger(total) != true || total <= 0 ? '' : '，覆盖率 ' + (100*count/total).toFixed(2) + '%');
+      },
+      
+      getRealClassTotal: function(data, packageName) {
+    	if (data == null) {
+    		return 0;
+    	}
+    	  
+    	var packageList = data.packageList
+    	var len = packageList == null ? 0 : packageList.length
+    	
+		if (StringUtil.isEmpty(packageName, true)) {
+			return Math.max(data.classTotal || 0, len);
+		}
+    	
+    	if (len <= 0) {
+    		return 0;
+    	}
+		
+		for (var i in packageList) {
+			var pkgObj = packageList[i]
+			if (pkgObj != null && pkgObj['package'] == packageName) {
+				return Math.max(pkgObj.classTotal || 0, (pkgObj.classList || []).length || 0);
+			}
+		}
+		
+		return 0;
+	  },
 
-      toDoubleJSON: function (json, defaultValue) {
+	  getRealMethodTotal: function(data, packageName, className) {
+		  if (data == null) {
+	    	 return 0;
+	      }
+	    	  
+	    	var packageList = data.packageList
+	    	var len = packageList == null ? 0 : packageList.length
+	    	
+			if (StringUtil.isEmpty(packageName, true)) {
+				if (StringUtil.isEmpty(className, true)) {
+					return Math.max(data.classTotal || 0, len);
+				}
+				return 0;
+			}
+	    	
+	    	if (len <= 0) {
+	    		return 0;
+	    	}
+	    	
+
+		  for (var i in packageList) {
+			  var pkgObj = packageList[i]
+			  if (pkgObj != null && pkgObj['package'] == packageName) {
+				  
+				  var classList = pkgObj.classList
+				  var len2 = classList == null ? 0 : classList.length
+				  if (StringUtil.isEmpty(className, true)) {
+					 return Math.max(data.methodTotal || 0, len2);
+				  }
+				  
+				  if (len2 <= 0) {
+			    	  return 0;
+			      }
+				  
+				  for (var j in classList) {
+					  var clsObj = classList[j]
+					  if (clsObj != null && clsObj['class'] == className) {
+						  return Math.max(clsObj.methodTotal || 0, (clsObj.methodList || []).length || 0);
+					  }
+				  }
+			  }
+		  }
+		  
+		  return 0;
+	  },
+
+      toDoubleJSON: function(json, defaultValue) {
         if (StringUtil.isEmpty(json)) {
           return defaultValue == null ? '' : JSON.stringify(defaultValue)
         }
@@ -5152,7 +5375,7 @@
       },
 
       //显示详细信息, :data-hint :data, :hint 都报错，只能这样
-      setRequestHint(index, item, isRandom, isClass) {
+      setRequestHint: function (index, item, isRandom, isClass) {
         item = item || {}
         var d = isRandom ? item.Random : item.Method;
         // this.$refs[isRandom ? 'randomTexts' : (isClass ? 'testCaseClassTexts' : 'testCaseMethodTexts')][index]
@@ -5183,7 +5406,7 @@
       },
 
       //显示详细信息, :data-hint :data, :hint 都报错，只能这样
-      setTestHint(index, item, isRandom, isDuration) {
+      setTestHint: function (index, item, isRandom, isDuration) {
         item = item || {};
         var toId = isRandom ? ((item.Random || {}).toId || 0) : 0;
         var h = isDuration ? item.durationHint : item.hintMessage;
@@ -5210,7 +5433,7 @@
         return result
       }
     },
-    created () {
+    created: function  () {
       try { //可能URL_BASE是const类型，不允许改，这里是初始化，不能出错
         var url = this.getCache('', 'URL_BASE')
         if (StringUtil.isEmpty(url, true) == false) {
