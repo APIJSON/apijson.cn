@@ -1129,7 +1129,7 @@ body {
   #highlights .point {
     display: block;
     margin: 0 auto;
-    width: 320px;
+    width: 336px;
     padding: 0 40px 30px;
   }
   #highlights .point:before {
