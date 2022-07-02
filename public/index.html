@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <title>腾讯APIJSON官方网站</title>
+  <meta charset="utf-8">
+  <meta name="description" content="APIJSON-自动化接口和文档JSON协议与ORM库">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="alternate" hreflang="x-default" href="https://vuejs.org/index.html">
+  <link rel="alternate" hreflang="zh" href="https://cn.vuejs.org/index.html">
+  <link rel="alternate" hreflang="ja" href="https://jp.vuejs.org/index.html">
+  <link rel="alternate" hreflang="ru" href="https://ru.vuejs.org/index.html">
+  <link rel="alternate" hreflang="ko" href="https://kr.vuejs.org/index.html">
+  <link rel="alternate" hreflang="pt-BR" href="https://br.vuejs.org/index.html">
+  <link rel="alternate" hreflang="fr" href="https://fr.vuejs.org/index.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="APIJSON官方网站">
+  <meta property="og:description" content="APIJSON-自动化接口和文档JSON协议与ORM库">
+  <meta property="og:image" content="https://cn.vuejs.org//images/logo.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="APIJSON官方网站">
+  <meta name="twitter:description" content="APIJSON - The Progressive JavaScript Framework">
+  <meta name="twitter:image" content="https://cn.vuejs.org/images/logo.png">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="images/icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="images/icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="images/icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="images/icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="images/icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="images/icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="images/icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="images/icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="images/icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="images/icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icons/favicon-16x16.png">
+  <meta name="msapplication-TileImage" content="images/icons/ms-icon-144x144.png">
+  <link rel="icon" href="images/logo.png" type="image/png">
+
+  <meta name="msapplication-TileColor" content="#4fc08d">
+  <meta name="theme-color" content="#4fc08d">
+
+  <meta name="msapplication-config" content="browserconfig.xml">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono' rel='stylesheet' type='text/css'> -->
+  <!-- <link href='//fonts.googleapis.com/css?family=Dosis:500&text=APIJSON' rel='stylesheet' type='text/css'> -->
+
+  <link href="//code.bdstatic.com/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <!-- main page styles -->
+  <link rel="stylesheet" href="css/index.css">
+
+  <!-- this needs to be loaded before guide's inline scripts -->
+  <script src="js/vue.js"></script>
+  <script>
+    Vue.config.productionTip = false
+    window.PAGE_TYPE = ""
+  </script>
+
+  <!-- ga -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-46852172-3', 'cn.vuejs.org');
+    ga('send', 'pageview');
+  </script>
+</head>
+<body class>
+<div id="mobile-bar" class="top">
+  <a class="menu-button"></a>
+  <a class="logo" href="/"></a>
+</div>
+<div id="header">
+  <a id="logo" href="/">
+    <img src="images/logo.png" alt="vue logo">
+    <span>APIJSON</span>
+  </a>
+  <iframe style="margin-left: 12px" src="https://ghbtns.com/github-btn.html?user=Tencent&amp;repo=APIJSON&amp;type=star&amp;count=true&amp;size=small" frameborder="0" scrolling="0" width="160px" height="18px"></iframe>
+  <ul id="nav">
+    <li style="vertical-align: middle">
+      <a href="https://git.code.tencent.com/Tencent_Open_Source/APIJSON" target="_blank">
+        <img style="margin-bottom: -8px; height: 36px" src="images/tencent_open_logo.png" >
+      </a>
+    </li>
+    <li style="vertical-align: middle">
+      <a href="https://gitee.com/Tencent/APIJSON" target="_blank">
+        <img style="margin-bottom: -4px" height="24" width="60" src="https://gitee.com/logo-black.svg?20171024">
+      </a>
+    </li>
+    <li><a href="https://apijsondocs.readthedocs.io" target="_blank" class="nav-link contribute">English</a></li>
+    <li><a href="https://github.com/Tencent/APIJSON/blob/master/Document.md" target="_blank" class="nav-link contribute">文档</a></li>
+    <li><a href="https://search.bilibili.com/all?keyword=APIJSON&spm_id_from=333.851" target="_blank" class="nav-link contribute">视频</a></li>
+    <li><a href="https://github.com/search?o=desc&q=apijson&s=stars&type=Repositories" target="_blank" class="nav-link contribute">生态</a></li>
+  </ul>
+</div>
+
+
+<div class="sidebar">
+  <div class="sidebar-inner-index">
+    <ul class="main-menu">
+      <li style="vertical-align: middle">
+        <a href="https://git.code.tencent.com/Tencent_Open_Source/APIJSON" target="_blank">
+          <img style="margin-bottom: -8px;" width="72" src="images/tencent_open_logo.png" >
+        </a>
+      </li>
+      <li><a href="https://apijsondocs.readthedocs.io" target="_blank" class="nav-link contribute">English</a></li>
+      <li><a href="https://github.com/Tencent/APIJSON/blob/master/Document.md" target="_blank" class="nav-link contribute">文档</a></li>
+      <li><a href="https://search.bilibili.com/all?keyword=APIJSON&spm_id_from=333.851" target="_blank" class="nav-link contribute">视频</a></li>
+      <li><a href="https://github.com/search?o=desc&q=apijson&s=stars&type=Repositories" target="_blank" class="nav-link contribute">生态</a></li>
+      <li style="vertical-align: middle">
+        <a href="https://gitee.com/Tencent/APIJSON" target="_blank">
+          <img style="margin-bottom: -4px" height="24" width="64" src="https://gitee.com/logo-black.svg?20171024">
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="hero" style="padding: 10px">
+  <div class="inner">
+    <div class="left">
+      <img class="hero-logo" src="images/logo-big.png" alt="vue logo">
+    </div><div class="right">
+    <h2 class="vue">APIJSON</h2>
+    <h1>
+      零代码接口和文档<br>JSON 协议 与 ORM 库
+    </h1>
+    <p>
+      <a id="modal-player" class="button has-icon" href="https://github.com/Tencent/APIJSON/wiki" target="_blank">
+        <!--<a class="button has-icon" href="https://github.com/Tencent/APIJSON/wiki" target="_blank">-->
+        <svg aria-labelledby="simpleicons-play-icon" role="img" viewbox="0 0 100 125" fill="#FFFFFF"><title id="simpleicons-play-icon" lang="en">Play icon</title><path d="M50,3.8C24.5,3.8,3.8,24.5,3.8,50S24.5,96.2,50,96.2S96.2,75.5,96.2,50S75.5,3.8,50,3.8z M71.2,53.3l-30.8,18  c-0.6,0.4-1.3,0.5-1.9,0.5c-0.6,0-1.3-0.1-1.9-0.5c-1.2-0.6-1.9-1.9-1.9-3.3V32c0-1.4,0.8-2.7,1.9-3.3c1.2-0.6,2.7-0.6,3.8,0  l30.8,18c1.2,0.6,1.9,1.9,1.9,3.3S72.3,52.7,71.2,53.3z"/></svg>
+
+        WHY APIJSON?</a>
+      <a class="button white" href="/doc/zh" target="_blank">立即开始</a>
+      <a class="button gray has-icon" href="https://github.com/Tencent/APIJSON" target="_blank">
+        <svg aria-labelledby="simpleicons-github-dark-icon" lang="" role="img" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-github-icon" lang="en">GitHub Dark icon</title><path fill="#7F8C8D" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+
+        GITHUB</a>
+    </p>
+  </div>
+  </div>
+</div>
+
+
+<div id="special-sponsor">
+  <p align="center" style="margin-top: 0px;margin-bottom: 0px;padding-left: 12px;padding-right: 12px">🏆腾讯开源前十、内外五个奖项<br>🚀后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构！</p>
+</div>
+
+<div id="highlights">
+  <div class="inner">
+    <div class="point">
+      <h2>对于后端</h2>
+      <p>
+        提供万能通用接口，大部分接口不用再写<br>
+        零码增删改查、跨库连表、嵌套子查询等<br>
+        自动生成接口文档，不用再编写和维护<br>
+        自动管理权限、校验参数、防 SQL 注入<br>
+        开放 API 无需划分版本，始终保持兼容<br>
+      </p>
+      <a class="become-sponsor button white" style="padding-top: 10px;padding-bottom: 10px; margin-bottom: 20px; font-size: 0.9em" href="/unit" target="_blank">单元 UnitAuto 测试</a><br />
+      <img height="48px" width="192px" src="images/users/cloud.tencent.com.png" />
+    </div>
+
+    <div class="point">
+      <h2>接口工具</h2>
+      <p style="margin-left: 4px">
+        自动实时生成文档，清晰可读永远最新<br>
+        自动校验与格式化，支持高亮和收展<br>
+        自动生成各端各种语言代码，一键下载<br>
+        自动管理与测试各接口用例，一键共享<br>
+        自动给 JSON 加注释和文档，一键切换<br>
+      </p>
+      <a class="become-sponsor button white" style="padding-top: 10px;padding-bottom: 10px; margin-bottom: 20px; font-size: 0.9em" href="/api" target="_blank">接口 APIAuto 测试</a><br />
+      <img height="39px" width="135px" style="padding: 6px" src="images/users/www.tencentmusic.com.jpeg" />
+    </div>
+
+    <div class="point">
+      <h2>对于前端</h2>
+      <p>
+        不用再向后端开发同事催接口、求文档<br>
+        前端能完全定制数据和结构，要啥有啥<br>
+        调用接口看请求知结果，所求即所得<br>
+        可以一次性获取任何数据、任何结构<br>
+        能够去除多余数据，节省流量提高速度<br>
+      </p>
+      <a class="become-sponsor button white" style="padding-top: 10px;padding-bottom: 10px; margin-bottom: 20px; font-size: 0.9em" href="/ui" target="_blank">界面 UIAuto 测试</a><br />
+      <img height="48px" width="192px" src="images/users/ieg.tencent.com.jpg" />
+    </div>
+  </div>
+</div>
+
+
+
+<div id="news" style="background-color: #f6f6f6">
+
+
+  <div class="inner" style="margin-top: 30px">
+    <h3>
+      Postman 展示 APIJSON
+    </h3>
+    <img src="images/functions/APIJSON_with_Postman.jpeg" style="width: 80%;margin-bottom: 120px;">
+  </div>
+
+  <div class="inner" style="margin-top: 30px">
+    <h3>
+      APIAuto 展示 APIJSON
+    </h3>
+    <p style="color: gray">使用 APIAuto-机器学习接口工具 来管理和测试 HTTP API 可大幅提升接口联调效率<br/>
+      (注意网页工具界面是 APIAuto，里面的 URL + JSON 才是 APIJSON 的 HTTP API)
+    </p>
+  </div>
+
+  <div class="inner" style="margin-top: 36px">
+    <p>
+      APIJSON 多表关联查询、结构自由组合，APIAuto 多个测试账号、一键共享测试用例
+    </p>
+    <img src="images/functions/APIJSON_Auto_get.jpg" style="width: 80%;margin-bottom: 10px;">
+    <img src="images/functions/gif/APIJSON_query_associate.gif" style="width: 80%;margin-bottom: 120px;">
+  </div>
+
+  <!--<div style="background-color: #ffffff;height: 20px;margin-bottom: 20px" ></div>-->
+
+  <div class="inner">
+    <p>
+      APIAuto 自动生成 前端(客户端)请求代码 和 Python 测试用例代码，一键下载
+    </p>
+    <img src="images/functions/APIJSON_Auto_code.jpg" style="width: 80%;margin-bottom: 120px">
+  </div>
+
+  <!--<div style="background-color: #ffffff;height: 20px;margin-bottom: 20px" ></div>-->
+
+  <div class="inner">
+    <p>
+      APIAuto 自动保存请求记录、自动生成接口文档，可添加常用请求、快捷查看一键恢复
+    </p>
+    <img src="images/functions/APIJSON_Auto_doc.jpg" style="width: 80%;margin-bottom: 120px">
+  </div>
+
+  <div class="inner">
+    <p>
+      APIAuto 一键自动接口回归测试，不需要写任何代码(注解、注释等全都不要)
+    </p>
+    <img src="images/functions/APIJSON_Auto_test.jpg" style="width: 80%;margin-bottom: 120px">
+  </div>
+
+  <div class="inner">
+    <p>
+      一图胜千言 - APIJSON 部分基础功能概览
+    </p>
+    <img src="images/functions/APIJSON_Auto_summary.jpg" style="width: 80%;margin-bottom: 10px">
+    <img src="images/functions/gif/APIJSON_query_summary.gif" style="width: 80%;margin-bottom: 20px;">
+  </div>
+
+  <div class="inner" style="margin-top: 130px">
+    <p>
+      <h3>APIJSON App 演示</h3>
+      使用 APIJSON + ZBLibrary 开发的 Android 客户端 Demo (以下 Gif 图看起来比较卡，实际上运行很流畅)
+    </p>
+    <div >
+      <img src="images/app/APIJSON_App_MomentList_Circle.gif" style="width: 25%"><img src="images/app/APIJSON_App_Moment_Name.gif" style="width: 25%; margin-left: 30px; margin-right: 30px"><img src="images/app/APIJSON_App_Moment_Comment.gif" style="width: 25%">
+    </div>
+  </div>
+
+  <div class="inner" style="margin-top: 130px">
+    <p>
+      <h3>APIJSON 对比 传统方式</h3>
+      APIJSON 简化开发流程、提升开发效率、解决联调痛点
+    </p>
+    <div >
+      <img src="images/comparison/APIJSON_vs_PreviousWays.jpg" style="width: 80%;margin-bottom: 20px">
+      <img src="images/comparison/APIJSON_vs_PreviousWays_grid.jpg" style="width: 80%;margin-bottom: 20px">
+      <img src="images/APIJSON_why.jpg" style="width: 80%;margin-bottom: 20px">
+    </div>
+  </div>
+
+  <div class="inner" style="margin-top: 130px">
+    <p>
+      <h3>APIJSON 荣誉与成就</h3>
+    </p>
+    <div >
+      <a href="https://www.oschina.net/news/147090/apijson-4-7-0-released" target="_blank"><img src="https://oscimg.oschina.net/oscnet/up-6291180557291ef361561a069dd5323dc25.png" style="width: 80%;margin-bottom: 20px"></a>
+      <a href="https://www.oschina.net/news/112301/apijson-3-9-0-released" target="_blank"><img src="https://oscimg.oschina.net/oscnet/up-949daed9780e764ad4f45417e4fd5c0ed5e.JPEG" style="width: 80%;margin-bottom: 20px"></a>
+      <a href="https://www.bilibili.com/video/BV1Tv411t74v?p=1" target="_blank"><img src="https://oscimg.oschina.net/oscnet/up-5e0abeebf2efbba82a5e04d03723f23ae2c.JPEG" style="width: 80%;margin-bottom: 20px"></a>
+      <a href="https://www.bilibili.com/video/BV1yv411p7Y4" target="_blank"><img src="https://user-images.githubusercontent.com/5738175/121370207-1b35de00-c96f-11eb-840e-cc2ff2995888.png" style="width: 80%;margin-bottom: 20px"></a>
+    </div>
+  </div>
+
+</div>
+
+<div style="background: white; padding-top: 30px; text-align: center; align-content: center; display: none">
+  <h3 >为什么选择腾讯 APIJSON？</h3>
+  <div style="font-size: larger; align-self: center; text-align: left; width: 50%; white-space: nowrap;">
+  <br /> • <b >解决十大痛点</b> (APIJSON 大幅提振开发效率、强力杜绝联调扯皮、巧妙规避文档缺陷、非常节省流量带宽 等)
+  <br /> • <b >开发提速巨大</b> (CRUD 零代码热更新自动化，APIJSONBoot 对比 SSM、SSH 等保守估计可提速 20 倍以上)
+  <br /> • <b >腾讯官方开源</b> (使用 GitHub、Gitee、工蜂 等平台的官方账号开源，微信公众号、腾讯云+社区 等官方公告)
+  <br /> • <b >社区影响力大</b> (GitHub 11.3K Star 在 400W Java 项目中排名前 150，远超 FLAG, BAT 等国内外绝大部分开源项目)
+  <br /> • <b >各项荣誉成就</b> (腾讯开源五个第一、腾讯首个 GVP 获奖项目、腾讯后端项目 Star 第一、GitHub Java 周榜第一 等)
+  <br /> • <b >多样用户案例</b> (腾讯内部用户包含 互娱、音乐、云与智慧，外部用户包含 500 强上市公司、数千亿资本国企 等)
+  <br /> • <b >适用场景广泛</b> (社交聊天、阅读资讯、影音视频、办公学习 等各种 App、网站、公众号、小程序 等非金融类项目)
+  <br /> • <b >周边生态丰富</b> (Android, iOS, Web 等各种 Demo、继承 JSON 的海量生态、零代码 接口测试 和 单元测试 工具等)
+  <br /> • <b >文档视频齐全</b> (项目介绍、快速上手、安装部署 等后端、前端、客户端的 图文解说、视频教程、代码注释 等)
+  <br /> • <b >功能丰富强大</b> (增删改查、分页排序、分组聚合、各种 JOIN、各种子查询、跨库跨表、性能分析 等零代码实现)
+  <br /> • <b >使用安全简单</b> (自动增删改查、自动生成文档、自动管理版本、自动控制权限、自动校验参数、自动防 SQL 注入等)
+  <br /> • <b >灵活定制业务</b> (在后端编写 远程函数，可以拿到 session、version、当前 JSON 对象 等，然后自定义处理)
+  <br /> • <b >高质可靠代码</b> (代码工整规范、商业分析软件源伞 Pinpoint 代码扫描报告平均每行代码 bug 率低至 0.15%)
+  <br /> • <b >兼容各种项目</b> (对各类 Web 框架集成友好且提供 SpringBoot, JFinal 的 Demo，协议不限 HTTP，与其它库无冲突)
+  <br /> • <b >工程轻量小巧</b> (仅依赖 fastjson，Jar 仅 280KB，Java 文件仅 59 个共 13719 行代码，例如 APIJSONORM 4.3.1)
+  <br /> • <b >多年持续迭代</b> (自 2016 年开源至今已连续 4 年 2000+ Commits、70+ Releases，不断更新迭代中...)
+  </div>
+</div>
+
+
+<!--<img src="images/WhyChooseAPIJSON.jpg" style="width: 100%;height: 100%;margin: 0px;padding: 0px">-->
+<!--<img src="images/APIJSONisOneOfTheGVPsIn2019-small.jpg" style="width: 100%;height: 100%;margin: 0px;padding: 0px">-->
+<!--<img src="images/APIJSON_GVPAwardCertificate4Tencent-small.png" style="width: 100%;height: 100%;margin: 0px;padding: 0px">-->
+
+<!-- 登录用户 和 贡献者 -->
+<div id="sponsors">
+  <div class="inner">
+
+    <h3 style="margin-bottom: 0px; padding-bottom: 0px">APIJSON 部分用户(500强上市公司、近万亿资本国企)</h3>
+
+    <a href="https://cloud.tencent.com" target="_blank" style="width: 160px">
+      <img src="images/users/cloud.tencent.com.png" style="width: 160px;">
+    </a>
+    <a href="https://www.tencentmusic.com" target="_blank" style="width: 160px">
+      <img height="39px" src="images/users/www.tencentmusic.com.jpeg" style="width: 160px;margin-top: 3px">
+    </a>
+    <a href="https://ieg.tencent.com" target="_blank" style="width: 160px">
+      <img src="images/users/ieg.tencent.com.jpg" style="width: 150px;">
+    </a>
+
+    <a href="http://www.transsion.com" target="_blank" style="width: 160px">
+      <img src="images/users/www.transsion.com.jpeg" style="width: 160px;">
+    </a>
+    <a href="http://www.xmfish.com" target="_blank" style="width: 160px">
+      <img src="images/users/www.xmfish.com.jpg" style="width: 160px;">
+    </a>
+    <a href="https://www.toutou.com.cn" target="_blank" style="width: 160px">
+      <img src="images/users/www.toutou.com.cn.jpg" style="width: 160px;">
+    </a>
+    <a href="https://www.lepinyongche.com" target="_blank" style="width: 160px;">
+      <img src="images/users/www.lepinyongche.com.jpg" style="width: 160px;">
+    </a>
+    <a href="http://www.hngtrust.com" target="_blank" style="width: 160px;">
+      <img src="images/users/www.hngtrust.com.png" style="width: 160px;">
+    </a>
+    <a href="https://www.shulian8.com" target="_blank" style="width: 160px;">
+      <img src="images/users/www.shulian8.com-narrow.jpg" style="width: 160px;">
+    </a>
+    <a href="http://shebaochina.com" target="_blank" style="width: 160px;">
+      <img src="images/users/shebaochina.com.png" style="width: 160px;">
+    </a>
+    <a href="https://www.yto.net.cn" target="_blank" style="width: 160px;">
+      <img height="54px" src="images/users/www.yto.net.cn.jpg" style="width: 160px;">
+    </a>
+    <a href="https://www.aupup.com" target="_blank" style="width: 160px;">
+      <img src="images/users/www.aupup.com.png" style="width: 160px;">
+    </a>
+    <br>
+
+    <a class="become-sponsor button white" href="https://github.com/Tencent/APIJSON/issues/73" style="margin-top: 15px" target="_blank">更多 APIJSON 使用者</a>
+
+
+    <div class="open-collective-sponsors" style="margin-top: 30px;">
+      <h3 >社区及生态的贡献者</h3>
+      <h4 style="margin-bottom: 10px;margin-top: 5px">主项目的贡献者(6 个腾讯工程师、1 个知乎基础研发架构师、1 个圆通工程师 等)</h4>
+      <a href="https://github.com/TommyLemon" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/5738175?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/41" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars0.githubusercontent.com/u/39320217?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/119" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars1.githubusercontent.com/u/25604004?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/223" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/49295281?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/43" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars0.githubusercontent.com/u/23173448?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/47" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars2.githubusercontent.com/u/31512287?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/212" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/8936328?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/70" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars1.githubusercontent.com/u/22228201?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/74" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars0.githubusercontent.com/u/1274536?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/92" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars3.githubusercontent.com/u/6327228?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/103" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars0.githubusercontent.com/u/25990237?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/194" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars0.githubusercontent.com/u/3982329?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/219" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/7135770?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/222" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/49233056?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/221" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/17545585?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/217" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/30771966?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/190" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars3.githubusercontent.com/u/25056767?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/69" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars0.githubusercontent.com/u/13880474?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/72" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars1.githubusercontent.com/u/10663804?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/33" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars1.githubusercontent.com/u/5328313?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/235" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/17243165?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/233" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/1252459?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/250" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/44310040?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/253" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/19265050?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/278" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/4099373?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/279" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/28685375?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/280" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/60541766?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/283" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/50007106?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/284" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/45117061?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/285" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/32100214?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/287" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/62465397?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/288" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/55579125?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/291" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/17522475?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/293" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/53826144?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/295" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/11210385?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/311" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/22066942?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/316" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/20084624?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/325" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/33931153?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/333" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/26163082?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/321" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/4099373?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Tencent/APIJSON/pull/367" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/26472353?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <h4 style="margin-bottom: 10px">其它项目的作者(2 个腾讯工程师、1 个 BAT 技术专家、1 个字节跳动工程师 等)</h4>
+      <a href="https://github.com/APIJSON/apijson-orm" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/41146037?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/liaozb/APIJSON.NET" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars3.githubusercontent.com/u/12622501?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/j2go/apijson-go" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/9101755?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/kvnZero/hyperf-APIJSON" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/26163082?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/xianglong111/APIJSON-php" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/9738743?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/qq547057827/apijson-php" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars3.githubusercontent.com/u/1657532?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/kevinaskin/apijson-node" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars3.githubusercontent.com/u/20034891?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/TEsTsLA/apijson" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars2.githubusercontent.com/u/17310639?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/zhangchunlin/uliweb-apijson" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars0.githubusercontent.com/u/359281?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/crazytaxi824/APIJSON" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars3.githubusercontent.com/u/16500384?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/luckyxiaomo/APIJSONKOTLIN" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars2.githubusercontent.com/u/42728605?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Zerounary/APIJSONParser" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars2.githubusercontent.com/u/31512287?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://gitee.com/own_3_0/ff-api-json" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="data:image/png;base64,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" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/APIJSON/apijson-framework" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/41146037?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/APIJSON/apijson-column" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/41146037?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/APIJSON/APIJSON-Demo" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/41146037?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/jerrylususu/apijson_role_extend" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/17522475?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/jerrylususu/apijson_todo_demo" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/17522475?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/vcoolwind/apijson-practice" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/22070287?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/rainboy-learn/apijson-learn" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/43025876?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://gitee.com/greyzeng/apijson-sample" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://portrait.gitee.com/uploads/avatars/user/367/1102309_greyzeng_1578940307.png!avatar200" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/JYbill/APIJSON-test" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/57380135?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://gitee.com/xlongwei/light4j" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://portrait.gitee.com/uploads/avatars/user/402/1207995_xlongwei_1578946206.png!avatar200" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://gitee.com/drone/apijson-examples" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="data:image/png;base64,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" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/abliger/apijson_template" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/53035692?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://gitee.com/zhiyuexin/ApiJsonByJFinal" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatar.gitee.com/uploads/90/490_zhiyuexin.jpg!avatar100?1368664499" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/Airforce-1/SpringServer1.2-APIJSON" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars3.githubusercontent.com/u/6212428?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://gitee.com/JinShuProject/JinShuApiJson" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://portrait.gitee.com/uploads/avatars/user/232/698672_maxiaoji_1578931055.jpg!avatar200" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://gitee.com/csgitter/APIJSONBoot" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://portrait.gitee.com/uploads/avatars/user/211/634196_csgitter_1578929834.png!avatar200" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/keepfoo/apijson-java" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/9101755?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/andream7/apijson-db2" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/60541766?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/qiujunlin/APIJSONDemo" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/50007106?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/chenyanlann/APIJSONDemo_ClickHouse" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/62465397?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/chenyanlann/APIJSONBoot_Hive" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/62465397?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/TommyLemon/APIJSON-Android-RxJava" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars1.githubusercontent.com/u/5738175?u=5b2f372f0c03fae8f249d2d754e38971c2e17b92&v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/TommyLemon/APIAuto" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars1.githubusercontent.com/u/5738175?u=5b2f372f0c03fae8f249d2d754e38971c2e17b92&v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/TommyLemon/UnitAuto" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars1.githubusercontent.com/u/5738175?u=5b2f372f0c03fae8f249d2d754e38971c2e17b92&v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/vincentCheng/apijson-doc" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars3.githubusercontent.com/u/6327228?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/HANXU2018/APIJSON-DOC" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/45117061?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/ruoranw/APIJSONdocs" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/25990237?u=2143b95e5ed39185f2a03d66fbb5638795e16d5a&v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/APIJSON/apijson.org" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/41146037?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/pengxianggui/apijson-builder" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars2.githubusercontent.com/u/16299169?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/APIJSON/AbsGrade" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars.githubusercontent.com/u/41146037?v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+      <a href="https://github.com/TommyLemon/Android-ZBLibrary" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
+        <img src="https://avatars1.githubusercontent.com/u/5738175?u=5b2f372f0c03fae8f249d2d754e38971c2e17b92&v=4" style="width: auto;height: 36px;border-radius: 36px;">
+      </a>
+    </div>
+
+    <a class="become-sponsor button white" style="margin-top: 15px" href="https://github.com/Tencent/APIJSON/blob/master/CONTRIBUTING.md#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E5%AE%9A%E8%A6%81%E8%B4%A1%E7%8C%AE%E4%BB%A3%E7%A0%81">为什么要贡献代码？</a>
+
+    <script>
+      window.addEventListener('load', function () {
+        [].forEach.call(document.querySelectorAll('.open-collective-sponsors img'), function (img) {
+          if (img.width === 1) {
+            img.width = 0
+            img.parentElement.style.margin = '0 -1px 0 0'
+          }
+        })
+      })
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+
+  </div>
+</div>
+
+<div id="footer">
+  <p>本站由 <a href="https://github.com/Tencent/APIJSON" target="_blank">APIJSON</a>, <a href="https://github.com/TommyLemon/APIAuto" target="_blank">APIAuto</a>, <a href="https://github.com/TommyLemon/UnitAuto" target="_blank">UnitAuto</a> 等提供技术支持</p>
+  <p>遵循 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache-2.0 开源协议</a><br>
+    Copyright &copy; 2016-2021 Tommy Lemon</p>
+  <a href="https://beian.miit.gov.cn/" target="_blank">
+    <span >粤ICP备18005508号-1</span>
+  </a>
+</div>
+
+<div id="video-modal" class="modal">
+  <div class="video-space" style="padding: 56.25% 0 0 0; position: relative;"></div>
+</div>
+
+<script>
+  (function () {
+    var topScrolled = false
+    var sponsors = document.getElementById('sponsors')
+    var sponsorTop = sponsors.offsetTop
+    var sponsorActive = false
+
+    window.addEventListener('resize', function () {
+      sponsorTop = sponsors.offsetTop
+    })
+
+    window.addEventListener('scroll', function () {
+      if (window.pageYOffset > 165 && !topScrolled) {
+        topScrolled = true
+        document.getElementById('mobile-bar').classList.remove('top')
+      } else if (window.pageYOffset <= 165 && topScrolled) {
+        topScrolled = false
+        document.getElementById('mobile-bar').classList.add('top')
+      }
+      if (window.pageYOffset > sponsorTop - 100) {
+        if (!sponsorActive) {
+          sponsorActive = true
+          sponsors.classList.add('active')
+        }
+      } else {
+        if (sponsorActive) {
+          sponsorActive = false
+          sponsors.classList.remove('active')
+        }
+      }
+    })
+
+    var ss = [
+      '<p align="center" style="margin-top: 0px;margin-bottom: 0px;padding-left: 12px;padding-right: 12px">🏆腾讯开源前十、内外五个奖项<br>🚀后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构！</p>',
+      '<p align="center" style="margin-top: 0px;margin-bottom: 0px;padding-left: 12px;padding-right: 12px">接口全万能，前端不求人。要啥就有啥，所求即所得。<br>需求由它变，后端稳如山。不变应万变，上午就上线。</p>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“对于前后端开发，带来了很大的便利（有了它，后端不再需要写常规的业务代码，简单的，复杂的，增删改查）” <br/> — 有梦不弃 | 码龄10年</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“可以抽出时间来看apijson了，这个可以为T10做准备，也是业界很火的东西，可以提升个人影响力！” <br/> — 雷大锤 | 腾讯后台开发高级工程师，简历面试咨询</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“大大简化了开发流程，开发效率提升了很多倍。省去了大量业务层的代码” <br/> — qiujunlin | APIJSONDemo(ClickHouse) 作者</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“它可以做到零代码生成接口和文档，并且整个生成过程是自动化。当企业有元数据的时候，马上就可以获得接口” <br/> — Xinlin | 腾讯 IEG 数据产品开发组负责人</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“apijson适应于中小应用,可以做到忽略后端.它相当于有着自己的格式,可以构造各式各样的查询条件及其他操作” <br/> — JAVA道人 | 码龄4年</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“很兴奋的发现APIJSON很适合我们的一个开发场景，作为我们协议定义的一部分” <br/> — lpeng | 百度智慧城市研发</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“APIJSON帮助了我们后端简化了很多步骤，让我们开发效率可以大幅增加” <br/> — 辛苦耕种的农民工 | 码龄6年</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“以我多次使用过的感受来说：当我们搭建好APIJSON，后台开发已经结束了！” <br/> — 万物可盼 | 码龄3年</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“实践一下apijson，对做管理平台还是能有不少提效的~ apijson orm本身就一个orm工具，更好的一点是不需要编码” <br/> — vcoolwind | BAT 技术专家、apijson-practice 作者</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“在官网使用了一波，个人觉得对于后端来说事真的省事很多了” <br/> — Akily</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“感谢腾讯大大提供的框架，很好用” <br/> — duyijiang | 中兴工程师</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“最近因搬砖需要看这个，用来简化持久层，所以学了一下，写了个教程，还是比较容易上手的。” <br/> — 团团you | 计算机技术 硕士</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“初步使用了下APIJSON ，确实是个厉害的作品 好上手，对效率提升明显” <br/> — kls | 软件开发</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“demo工程，默认使用apijson-framework，可以做到无任何配置即可体验apijson的各种能力。” <br/> — minshiwu | 华为</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“APIJSON开发效率还是蛮高的，适合那种需要快速开发中小项目” <br/> — JYbill | APIJSON-test 作者</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“使用这个项目作为后端的支持的话，是不需要对每个表写增删改查等接口的，只需在该项目连接的数据里进行表的创建，以及配置接口权限即可” <br/> — Zerounary | APIJSONParser 作者</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“APIJSON 非常棒 想法很给力  我以前也一直在思考这些东西  你这个简直茅塞顿开” <br/> — JavaLitteBoy</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“向大佬致敬，apijson协议设计得非常优雅，让我爱不释手。” <br/> — happyyangyuan</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“这个确实好用，大厂出品，质量确实有保证” <br/> — langxj</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“这个项目可以让后端从curd的业务解放出来 缩减前后端对接的时间，提高效率” <br/> — hegphegp</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“感谢 APIJSON 提供了一个高校而简洁的开发方案。” <br/> — jerrylususu | apijson_role_extend、apijson_todo_demo 作者</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“从17年知道APIJSON开始，看着它一步步成长到今天，也见识到它年轻生命所拥有的强大力量；一路上离不开作者和其他贡献者的付出与坚持。” <br/> — 小柑橘</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“祝这个社区越来越繁荣~” <br/> — MaDaMaDaMaDa</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“作者的态度和理念我十分赞同，支持下” <br/> — zhangjie617</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“在调试GET、POST、PUT接口时遇到了一些问题，把个人的摸索经验分享一下，希望作者能梳理下文档，方便我们更好的接入” <br/> — bodian520 | 腾讯</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“能减少前后端不少工作量，给作者点赞！” <br/> — 尘记</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“apijson这样的设计理念，我觉得是未来的趋势（特别有利于微服务架构的API开发），我个人非常看好。” <br/> — 苏显斌</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“能做这么大一个 open source 的 repo，lz 牛逼” <br/> — liyuanba</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“作者优秀,关注了很久~” <br/> — 铂金蛋蛋</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“赞，使用很爽” <br/> — bloy</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“作者想法是非常前卫的，眼前一亮” <br/> — cnlinjie</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“很棒。我原来也是想用 json 来代替 接口的，你实现了！” <br/> — Tom-Lin</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“刚刚接触apijson，相见恨晚，真的很给力” <br/> — itbencn</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“支持，很不错的项目” <br/> — Terry05</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“楼主做这个很厉害 ！” <br/> — cyssxt</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“能做出来，很厉害了。对于中小型项目来说基本就够用了，极大的降低了开发成本” <br/> — Ritr</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“国内低代码平台，感觉这个比较有前景。” <br/> — neginegi</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“有过类似的需求和想法，你这个是落到实处了，真心不错” <br/> — flogyin</a>',
+      '<a style="width: auto; padding-left: 12px;padding-right: 12px">“这个组件很好用，希望持续改进~” <br/> — Grey Zeng | 园龄：6年3个月，粉丝：338</a>',
+    ]
+
+    var vSs = document.getElementById("special-sponsor")
+    function scrollSponsors(index) {
+      vSs.innerHTML = ss[index]
+      setTimeout(function () {
+        scrollSponsors((index + 1)%ss.length)
+      }, index == 1 ? 16000 : 5000)
+    }
+
+    scrollSponsors(0)
+
+  })()
+</script>
+
+
+
+<!-- main custom script for sidebars, version selects etc. -->
+<script src="js/css.escape.js"></script>
+<script src="js/common.js"></script>
+
+<!-- search -->
+<link href="//code.bdstatic.com/npm/docsearch.js@1.5.0/dist/cdn/docsearch.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/search.css">
+<script src="//code.bdstatic.com/npm/docsearch.js@1.5.0/dist/cdn/docsearch.min.js"></script>
+<script>
+  [
+    '#search-query-nav',
+    '#search-query-sidebar',
+    '#search-query-menu'
+  ].forEach(function (selector) {
+    if (!document.querySelector(selector)) return
+    // search index defaults to v2
+    var match = window.location.pathname.match(/^\/(v\d+)/)
+    var version = match ? match[1] : 'v2'
+    docsearch({
+      appId: 'BH4D9OD16A',
+      apiKey: '5638280abff9d207417bb03be05f0b25',
+      indexName: 'vuejs_cn2',
+      inputSelector: selector,
+      algoliaOptions: { facetFilters: ["version:" + version] },
+      autocompleteOptions: { hint: false, appendTo: 'body'}
+    })
+  })
+</script>
+
+<!-- fastclick -->
+<script src="//code.bdstatic.com/npm/fastclick@1.0.6/lib/fastclick.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    FastClick.attach(document.body)
+  }, false)
+</script>
+<script>'use strict';'serviceWorker'in navigator&&navigator.serviceWorker.register('service-worker.js').then(function(a){a.onupdatefound=function(){var b=a.installing;b.onstatechange=function(){switch(b.state){case'installed':navigator.serviceWorker.controller?console.log('New or updated content is available.'):console.log('Content is now available offline!');break;case'redundant':console.error('The installing service worker became redundant.');}}}}).catch(function(a){console.error('Error during service worker registration:',a)});
+</script></body></html>
