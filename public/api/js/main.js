@@ -1711,7 +1711,7 @@
           const isReleaseRESTful = isExportRandom && btnIndex == 1 && ! isEditResponse
 
           const method = App.getMethod();
-          const methodInfo = isReleaseRESTful ? (CodeUtil.parseUri(method, true) || {}) : {};
+          const methodInfo = isReleaseRESTful ? (JSONObject.parseUri(method, true) || {}) : {};
           if (isReleaseRESTful) {
             var isRestful = methodInfo.isRestful;
             var tag = methodInfo.tag;
@@ -1898,7 +1898,7 @@
               format: false,
               'Document': isEditResponse ? null : {
                 'id': did == null ? undefined : did,
-                'testAccountId': currentAccountId,
+//                'testAccountId': currentAccountId,
                 'name': extName,
                 'type': App.type,
                 'url': '/' + method, // 'url': isReleaseRESTful ? ('/' + methodInfo.method + '/' + methodInfo.tag) : ('/' + method),
@@ -1912,7 +1912,7 @@
                 'documentId': isEditResponse ? did : undefined,
                 'randomId': 0,
                 'host': baseUrl,
-                'testAccountId': currentAccountId,
+//                'testAccountId': currentAccountId,
                 'response': JSON.stringify(isEditResponse ? inputObj : currentResponse),
                 'standard': isML || isEditResponse ? JSON.stringify(isEditResponse ? commentObj : stddObj) : undefined,
                 // 没必要，直接都在请求中说明，查看也方便 'detail': (isEditResponse ? App.getExtraComment() : null) || ((App.currentRemoteItem || {}).TestRecord || {}).detail,
@@ -2991,10 +2991,10 @@
               'TestRecord': {
                 'documentId@': '/Document/id',
                 'userId': this.User.id,
-                'testAccountId': this.getCurrentAccountId(),
+//                'testAccountId': this.getCurrentAccountId(),
                 'randomId': 0,
                 '@order': 'date-',
-                '@column': 'id,userId,documentId,duration,minDuration,maxDuration,response' + (this.isMLEnabled ? ',standard' : ''),
+                '@column': 'id,userId,documentId,testAccountId,duration,minDuration,maxDuration,response' + (this.isMLEnabled ? ',standard' : ''),
                 '@having': this.isMLEnabled ? 'length(standard)>2' : null  //用 MySQL 5.6   '@having': this.isMLEnabled ? 'json_length(standard)>0' : null
               }
             },
@@ -3055,7 +3055,7 @@
               },
               'TestRecord': {
                 'randomId@': '/Random/id',
-                'testAccountId': this.getCurrentAccountId(),
+//                'testAccountId': this.getCurrentAccountId(),
                 'host': this.getBaseUrl(),
                 '@order': 'date-'
               },
@@ -3070,7 +3070,7 @@
                 },
                 'TestRecord': {
                   'randomId@': '/Random/id',
-                  'testAccountId': this.getCurrentAccountId(),
+//                  'testAccountId': this.getCurrentAccountId(),
                   'host': this.getBaseUrl(),
                   '@order': 'date-'
                 }
@@ -5879,14 +5879,15 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
       removeDebugInfo: function (obj) {
         if (obj != null) {
           delete obj["trace"]
-          delete obj["sql:generate|cache|execute|maxExecute"]
-          delete obj["depth:count|max"]
+          // 保留 delete obj["sql:generate|cache|execute|maxExecute"]
+          // 保留 delete obj["depth:count|max"]
           delete obj["time:start|duration|end"]
           delete obj["time:start|duration|end|parse|sql"]
           // 保留 delete obj["throw"]
           // 保留 delete obj["trace:throw"]
           delete obj["trace:stack"]
           delete obj["stack"]
+          delete obj["debug:info|help"]
         }
         return obj
       },

@@ -5518,11 +5518,15 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
       removeDebugInfo: function (obj) {
         if (obj != null) {
           delete obj["trace"]
-          delete obj["sql:generate|cache|execute|maxExecute"]
-          delete obj["depth:count|max"]
+          // 保留 delete obj["sql:generate|cache|execute|maxExecute"]
+          // 保留 delete obj["depth:count|max"]
           delete obj["time:start|duration|end"]
+          delete obj["time:start|duration|end|parse|sql"]
+          // 保留 delete obj["throw"]
+          // 保留 delete obj["trace:throw"]
           delete obj["trace:stack"]
           delete obj["stack"]
+          delete obj["debug:info|help"]
         }
         return obj
       },
