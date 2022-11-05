@@ -210,6 +210,10 @@ function toFormData(data) {
  * @param json
  */
 function format(json) {
+  if (json instanceof Object) {
+    return JSON.stringify(json, null, "\t");
+  }
+
   try {
     return JSON.stringify(JSON.parse(json), null, "\t");
   } catch(e) {
@@ -467,5 +471,8 @@ function newArrayString(table, json, count, page) {
     + table + "\":" + JSON.stringify(json) + "}}";
 }
 
+if (typeof module == 'object') {
+  module.exports = this;
+}
 
 //常用请求>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
