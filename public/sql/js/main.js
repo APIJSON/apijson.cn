@@ -648,6 +648,8 @@
   var baseUrl
   var inputted
   var handler
+  // var lastRes
+  var gridHandler
   var docObj
   var doc
   var output
@@ -676,10 +678,16 @@
       testCases: [],
       randoms: [],
       randomSubs: [],
-      account: '13000082001',
+      account: '13000082003',
       password: '123456',
       logoutSummary: {},
       accounts: [
+        {
+          'isLoggedIn': false,
+          'name': '测试账号3',
+          'phone': '13000082003',
+          'password': '123456'
+        },
         {
           'isLoggedIn': false,
           'name': '测试账号1',
@@ -690,12 +698,6 @@
           'isLoggedIn': false,
           'name': '测试账号2',
           'phone': '13000082002',
-          'password': '123456'
-        },
-        {
-          'isLoggedIn': false,
-          'name': '测试账号3',
-          'phone': '13000082003',
           'password': '123456'
         }
       ],
@@ -1019,7 +1021,18 @@
       },
 
       getRequest: function (sql, defaultValue, isRaw) {  // JSON5 兜底，减少修改范围  , isSingle) {
-        return sql == null ? defaultValue : sql;
+        if (sql == null) {
+          return defaultValue
+        }
+
+        var start = sql.lastIndexOf('\n\/*')
+        var end = sql.lastIndexOf('\n*/')
+        if (start < 0 || start >= end) {
+          return sql.trim()
+        }
+
+        return sql.substring(0, start).trim()
+
         // var s = isRaw != true && isSingle ? this.switchQuote(json) : json; // this.toDoubleJSON(json, defaultValue);
         // if (StringUtil.isEmpty(s, true)) {
         //   return defaultValue
@@ -1865,7 +1878,7 @@
           const currentAccountId = this.getCurrentAccountId()
           const currentResponse = this.view != 'code' || StringUtil.isEmpty(this.jsoncon, true) ? {} : this.removeDebugInfo(JSON.parse(this.jsoncon));
 
-          const after = isSingle ? this.switchQuote(inputted) : inputted;  // this.toDoubleJSON(inputted);
+          const after = inputted // isSingle ? this.switchQuote(inputted) : inputted;  // this.toDoubleJSON(inputted);
           const inputObj = this.getRequest(after, {});
 
           var commentObj = null;
@@ -2805,6 +2818,33 @@
         }
       },
 
+      generateValue: function (t, n, isSQL) {
+        if (t == 'boolean') {
+          return true
+        }
+        if (t == 'integer') {
+          return n == 'pageSize' ? 10 : 1
+        }
+        if (t == 'number') {
+          return n == 'pageSize' ? 10 : 1
+        }
+        if (t == 'string') {  // TODO
+          return ''
+        }
+        if (t == 'object') {
+          return {}
+        }
+        if (t == 'array') {
+          return []
+        }
+        var suffix = n != null && n.length >= 3 ? n.substring(n.length - 3).toLowerCase() : null
+        if (suffix == 'dto') {
+          return {}
+        }
+
+        return null
+      },
+
       //上传第三方平台的 API 至 SQLAuto
       uploadThirdPartyApi: function(type, name, url, parameters, header, description, creator) {
         var req = '{'
@@ -2817,29 +2857,7 @@
             var val = paraItem.default
 
             if (val == undefined) {
-              if (t == 'boolean') {
-                val = 'true'
-              }
-              if (t == 'integer') {
-                val = n == 'pageSize' ? '10' : '1'
-              }
-              else if (t == 'string') {
-                val = '""'
-              }
-              else if (t == 'object') {
-                val = '{}'
-              }
-              else if (t == 'array') {
-                val = '[]'
-              }
-              else {
-                var suffix = n.length >= 3 ? n.substring(n.length - 3).toLowerCase() : null
-                if (suffix == 'dto') {
-                  val = '{}'
-                } else {
-                  val = 'null'
-                }
-              }
+              val = this.generateValue(t, n)
             }
             else if (typeof val == 'string' && (StringUtil.isEmpty(t, true) || t == 'string')) {
               val = '"' + val.replace(/"/g, '\\"') + '"'
@@ -3487,7 +3505,7 @@
 
         if (user == null || StringUtil.isEmpty(user.phone, true)) {
           user = {
-            phone: '13000082001',
+            phone: '13000082003',
             password: '123456'
           }
         }
@@ -3797,7 +3815,7 @@
             before = StringUtil.trim(before); // this.toDoubleJSON(StringUtil.trim(before));
             log('onHandle  before = \n' + before);
 
-            var json = isSingle ? this.switchQuote(before) : before;
+            var json = before // isSingle ? this.switchQuote(before) : before;
             var arg = {}
             try {
               afterObj = {
@@ -3808,7 +3826,7 @@
               //FIXME 用前端的 SQL Parser 库
               // afterObj = jsonlint.parse(json);
               // after = JSON.stringify(afterObj, null, "    ");
-              before = isSingle ? this.switchQuote(after) : after;
+              before = after // isSingle ? this.switchQuote(after) : after;
             }
             catch (e) {
               log('main.onHandle', 'try { return jsonlint.parse(before); \n } catch (e) {\n' + e.message)
@@ -3879,17 +3897,17 @@
 
             var m = null  // this.getMethod();
             var w = isSingle || this.isEditResponse ? '' : StringUtil.trim(CodeUtil.parseComment(after, docObj == null ? null : docObj['[]'], m, this.database, this.language, this.isEditResponse != true, standardObj, null, true, isAPIJSONRouter));
-            var c = isSingle ? '' : StringUtil.trim(CodeUtil.parseComment(after, docObj == null ? null : docObj['[]'], m, this.database, this.language, this.isEditResponse != true, standardObj, null, null, isAPIJSONRouter));
+            var c = isSingle ? '' : StringUtil.get(vInput.value) // StringUtil.trim(CodeUtil.parseComment(after, docObj == null ? null : docObj['[]'], m, this.database, this.language, this.isEditResponse != true, standardObj, null, null, isAPIJSONRouter));
 
             //TODO 统计行数，补全到一致 vInput.value.lineNumbers
             if (isSingle != true) {
-              if (afterObj.tag == null) {
-                m = m == null ? 'GET' : m.toUpperCase()
-                if (['GETS', 'HEADS', 'POST', 'PUT', 'DELETE'].indexOf(m) >= 0) {
-                  w += ' ! 非开放请求必须设置 tag ！例如 "tag": "User"'
-                  c += ' ! 非开放请求必须设置 tag ！例如 "tag": "User"'
-                }
-              }
+              // if (afterObj.tag == null) {
+              //   m = m == null ? 'GET' : m.toUpperCase()
+              //   if (['GETS', 'HEADS', 'POST', 'PUT', 'DELETE'].indexOf(m) >= 0) {
+              //     w += ' ! 非开放请求必须设置 tag ！例如 "tag": "User"'
+              //     c += ' ! 非开放请求必须设置 tag ！例如 "tag": "User"'
+              //   }
+              // }
 
               if (StringUtil.isEmpty(detail, true)) {
                 c += extraComment == null ? '' : ('\n\n/*' + extraComment + '\n*/');
@@ -3939,7 +3957,7 @@
               var end = raw.lastIndexOf('\n*\/')
               var ct = start < 0 || end <= start ? '' : StringUtil.trim(raw.substring(start + '\n\/*'.length, end))
 
-              markdownToHTML('```js\n' + (start < 0 || end <= start ? raw : raw.substring(0, start)) + '\n```\n'
+              markdownToHTML('```sql\n' + (start < 0 || end <= start ? raw : raw.substring(0, start)) + '\n```\n'
                 + (StringUtil.isEmpty(ct, true) ? '' : ct + '\n\n```js\n' + ct + '\n```\n'), true);
             } catch (e3) {
               log(e3)
@@ -3995,7 +4013,7 @@
       transfer: function () {
         isSingle = ! isSingle;
 
-        vInput.value = this.switchQuote(vInput.value);
+        // vInput.value = this.switchQuote(vInput.value);
 
         this.isTestCaseShow = false
 
@@ -4009,6 +4027,13 @@
         // // 删除注释 >>>>>>>>>>>>>>>>>>>>>
 
         this.onChange(false);
+
+        // var list = docObj == null ? null : docObj['[]'];
+        // if (list != null && list.length > 0) {
+        //   this.onDocumentListResponse('', {data: docObj}, null, function (d) {
+        //     App.setDoc(d);
+        //   });
+        // }
       },
 
       /**获取显示的请求类型名称
@@ -4137,7 +4162,61 @@
             })
 
             App.setBaseUrl()
-            App.request(isAdminOperation, App.type, App.server + "/sql/execute", req, isAdminOperation ? {} : header, callback)
+            App.request(isAdminOperation, App.type, App.server + "/sql/execute", req, isAdminOperation ? {} : header, callback || function (url, res, err) {
+              App.onResponse(url, res, err)
+              clearTimeout(gridHandler)
+              // lastRes = res
+              gridHandler = setTimeout(function () {
+                // 导致连续多次相同请求后，不显示表格
+                // if (lastRes !== res) {
+                //   clearTimeout(gridHandler)
+                //   return
+                // }
+
+                var data = App.isTestCaseShow || (App.randomAllCount > 0 && App.randomDoneCount < App.randomAllCount) ? null : res.data
+                var list = JSONResponse.isSuccess(data) ? data.list : null
+                var len = list == null ? 0 : list.length
+                if (len > 0) {
+                  var h = ''
+                  var d = ''
+                  var firstItem = list[0];
+                  var first = true
+                  for (var k in firstItem) {
+                    h += '  |  ' + App.toMD(k)
+                    d += '  |  ' + '--------'
+                    first = false
+                  }
+
+                  var debugTime = App.parseDebugTime(data, App.currentRemoteItem.TestRecord) || {}
+
+                  var md = '<a href="javascript:void(0)" onclick="window.App._data.view=\'code\'"><- '
+                    + len + ' results' + (debugTime.duration == null ? '' : ', ' + App.getDurationShowString(debugTime.duration)
+                    + (StringUtil.isEmpty(debugTime.durationHint, true) ? '' : ', ' + debugTime.durationHint))
+                    + ':</a>\n\n' + h + '\n' + d
+
+                  for (var i = 0; i < len; i++) {
+                    var item = list[i];
+                    if (item == null) {
+                      continue;
+                    }
+
+                    md += '\n'
+                    for (var k in item) {
+                      var v = item[k]
+                      md +=  '  |  ' + App.toMD(v)  // (v == null ? '&lt;a style="color:red"&gt;&lt;NULL&gt;&lt;/a&gt;' : App.toMD(v))
+                    }
+                  }
+
+                  md += '\n\n```json\n'
+                  + JSON.stringify(data, null, '    ')
+                  + '\n```'
+
+                  App.view = 'markdown'
+                  markdownToHTML(md)
+                }
+              }
+              , 1000)
+            })
 
             App.locals = App.locals || []
             if (App.locals.length >= 1000) { //最多1000条，太多会很卡
@@ -4403,7 +4482,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                   continue;
                 }
 
-                var ind = l.lastIndexOf('  //');
+                var ind = l.lastIndexOf(' //');
                 l = ind < 0 ? l : StringUtil.trim(l.substring(0, ind));
 
                 ind = l.indexOf(':');
@@ -4975,7 +5054,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             },
             "join": isNotTSQL ? null : {
             	"&/AllTableComment": {
-            		'table_name$': search,
+            		  'table_name$': search,
               		'table_comment$': search,
               		'@combine': search == null ? null : 'table_name$,table_comment$',
             	}
@@ -4994,11 +5073,12 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               'count': 0,
               'Column': isTSQL ? null : {
                 'table_schema{}': schemas,
+                'table_schema@': schemas != null && schemas.length == 1 ? null : '[]/Table/table_schema',
                 'table_name@': this.database != 'SQLSERVER' ? '[]/Table/table_name' : "[]/SysTable/table_name",
                 "@order": this.database != 'SQLSERVER' ? null : "table_name+",
                 '@column': this.database == 'POSTGRESQL' || this.database == 'SQLSERVER'  //MySQL 8 SELECT `column_name` 返回的仍然是大写的 COLUMN_NAME，需要 AS 一下
                   ? 'column_name;data_type;numeric_precision,numeric_scale,character_maximum_length'
-                  : 'column_name:column_name,column_type:column_type,is_nullable:is_nullable,column_comment:column_comment'
+                  : 'column_name:column_name,column_type:column_type,is_nullable:is_nullable,column_default:column_default,column_comment:column_comment'
               },
               'PgAttribute': this.database != 'POSTGRESQL' ? null : {
                 'attrelid@': '[]/PgClass/oid',
@@ -5030,11 +5110,18 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             }
           }
         }, {}, function (url, res, err) {
-          if (err != null || res == null || res.data == null) {
-            log('getDoc  err != null || res == null || res.data == null >> return;');
+          App.onDocumentListResponse(url, res, err, callback)
+        })
+      },
+
+      onDocumentListResponse: function(url, res, err, callback) {
+        if (err != null || res == null || res.data == null) {
+          log('getDoc  err != null || res == null || res.data == null >> return;');
+          if (callback != null) {
             callback('')
-            return;
           }
+          return;
+        }
 
 //        log('getDoc  docRq.responseText = \n' + docRq.responseText);
           docObj = res.data || {};  //避免后面又调用 onChange ，onChange 又调用 getDoc 导致死循环
@@ -5076,43 +5163,20 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               // item.Table.table_comment = table_comment
 
               var schema = table.table_schema
+              var tableName = table.table_name
+              var argStr = i + ",'" + tableName + "'" + (StringUtil.isEmpty(schema, true) ? '' : ",'" + schema + "'")
 
               doc += '\n### ' + (i + 1) + '. ' + (StringUtil.isEmpty(schema, true) ? '' : schema + '.')
-                + StringUtil.get(table.table_name)
-                + '  - [INSERT](' + App.getShareLink(false,
-                encodeURIComponent('INSERT INTO ' + table.table_name
-                + '\n# ('
-                + '\n# )'  // + '\n# %29'
-                + '\nVALUES('
-                // + '\n# TODO '
-                + '\n)').replaceAll(')', '%29')
-                  , StringUtil.isEmpty(schema, true) ? null : App.getBaseUrl() + '/' + schema, null, '', '') + ') '
-                + '[SELECT](' + App.getShareLink(false,
-                encodeURIComponent('SELECT * FROM ' + table.table_name
-                + '\n# WHERE id = 1 AND userId > 0'
-                + '\n# GROUP BY userId'
-                + '\n# HAVING avg(id)>10'
-                + '\n# ORDER BY id DESC'
-                + '\nLIMIT 10'
-                + '\n# OFFSET 10').replaceAll(')', '%29')
-                  , StringUtil.isEmpty(schema, true) ? null : App.getBaseUrl() + '/' + schema, null, '', '') + ') '
-                + '[UPDATE](' + App.getShareLink(false,
-                encodeURIComponent('UPDATE ' + table.table_name
-                + '\nSET userId = 2 '
-                + '\nWHERE id = 1 AND userId = 1'
-                + '\n# LIMIT 1').replaceAll(')', '%29')
-                  , StringUtil.isEmpty(schema, true) ? null : App.getBaseUrl() + '/' + schema, null, '', '') + ') '
-                + '[DELETE](' + App.getShareLink(false,
-                encodeURIComponent('DELETE FROM ' + table.table_name
-                + '\nWHERE id = 1 AND userId = 1'
-                + '\n# LIMIT 1').replaceAll(')', '%29')
-                  , StringUtil.isEmpty(schema, true) ? null : App.getBaseUrl() + '/' + schema, null, '', '') + ') '
+                + StringUtil.get(tableName)
+                + ' - <a href="javascript:void(0)" onclick="window.App.onClickGet(' + argStr + ')">SELECT</a>'
+                + ' <a href="javascript:void(0)" onclick="window.App.onClickPost(' + argStr + ')">INSERT</a>'
+                + ' <a href="javascript:void(0)" onclick="window.App.onClickPut(' + argStr + ')">UPDATE</a>'
+                + ' <a href="javascript:void(0)" onclick="window.App.onClickDelete(' + argStr + ')">DELETE</a>'
                 + '\n' + App.toMD(table_comment);
 
-
               //Column[]
-              doc += '\n\n 名称  |  类型  |  最大长度  |  详细说明' +
-                ' \n --------  |  ------------  |  ------------  |  ------------ ';
+              doc += '\n\n 名称  |  类型  |  最大长度  |  默认值  |  详细说明' +
+                ' \n --------  |  ------------  |  ------------  |  ------------  |  ------------ ';
 
               columnList = item['[]'];
               if (columnList == null) {
@@ -5126,7 +5190,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               var type;
               var length;
               for (var j = 0; j < columnList.length; j++) {
-                column = (columnList[j] || {}).Column;
+                column = (columnList[j] || {})[App.database != 'SQLSERVER' ? 'Column' : 'SysColumn'];
                 name = column == null ? null : column.column_name;
                 if (name == null) {
                   continue;
@@ -5147,9 +5211,12 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                       : column
                   );
                 var column_comment = (o || {}).column_comment
+                var column_default = column.column_default
 
                 // column.column_comment = column_comment
-                doc += '\n' + name + '  |  ' + type.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '  |  ' + length + '  |  ' + App.toMD(column_comment);
+                doc += '\n' + name + '  |  ' + type.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                  // + '  |  ' + length + '  |  ' + (column_default == null ? 'NULL' : column_default) + '  |  ' + App.toMD(column_comment);
+                  + '  |  ' + length + '  |  ' + (column_default == null ? '' : column_default) + '  |  ' + App.toMD(column_comment);
 
               }
 
@@ -5263,12 +5330,221 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
           App.onChange(false);
 
-
-          callback(doc);
+          if (callback != null) {
+            callback(doc);
+          }
 
 //      log('getDoc  callback(doc); = \n' + doc);
-        });
+      },
 
+      getTableKey(database) {
+        database = database || this.database
+        return this.database == 'SQLSERVER' ? 'SysTable' : (['ORALCE', 'DAMENG'].indexOf(database) >= 0 ? 'AllTable' : 'Table')
+      },
+      getColumnKey(database) {
+        database = database || this.database
+        return this.database == 'SQLSERVER' ? 'SysColumn' : (['ORALCE', 'DAMENG'].indexOf(database) >= 0 ? 'AllColumn' : 'Column')
+      },
+      getTableObj(tableIndex) {
+        var list = docObj == null ? null : docObj['[]']
+        var item = list == null ? null : list[tableIndex]
+        return item == null ? null : item[this.getTableKey()];
+      },
+      getColumnList(tableIndex) {
+        var list = docObj == null ? null : docObj['[]']
+        var item = list == null ? null : list[tableIndex]
+        return item == null ? null : item['[]']
+      },
+      getColumnObj(columnList, columnIndex) {
+        return columnList == null ? null : (columnList[columnIndex] || {})[this.getColumnKey()];
+      },
+      getSchemaName(tableIndex) {
+        var table = this.getTableObj(tableIndex)
+        var sch = table == null ? null : table.table_shema
+        if (StringUtil.isNotEmpty(sch)) {
+          return sch
+        }
+
+        var schemas = StringUtil.isEmpty(this.schema, true) ? null : StringUtil.split(this.schema)
+        return schemas == null || schemas.length != 1 ? null : this.schema
+      },
+      getTableName(tableIndex) {
+        var table = this.getTableObj(tableIndex)
+        return table == null ? '' : table.table_name
+      },
+      getColumnName(columnList, columnIndex) {
+        var column = this.getColumnObj(columnList, columnIndex)
+        return column == null ? '' : column.column_name
+      },
+
+      onClickPost: function (tableIndex, tableName, schemaName) {
+        tableName = tableName || this.getTableName(tableIndex)
+
+        var s = 'INSERT INTO ' + (isSingle ? tableName : '`' + tableName + '`') + '\n  ('
+        var v = '\nVALUES('
+
+        var columnList = this.getColumnList(tableIndex)
+        if (columnList != null && columnList.length > 0) {
+          for (var j = 0; j < columnList.length; j++) {
+            var column = this.getColumnObj(columnList, j)
+            var name = column == null ? null : column.column_name;
+            if (name == null) {
+              continue;
+            }
+
+            s += (j <= 0 ? '' : ', ') + (isSingle ? name : '`' + name + '`')
+
+            var val = column.column_default
+            if (val == null) {
+              var column_type = CodeUtil.getColumnType(column, this.database);
+              var type = CodeUtil.getType4Language(CodeUtil.LANGUAGE_JAVA_SCRIPT, column_type, false);
+              val = this.generateValue(type, name, true)
+            }
+
+            if (val instanceof Object) {
+              val = JSON.stringify(val)
+            }
+
+            var isStr = typeof val == 'string'
+            v += (j <= 0 ? '\n  ' : ',\n  ') + (val == null ? 'NULL' : (isStr ? "'" + val.replaceAll("'", "\\'") + "'" : val))
+          }
+        }
+
+        v += '\n)'
+        s += ')' + v
+
+        this.showCRUD(tableIndex, tableName, schemaName, s)
+      },
+
+      onClickGet: function (tableIndex, tableName, schemaName) {
+        tableName = tableName || this.getTableName(tableIndex)
+        var s = 'SELECT '
+        var v = '\nWHERE ('
+
+        var columnList = this.getColumnList(tableIndex)
+        if (columnList != null && columnList.length > 0) {
+          for (var j = 0; j < columnList.length; j++) {
+            var column = this.getColumnObj(columnList, j)
+            var name = column == null ? null : column.column_name;
+            if (name == null) {
+              continue;
+            }
+
+            s += (j <= 0 ? '' : ', ') + (isSingle ? name : '`' + name + '`')
+
+            var val = column.column_default
+            if (val == null) {
+              var column_type = CodeUtil.getColumnType(column, this.database);
+              var type = CodeUtil.getType4Language(CodeUtil.LANGUAGE_JAVA_SCRIPT, column_type, false);
+              val = this.generateValue(type, name, true)
+            }
+
+            if (val instanceof Object) {
+              val = JSON.stringify(val)
+            }
+
+            var isStr = typeof val == 'string'
+            v += (j <= 0 ? '\n  ' : '\n  AND ') + (isSingle ? name : '`' + name + '`') + (val == null ? ' IS NULL ' : ' = ' + (isStr ? "'" + val.replaceAll("'", "\\'") + "'" : val))
+          }
+        }
+
+        v += '\n)'
+        s += '\nFROM ' + (isSingle ? tableName : '`' + tableName + '`') + v
+          + '\n# GROUP BY userId'
+          + '\n# HAVING avg(id)>10'
+          + '\n# ORDER BY id DESC'
+          + '\nLIMIT 100'
+          + '\n# OFFSET 10'
+
+        this.showCRUD(tableIndex, tableName, schemaName, s)
+      },
+
+      onClickPut: function (tableIndex, tableName, schemaName) {
+        tableName = tableName || this.getTableName(tableIndex)
+
+        var s = 'UPDATE ' + (isSingle ? tableName : '`' + tableName + '`') + '\nSET '
+        var v = '\nWHERE ('
+
+        var columnList = this.getColumnList(tableIndex)
+        if (columnList != null && columnList.length > 0) {
+          for (var j = 0; j < columnList.length; j++) {
+            var column = this.getColumnObj(columnList, j)
+            var name = column == null ? null : column.column_name;
+            if (name == null) {
+              continue;
+            }
+
+            var val = column.column_default
+            if (val == null) {
+              var column_type = CodeUtil.getColumnType(column, this.database);
+              var type = CodeUtil.getType4Language(CodeUtil.LANGUAGE_JAVA_SCRIPT, column_type, false);
+              val = this.generateValue(type, name, true)
+            }
+
+            if (val instanceof Object) {
+              val = JSON.stringify(val)
+            }
+
+            var isStr = typeof val == 'string'
+            var valStr = (val == null ? 'NULL' : (isStr ? "'" + val.replaceAll("'", "\\'") + "'" : val))
+
+            s += (j <= 0 ? '\n  ' : ',\n  ') + (isSingle ? name : '`' + name + '`') + ' = ' + valStr
+            v += (j <= 0 ? '\n  ' : '\n  AND ') + (isSingle ? name : '`' + name + '`') + (val == null ? ' IS NULL ' : ' = ' + valStr)
+          }
+        }
+
+        v += '\n)'
+        s += v + '\n# LIMIT 1'
+
+        this.showCRUD(tableIndex, tableName, schemaName, s)
+      },
+
+      onClickDelete: function (tableIndex, tableName, schemaName) {
+        tableName = tableName || this.getTableName(tableIndex)
+
+        var s = 'DELETE FROM ' + (isSingle ? tableName : '`' + tableName + '`')
+        var v = '\nWHERE ('
+
+        var columnList = this.getColumnList(tableIndex)
+        if (columnList != null && columnList.length > 0) {
+          for (var j = 0; j < columnList.length; j++) {
+            var column = this.getColumnObj(columnList, j)
+            var name = column == null ? null : column.column_name;
+            if (name == null) {
+              continue;
+            }
+
+            var val = column.column_default
+            if (val == null) {
+              var column_type = CodeUtil.getColumnType(column, this.database);
+              var type = CodeUtil.getType4Language(CodeUtil.LANGUAGE_JAVA_SCRIPT, column_type, false);
+              val = this.generateValue(type, name, true)
+            }
+
+            if (val instanceof Object) {
+              val = JSON.stringify(val)
+            }
+
+            var isStr = typeof val == 'string'
+            v += (j <= 0 ? '\n  ' : '\n  AND ') + (isSingle ? name : '`' + name + '`') + (val == null ? ' IS NULL ' : ' = ' + (isStr ? "'" + val.replaceAll("'", "\\'") + "'" : val))
+          }
+        }
+
+        v += '\n)'
+        s += v + '\n# LIMIT 1'
+
+        this.showCRUD(tableIndex, tableName, schemaName, s)
+      },
+
+      showCRUD: function (tableIndex, tableName, schemaName, sql) {
+        schemaName = schemaName || this.getSchemaName(tableIndex)
+
+        this.type = REQUEST_TYPE_JSON
+        this.showUrl(false, StringUtil.isEmpty(schemaName) ? '' : '/' + schemaName)
+        this.urlComment = ''
+        vInput.value = StringUtil.trim(sql)
+        vHeader.value = ''  // TODO 生成完整的，不过都用注释形式
+        this.onChange(false)
       },
 
       // toDoubleJSON: function (json, defaultValue) {
@@ -5308,15 +5584,21 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
        */
       toMD: function (s) {
         if (s == null) {
-          s = '';
-        }
-        else {
-          //无效
-          s = s.replace(/\|/g, '\|');
-          s = s.replace(/\n/g, ' <br /> ');
-          // s = s.replace(/ /g, '&ensp;');
+          return ''
         }
 
+        if (s instanceof Object) {
+          s = JSON.stringify(s)
+        }
+
+        if (typeof s != 'string') {
+          return new String(s)
+        }
+
+        //无效
+        s = s.replace(/\|/g, '\|');
+        s = s.replace(/\n/g, ' <br /> ');
+        // s = s.replace(/ /g, '&ensp;');
         return s;
       },
 
@@ -5770,7 +6052,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
        * @param callback
        */
       parseRandom: function (sql, config, randomId, generateJSON, generateConfig, generateName, callback) {
-        sql = StringUtil.trim(sql)
+        sql = this.getRequest(sql, '')
         var sqlLines = sql.split('\n')
         var newSql = ''
         for (let i = 0; i < sqlLines.length; i ++) {
@@ -5828,13 +6110,14 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         var constConfigLines = [] //TODO 改为 [{ "rawPath": "User/id", "replacePath": "User/id@", "replaceValue": "RANDOM_INT(1, 10)", "isExpression": true }] ?
 
         // alert('< sql = ' + JSON.stringify(json, null, '    '))
+        var lastVarIndex = -1;
 
         for (let i = 0; i < reqCount; i ++) {
           const which = i;
           const lineItem = lines[i] || '';
 
           // remove comment   // 解决整体 trim 后第一行  // 被当成正常的 key 路径而不是注释
-          const commentIndex = StringUtil.trim(lineItem).startsWith('//') ? 0 : lineItem.lastIndexOf('  //'); //  -1; // eval 本身支持注释 eval('1 // test') = 1 lineItem.indexOf('  //');
+          const commentIndex = StringUtil.trim(lineItem).startsWith('//') ? 0 : lineItem.lastIndexOf(' //'); //  -1; // eval 本身支持注释 eval('1 // test') = 1 lineItem.indexOf(' //');
           const line = commentIndex < 0 ? lineItem : lineItem.substring(0, commentIndex).trim();
 
           if (line.length <= 0) {
@@ -5855,6 +6138,17 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           // path User/id  key id@
           const index = line.indexOf(': '); //APIJSON Table:alias 前面不会有空格 //致后面就接 { 'a': 1} 报错 Unexpected token ':'   lastIndexOf(': '); // indexOf(': '); 可能会有 Comment:to
           const p_k = line.substring(0, index);
+
+          var varIndex = sql.indexOf('${' + p_k + '}')
+          if (varIndex <= 0) {
+            throw new Error('参数配置第 ' + (i + 1) + ' 行错误！ \n' + p_k + ': value 必须对应以上 SQL 中有 ${' + p_k + '} ！\n不允许任何多余的空格！\n必须按 SQL 中变量的顺序配置参数，且 SQL 中不允许同名变量！')
+          }
+          if (varIndex <= lastVarIndex) {
+            throw new Error('参数配置第 ' + (i + 1) + ' 行位置错误！\n' + p_k + ': value 必须按在 SQL 中变量 ${' + p_k + '} 的位置配置参数，且 SQL 中不允许同名变量！')
+          }
+
+          lastVarIndex = varIndex
+
           const bi = -1;  //没必要支持，用 before: undefined, after: .. 同样支持替换，反而这样导致不兼容包含空格的 key   p_k.indexOf(' ');
           const path = bi < 0 ? p_k : p_k.substring(0, bi); // User/id
 
@@ -6348,28 +6642,31 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
       },
 
-      compareResponse: function (allCount, list, index, item, response, isRandom, accountIndex, justRecoverTest, err, ignoreTrend, isCross, callback) {
-        var it = item || {} //请求异步
-        var d = (isRandom ? this.currentRemoteItem.Document : it.Document) || {} //请求异步
-        var r = isRandom ? it.Random : null //请求异步
-        var tr = it.TestRecord || {} //请求异步
+      getDurationShowString: function (duration) {
+        if (duration == null) {
+          duration = 0
+        }
+        return duration <= 0 ? '' : (duration < 1000 ? duration + 'ms' : (duration < 1000*60 ? (duration/1000).toFixed(1) + 's' : (duration <= 1000*60*60 ? (duration/1000/60).toFixed(1) + 'm' : '>1h')))
+      },
 
-        var bdt = tr.duration || 0
-        it.durationBeforeShowStr = bdt <= 0 ? '' : (bdt < 1000 ? bdt + 'ms' : (bdt < 1000*60 ? (bdt/1000).toFixed(1) + 's' : (bdt <= 1000*60*60 ? (bdt/1000/60).toFixed(1) + 'm' : '>1h')))
+      parseDebugTime: function (response, testRecord) {
+        var it = {}
         try {
-          var durationInfo = response == null ? null : response['time:start|duration|end|parse|sql']
-          it.durationInfo = durationInfo
-          if (durationInfo == null) {
+          var timeInfoStr = response == null ? null : response['time:start|duration|end|parse|sql']
+          it.durationInfo = timeInfoStr
+          if (timeInfoStr == null) {
             throw new Error("response['time:start|duration|end|parse|sql'] is null!");
           }
 
-          var di = durationInfo.substring(durationInfo.indexOf('\|') + 1)
+          testRecord = testRecord || {}
+
+          var di = timeInfoStr.substring(timeInfoStr.indexOf('\|') + 1)
           it.duration = di.substring(0, di.indexOf('\|') || di.length) || 0
           var dt = + it.duration
           it.duration = dt
-          it.durationShowStr = dt <= 0 ? '' : (dt < 1000 ? dt + 'ms' : (dt < 1000*60 ? (dt/1000).toFixed(1) + 's' : (dt <= 1000*60*60 ? (dt/1000/60).toFixed(1) + 'm' : '>1h')))
-          var min = tr.minDuration == null || tr.minDuration <= 0 ? 20 : tr.minDuration
-          var max = tr.maxDuration == null || tr.maxDuration <= 0 ? 200 : tr.maxDuration
+          it.durationShowStr = this.getDurationShowString(dt)
+          var min = testRecord.minDuration == null || testRecord.minDuration <= 0 ? 20 : testRecord.minDuration
+          var max = testRecord.maxDuration == null || testRecord.maxDuration <= 0 ? 200 : testRecord.maxDuration
           it.durationColor = dt < min ? 'green' : (dt > 2*max ? 'red' : (dt > max + min ? 'orange' : (dt > max ? 'blue' : 'black')))
           it.durationHint = dt < min ? '很快：比以往 [' + min + 'ms, ' + max + 'ms] 最快还更快' : (dt > 2*max ? '非常慢：比以往 [' + min + 'ms, ' + max + 'ms] 最慢的两倍还更慢'
             : (dt > max + min ? '比较慢：比以往 [' + min + 'ms, ' + max + 'ms] 最快与最慢之和(平均值两倍)还更慢'
@@ -6380,6 +6677,19 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           it.durationShowStr = it.durationShowStr || it.duration
           it.durationHint = it.durationHint || '最外层缺少字段 "time:start|duration|end|parse|sql"，无法对比耗时'
         }
+        return it
+      },
+
+      compareResponse: function (allCount, list, index, item, response, isRandom, accountIndex, justRecoverTest, err, ignoreTrend, isCross, callback) {
+        var it = item || {} //请求异步
+        var d = (isRandom ? this.currentRemoteItem.Document : it.Document) || {} //请求异步
+        var r = isRandom ? it.Random : null //请求异步
+        var tr = it.TestRecord || {} //请求异步
+
+        var bdt = tr.duration || 0
+        it.durationBeforeShowStr = this.getDurationShowString(bdt)
+        var timeInfo = this.parseDebugTime(response, tr)
+        it = Object.assign(it, timeInfo)
 
         if (err != null) {
           tr.compare = {
@@ -7536,7 +7846,51 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
       document.addEventListener('keydown', function(event) {
         // alert(event.key) 小写字母 i 而不是 KeyI
         // if (event.ctrlKey && event.keyCode === 73) { // KeyI 无效  event.key === 'KeyI' && event.target == vInput){
-        if (event.ctrlKey || event.metaKey) {
+        var isEnter = event.keyCode === 13
+        var isDel = event.keyCode === 8 || event.keyCode === 46 // backspace 和 del
+        if (isEnter || isDel) { // enter || delete
+          var target = event.target
+          if (target == vUrl) {
+          }
+          else {
+            var selectionStart = target.selectionStart;
+            var selectionEnd = target.selectionEnd;
+
+            var text = StringUtil.get(target.value);
+            var before = text.substring(0, selectionStart);
+            var after = text.substring(selectionEnd);
+
+            var lastIndexOfNewline = before.lastIndexOf('\n')
+            var lastLineStart = lastIndexOfNewline + 1;
+            var lastLine = before.substring(lastLineStart);
+
+            var prefix = '';
+            for (var i = 0; i < lastLine.length; i++) {
+              if (lastLine.charAt(i) != ' ') {
+                if (isDel) {
+                  prefix = '';
+                }
+                break;
+              }
+
+              prefix += ' ';
+            }
+
+            if (prefix.length > 0) {
+              if (isEnter) {
+                target.value = before + '\n' + prefix + after.trimLeft();
+                target.selectionEnd = target.selectionStart = selectionStart + prefix.length;
+                event.preventDefault();
+              }
+              else if (isDel) {
+                target.value = (selectionStart == selectionEnd ? StringUtil.get(before.substring(0, lastIndexOfNewline) + ' ') : before) + after;
+                target.selectionEnd = target.selectionStart = selectionStart == selectionEnd ? lastIndexOfNewline : selectionStart;
+                event.preventDefault();
+              }
+            }
+          }
+        }
+        else if (event.ctrlKey || event.metaKey) {
           var target = event.target;
           var selectionStart = target.selectionStart;
           var selectionEnd = target.selectionEnd;
@@ -7545,57 +7899,53 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
           if (event.keyCode === 73) {  // Ctrl + 'I'  格式化
             try {
-              if (target == vInput) {
-                var json = vInput.value // JSON.stringify(JSON5.parse(vInput.value), null, '    ');
-                vInput.value = inputted = isSingle ? App.switchQuote(json) : json;
-              }
-              else {
-                var lines = StringUtil.split(target.value, '\n');
-                var newStr = '';
+              var isInput = target == vInput;
+              var commentChar = isInput ? '#' : '//';
+              var lines = StringUtil.split(target.value, '\n');
+              var newStr = '';
 
-                for (var i = 0; i < lines.length; i ++) {
-                  var l = StringUtil.trim(lines[i]) || '';
-                  if (l.startsWith('//')) {
-                   continue;
-                  }
+              for (var i = 0; i < lines.length; i ++) {
+                var l = StringUtil.trim(lines[i]) || '';
+                if (l.startsWith(commentChar)) {
+                  continue;
+                }
 
-                  var ind = l.lastIndexOf(' //');
-                  l = ind < 0 ? l : StringUtil.trim(l.substring(0, ind));
+                var ind = l.lastIndexOf(' ' + commentChar);
+                l = ind < 0 ? l : StringUtil.trim(l.substring(0, ind));
 
-                  if (target == vHeader || target == vRandom) {
-                    ind = l.indexOf(':');
-                    if (ind >= 0) {
-                      var left = target == vHeader ? StringUtil.trim(l.substring(0, ind)) : l.substring(0, ind);
-                      l = left + ': ' + StringUtil.trim(l.substring(ind + 1));
-                    }
-                  }
-
-                  if (l.length > 0) {
-                    newStr += '\n' + l;
+                if (target == vHeader || target == vRandom) {
+                  ind = l.indexOf(':');
+                  if (ind >= 0) {
+                    var left = target == vHeader ? StringUtil.trim(l.substring(0, ind)) : l.substring(0, ind);
+                    l = left + ': ' + StringUtil.trim(l.substring(ind + 1));
                   }
                 }
 
-                target.value = StringUtil.trim(newStr);
+                if (l.length > 0) {
+                  newStr += '\n' + l;
+                }
               }
+
+              target.value = StringUtil.trim(newStr);
             } catch (e) {
               log(e)
             }
           }
           else if (event.keyCode === 191) {  // Ctrl + '/' 注释与取消注释
             try {
-              var json = StringUtil.get(target.value);
-              var before = json.substring(0, selectionStart);
-              var after = json.substring(selectionEnd);
+              var text = StringUtil.get(target.value);
+              var before = text.substring(0, selectionStart);
+              var after = text.substring(selectionEnd);
 
               var ind = before.lastIndexOf('\n');
               var start = ind < 0 ? 0 : ind + 1;
               ind = after.indexOf('\n');
-              var end = ind < 0 ? json.length : selectionEnd + ind - 1;
+              var end = ind < 0 ? text.length : selectionEnd + ind - 1;
 
-              var selection = json.substring(start, end);
+              var selection = text.substring(start, end);
               var lines = StringUtil.split(selection, '\n');
 
-              var newStr = json.substring(0, start);
+              var newStr = text.substring(0, start);
 
               var commentSign = target == vInput ? '#' : '//'
               var commentSignLen = commentSign.length
@@ -7626,7 +7976,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 }
               }
 
-              newStr += json.substring(end);
+              newStr += text.substring(end);
 
               target.value = newStr;
               if (target == vInput) {
@@ -7647,6 +7997,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
   if (IS_BROWSER) {
     App = new Vue(App)
+    window.App = App
   }
   else {
     var data = App.data
