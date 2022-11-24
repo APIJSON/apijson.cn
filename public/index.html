@@ -77,7 +77,7 @@
   <a class="menu-button"></a>
   <a class="logo" href="/"></a>
 </div>
-<div id="header">
+<div id="header" style="position: fixed; width: 100%;">
   <a id="logo" href="/">
     <img src="images/logo.png" alt="vue logo">
     <span>APIJSON</span>
@@ -85,7 +85,7 @@
   <iframe style="margin-left: 12px" src="https://ghbtns.com/github-btn.html?user=Tencent&amp;repo=APIJSON&amp;type=star&amp;count=true&amp;size=small" frameborder="0" scrolling="0" width="120px" height="18px"></iframe><a href="https://gitee.com/Tencent/APIJSON" target="_blank">
     <img style="margin-bottom: -1px" height="18" src="https://gitee.com/Tencent/APIJSON/badge/star.svg?theme=gvp">
   </a>
-  <ul id="nav">
+  <ul id="nav" style="right: 150px">
     <li style="vertical-align: middle">
       <a href="https://git.code.tencent.com/Tencent_Open_Source/APIJSON" target="_blank">
         <img style="margin-bottom: -8px; height: 36px" src="images/tencent_open_logo.png" >
@@ -100,6 +100,15 @@
     <li><a href="https://github.com/Tencent/APIJSON/blob/master/Document.md" target="_blank" class="nav-link contribute">文档</a></li>
     <li><a href="https://search.bilibili.com/all?keyword=APIJSON&spm_id_from=333.851" target="_blank" class="nav-link contribute">视频</a></li>
     <li><a href="https://github.com/search?o=desc&q=apijson&s=stars&type=Repositories" target="_blank" class="nav-link contribute">生态</a></li>
+  </ul>
+  <ul id="nav2" style="display: none;right: 150px">
+    <li><a href="#postman" class="nav-link contribute">功能介绍</a></li>
+    <li><a href="#app" class="nav-link contribute">App 演示</a></li>
+    <li><a href="#compare" class="nav-link contribute">对比传统方式</a></li>
+    <li><a href="#honor" class="nav-link contribute">荣誉与成就</a></li>
+    <li><a href="#statistics" class="nav-link contribute">数据统计</a></li>
+    <li><a href="#user" class="nav-link contribute">已知用户</a></li>
+    <li><a href="#contributor" class="nav-link contribute">贡献者</a></li>
   </ul>
 </div>
 
@@ -133,8 +142,8 @@
   </div>
 </div>
 
-<div id="hero" style="padding: 10px">
-  <div class="inner">
+<div id="hero" style="padding: 10px; padding-top: 60px">
+  <div class="inner" >
     <div class="left">
       <img class="hero-logo" src="images/logo-big.png" alt="vue logo">
     </div><div class="right">
@@ -209,16 +218,15 @@
 
 
 <div id="news" style="background-color: #f6f6f6">
-
-
-  <div class="inner" style="margin-top: 30px">
-    <h3>
+  <p id="postman" style="padding-top: 60px; margin:0px"/>
+  <div  class="inner" style="margin-top: 0px">
+    <h3 >
       Postman 展示 APIJSON
     </h3>
-    <img src="images/functions/APIJSON_with_Postman.jpeg" style="width: 80%;margin-bottom: 120px;">
+    <img src="images/functions/APIJSON_with_Postman.jpeg" style="width: 80%;">
   </div>
 
-  <div class="inner" style="margin-top: 30px">
+  <div class="inner" style="margin-top: 90px">
     <h3>
       APIAuto 展示 APIJSON
     </h3>
@@ -227,7 +235,7 @@
     </p>
   </div>
 
-  <div class="inner" style="margin-top: 36px">
+  <div class="inner" style="margin-top: 10px">
     <p>
       APIJSON 多表关联查询、结构自由组合，APIAuto 多个测试账号、一键共享测试用例
     </p>
@@ -268,17 +276,19 @@
     <img src="images/functions/gif/APIJSON_query_summary.gif" style="width: 80%;margin-bottom: 20px;">
   </div>
 
-  <div class="inner" style="margin-top: 130px">
+  <p id="app" style="padding-top: 30px; margin:0px"/>
+  <div class="inner" style="margin-top: 50px">
     <p>
       <h3>APIJSON App 演示</h3>
-      使用 APIJSON + ZBLibrary 开发的 Android 客户端 Demo (以下 Gif 图看起来比较卡，实际上运行很流畅)
+      使用 APIJSON + ZBLibrary 开发的 Android 客户端 Demo (以下 GIF 图看起来比较卡，实际上运行很流畅)
     </p>
     <div >
       <img src="images/app/APIJSON_App_MomentList_Circle.gif" style="width: 25%"><img src="images/app/APIJSON_App_Moment_Name.gif" style="width: 25%; margin-left: 30px; margin-right: 30px"><img src="images/app/APIJSON_App_Moment_Comment.gif" style="width: 25%">
     </div>
   </div>
 
-  <div class="inner" style="margin-top: 130px">
+  <p id="compare" style="padding-top: 20px; margin:0px"/>
+  <div class="inner" style="margin-top: 60px">
     <p>
       <h3>APIJSON 对比 传统方式</h3>
       APIJSON 简化开发流程、提升开发效率、解决联调痛点
@@ -290,7 +300,8 @@
     </div>
   </div>
 
-  <div class="inner" style="margin-top: 130px">
+  <p id="honor" style="padding-top: 20px; margin:0px"/>
+  <div class="inner" style="margin-top: 60px">
     <p>
       <h3>APIJSON 荣誉与成就</h3>
     </p>
@@ -298,13 +309,28 @@
       <a href="https://www.oschina.net/news/147090/apijson-4-7-0-released" target="_blank"><img src="https://oscimg.oschina.net/oscnet/up-6291180557291ef361561a069dd5323dc25.png" style="width: 80%;margin-bottom: 20px"></a>
       <a href="https://www.oschina.net/news/112301/apijson-3-9-0-released" target="_blank"><img src="https://oscimg.oschina.net/oscnet/up-949daed9780e764ad4f45417e4fd5c0ed5e.JPEG" style="width: 80%;margin-bottom: 20px"></a>
       <a href="https://www.bilibili.com/video/BV1Tv411t74v?p=1" target="_blank"><img src="https://oscimg.oschina.net/oscnet/up-5e0abeebf2efbba82a5e04d03723f23ae2c.JPEG" style="width: 80%;margin-bottom: 20px"></a>
-      <a href="https://www.bilibili.com/video/BV1yv411p7Y4" target="_blank"><img src="https://user-images.githubusercontent.com/5738175/121370207-1b35de00-c96f-11eb-840e-cc2ff2995888.png" style="width: 80%;margin-bottom: 20px"></a>
+      <a href="https://www.bilibili.com/video/BV1yv411p7Y4" target="_blank"><img src="images/APIJSON_QECon_small.jpg" style="width: 80%;margin-bottom: 20px"></a>
+    </div>
+  </div>
+
+  <p id="statistics" style="padding-top: 20px"/>
+  <div class="inner" style="margin-top: 60px">
+    <p>
+      <h3>APIJSON 数据统计</h3>
+国内 腾讯、华为、阿里巴巴、美团、字节跳动、百度、京东、网易、快手等 和 国外 Google, Microsoft, Amazon, Paypal, IBM, Shopee 等<br/>
+数百名知名大厂员工点了 Star，也有腾讯、华为、字节跳动、Microsoft、Zoom 等不少知名大厂员工提了 PR/Issue，非常感谢大家的支持
+    </p>
+    <div >
+      <img src="https://starchart.cc/Tencent/APIJSON.svg" style="width: 80%;margin-bottom: 10px">
+      <img src="https://oscimg.oschina.net/oscnet/up-62ccde0e4fc71e0ffa5aeb41585802f238e.png" style="width: 80%;margin-bottom: 10px">
+      <img src="https://oscimg.oschina.net/oscnet/up-ee9dd5fec02ab9be0e2f74aa36b0a1aa89e.png" style="width: 80%;margin-bottom: 10px">
+      <img src="https://oscimg.oschina.net/oscnet/up-4dd4aa27792b6b93b24aec69f9b9f66de52.png" style="width: 80%;margin-bottom: 10px">
     </div>
   </div>
 
 </div>
 
-<div style="background: white; padding-top: 30px; text-align: center; align-content: center; display: none">
+<div id="why" style="background: white; padding-top: 30px; text-align: center; align-content: center; display: none">
   <h3 >为什么选择腾讯 APIJSON？</h3>
   <div style="font-size: larger; align-self: center; text-align: left; width: 50%; white-space: nowrap;">
   <br /> • <b >解决十大痛点</b> (APIJSON 大幅提振开发效率、强力杜绝联调扯皮、巧妙规避文档缺陷、非常节省流量带宽 等)
@@ -329,11 +355,13 @@
 
 <!--<img src="images/WhyChooseAPIJSON.jpg" style="width: 100%;height: 100%;margin: 0px;padding: 0px">-->
 <!--<img src="images/APIJSONisOneOfTheGVPsIn2019-small.jpg" style="width: 100%;height: 100%;margin: 0px;padding: 0px">-->
-<!--<img src="images/APIJSON_GVPAwardCertificate4Tencent-small.png" style="width: 100%;height: 100%;margin: 0px;padding: 0px">-->
+
+
 
 <!-- 登录用户 和 贡献者 -->
+<p id="user" style="padding-top: 30px; margin:0px; background: white"/>
 <div id="sponsors">
-  <div class="inner">
+  <div  class="inner">
 
     <h3 style="margin-bottom: 0px; padding-bottom: 0px">APIJSON 部分用户(500强上市公司、近万亿资本国企)</h3>
 
@@ -482,7 +510,7 @@
 <!--    <a class="become-sponsor button white" href="https://github.com/Tencent/APIJSON/issues/73" style="margin-top: 15px" target="_blank">更多 APIJSON 使用者</a>-->
 
 
-    <div class="open-collective-sponsors" style="margin-top: 30px;">
+    <div id="contributor" class="open-collective-sponsors" style="margin-top: 30px;">
       <h3 >社区及生态的贡献者</h3>
       <h4 style="margin-bottom: 10px;margin-top: 5px">主项目的贡献者(6 个腾讯工程师、1 个知乎架构师、1 个微软工程师、1 个字节跳动工程师 等)</h4>
       <a href="https://github.com/TommyLemon" target="_blank" style="width: 36px;padding: 0px;margin: 0px">
@@ -832,6 +860,12 @@
           sponsors.classList.remove('active')
         }
       }
+
+      var scrollY = document.documentElement.scrollTop || document.body.scrollTop
+      // var headerHeight = document.getElementById("header").style.height
+      var isNav2 = scrollY != null && scrollY >= 30 // && (scrollY%1000 < 500)
+      document.getElementById("nav").style.display = isNav2 ? 'none' : 'block'
+      document.getElementById("nav2").style.display = isNav2 ? 'block' : 'none'
     })
 
     var ss = [
@@ -889,8 +923,44 @@
       }, index == 1 ? 16000 : 5000)
     }
 
-    scrollSponsors(0)
+    var onload = window.onload;
+    window.onload = function (event) {
+      setTimeout(function () {
+        // document.getElementsByTagName("#postman").focus()
+        window.scrollTo({
+          left: 0,
+          top: 2*window.innerHeight,
+          behavior: 'smooth'
+        })
 
+        setTimeout(function () {
+          // document.getElementsByTagName("#postman").focus()
+          window.scrollTo({
+            left: 0,
+            top: 0,
+            behavior: 'smooth'
+          })
+
+          scrollSponsors(0)
+
+          setTimeout(function () {
+            // document.getElementsByTagName("#postman").focus()
+            var scrollY = document.documentElement.scrollTop || document.body.scrollTop
+            if (scrollY == null || scrollY <= window.innerHeight/4) {
+              window.scrollTo({
+                left: 0,
+                top: 264, // window.innerHeight/2 - 10,
+                behavior: 'smooth'
+              })
+            }
+          }, 120000)
+
+        }, 2000)
+
+      }, 1000)
+    }
+
+    // onload()
   })()
 </script>
 

@@ -441,7 +441,7 @@ body.docs #header {
   width: 100%;
   top: 0;
 }
-body.docs #nav {
+body.docs #nav #nav2 {
   position: fixed;
 }
 #nav {
@@ -462,6 +462,25 @@ body.docs #nav {
   position: relative;
   margin: 0 0.6em;
 }
+#nav2 {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  height: 40px;
+  line-height: 40px;
+}
+#nav2 .break {
+  display: none;
+}
+#nav2 li {
+  display: inline-block;
+  position: relative;
+  margin: 0 0.6em;
+}
+
 #nav .nav-dropdown .nav-link:hover,
 #nav .nav-dropdown .nav-link.current {
   border-bottom: none;
