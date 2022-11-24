@@ -2820,7 +2820,7 @@
                 '@order': 'date-',
                 'userId{}': [0, this.User.id],
                 'arguments()': 'getMethodArguments(genericMethodArgs)',
-                'defination()': 'getMethodDefination(method,arguments,type,exceptions,null)',
+                'defination()': 'getMethodDefinition(method,arguments,type,exceptions,null)',
                 'constructorArguments()': 'getMethodArguments(genericClassArgs)',
                 'request()': 'getMethodRequest()',
                 'package$': StringUtil.isEmpty(packagePrefix) ? null : packagePrefix + '%',
