@@ -923,10 +923,8 @@
       }, index == 1 ? 16000 : 5000)
     }
 
-    var onload = window.onload;
-    window.onload = function (event) {
+    // window.addEventListener('load', function () {
       setTimeout(function () {
-        // document.getElementsByTagName("#postman").focus()
         window.scrollTo({
           left: 0,
           top: 2*window.innerHeight,
@@ -934,7 +932,6 @@
         })
 
         setTimeout(function () {
-          // document.getElementsByTagName("#postman").focus()
           window.scrollTo({
             left: 0,
             top: 0,
@@ -944,7 +941,6 @@
           scrollSponsors(0)
 
           setTimeout(function () {
-            // document.getElementsByTagName("#postman").focus()
             var scrollY = document.documentElement.scrollTop || document.body.scrollTop
             if (scrollY == null || scrollY <= window.innerHeight/4) {
               window.scrollTo({
@@ -958,9 +954,8 @@
         }, 2000)
 
       }, 1000)
-    }
+    // })
 
-    // onload()
   })()
 </script>
 
