@@ -3592,6 +3592,7 @@
             '[]': {
               'count': this.testCaseCount || 100, //200 条测试直接卡死 0,
               'page': this.testCasePage || 0,
+              'join': '@/TestRecord,@/Script:pre,@/Script:post',
               'Document': {
                 '@order': 'version-,date-',
                 'userId': this.User.id,
@@ -5721,7 +5722,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             + '\nAPIJSON 官方网站: https://github.com/APIJSON/apijson.cn '
             + '\nAPIJSON -Java版: https://github.com/Tencent/APIJSON '
             + '\nAPIJSON - C# 版: https://github.com/liaozb/APIJSON.NET '
-            + '\nAPIJSON - Go 版: https://github.com/j2go/apijson-go '
+            + '\nAPIJSON - Go 版: https://github.com/glennliao/apijson-go '
             + '\nAPIJSON - PHP版: https://github.com/kvnZero/hyperf-APIJSON '
             + '\nAPIJSON -Node版: https://github.com/kevinaskin/apijson-node '
             + '\nAPIJSON -Python: https://github.com/zhangchunlin/uliweb-apijson '
