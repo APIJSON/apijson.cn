@@ -863,6 +863,7 @@ https://github.com/Tencent/APIJSON/issues
       isCrossEnabled: false,
       isMLEnabled: false,
       isDelegateEnabled: false,
+      isEnvCompareEnabled: false,
       isPreviewEnabled: false,
       isEncodeEnabled: true,
       isEditResponse: false,
@@ -893,6 +894,7 @@ https://github.com/Tencent/APIJSON/issues
       host: '',
       database: 'MYSQL', // 查文档必须，除非后端提供默认配置接口  // 用后端默认的，避免用户总是没有配置就问为什么没有生成文档和注释  'MYSQL',// 'POSTGRESQL',
       schema: 'sys',  // 查文档必须，除非后端提供默认配置接口  // 用后端默认的，避免用户总是没有配置就问为什么没有生成文档和注释   'sys',
+      otherEnv: 'http://localhost:8080',  // 其它环境服务地址，用来对比当前的
       server: 'http://apijson.cn:9090',  // Chrome 90+ 跨域问题非常难搞，开发模式启动都不行了 'http://apijson.org:9090',  //apijson.cn
       // server: 'http://47.74.39.68:9090',  // apijson.org
       // project: 'http://apijson.cn:8080',  // apijson.cn
@@ -1082,8 +1084,8 @@ https://github.com/Tencent/APIJSON/issues
         return url.replace(/ /g, '')
       },
       //获取基地址
-      getBaseUrl: function () {
-        var url = new String(vUrl.value).trim()
+      getBaseUrl: function (url_) {
+        var url = new String(url_ || vUrl.value).trim()
         var length = this.getBaseUrlLength(url)
         url = length <= 0 ? '' : url.substring(0, length)
         return url == '' ? URL_BASE : url
@@ -1097,7 +1099,14 @@ https://github.com/Tencent/APIJSON/issues
         }
 
         index = url.indexOf('://')
-        return index < 0 ? 0 : index + 3 + url.substring(index + 3).indexOf('/')
+        if (index < 0) {
+          return 0
+        }
+
+        var rest = url.substring(index + 3)
+        var ind = rest.indexOf('/')
+
+        return ind < 0 ? url.length : index + 3 + ind
       },
       //获取操作方法
       getMethod: function (url) {
@@ -1458,8 +1467,9 @@ https://github.com/Tencent/APIJSON/issues
             case 6:
             case 7:
             case 8:
-              this.exTxt.name = index == 0 ? this.database : (index == 1 ? this.schema : (index == 2
-                ? this.language : (index == 6 ? this.server : (index == 8 ? this.thirdParty : (this.types || []).join()))))
+            case 15:
+              this.exTxt.name = index == 0 ? this.database : (index == 1 ? this.schema : (index == 2 ? this.language
+                  : (index == 6 ? this.server : (index == 8 ? this.thirdParty : (index == 15 ? this.otherEnv : (this.types || []).join())))))
               this.isConfigShow = true
 
               if (index == 0) {
@@ -1599,6 +1609,12 @@ https://github.com/Tencent/APIJSON/issues
               this.isDelegateEnabled = show
               this.saveCache('', 'isDelegateEnabled', show)
               break
+            case 14:
+              this.isEnvCompareEnabled = show
+              this.saveCache('', 'isEnvCompareEnabled', show)
+
+              // this.enableML(false)
+              break
             case 10:
               this.isPreviewEnabled = show
               this.saveCache('', 'isPreviewEnabled', show)
@@ -1657,6 +1673,10 @@ https://github.com/Tencent/APIJSON/issues
           this.isPreviewEnabled = show
           this.saveCache('', 'isPreviewEnabled', show)
           // vRequestMarkdown.innerHTML = ''
+        }
+        else if (index == 14) {
+          this.isEnvCompareEnabled = show
+          this.saveCache('', 'isEnvCompareEnabled', show)
         }
         else if (index == 12) {
           this.isEncodeEnabled = show
@@ -2638,6 +2658,10 @@ https://github.com/Tencent/APIJSON/issues
           case 7:
             this.types = StringUtil.split(this.exTxt.name)
             this.saveCache('', 'types', this.types)
+            break
+          case 15:
+            this.otherEnv = StringUtil.get(this.exTxt.name)
+            this.saveCache('', 'otherEnv', this.otherEnv)
             break
           case 8:
             var thirdParty = this.exTxt.name
@@ -4186,12 +4210,27 @@ https://github.com/Tencent/APIJSON/issues
             this.onChange(false)
           }
           this.send(isAdminOperation, function (url, res, err) {
-            if (callback) {
-              callback(url, res, err)
+            if (App.isEnvCompareEnabled != true) {
+              if (callback) {
+                callback(url, res, err)
+                return
+              }
+
+              App.onLoginResponse(isAdminOperation, req, url, res, err)
               return
             }
 
-            App.onLoginResponse(isAdminOperation, req, url, res, err)
+            App.request(isAdminOperation, REQUEST_TYPE_JSON, App.getBaseUrl(App.otherEnv) + '/login'
+                , req, App.getHeader(vHeader.value), function (url_, res_, err_) {
+                  if (callback) {
+                    callback(url, res, err)
+                    return
+                  }
+
+                  App.onResponse(url_, res_, err_);
+                  App.onLoginResponse(isAdminOperation, req, url, res, err)
+            })
+
           })
         }
       },
@@ -4345,7 +4384,8 @@ https://github.com/Tencent/APIJSON/issues
 
         // alert('logout  isAdminOperation = ' + isAdminOperation + '; url = ' + url)
         if (isAdminOperation) {
-          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.server + '/logout', req, this.getHeader(vHeader.value), function (url, res, err) {
+          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.server + '/logout'
+              , req, this.getHeader(vHeader.value), function (url, res, err) {
             if (callback) {
               callback(url, res, err)
               return
@@ -4365,7 +4405,23 @@ https://github.com/Tencent/APIJSON/issues
           this.type = REQUEST_TYPE_JSON
           this.showTestCase(false, this.isLocalShow)
           this.onChange(false)
-          this.send(isAdminOperation, callback)
+          this.send(isAdminOperation, function (url, res, err) {
+            if (App.isEnvCompareEnabled != true) {
+              if (callback) {
+                callback(url, res, err)
+              }
+              return
+            }
+
+            App.request(isAdminOperation, REQUEST_TYPE_JSON, App.getBaseUrl(App.otherEnv) + '/logout'
+                , req, App.getHeader(vHeader.value), function (url_, res_, err_) {
+              if (callback) {
+                callback(url, res, err)
+                return
+              }
+            })
+
+          })
         }
       },
 
@@ -7023,6 +7079,10 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         this.isMLEnabled = enable
         this.testProcess = enable ? '机器学习:已开启' : '机器学习:已关闭'
         this.saveCache(this.server, 'isMLEnabled', enable)
+        // if (enable) {
+        //   this.isEnvCompareEnabled = false
+        //   this.saveCache(this.server, 'isEnvCompareEnabled', this.isEnvCompareEnabled)
+        // }
         this.remotes = null
         this.showTestCase(true, false)
       },
@@ -7297,7 +7357,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
         }  // for
 
-    },
+      },
 
       resetParentCount: function (item, cri) {
         cri.totalCount -= item.totalCount
@@ -7922,6 +7982,13 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           this.autoTestCallback(this.testProcess)
         }
 
+        const isMLEnabled = this.isMLEnabled
+        const standardKey = isMLEnabled != true ? 'response' : 'standard'
+
+        const otherEnv = this.otherEnv;
+        const otherBaseUrl = this.isEnvCompareEnabled && StringUtil.isNotEmpty(otherEnv, true) ? this.getBaseUrl(otherEnv) : null
+        const isEnvCompare = StringUtil.isNotEmpty(otherBaseUrl, true) // 对比自己也行，看看前后两次是否幂等  && otherBaseUrl != baseUrl
+
         for (var i = 0; i < allCount; i++) {
           const item = list[i]
           const document = item == null ? null : item.Document
@@ -7946,26 +8013,59 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
           const index = i
 
-          var header = null
+          var hdr = null
           try {
-            header = this.getHeader(document.header)
+            hdr = this.getHeader(document.header)
           } catch (e) {
             this.log('test  for ' + i + ' >> try { header = this.getHeader(document.header) } catch (e) { \n' + e.message)
           }
+          const header = hdr
 
-          this.request(false, document.type, baseUrl + document.url, this.getRequest(document.request, null, true), header, function (url, res, err) {
+          const caseScript = {
+            pre: item['Script:pre'],
+            post: item['Script:post']
+          }
+
+          const type = document.type
+          const req = this.getRequest(document.request, null, true)
+          const otherEnvUrl = isEnvCompare ? (otherBaseUrl + document.url) : null
+          const curEnvUrl = baseUrl + document.url
+
+          this.request(false, type,  isEnvCompare ? otherEnvUrl : curEnvUrl, req, header, function (url, res, err) {
             try {
               App.onResponse(url, res, err)
-              App.log('test  App.request >> res.data = ' + JSON.stringify(res.data, null, '  '))
+              if (DEBUG) {
+                App.log('test  App.request >> res.data = ' + JSON.stringify(res.data, null, '  '))
+              }
             } catch (e) {
               App.log('test  App.request >> } catch (e) {\n' + e.message)
             }
 
-            App.compareResponse(allCount, list, index, item, res.data, isRandom, accountIndex, false, err, null, isCross, callback)
-          }, {
-            pre: item['Script:pre'],
-            post: item['Script:post']
-          })
+            if (isEnvCompare != true) {
+              App.compareResponse(allCount, list, index, item, res.data, isRandom, accountIndex, false, err, null, isCross, callback)
+              return
+            }
+
+            const otherErr = err
+            const rsp = App.removeDebugInfo(res.data)
+            const tr = item.TestRecord || {}
+            tr[standardKey] = JSON.stringify(isMLEnabled ? JSONResponse.updateFullStandard({}, rsp, isMLEnabled) : rsp) // res.data
+            item.TestRecord = tr
+
+            App.request(false, type, curEnvUrl, req, header, function (url, res, err) {
+              try {
+                App.onResponse(url, res, err)
+                if (DEBUG) {
+                  App.log('test  App.request >> res.data = ' + JSON.stringify(res.data, null, '  '))
+                }
+              } catch (e) {
+                App.log('test  App.request >> } catch (e) {\n' + e.message)
+              }
+
+              App.compareResponse(allCount, list, index, item, res.data, isRandom, accountIndex, false, err || otherErr, null, isCross, callback)
+            }, caseScript)
+
+          }, caseScript)
         }
 
       },
@@ -8012,7 +8112,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         }
         else {
           var standardKey = this.isMLEnabled != true ? 'response' : 'standard'
-          var standard = StringUtil.isEmpty(tr[standardKey], true) ? null : JSON.parse(tr[standardKey])
+          var rsp = tr[standardKey]
+          var standard = typeof rsp != 'string' ? rsp : (StringUtil.isEmpty(rsp, true) ? null : JSON.parse(rsp))
           tr.compare = JSONResponse.compareResponse(standard, this.removeDebugInfo(response) || {}, '', this.isMLEnabled, null, null, ignoreTrend) || {}
           tr.compare.duration = it.durationHint
         }
@@ -8593,62 +8694,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               }
             }
             else {
-              standard = (StringUtil.isEmpty(testRecord.standard, true) ? null : JSON.parse(testRecord.standard)) || {};
-
-              var code = currentResponse.code;
-              var thrw = currentResponse.throw;
-              var msg = currentResponse.msg;
-
-              var hasCode = standard.code != null;
-              var isCodeChange = standard.code != code;
-              var exceptions = standard.exceptions || [];
-
-              delete currentResponse.code; //code必须一致
-              delete currentResponse.throw; //throw必须一致
-
-              var find = false;
-              if (isCodeChange && hasCode) {  // 走异常分支
-                for (var i = 0; i < exceptions.length; i++) {
-                  var ei = exceptions[i];
-                  if (ei != null && ei.code == code && ei.throw == thrw) {
-                    find = true;
-                    ei.repeat = (ei.repeat || 0) + 1;  // 统计重复出现次数
-                    break;
-                  }
-                }
-
-                if (find) {
-                  delete currentResponse.msg;
-                }
-              }
-
-              stddObj = isML ? (isCodeChange && hasCode ? standard : JSONResponse.updateStandard(standard, currentResponse)) : {};
-
-              currentResponse.code = code;
-              currentResponse.throw = thrw;
-
-              if (isCodeChange) {
-                if (hasCode != true) {  // 走正常分支
-                  stddObj.code = code;
-                  stddObj.throw = thrw;
-                }
-                else {  // 走异常分支
-                  currentResponse.msg = msg;
-
-                  if (find != true) {
-                    exceptions.push({
-                      code: code,
-                      'throw': thrw,
-                      msg: msg
-                    })
-
-                    stddObj.exceptions = exceptions;
-                  }
-                }
-              }
-              else {
-                stddObj.repeat = (stddObj.repeat || 0) + 1;  // 统计重复出现次数
-              }
+              standard = (StringUtil.isEmpty(testRecord.standard, true) ? null : JSON.parse(testRecord.standard)) || {}
+              stddObj = JSONResponse.updateFullStandard(standard, currentResponse, isML)
             }
 
             const isNewRandom = isRandom && random.id <= 0
@@ -9865,6 +9912,10 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         if (types != null && types.length > 0) {
           this.types = types instanceof Array ? types : StringUtil.split(types)
         }
+        var otherEnv = this.getCache('', 'otherEnv')
+        if (StringUtil.isEmpty(otherEnv, true) == false) {
+          this.otherEnv = otherEnv
+        }
         var server = this.getCache('', 'server')
         if (StringUtil.isEmpty(server, true) == false) {
           this.server = server
@@ -9878,6 +9929,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
         this.isDelegateEnabled = this.getCache('', 'isDelegateEnabled', this.isDelegateEnabled)
         this.isEncodeEnabled = this.getCache('', 'isEncodeEnabled', this.isEncodeEnabled)
+        this.isEnvCompareEnabled = this.getCache('', 'isEnvCompareEnabled', this.isEnvCompareEnabled)
         //预览了就不能编辑了，点开看会懵 this.isPreviewEnabled = this.getCache('', 'isPreviewEnabled', this.isPreviewEnabled)
         this.isHeaderShow = this.getCache('', 'isHeaderShow', this.isHeaderShow)
         this.isRandomShow = this.getCache('', 'isRandomShow', this.isRandomShow)
