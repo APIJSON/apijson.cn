@@ -369,8 +369,8 @@
                 valString = valString.substring(0, i + 1)
                 // alert('valString = ' + valString)
                 var _$_this_$_ = JSON.parse(valString) || {}
-                path = _$_this_$_.path
-                table = _$_this_$_.table
+                path = _$_this_$_ == null ? '' : _$_this_$_.path
+                table = _$_this_$_ == null ? '' : _$_this_$_.table
               }
             }
 
@@ -454,10 +454,8 @@
 
 // APIJSON <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  var ERR_MSG = `
-  
-可能出现了一些问题，可以按照以下步骤解决：
-1.检查网络连接是否畅通，可用浏览器打开右侧地址： https://www.baidu.com/s?wd=%22APIJSON%22 
+  var ERR_MSG = `出现了一些问题，可以按照以下步骤解决：
+1.检查网络连接是否畅通，可用浏览器打开右侧地址： https://www.baidu.com/s?wd=%22APIJSON%22
 2.检查 URL 是否为一个可用的 域名/IPV4 地址，可用浏览器打开试试：正常返回结果 或 非 GET 请求返回 Whitelabel Error Page，一般都没问题
 3.开启或关闭 右上方 设置>托管服务器代理，然后再试：如果开启后才通应该是 CORS 跨域问题；关闭后才通应该是用外网服务代理来访问内网导致，可退出登录后修改退关服务器地址为内网的 APIJSON 代理服务地址
 4.Disable 关闭 VPN 等 电脑/手机/平板 上的网络代理软件 App 客户端，或者切换代理服务器地址，然后再试
@@ -520,7 +518,7 @@ https://github.com/Tencent/APIJSON/issues
           v = JSON.parse(v)
         }
         catch (e) {
-          this.log(e)
+          console.log(e)
         }
       }
 
@@ -685,6 +683,7 @@ https://github.com/Tencent/APIJSON/issues
   var baseUrl
   var inputted
   var handler
+  var errHandler
   // var lastRes
   var gridHandler
   var docObj
@@ -1874,11 +1873,14 @@ https://github.com/Tencent/APIJSON/issues
         this.isEditResponse = false
 
         item = item || {}
+        var doc = item
+        var docId = doc.id || 0
+
         var scripts = item.scripts
         if (isRemote) {
           var orginItem = item
-          var doc = item.Document || {}
-          var docId = doc.id || 0
+          doc = item.Document || {}
+          docId = doc.id || 0
 
           var pre = Object.assign({
             'script': ''
@@ -1951,7 +1953,12 @@ https://github.com/Tencent/APIJSON/issues
           item.scripts = scripts
 
           item = doc
+          this.scripts.case[docId] = scripts
         }
+        else {
+          this.scripts = scripts
+        }
+
         // localforage.getItem(item.key || '', function (err, value) {
           var branch = new String(item.url || '/get')
           if (branch.startsWith('/') == false) {
@@ -1968,7 +1975,6 @@ https://github.com/Tencent/APIJSON/issues
           vHeader.value = StringUtil.get(item.header)
           vRandom.value = StringUtil.get(item.random)
           this.changeScriptType(this.scriptType)
-          this.scripts.case[docId] = scripts
 
           this.onChange(false)
 
@@ -4635,7 +4641,7 @@ https://github.com/Tencent/APIJSON/issues
               var name = api == null ? null : api.name;
               if (StringUtil.isEmpty(name, true) == false) {
                 this.urlComment = name;
-                vUrlComment.value = vUrl.value + CodeUtil.getComment(this.urlComment, false, '  ')
+                vUrlComment.value = vUrl.value + CodeUtil.getComment(this.urlComment, false, ' ')
               }
             }
 
@@ -4933,8 +4939,14 @@ https://github.com/Tencent/APIJSON/issues
 
         try {
           this.parseRandom(vInput.value, vHeader.value, -1, true, false, false, function (randomName, constConfig, constJson) {
+            
             vOutput.value = "requesting... \nURL = " + url
             App.view = 'output';
+            errHandler = function () {
+              vOutput.value = "requesting... \nURL = " + url + "\n\n可能" + ERR_MSG
+            }
+            setTimeout(errHandler, 5000)
+
             var req = Object.assign(constJson, {
               uri: url
             })
@@ -5054,6 +5066,7 @@ https://github.com/Tencent/APIJSON/issues
             // crossDomain: true
           })
             .then(function (res) {
+              clearTimeout(errHandler)
               var postEvalResult = evalPostScript(url, res, null)
               if (postEvalResult == BREAK_ALL) {
                 return
@@ -5366,7 +5379,7 @@ https://github.com/Tencent/APIJSON/issues
             // vOutput.value = "Response:\nurl = " + url + "\nerror = " + err.message;
             this.view = 'error';
             this.error = {
-              msg: "Response:\nurl = " + url + "\nerror = " + err.message + ERR_MSG
+              msg: "Response:\nurl = " + url + "\nerror = " + err.message + '\n\n' + ERR_MSG
             }
           }
         }
@@ -6089,7 +6102,6 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
           //转为文档格式
           var doc = '';
-          var item;
 
           //[] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
           var list = docObj == null ? null : docObj['[]'];
@@ -6236,7 +6248,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               + ' \n --------  |  -------------- ';
 
             for (var i = 0; i < list.length; i++) {
-              item = list[i];
+              var item = list[i];
               if (item == null) {
                 continue;
               }
@@ -6265,7 +6277,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               + ' \n --------  |  ------------  |  ------------  |  ------------ ';
 
             for (var i = 0; i < list.length; i++) {
-              item = list[i];
+              var item = list[i];
               if (item == null) {
                 continue;
               }
@@ -7883,7 +7895,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             this.log('test  for ' + i + ' >> try { header = this.getHeader(document.header) } catch (e) { \n' + e.message)
           }
           const header = hdr
-          
+
           const caseScript = {
             pre: item['Script:pre'],
             post: item['Script:post']
@@ -7912,6 +7924,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 } catch (e) {
                   App.log('test  App.request >> } catch (e) {\n' + e.message)
                 }
+
               }
 
               const otherErr = err
@@ -10175,7 +10188,6 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         App.selectIndex = -1;
         App.options = [];
       })
-
     }
   }
 

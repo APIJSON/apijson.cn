@@ -212,23 +212,28 @@
                 if (JSONObject.isTableKey(firstKey, val, isRestful)) {
                   // var newVal = JSON.parse(JSON.stringify(val[i]))
 
-                  var newVal = {}
-                  for (var k in val[i]) {
-                    newVal[k] = val[i][k] //提升性能
-                    delete val[i][k]
+                  var vi = val[i]
+                  if (vi == null) {
+                    continue
                   }
 
-                  val[i]._$_this_$_ = JSON.stringify({
+                  var newVal = {}
+                  for (var k in vi) {
+                    newVal[k] = vi[k] //提升性能
+                    delete vi[k]
+                  }
+
+                  vi._$_this_$_ = JSON.stringify({
                     path: cPath + '/' + i,
                     table: firstKey
                   })
 
                   for (var k in newVal) {
-                    val[i][k] = newVal[k]
+                    vi[k] = newVal[k]
                   }
                 }
                 else {
-                  this.onRenderJSONItem(val[i], '' + i, cPath);
+                  this.onRenderJSONItem(vi, '' + i, cPath);
                 }
 
                 // this.$children[i]._$_this_$_ = key
@@ -265,7 +270,11 @@
 
 
         } catch (e) {
-          alert('onRenderJSONItem  try { ... } catch (e) {\n' + e.message)
+          if (DEBUG) {
+            alert('onRenderJSONItem  try { ... } catch (e) {\n' + e.message)
+          } else {
+            console.log(e)
+          }
         }
 
         return true
@@ -369,8 +378,8 @@
                 valString = valString.substring(0, i + 1)
                 // alert('valString = ' + valString)
                 var _$_this_$_ = JSON.parse(valString) || {}
-                path = _$_this_$_.path
-                table = _$_this_$_.table
+                path = _$_this_$_ == null ? '' : _$_this_$_.path
+                table = _$_this_$_ == null ? '' : _$_this_$_.table
               }
             }
 
@@ -454,10 +463,8 @@
 
 // APIJSON <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  var ERR_MSG = `
-  
-可能出现了一些问题，可以按照以下步骤解决：
-1.检查网络连接是否畅通，可用浏览器打开右侧地址： https://www.baidu.com/s?wd=%22APIJSON%22 
+  var ERR_MSG = `出现了一些问题，可以按照以下步骤解决：
+1.检查网络连接是否畅通，可用浏览器打开右侧地址： https://www.baidu.com/s?wd=%22APIJSON%22
 2.检查 URL 是否为一个可用的 域名/IPV4 地址，可用浏览器打开试试：正常返回结果 或 非 GET 请求返回 Whitelabel Error Page，一般都没问题
 3.开启或关闭 右上方 设置>托管服务器代理，然后再试：如果开启后才通应该是 CORS 跨域问题；关闭后才通应该是用外网服务代理来访问内网导致，可退出登录后修改退关服务器地址为内网的 APIJSON 代理服务地址
 4.Disable 关闭 VPN 等 电脑/手机/平板 上的网络代理软件 App 客户端，或者切换代理服务器地址，然后再试
@@ -684,6 +691,7 @@ https://github.com/Tencent/APIJSON/issues
   var baseUrl
   var inputted
   var handler
+  var errHandler
   var docObj
   var doc
   var output
@@ -929,10 +937,10 @@ https://github.com/Tencent/APIJSON/issues
       database: undefined,  // 后端决定 'MYSQL',// 'POSTGRESQL',
       schema: undefined,  // 后端决定 'admin',  // 'sys'
       otherEnv: 'http://localhost:8080',  // 其它环境服务地址，用来对比当前的
-      server: 'http://apijson.cn:8080',  //apijson.cn
+      server: 'http://apijson.cn:9090',  //apijson.cn
       // server: 'http://47.74.39.68:9090',  // apijson.org
       project: 'http://apijson.cn:8080', // 'http://localhost:8081',
-      language: CodeUtil.LANGUAGE_KOTLIN,
+      language: 'Java,Kotlin,Go', // CodeUtil.LANGUAGE_JAVA,
       header: {},
       page: 0,
       count: 20,
@@ -1519,18 +1527,20 @@ https://github.com/Tencent/APIJSON/issues
                 alert('可填数据库:\n' + CodeUtil.DATABASE_KEYS.join())
               }
               else if (index == 2) {
-                alert('自动生成代码，可填语言:\nKotlin,Java,Swift,Objective-C,C#,Go,\nTypeScript,JavaScript,PHP,Python,C++')
+                alert('根据语言筛选用例，可填语言:\nKotlin,Java,Swift,Objective-C,C#,Go,\nTypeScript,JavaScript,PHP,Python,C++')
               }
               else if (index == 7) {
                 alert('多个类型用 , 隔开，可填类型:\nPARAM(GET ?a=1&b=c&key=value),\nJSON(POST application/json),\nFORM(POST x-www-form-urlencoded),\nDATA(POST form-data),\nGRPC(POST application/json 需要 GRPC 服务开启反射)')
               }
               else if (index == 16) {
+                this.showTestCase(false, this.isLocalShow)
+
                 vInput.value = this.getCache(this.project, 'request4MethodList') || '{'
-                  + '\n    "query": 2,  // 查询类型：0-数据，1-总数，2-全部'
-                  + '\n    "mock": true,  // 是否生成模拟参数值'
-                  + '\n    "package": "' + this.getPackage() + '",  // 包名，不填默认全部'
-                  + '\n    "class": "' + this.getClass() + '",  // 类名，不填默认全部'
-                  + '\n    "types": null  // 类型，不填默认全部，填 ["int", "String"] 这种则只查对应参数的方法 '
+                  + '\n    "query": 2, // 查询类型：0-数据，1-总数，2-全部'
+                  + '\n    "mock": true, // 是否生成模拟参数值'
+                  + '\n    "package": "' + this.getPackage() + '", // 包名，不填默认全部'
+                  + '\n    "class": "' + this.getClass() + '", // 类名，不填默认全部'
+                  + '\n    "types": null // 类型，不填默认全部，填 ["int", "String"] 这种则只查对应参数的方法 '
                   + '\n}'
                 this.onChange(false)
                 this.request(false, REQUEST_TYPE_JSON, this.project + this.exTxt.name
@@ -1811,11 +1821,14 @@ https://github.com/Tencent/APIJSON/issues
         this.isEditResponse = false
 
         item = item || {}
+        var doc = item
+        var docId = doc.id || 0
+
         var scripts = item.scripts
         if (isRemote) {
           var orginItem = item
-          var doc = item.Method || {}
-          var docId = doc.id || 0
+          doc = item.Method || {}
+          docId = doc.id || 0
 
           var pre = Object.assign({
             'script': ''
@@ -1888,7 +1901,12 @@ https://github.com/Tencent/APIJSON/issues
           item.scripts = scripts
 
           item = doc
+          this.scripts.case[docId] = scripts
         }
+        else {
+          this.scripts = scripts
+        }
+        
         // localforage.getItem(item.key || '', function (err, value) {
 
           // this.type = item.type;
@@ -1914,7 +1932,6 @@ https://github.com/Tencent/APIJSON/issues
           vHeader.value = StringUtil.get(item.header)
           vRandom.value = StringUtil.get(item.random)
           this.changeScriptType(this.scriptType)
-          this.scripts.case[docId] = scripts
 
           this.onChange(false)
 
@@ -2328,7 +2345,7 @@ https://github.com/Tencent/APIJSON/issues
                 'package': App.getPackage(),
                 'methodArgs': JSON.stringify(currentResponse.methodArgs),
                 'genericMethodArgs': JSON.stringify(App.getRequest(vInput.value, {}).methodArgs),
-                'request': this.toDoubleJSON(inputted)
+                'request': App.toDoubleJSON(inputted)
               },
               'TestRecord': isEditResponse != true && did != null ? null : {
                 'documentId': isEditResponse ? did : undefined,
@@ -2526,10 +2543,10 @@ https://github.com/Tencent/APIJSON/issues
             if (isId) {
               config += prefix + 'ORDER_IN(undefined, null, ' + value + ')'
               if (value >= 1000000000) { //PHP 等语言默认精确到秒 1000000000000) {
-                config += '\n  // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(' + Math.round(0.9 * value) + ', ' + Math.round(1.1 * value) + ')'
+                config += '\n // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(' + Math.round(0.9 * value) + ', ' + Math.round(1.1 * value) + ')'
               }
               else {
-                config += '\n  // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(1, ' + (10 * value) + ')'
+                config += '\n // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(1, ' + (10 * value) + ')'
               }
             }
             else {
@@ -2555,16 +2572,16 @@ https://github.com/Tencent/APIJSON/issues
                 var hasDot = String(value).indexOf('.') >= 0
 
                 if (value < 0) {
-                  config += '\n  // 可替代上面的 ' + prefix.substring(1) + (hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(' + (100 * value) + ', 0)'
+                  config += '\n // 可替代上面的 ' + prefix.substring(1) + (hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(' + (100 * value) + ', 0)'
                 }
-                else if (value > 0 && value < 1) {  // 0-1 比例
-                  config += '\n  // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_NUM(0, 1)'
+                else if (value > 0 && value < 1) { // 0-1 比例
+                  config += '\n // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_NUM(0, 1)'
                 }
-                else if (value >= 0 && value <= 100) {  // 10% 百分比
-                  config += '\n  // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(0, 100)'
+                else if (value >= 0 && value <= 100) { // 10% 百分比
+                  config += '\n // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(0, 100)'
                 }
                 else {
-                  config += '\n  // 可替代上面的 ' + prefix.substring(1) + (hasDot != true && value < 10 ? 'ORDER_INT(0, 9)' : ((hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(0, ' + 100 * value + ')'))
+                  config += '\n // 可替代上面的 ' + prefix.substring(1) + (hasDot != true && value < 10 ? 'ORDER_INT(0, 9)' : ((hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(0, ' + 100 * value + ')'))
                 }
               }
             }
@@ -2643,13 +2660,13 @@ https://github.com/Tencent/APIJSON/issues
             }
             break
           case 16:
+              if (this.isSyncing) {
+                alert('正在同步，请等待完成')
+                return
+              }
+
               this.saveCache(this.project, 'request4MethodList', vInput.value)
               this.request(false, REQUEST_TYPE_JSON, this.project + this.exTxt.name, this.getRequest(vInput.value), this.getHeader(vHeader.value), function (url, res, err) {
-                if (App.isSyncing) {
-                  alert('正在同步，请等待完成')
-                  return
-                }
-
                 App.isSyncing = true
                 App.onResponse(url, res, err)
 
@@ -2724,6 +2741,17 @@ https://github.com/Tencent/APIJSON/issues
           }
 
           var currentAccountId = this.getCurrentAccountId()
+          var returnType = methodItem.returnType == null ? null : methodItem.returnType
+          if (returnType instanceof Array) {
+            if (returnType.length <= 0) {
+              returnType = null
+            } else if (returnType.length == 1) {
+              returnType = returnType[0]
+            } else {
+              returnType = "(" + returnType.join() + ")"
+            }
+          }
+
           this.request(true, REQUEST_TYPE_JSON, this.server + '/post', {
             format: false,
             'Method': {
@@ -2738,7 +2766,7 @@ https://github.com/Tencent/APIJSON/issues
               'genericClassArgs': this.getArgs4Sync(classItem.genericParameterTypeList),
               'methodArgs': this.getArgs4Sync(methodItem.parameterTypeList, methodItem.parameterDefaultValueList),
               'genericMethodArgs': this.getArgs4Sync(methodItem.genericParameterTypeList, methodItem.parameterDefaultValueList),
-              'type': methodItem.returnType == null ? null : methodItem.returnType,  // .replace(/[.]/g, '/'),
+              'type': returnType,  // .replace(/[.]/g, '/'),
               'genericType': methodItem.genericReturnType == null ? null : methodItem.genericReturnType,  // .replace(/[.]/g, '/'),
               'static': methodItem.static ? 1 : 0,
               'timeout': methodItem.timeout,
@@ -3136,6 +3164,11 @@ https://github.com/Tencent/APIJSON/issues
           }
           packagePrefix = packagePrefix.trim()
 
+          var langauges = StringUtil.split(this.language, ',', true)
+          if (langauges == null || langauges.length <= 0) {
+            langauges = undefined
+          }
+
           var req = {
             format: false,
             '[]': {
@@ -3149,6 +3182,7 @@ https://github.com/Tencent/APIJSON/issues
                 'defination()': 'getMethodDefination(method,arguments,type,exceptions,null)',
                 'constructorArguments()': 'getMethodArguments(genericClassArgs)',
                 'request()': 'getMethodRequest()',
+                'language{}': langauges,
                 'package$': StringUtil.isEmpty(packagePrefix) ? null : packagePrefix + '%',
                 'class$': StringUtil.isEmpty(classPrefix) ? null : classPrefix + '%',
                 'package*~': search,
@@ -3727,7 +3761,7 @@ https://github.com/Tencent/APIJSON/issues
 
                   App.onResponse(url_, res_, err_);
                   App.onLoginResponse(isAdminOperation, req, url, res, err)
-            }, this.scripts)
+            }, App.scripts)
 
           })
         }
@@ -4379,7 +4413,12 @@ https://github.com/Tencent/APIJSON/issues
           "method": this.getMethod(url)
         }, req)
 
-        vOutput.value = "requesting... \nURL = " + url + ERR_MSG
+        vOutput.value = "requesting... \nURL = " + url
+
+        errHandler = function () {
+          vOutput.value = "requesting... \nURL = " + url + "\n\n可能" + ERR_MSG
+        }
+        setTimeout(errHandler, 5000)
 
         this.view = 'output';
 
@@ -4442,6 +4481,7 @@ https://github.com/Tencent/APIJSON/issues
             // crossDomain: true
           })
             .then(function (res) {
+              clearTimeout(errHandler)
               var postEvalResult = evalPostScript(url, res, null)
               if (postEvalResult == BREAK_ALL) {
                 return
@@ -4742,7 +4782,7 @@ https://github.com/Tencent/APIJSON/issues
             // vOutput.value = "Response:\nurl = " + url + "\nerror = " + err.message;
             this.view = 'error';
             this.error = {
-              msg: "Response:\nurl = " + url + "\nerror = " + err.message + ERR_MSG
+              msg: "Response:\nurl = " + url + "\nerror = " + err.message + '\n\n' + ERR_MSG
             }
           }
         }
