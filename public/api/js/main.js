@@ -21,6 +21,7 @@
         var vComment = {value: ''};
         var vHeader = {value: ''};
         var vRandom = {value: ''};
+        var vScript = {value: ''};
         var vOutput = {value: ''};
 
         var vAccount = {value: ''};
@@ -210,23 +211,28 @@
                 if (JSONObject.isTableKey(firstKey, val, isRestful)) {
                   // var newVal = JSON.parse(JSON.stringify(val[i]))
 
-                  var newVal = {}
-                  for (var k in val[i]) {
-                    newVal[k] = val[i][k] //提升性能
-                    delete val[i][k]
+                  var vi = val[i]
+                  if (vi == null) {
+                    continue
                   }
 
-                  val[i]._$_this_$_ = JSON.stringify({
+                  var newVal = {}
+                  for (var k in vi) {
+                    newVal[k] = vi[k] //提升性能
+                    delete vi[k]
+                  }
+
+                  vi._$_this_$_ = JSON.stringify({
                     path: cPath + '/' + i,
                     table: firstKey
                   })
 
                   for (var k in newVal) {
-                    val[i][k] = newVal[k]
+                    vi[k] = newVal[k]
                   }
                 }
                 else {
-                  this.onRenderJSONItem(val[i], '' + i, cPath);
+                  this.onRenderJSONItem(vi, '' + i, cPath);
                 }
 
                 // this.$children[i]._$_this_$_ = key
@@ -263,7 +269,11 @@
 
 
         } catch (e) {
-          alert('onRenderJSONItem  try { ... } catch (e) {\n' + e.message)
+          if (DEBUG) {
+            alert('onRenderJSONItem  try { ... } catch (e) {\n' + e.message)
+          } else {
+            console.log(e)
+          }
         }
 
         return true
@@ -1146,8 +1156,8 @@ https://github.com/Tencent/APIJSON/issues
           return jsonlint.parse(s);
         }
         catch (e) {
-          log('main.getRequest', 'try { return jsonlint.parse(s); \n } catch (e2) {\n' + e.message)
-          log('main.getRequest', 'return jsonlint.parse(this.removeComment(s));')
+          log('main.getRequest', 'try { return jsonlint.parse(s); \n } catch (e) {\n' + e.message)
+          log('main.getRequest', 'return JSON5.parse(s);')
           return JSON5.parse(s);  // jsonlint.parse(this.removeComment(s));
         }
       },
@@ -2215,6 +2225,8 @@ https://github.com/Tencent/APIJSON/issues
           const after = isSingle ? this.switchQuote(inputted) : inputted;  // this.toDoubleJSON(inputted);
           const inputObj = this.getRequest(after, {});
 
+          const rawInputStr = JSON.stringify(inputObj)
+
           var commentObj = null;
           if (isExportRandom != true) {
             var m = this.getMethod();
@@ -2234,10 +2246,11 @@ https://github.com/Tencent/APIJSON/issues
             inputObj.code = code_
           }
 
+          var rawRspStr = JSON.stringify(currentResponse || {})
           const code = currentResponse.code;
           const thrw = currentResponse.throw;
-          delete currentResponse.code; //code必须一致
-          delete currentResponse.throw; //throw必须一致
+          delete currentResponse.code; // currentResponse.code = null; //code必须一致
+          delete currentResponse.throw; // currentResponse.throw = null; // throw必须一致
 
           const isML = this.isMLEnabled;
           const stddObj = isML ? JSONResponse.updateStandard({}, currentResponse) : {};
@@ -2353,7 +2366,7 @@ https://github.com/Tencent/APIJSON/issues
                 config: config
               },
               'TestRecord': {
-                'response': JSON.stringify(currentResponse),
+                'response': rawRspStr,
                 'standard': isML ? JSON.stringify(stddObj) : null
               },
               'tag': 'Random'
@@ -2376,7 +2389,7 @@ https://github.com/Tencent/APIJSON/issues
                 'randomId': 0,
                 'host': baseUrl,
 //                'testAccountId': currentAccountId,
-                'response': JSON.stringify(isEditResponse ? inputObj : currentResponse),
+                'response': isEditResponse ? rawInputStr : rawRspStr,
                 'standard': isML || isEditResponse ? JSON.stringify(isEditResponse ? commentObj : stddObj) : undefined,
                 // 没必要，直接都在请求中说明，查看也方便 'detail': (isEditResponse ? App.getExtraComment() : null) || ((App.currentRemoteItem || {}).TestRecord || {}).detail,
               },
@@ -2567,10 +2580,10 @@ https://github.com/Tencent/APIJSON/issues
             if (isId) {
               config += prefix + 'ORDER_IN(undefined, null, ' + value + ')'
               if (value >= 1000000000) { //PHP 等语言默认精确到秒 1000000000000) {
-                config += '\n  // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(' + Math.round(0.9 * value) + ', ' + Math.round(1.1 * value) + ')'
+                config += '\n // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(' + Math.round(0.9 * value) + ', ' + Math.round(1.1 * value) + ')'
               }
               else {
-                config += '\n  // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(1, ' + (10 * value) + ')'
+                config += '\n // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(1, ' + (10 * value) + ')'
               }
             }
             else {
@@ -2596,16 +2609,16 @@ https://github.com/Tencent/APIJSON/issues
                 var hasDot = String(value).indexOf('.') >= 0
 
                 if (value < 0) {
-                  config += '\n  // 可替代上面的 ' + prefix.substring(1) + (hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(' + (100 * value) + ', 0)'
+                  config += '\n // 可替代上面的 ' + prefix.substring(1) + (hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(' + (100 * value) + ', 0)'
                 }
-                else if (value > 0 && value < 1) {  // 0-1 比例
-                  config += '\n  // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_NUM(0, 1)'
+                else if (value > 0 && value < 1) { // 0-1 比例
+                  config += '\n // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_NUM(0, 1)'
                 }
-                else if (value >= 0 && value <= 100) {  // 10% 百分比
-                  config += '\n  // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(0, 100)'
+                else if (value >= 0 && value <= 100) { // 10% 百分比
+                  config += '\n // 可替代上面的 ' + prefix.substring(1) + 'RANDOM_INT(0, 100)'
                 }
                 else {
-                  config += '\n  // 可替代上面的 ' + prefix.substring(1) + (hasDot != true && value < 10 ? 'ORDER_INT(0, 9)' : ((hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(0, ' + 100 * value + ')'))
+                  config += '\n // 可替代上面的 ' + prefix.substring(1) + (hasDot != true && value < 10 ? 'ORDER_INT(0, 9)' : ((hasDot ? 'RANDOM_NUM' : 'RANDOM_INT') + '(0, ' + 100 * value + ')'))
                 }
               }
             }
@@ -3863,13 +3876,27 @@ https://github.com/Tencent/APIJSON/issues
           this.showDoc()
         }
 
-        this.randoms = (this.currentRemoteItem || {}).randoms || []
+        var randoms = []
+        if (this.randomPage == 0 && ! isSub) {
+          randoms = (this.currentRemoteItem || {}).randoms || []
+        }
+        else if (this.randomSubPage == 0 && isSub) {
+          randoms = (this.currentRandomItem || {}).subs || []
+        }
+
+        if (isSub) {
+          this.randomSubs = randoms
+        }
+        else {
+          this.randoms = randoms
+        }
+
         this.getCurrentRandomSummary().summaryType = 'total' // this.onClickSummary('total', true)
         if (! this.isRandomSummaryShow()) {
           this.showCompare4RandomList(show, isSub)
         }
 
-        if (show && this.isRandomShow && this.randoms.length <= 0 && item != null && item.id != null) {
+        if (show && this.isRandomShow && randoms.length <= 0 && item != null && item.id != null) {
           this.isRandomListShow = false
 
           var subSearch = StringUtil.isEmpty(this.randomSubSearch, true)
@@ -4166,6 +4193,7 @@ https://github.com/Tencent/APIJSON/issues
       login: function (isAdminOperation, callback) {
         this.isLoginShow = false
         this.isEditResponse = false
+        var schemas = StringUtil.isEmpty(this.schema, true) ? null : StringUtil.split(this.schema)
 
         const req = {
           type: 0, // 登录方式，非必须 0-密码 1-验证码
@@ -4179,7 +4207,7 @@ https://github.com/Tencent/APIJSON/issues
             key: IS_NODE ? this.key : undefined  // 突破常规查询数量限制
           } : {
             '@database': StringUtil.isEmpty(this.database, true) ? undefined : this.database,
-            '@schema': StringUtil.isEmpty(this.schema, true) ? undefined : this.schema
+            '@schema': schemas == null || schemas.length != 1 ? undefined : this.schema
           }
         }
 
@@ -5729,15 +5757,18 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             this.saveCache(this.server, 'randomPage', this.randomPage)
             this.saveCache(this.server, 'randomCount', this.randomCount)
 
+            var cri = this.currentRemoteItem || {}
+            cri.randoms = null
             this.randoms = null
-            this.showRandomList(true, (this.currentRemoteItem || {}).Document, false)
+            this.showRandomList(true, cri.Document, false)
             break
           case 'randomSub':
             this.saveCache(this.server, 'randomSubPage', this.randomSubPage)
             this.saveCache(this.server, 'randomSubCount', this.randomSubCount)
 
+            var cri = this.currentRandomItem || {}
             this.randomSubs = null
-            this.showRandomList(true, (this.currentRemoteItem || {}).Random, true)
+            this.showRandomList(true, cri.Random, true)
             break
           default:
             docObj = null
@@ -7257,21 +7288,27 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             // }
 
             App[testSubList ? 'currentRandomSubIndex' : 'currentRandomIndex'] = index
-            this.testRandomSingle(show, false, itemAllCount > 1 && ! testSubList, item, this.type, url, json, header, isCross, function (url, res, err) {
-              var data = null
-              if (res instanceof Object) {  // 可能通过 onTestResponse 返回的是 callback(true, 18, null)
-                data = res.data
-                try {
-                  App.onResponse(url, res, err)
-                  App.log('test  App.request >> res.data = ' + (data == null ? 'null' : JSON.stringify(data, null, '  ')))
-                } catch (e) {
-                  App.log('test  App.request >> } catch (e) {\n' + e.message)
-                }
-              }
 
-              App.compareResponse(allCount, list, index, item, data, true, App.currentAccountIndex, false, err, null, isCross, callback)
-              return true
-            })
+            try {
+              this.testRandomSingle(show, false, itemAllCount > 1 && ! testSubList, item, this.type, url, json, header, isCross, function (url, res, err) {
+                var data = null
+                if (res instanceof Object) {  // 可能通过 onTestResponse 返回的是 callback(true, 18, null)
+                  data = res.data
+                  try {
+                    App.onResponse(url, res, err)
+                    App.log('test  App.request >> res.data = ' + (data == null ? 'null' : JSON.stringify(data, null, '  ')))
+                  } catch (e) {
+                    App.log('test  App.request >> } catch (e) {\n' + e.message)
+                  }
+                }
+
+                App.compareResponse(allCount, list, index, item, data, true, App.currentAccountIndex, false, err, null, isCross, callback)
+                return true
+              })
+            }
+            catch (e) {
+              this.compareResponse(allCount, list, index, item, data, true, this.currentAccountIndex, false, e, null, isCross, callback)
+            }
           }
         }
       },
@@ -7321,77 +7358,83 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
           const which = i;
           var rawConfig = testSubList && i < existCount ? ((subs[i] || {}).Random || {}).config : random.config
-          this.parseRandom(
-            JSON.parse(JSON.stringify(json)), rawConfig, random.id
-            , ! testSubList, testSubList && i >= existCount, testSubList && i >= existCount
-            , function (randomName, constConfig, constJson) {
+          
+          var cb = function (url, res, err) {
+            if (callback != null) {
+              callback(url, res, err, random)
+            }
+            else {
+              App.onResponse(url, res, err)
+            }
+          };
+                  
+          try {
+            this.parseRandom(
+              JSON.parse(JSON.stringify(json)), rawConfig, random.id
+              , ! testSubList, testSubList && i >= existCount, testSubList && i >= existCount
+              , function (randomName, constConfig, constJson) {
 
-              respCount ++;
+                respCount ++;
 
-              if (testSubList) {  //在原来已上传的基础上，生成新的
-                if (which >= existCount) {
-                  //异步导致顺序错乱 subs.push({
-                  subs[which] = {
-                    Random: {
-                      id: -i - 1, //表示未上传
-                      toId: random.id == null ? 1 : random.id,  // 1 为了没选择测试用例时避免用 toId 判断子项错误
-                      userId: random.userId,
-                      documentId: random.documentId,
-                      count: 1,
-                      name: randomName || 'Temp ' + i,
-                      config: constConfig
-                    },
-                    //不再需要，因为子项里前面一部分就是已上传的，而且这样更准确，交互更直观
-                    // TestRecord: {  //解决子项始终没有对比标准
-                    //   id: 0, //不允许子项撤回 tr.id, //表示未上传
-                    //   userId: random.userId,
-                    //   documentId: random.documentId,
-                    //   testAccountId: tr.testAccountId,
-                    //   randomId: -i - 1,
-                    //   response: tr.response,
-                    //   standard: tr.standard,
-                    //   date: tr.date,
-                    //   compare: tr.compare
-                    // }
-                  // })
-                  };
-                }
-              }
-              else {
-                var cb = function (url, res, err) {
-                  if (callback != null) {
-                    callback(url, res, err, random)
+                if (testSubList) {  //在原来已上传的基础上，生成新的
+                  if (which >= existCount) {
+                    //异步导致顺序错乱 subs.push({
+                    subs[which] = {
+                      Random: {
+                        id: -i - 1, //表示未上传
+                        toId: random.id == null ? 1 : random.id,  // 1 为了没选择测试用例时避免用 toId 判断子项错误
+                        userId: random.userId,
+                        documentId: random.documentId,
+                        count: 1,
+                        name: randomName || 'Temp ' + i,
+                        config: constConfig
+                      },
+                      //不再需要，因为子项里前面一部分就是已上传的，而且这样更准确，交互更直观
+                      // TestRecord: {  //解决子项始终没有对比标准
+                      //   id: 0, //不允许子项撤回 tr.id, //表示未上传
+                      //   userId: random.userId,
+                      //   documentId: random.documentId,
+                      //   testAccountId: tr.testAccountId,
+                      //   randomId: -i - 1,
+                      //   response: tr.response,
+                      //   standard: tr.standard,
+                      //   date: tr.date,
+                      //   compare: tr.compare
+                      // }
+                    // })
+                    };
                   }
-                  else {
-                    App.onResponse(url, res, err)
-                  }
-                };
-
-                if (show == true) {
-                  vInput.value = JSON.stringify(constJson, null, '    ');
-                  App.send(false, cb, caseScript, null, null, true);
                 }
                 else {
-                  App.request(false, type, url, constJson, header, cb, caseScript, null, null, true);
+                  if (show == true) {
+                    vInput.value = JSON.stringify(constJson, null, '    ');
+                    App.send(false, cb, caseScript, null, null, true);
+                  }
+                  else {
+                    App.request(false, type, url, constJson, header, cb, caseScript, null, null, true);
+                  }
                 }
-              }
 
-              if (testSubList && respCount >= count) { // && which >= count - 1) {
-                if (App.currentRandomItem == null) {
-                  App.currentRandomItem = {}
+                if (testSubList && respCount >= count) { // && which >= count - 1) {
+                  if (App.currentRandomItem == null) {
+                    App.currentRandomItem = {}
+                  }
+                  App.randomSubs = App.currentRandomItem.subs = subs
+                  App.getCurrentRandomSummary().summaryType = 'total' // App.onClickSummary('total', true)
+                  if (App.isRandomListShow == true) {
+                    App.resetCount(item, true, App.currentAccountIndex)
+                    item.subs = subs
+                  }
+                  App.testRandom(false, false, true, count, isCross, callback)
                 }
-                App.randomSubs = App.currentRandomItem.subs = subs
-                App.getCurrentRandomSummary().summaryType = 'total' // App.onClickSummary('total', true)
-                if (App.isRandomListShow == true) {
-                  App.resetCount(item, true, App.currentAccountIndex)
-                  item.subs = subs
-                }
-                App.testRandom(false, false, true, count, isCross, callback)
-              }
 
-            },
-            preScript
-          );
+              },
+              preScript
+            );
+          }
+          catch (e) {
+            cb(url, {}, e)
+          }
 
         }  // for
 
@@ -8634,6 +8677,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           isRandom ? (random.id > 0 ? random.id : (random.toId + '' + random.id)) : 0
         ] || {}
 
+        var rawRspStr = JSON.stringify(currentResponse)
+
         const list = isRandom ? (random.toId == null || random.toId <= 0 ? this.randoms : this.randomSubs) : this.testCases
 
         var isBefore = item.showType == 'before'
@@ -8641,8 +8686,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           item.showType = isBefore ? 'after' : 'before'
           Vue.set(list, index, item);
 
-          var res = isBefore ? JSON.stringify(currentResponse) : testRecord.response
-
+          var res = isBefore ? rawRspStr : testRecord.response
           this.view = 'code'
           this.jsoncon = res || ''
         }
@@ -8690,7 +8734,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 item.TestRecord = null
               }
 
-              App.updateTestRecord(0, list, index, item, currentResponse, isRandom, true, App.currentAccountIndex, isCross)
+              App.updateTestRecord(0, list, index, item, JSON.parse(rawRspStr), isRandom, true, App.currentAccountIndex, isCross)
             })
           }
           else { //上传新的校验标准
@@ -8737,7 +8781,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             }
             else {
               standard = (StringUtil.isEmpty(testRecord.standard, true) ? null : JSON.parse(testRecord.standard)) || {}
-              stddObj = JSONResponse.updateFullStandard(standard, currentResponse, isML)
+              stddObj = JSONResponse.updateFullStandard(standard, JSON.parse(rawRspStr), isML)
             }
 
             const isNewRandom = isRandom && random.id <= 0
@@ -8767,7 +8811,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 host: this.getBaseUrl(),
                 testAccountId: this.getCurrentAccountId(),
                 compare: JSON.stringify(testRecord.compare || {}),
-                response: JSON.stringify(currentResponse || {}),
+                response: rawRspStr,
                 standard: isML ? JSON.stringify(stddObj) : null
               },
               tag: isNewRandom ? 'Random' : 'TestRecord'
@@ -8811,7 +8855,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                     code: 0,
                     msg: '结果正确'
                   }
-                  testRecord.response = JSON.stringify(currentResponse)
+                  testRecord.response = rawRspStr
                   // testRecord.standard = stdd
                 }
 
@@ -8840,7 +8884,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 //   }
                 // }
 
-                App.updateTestRecord(0, list, index, item, currentResponse, isRandom, true, App.currentAccountIndex, isCross)
+                App.updateTestRecord(0, list, index, item, JSON.parse(rawRspStr), isRandom, true, App.currentAccountIndex, isCross)
               }
 
             })
