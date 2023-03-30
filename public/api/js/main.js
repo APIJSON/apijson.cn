@@ -8196,10 +8196,15 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           }
         }
         else {
-          var standardKey = this.isMLEnabled != true ? 'response' : 'standard'
-          var rsp = tr[standardKey]
-          var standard = typeof rsp != 'string' ? rsp : (StringUtil.isEmpty(rsp, true) ? null : JSON.parse(rsp))
-          tr.compare = JSONResponse.compareResponse(standard, this.removeDebugInfo(response) || {}, '', this.isMLEnabled, null, null, ignoreTrend) || {}
+          var isML = this.isMLEnabled
+          var standardKey = isML ? 'standard' : 'response'
+          var stdd = tr[standardKey]
+          if (isRandom) {
+            stdd = stdd || ((this.currentRemoteItem || {}).TestRecord || {})[standardKey]
+          }
+          
+          var standard = typeof stdd != 'string' ? stdd : (StringUtil.isEmpty(stdd, true) ? null : JSON.parse(stdd))
+          tr.compare = JSONResponse.compareResponse(standard, this.removeDebugInfo(response) || {}, '', isML, null, null, ignoreTrend) || {}
           tr.compare.duration = it.durationHint
         }
 
@@ -8687,6 +8692,10 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           Vue.set(list, index, item);
 
           var res = isBefore ? rawRspStr : testRecord.response
+          if (isRandom && ! isBefore) {
+            res = res || ((this.currentRemoteItem || {}).TestRecord || {}).response
+          }
+
           this.view = 'code'
           this.jsoncon = res || ''
         }

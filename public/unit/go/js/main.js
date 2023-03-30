@@ -1907,7 +1907,7 @@ https://github.com/Tencent/APIJSON/issues
         else {
           this.scripts = scripts
         }
-
+        
         // localforage.getItem(item.key || '', function (err, value) {
 
           // this.type = item.type;
@@ -6747,8 +6747,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
           const which = i;
           var rawConfig = testSubList && i < existCount ? ((subs[i] || {}).Random || {}).config : random.config
-
-
+          
+          
           var cb = function (url, res, err) {
             if (callback != null) {
               callback(url, res, err, random)
@@ -6757,7 +6757,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               App.onResponse(url, res, err)
             }
           };
-
+                  
           try {
             this.parseRandom(
               JSON.parse(JSON.stringify(json)), rawConfig, random.id
@@ -7646,6 +7646,10 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           var isML = this.isMLEnabled
           var standardKey = isML ? 'standard' : 'response'
           var stdd = tr[standardKey]
+          if (isRandom) {
+            stdd = stdd || ((this.currentRemoteItem || {}).TestRecord || {})[standardKey]
+          }
+          
           var standard = typeof stdd != 'string' ? stdd : (StringUtil.isEmpty(stdd, true) ? null : JSON.parse(stdd))
 
           var rsp = JSON.parse(JSON.stringify(this.removeDebugInfo(response) || {}))
@@ -8142,6 +8146,10 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           Vue.set(list, index, item);
 
           var res = isBefore ? rawRspStr : testRecord.response
+          if (isRandom && ! isBefore) {
+            res = res || ((this.currentRemoteItem || {}).TestRecord || {}).response
+          }
+
           this.view = 'code'
           this.jsoncon = res || ''
         }
