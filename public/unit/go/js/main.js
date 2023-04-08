@@ -44,7 +44,7 @@
         var vRandomSubCount = {value: '100'};
         var vRandomSubSearch = {value: ''};
 
-        var Vue = require('vue');
+        var Vue = require('./vue.min'); // 某些版本不兼容 require('vue');
         var StringUtil = require('../apijson/StringUtil');
         var CodeUtil = require('../apijson/CodeUtil');
         var JSONObject = require('../apijson/JSONObject');

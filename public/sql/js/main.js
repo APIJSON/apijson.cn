@@ -44,7 +44,7 @@
         var vRandomSubCount = {value: '100'};
         var vRandomSubSearch = {value: ''};
 
-        var Vue = require('vue');
+        var Vue = require('./vue.min'); // 某些版本不兼容 require('vue');
         var StringUtil = require('../apijson/StringUtil');
         var CodeUtil = require('../apijson/CodeUtil');
         var JSONObject = require('../apijson/JSONObject');
@@ -5837,12 +5837,16 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             this.saveCache(this.server, 'testCasePage', this.testCasePage)
             this.saveCache(this.server, 'testCaseCount', this.testCaseCount)
 
+            this.resetTestCount(this.currentAccountIndex)
+
             this.remotes = null
             this.showTestCase(true, false)
             break
           case 'random':
             this.saveCache(this.server, 'randomPage', this.randomPage)
             this.saveCache(this.server, 'randomCount', this.randomCount)
+
+            this.resetTestCount(this.currentAccountIndex, true)
 
             var cri = this.currentRemoteItem || {}
             cri.randoms = null
@@ -5852,6 +5856,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           case 'randomSub':
             this.saveCache(this.server, 'randomSubPage', this.randomSubPage)
             this.saveCache(this.server, 'randomSubCount', this.randomSubCount)
+
+            this.resetTestCount(this.currentAccountIndex, true, true)
 
             var cri = this.currentRandomItem || {}
             this.randomSubs = null
@@ -6639,6 +6645,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         this.urlComment = ''
         vInput.value = StringUtil.trim(sql)
         vHeader.value = ''  // TODO 生成完整的，不过都用注释形式
+        this.showTestCase(false, this.isLocalShow)
         this.onChange(false)
       },
 
@@ -6952,11 +6959,29 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         //   this.isEnvCompareEnabled = false
         //   this.saveCache(this.server, 'isEnvCompareEnabled', this.isEnvCompareEnabled)
         // }
+
+        this.resetTestCount(this.currentAccountIndex)
+
         this.remotes = null
         this.showTestCase(true, false)
       },
 
-      onClickTestScript() {
+      resetTestCount: function (accountIndex, isRandom, isSub) {
+        if (isRandom) {
+          this.resetCount(isSub ? this.currentRandomItem : this.currentRemoteItem, isRandom, accountIndex)
+          return
+        }
+
+        if (accountIndex == -1) {
+          this.logoutSummary = this.resetCount(this.logoutSummary, false, accountIndex)
+        }
+        else if (accountIndex >= 0 && accountIndex < (this.accounts || []).length) {
+          var accountItem = this.resetCount(this.getSummary(accountIndex), false, accountIndex)
+          this.accounts[accountIndex] = accountItem
+        }
+      },
+
+      onClickTestScript: function () {
         var logger = console.log
         console.log = function(msg) {
           logger(msg)
