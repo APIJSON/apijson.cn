@@ -178,13 +178,14 @@
       <div class="left-panel">
           <ul v-show="isTestCaseShow" class="historys" style="width: 100%;height: 100%;overflow: hidden;overflow-y: scroll;padding-bottom: 50px">
               <li v-for="(item, index) in testCases" :id="'docItem' + index" >
-                  <div style="display: inline-table; height: 24px">
-                      <div style="display: inline-flex; height: 100%">
-                          <a class="hint--rounded hint--no-animate" style="position: absolute; left: 10px; top: 6px; font-size: small; color: dimgray" ref="testCaseMethodTexts" @mouseover="setRequestHint(index, item)" href="javascript:void(0)" @click="restoreRemote(index, item)" :style="{ color: index == currentDocIndex ? 'black' : 'gray' }" >{{getMethodDefinition(item.Method) + (StringUtil.isEmpty(item.Method.detail) || item.Method.detail == item.Method.method ? '' : ' // ' + StringUtil.trim(item.Method.detail))}}</a>
-                          <a class="hint--rounded hint--no-animate" style="position: absolute; left: 10px; bottom: 4px; font-size: small" ref="testCaseClassTexts" @mouseover="setRequestHint(index, item, false, true)" href="javascript:void(0)" @click="restoreRemote(index, item)" :style="{ color: index == currentDocIndex ? 'black' : 'gray' }" >{{item.Method.package + '.' + item.Method.class + (StringUtil.isEmpty(item.Method.cttr, true) ? '' : '.' + item.Method.cttr) + (item.Method.static && StringUtil.isEmpty(item.Method.cttr, true) ? '' : '(' + StringUtil.trim(getArgumentTypes(item.Method, true)) + ')')}}</a>
+                  <div style="display: inline-flex; height: 24px">
+                      <button v-show="StringUtil.length(StringUtil.split(language, ',', true)) > 1" class="hint--right" :data-hint="item.Method.request || item.Method.methodArgs" v-show="isShowType()" style="width: 54px; min-height: 25px; margin-right: 6px;padding: 0px" id="vDocType" @click="restoreRemoteAndTest(index, item)">{{ item.Method.language || 'Java' }}</button>
+                      <div style="display: grid; height: 100%">
+                          <a class="hint--rounded hint--no-animate" style="font-size: small; color: dimgray; top: -6px" ref="testCaseMethodTexts" @mouseover="setRequestHint(index, item)" href="javascript:void(0)" @click="restoreRemote(index, item)" :style="{ color: index == currentDocIndex ? 'black' : 'gray' }" >{{getMethodDefinition(item.Method) + (StringUtil.isEmpty(item.Method.detail) || item.Method.detail == item.Method.method ? '' : ' // ' + StringUtil.trim(item.Method.detail))}}</a>
+                          <a class="hint--rounded hint--no-animate" style="font-size: small; top: -10px" ref="testCaseClassTexts" @mouseover="setRequestHint(index, item, false, true)" href="javascript:void(0)" @click="restoreRemote(index, item)" :style="{ color: index == currentDocIndex ? 'black' : 'gray' }" >{{item.Method.package + '.' + item.Method.class + (StringUtil.isEmpty(item.Method.cttr, true) ? '' : '.' + item.Method.cttr) + (item.Method.static && StringUtil.isEmpty(item.Method.cttr, true) ? '' : '(' + StringUtil.trim(getArgumentTypes(item.Method, true)) + ')')}}</a>
                       </div>
 					  <div style="position: absolute; top: 4px; bottom: 4px; right: 36px; display: inline-flex">
-                      	<div v-show="(item.totalCount || 0) > 0" style="background: lightgray; padding: 10px 4px 1px 1px; text-align: center; margin-right: 2px; display: inline-block; position: relative; height: 100%" @click="restoreRemote(index, item)" >
+                      	<div v-show="(item.totalCount || 0) > 0" style="background: lightgray; padding: 6px 4px 1px 1px; text-align: center; margin-right: 2px; display: inline-block; position: relative; height: 100%" @click="restoreRemote(index, item)" >
                         	<!-- 只能写成一行来消除间隙，不能换行、空格 -->
                         	<a style="background: transparent; color: black; position: relative; min-width: 6px; width: auto; margin: 0; padding: 2px">{{ (item.totalCount || 0) + ':' }}</a><a style="background: white; color: black; position: relative; min-width: 6px; width: auto; margin: 0; padding: 2px">{{ item.whiteCount || 0 }}</a><a style="background: green; color: white; position: relative; min-width: 6px; width: auto; margin: 0; padding: 2px">{{ item.greenCount || 0 }}</a><a style="background: blue; color: white; position: relative; min-width: 6px; width: auto; margin: 0; padding: 2px">{{ item.blueCount || 0 }}</a><a style="background: orange; color: white; position: relative; min-width: 6px; width: auto; margin: 0; padding: 2px">{{ item.orangeCount || 0 }}</a><a style="background: red; color: white; position: relative; min-width: 6px; width: auto; margin: 0; padding: 2px">{{ item.redCount || 0 }}</a>
                       	</div>
@@ -314,11 +315,11 @@ Ctrl + S 或 Command + S 保存当前用例；
 {
     "static": true,
     "methodArgs": [
-        {  // 可省略来自动判断的 type: Boolean,Integer,BigDecimal,String,JSONObject,JSONArray
+        { // 可省略来自动判断的 type: Boolean,Integer,BigDecimal,String,JSONObject,JSONArray
             "type": "long",
             "value": 1
         },
-        {  // 这个对象还可以简化为 "int:2" 这种字符串形式，方便手动调试。在键值对后按 Enter 回车键自动智能生成补全提示
+        { // 这个对象还可以简化为 "int:2" 这种字符串形式，方便手动调试。在键值对后按 Enter 回车键自动智能生成补全提示
             "type": "long",
             "value": 2
         }
@@ -680,6 +681,8 @@ fun(true, 1, 'a'..);
 
                 <textarea id="vOutput" v-show="view == 'output'"></textarea>
 
+                <div class="right-main" id="vHtml" v-show="view == 'html'"></div>
+
                 <div class="right-main" id="vMarkdown" v-show="view == 'markdown'"></div>
                 <div v-show="view == 'markdown'" style="bottom: -6px; text-align: right; position: absolute; width: 100%; padding: 4px 20px 0px 4px; background-color: white;">
                     <a >搜索</a>
@@ -977,14 +980,25 @@ fun(true, 1, 'a'..);
   var vRemember = document.getElementById("vRemember");
 
   var lang = App == null ? null : App.language;
-  vUrl.value = lang == CodeUtil.LANGUAGE_GO ? 'test.Divide.Divide' : 'unitauto.test.TestUtil.divide'  //main.js里访问不到，可能是script引用顺序问题
+  vUrl.value = lang == CodeUtil.LANGUAGE_GO ? 'test.Divide' : (lang == CodeUtil.LANGUAGE_PYTHON ? 'unitauto.test.testutil.divide' : 'unitauto.test.TestUtil.divide')  //main.js里访问不到，可能是script引用顺序问题
   vInput.value = (lang == CodeUtil.LANGUAGE_GO ? `{
     "methodArgs": [
-        {  // 可省略来自动判断的 type: bool,float64,string,map[string]any,[]any
+        { // 可省略来自动判断的 type: bool,float64,string,map[string]any,[]any
             "type": "int",
             "value": 1
         },
-        {  // 这个对象还可以简化为 "int:2" 这种字符串形式，方便手动调试。在键值对后按 Enter 回车键自动智能生成补全提示
+        { // 这个对象还可以简化为 "int:2" 这种字符串形式，方便手动调试。在键值对后按 Enter 回车键自动智能生成补全提示
+            "type": "int",
+            "value": 2
+        }
+    ]
+}` : (lang == CodeUtil.LANGUAGE_PYTHON ? `{
+    "args": [
+        { // 可省略来自动判断的 type: bool,int,float,str,dict,list
+            "type": "int",
+            "value": 1
+        },
+        { // 这个对象还可以简化为 "int:2" 这种字符串形式，方便手动调试。在键值对后按 Enter 回车键自动智能生成补全提示
             "type": "int",
             "value": 2
         }
@@ -992,16 +1006,16 @@ fun(true, 1, 'a'..);
 }` : `{
     "static": true,
     "methodArgs": [
-        {  // 可省略来自动判断的 type: Boolean,Integer,BigDecimal,String,JSONObject,JSONArray
+        { // 可省略来自动判断的 type: Boolean,Integer,BigDecimal,String,JSONObject,JSONArray
             "type": "long",
             "value": 1
         },
-        {  // 这个对象还可以简化为 "int:2" 这种字符串形式，方便手动调试。在键值对后按 Enter 回车键自动智能生成补全提示
+        { // 这个对象还可以简化为 "int:2" 这种字符串形式，方便手动调试。在键值对后按 Enter 回车键自动智能生成补全提示
             "type": "long",
             "value": 2
         }
     ]
-}`) + `
+}`)) + `
 
 /*
 以上 JSON 文本支持 JSON5 格式。清空文本内容可查看规则。

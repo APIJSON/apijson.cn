@@ -5,7 +5,7 @@
 <p align="center">☔ 智能零代码测试 SQL、任意增删改查、任意 SQL 模板变量、一键批量生成参数组合、快速构造大量测试数据</p>
 
 <p align="center" >
-  <a href="https://github.com/TommyLemon/SQLAuto#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B">使用文档</a>
+  <a href="https://github.com/TommyLemon/SQLAuto#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B">快速上手</a>
   <a href="https://space.bilibili.com/437134249/search/video?keyword=apiauto">视频教程</a>
   <a href="http://apijson.cn/sql">在线体验</a>
 </p>
@@ -32,6 +32,8 @@ sex: RANDOM_IN(0, 1)  // 随机从 0, 1 中取值
 name: 'Test ' + new Date().toLocaleTimeString()  // 通过代码自定义
 ```
 
+<br />
+
 ### 快速上手
 
 **本项目前端工具是基于 [APIAuto](https://github.com/TommyLemon/APIAuto) 改造的纯静态 SPA 网页，下载源码解压后：** <br />
@@ -50,6 +52,25 @@ name: 'Test ' + new Date().toLocaleTimeString()  // 通过代码自定义
 **后端需要部署 APIJSON-Demo 5.2.5+ 的 APIJSONBoot-MultiDataSource** <br /> 
 DemoSQLConfig 改下 getDBAccount, getDBUri 等返回值，具体见 <br /> 
 https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server
+
+<br />
+
+### 新增测试用例
+可以使用以下几种方式：
+#### 1.点击右侧数据字典文档表名后面的 SELECT INSERT UPDATE DELETE 来生成左侧 SQL 语句
+http://apijson.cn/sql
+
+#### 2.调用 /delegate 代理接口来录制请求的方法、参数、响应等信息
+https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server/APIJSONBoot-MultiDataSource#%E4%BB%A3%E7%90%86%E6%8E%A5%E5%8F%A3%E5%8F%8A%E5%BD%95%E5%88%B6%E6%B5%81%E9%87%8F
+
+#### 3.打开分享链接来自动填充 数据库 URI、SQL 语句、预编译参数、设置项 等
+例如：
+http://apijson.cn/sql/?send=true&type=JSON&url=jdbc%3Amysql%3A%2F%2Flocalhost%3A3306%2Fsys&json=SELECT%20*%20FROM%20Comment%20LIMIT%2010&header=
+
+#### 4.在界面手动填写 数据库 URI、SQL 语句、预编译参数 等再点击上传/分享按钮
+可点击分享按钮生成分享链接，用浏览器打开即可自动填充。
+
+<br />
 
 ### 后台 Headless 无 UI 模式回归测试
 Jenkins、蓝盾 等 CI/CD 等流水线不支持带 UI 测试，所以提供了这个模式， <br />

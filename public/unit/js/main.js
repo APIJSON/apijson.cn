@@ -959,7 +959,11 @@ https://github.com/Tencent/APIJSON/issues
       deepDoneCount: 0,
       deepAllCount: 0,
       randomDoneCount: 0,
-      randomAllCount: 0
+      randomAllCount: 0,
+      coverage: {
+        json: {},
+        html: ''
+      }
     },
 
     methods: {
@@ -1120,7 +1124,7 @@ https://github.com/Tencent/APIJSON/issues
       },
       getUrl: function () {
         var url = StringUtil.get(this.host) + new String(vUrl.value)
-        return url.replace(/ /g, '')
+        return url.replaceAll(' ', '')
       },
       //获取基地址
       getBaseUrl: function (url_) {
@@ -1152,13 +1156,19 @@ https://github.com/Tencent/APIJSON/issues
         url = url || this.getUrl()
         var index = url.lastIndexOf('.')
         if (index <= 0) {
-          throw new Error('必须要有类名！完整的 URL 必须符合格式 package.Class.method ！')
+          throw new Error('完整的 URI 必须符合格式 Java/Kotlin: package.Class.method, Go: package.func / package.Struct.method, ' +
+              '\n Python: package.function / package.file.function / package.Class.method / package.file.Class.method ！')
         }
         url = url.substring(0, index)
         index = url.lastIndexOf('.')
         var clazz = StringUtil.trim(index < 0 ? url : url.substring(index + 1))
-        if (this.language == 'Java' || this.language == 'JavaScript' || this.language == 'TypeScript') {
-          if (/[A-Z]{0}[A-Za-z0-9_]/.test(clazz) != true) {
+        var lang = this.language
+        if (StringUtil.isBigName(clazz) != true) {
+          if (lang == CodeUtil.LANGUAGE_GO) {
+            return ''
+          }
+
+          if ([CodeUtil.LANGUAGE_JAVA, CodeUtil.LANGUAGE_KOTLIN].indexOf(lang) >= 0) {
             alert('类名 ' + clazz + ' 不符合规范！')
           }
         }
@@ -1169,11 +1179,18 @@ https://github.com/Tencent/APIJSON/issues
         url = url || this.getUrl()
         var index = url.lastIndexOf('.')
         if (index <= 0) {
-          throw new Error('必须要有类名！完整的 URL 必须符合格式 package.Class.method ！')
+          throw new Error('完整的 URI 必须符合格式 Java/Kotlin: package.Class.method, Go: package.func / package.Struct.method, ' +
+              '\n Python: package.function / package.file.function / package.Class.method / package.file.Class.method ！')
         }
         url = url.substring(0, index)
         index = url.lastIndexOf('.')
-        return StringUtil.trim(index < 0 ? '' : url.substring(0, index))
+        var cls = url.substring(index + 1)
+        var pkg = index < 0 ? '' : url.substring(0, index)
+
+        if (this.language == CodeUtil.LANGUAGE_GO && StringUtil.isBigName(cls) != true) {
+          pkg = StringUtil.isEmpty(pkg) ? cls : pkg + '.' + cls
+        }
+        return StringUtil.trim(pkg)
       },
       //获取请求的tag
       getTag: function () {
@@ -2203,7 +2220,7 @@ https://github.com/Tencent/APIJSON/issues
             var code_ = inputObj.code
             inputObj.code = null // delete inputObj.code
 
-            commentObj = JSONResponse.updateStandard(commentStddObj, inputObj);
+            commentObj = JSONResponse.updateStandard(commentStddObj, inputObj, ['@time']);
             CodeUtil.parseComment(after, docObj == null ? null : docObj['[]'], m, this.database, this.language, isEditResponse != true, commentObj, true);
 
             inputObj.code = code_
@@ -2222,7 +2239,7 @@ https://github.com/Tencent/APIJSON/issues
           rsp = JSONResponse.array2object(rsp, 'return', ['return'], true)
           rsp = JSONResponse.array2object(rsp, 'type', ['type'], true)
 
-          const stddObj = isML ? JSONResponse.updateStandard({}, rsp) : {};
+          const stddObj = isML ? JSONResponse.updateStandard({}, rsp, ['@time']) : {};
           stddObj.code = code;
           stddObj.throw = thrw;
           currentResponse.code = code;
@@ -2286,7 +2303,7 @@ https://github.com/Tencent/APIJSON/issues
               config = newCfg;
             }
 
-            commentObj = JSONResponse.updateStandard({}, mapReq2);
+            commentObj = JSONResponse.updateStandard({}, mapReq2, ['@time']);
           }
 
 
@@ -2319,7 +2336,7 @@ https://github.com/Tencent/APIJSON/issues
             //     }
             //   }
             //
-            //   commentObj = JSONResponse.updateStandard({}, mapReq2);
+            //   commentObj = JSONResponse.updateStandard({}, mapReq2, ['@time']);
             // }
 
             var returnType = currentResponse == null ? null : currentResponse.type
@@ -2830,16 +2847,16 @@ https://github.com/Tencent/APIJSON/issues
       },
 
       getArgs4Sync: function (typeList, valueList) {
-        if (typeList == null) {
+        var size = Math.max(typeList == null ? 0 : typeList.length, valueList == null ? 0 : valueList.length)
+        if (size <= 0) {
           return null
         }
 
-
         var args = []
-        for (var l = 0; l < typeList.length; l++) {
+        for (var l = 0; l < size; l++) {
 
-          var type = typeList[l] == null ? null : typeList[l]  //保持用 . 分割  .replace(/[.]/g, '/')
-          var value = valueList[l] == null ? this.mockValue4Type(type) : valueList[l];
+          var type = typeList == null ? null : typeList[l]  //保持用 . 分割  .replace(/[.]/g, '/')
+          var value = valueList == null ? this.mockValue4Type(type) : valueList[l];
 
           args.push({
             type: type,
@@ -2858,19 +2875,35 @@ https://github.com/Tencent/APIJSON/issues
         switch (type) {
           case 'Boolean':
           case 'boolean':
+          case 'bool':
             return randomInt(0, 1) == 1
+          case 'number':
           case 'Number':
           case 'Double':
           case 'Float':
           case 'double':
           case 'float':
+          case 'float32':
+          case 'float64':
             return randomNum(-100, 200, randomInt(0, 2))
           case 'Long':
           case 'long':
+          case 'int64':
+          case 'uint64':
             return randomInt(-100, 200)
           case 'Integer':
+          case 'integer':
           case 'int':
+          case 'int8':
+          case 'int16':
+          case 'int32':
+          case 'uint':
+          case 'uint8':
+          case 'uint16':
+          case 'uint32':
             return randomInt(-10, 20)
+          case 'str':
+          case 'string':
           case 'String':
           case 'CharSequence':
             return randomStr(0, 5)
@@ -2888,7 +2921,7 @@ https://github.com/Tencent/APIJSON/issues
           }
         }
 
-        if (type.endsWith('[]') || type.endsWith('List') || type.endsWith('Array') || type.endsWith('Set') || type.endsWith('Collection')) {
+        if (type.startsWith('list') || type.startsWith('[]') || type.endsWith('[]') ||type.endsWith('List') || type.endsWith('Array') || type.endsWith('Set') || type.endsWith('Collection')) {
           var size = randomInt(0, 10)
           var arr = []
           for (var i = 0; i < size; i ++) {
@@ -2900,7 +2933,7 @@ https://github.com/Tencent/APIJSON/issues
           return arr
         }
 
-        if (type.endsWith('Map') || type.endsWith('Table') || type.endsWith('JSONObject')) {
+        if (type.startsWith('map') || type.startsWith('dict') || type.endsWith('Map') || type.endsWith('Table') || type.endsWith('JSONObject')) {
           var size = randomInt(0, 10)
 
           var index = ct.indexOf(',')
@@ -2918,7 +2951,7 @@ https://github.com/Tencent/APIJSON/issues
           return this.mockValue4Type('Number')
         }
 
-        return type == 'Object' || type == 'java.lang.Object' ? null : {}
+        return null // type == 'Object' || type == 'java.lang.Object' ? null : {}
       },
 
       // 切换主题
@@ -3198,6 +3231,9 @@ https://github.com/Tencent/APIJSON/issues
             langauges.push('')
             langauges.push(null)
           }
+
+          this.coverage = {}
+          this.view = 'markdown'
 
           var req = {
             format: false,
@@ -4440,58 +4476,56 @@ https://github.com/Tencent/APIJSON/issues
           return
         }
 
-        var header
         try {
-          header = this.getHeader(vHeader.value)
-        } catch (e) {
-          // alert(e.message)
-          return
-        }
+          var header = this.getHeader(vHeader.value)
 
-        var req = this.getRequest(vInput.value, {})
+          var req = this.getRequest(vInput.value, {})
 
-        var url = this.getUrl()
+          var url = this.getUrl()
 
-        var httpReq = Object.assign({
-          "package": this.getPackage(url),
-          "class": this.getClass(url),
-          "method": this.getMethod(url)
-        }, req)
+          var httpReq = Object.assign({
+            "package": this.getPackage(url),
+            "class": this.getClass(url),
+            "method": this.getMethod(url)
+          }, req)
 
-        vOutput.value = "requesting... \nURL = " + url
+          vOutput.value = "requesting... \nURL = " + url
 
-        errHandler = function () {
-          vOutput.value = "requesting... \nURL = " + url + "\n\n可能" + ERR_MSG
-        }
-        setTimeout(errHandler, 5000)
-
-        this.view = 'output';
-
-        var caseScript = (caseScript_ != null ? caseScript_ : ((this.scripts || {}).case || {})[this.getCurrentDocumentId() || 0]) || {}
-
-        this.setBaseUrl()
-        this.request(isAdminOperation, REQUEST_TYPE_JSON, this.project + '/method/invoke', httpReq, isAdminOperation ? {} : header, callback, caseScript, accountScript_, globalScript_, ignorePreScript)
-
-        this.locals = this.locals || []
-        if (this.locals.length >= 1000) { //最多1000条，太多会很卡
-          this.locals.splice(999, this.locals.length - 999)
-        }
-        var method = this.getMethod()
-        this.locals.unshift({
-          'Method': {
-            'userId': this.User.id,
-            'name': this.formatDateTime() + (StringUtil.isEmpty(req.tag, true) ? '' : ' ' + req.tag),
-            'method': this.getMethod(url),
-            'class': this.getClass(url),
-            'package': this.getPackage(url),
-            'type': this.type,
-            'url': method,
-            'request': JSON.stringify(req, null, '    '),
-            'header': vHeader.value,
-            'scripts': this.scripts
+          errHandler = function () {
+            vOutput.value = "requesting... \nURL = " + url + "\n\n可能" + ERR_MSG
           }
-        })
-        this.saveCache('', 'locals', this.locals)
+          setTimeout(errHandler, 5000)
+
+          this.view = 'output';
+
+          var caseScript = (caseScript_ != null ? caseScript_ : ((this.scripts || {}).case || {})[this.getCurrentDocumentId() || 0]) || {}
+
+          this.setBaseUrl()
+          this.request(isAdminOperation, REQUEST_TYPE_JSON, this.project + '/method/invoke', httpReq, isAdminOperation ? {} : header, callback, caseScript, accountScript_, globalScript_, ignorePreScript)
+
+          this.locals = this.locals || []
+          if (this.locals.length >= 1000) { //最多1000条，太多会很卡
+            this.locals.splice(999, this.locals.length - 999)
+          }
+          var method = this.getMethod()
+          this.locals.unshift({
+            'Method': {
+              'userId': this.User.id,
+              'name': this.formatDateTime() + (StringUtil.isEmpty(req.tag, true) ? '' : ' ' + req.tag),
+              'method': this.getMethod(url),
+              'class': this.getClass(url),
+              'package': this.getPackage(url),
+              'type': this.type,
+              'url': method,
+              'request': JSON.stringify(req, null, '    '),
+              'header': vHeader.value,
+              'scripts': this.scripts
+            }
+          })
+          this.saveCache('', 'locals', this.locals)
+        } catch (e) {
+          this.onResponse(url, {}, e)
+        }
       },
 
       //请求
@@ -5427,7 +5461,22 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           return false;
         }
         doc = d;
-        vOutput.value = (this.isTestCaseShow ? '' : output) + (
+        var url = StringUtil.trim((this.coverage || {}).url)
+        if (url != null && url.startsWith('/')) {
+          url = this.project + url
+          this.view = 'html'
+          vHtml.innerHTML = '<iframe width="100%" height="100%" src="' + url + '"></iframe><br>'
+          return true
+        }
+        var html = null // (this.coverage || {}).html
+        if (StringUtil.isEmpty(html) != true) {
+          this.view = 'html'
+          vHtml.innerHTML = html
+          return true
+        }
+
+        vOutput.value = (StringUtil.isEmpty(url, true) ? (StringUtil.isEmpty(html, true) ? '' : StringUtil.trim(html) + '<br>') : '<iframe src="' + url + '"></iframe><br>')
+          + (this.isTestCaseShow ? '' : output) + (
           '\n\n\n## 包和类文档\n自动查数据库表和字段属性来生成 \n\n' + d
           + '<h3 align="center">关于</h3>'
           + '<p align="center">UnitAuto-零代码单元测试'
@@ -7552,7 +7601,20 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           cs.totalCount = total
         }
 
-        this.test(false, accountIndex, isCross, callback)
+        this.coverage = {}
+        this.request(false, REQUEST_TYPE_JSON, this.project + '/coverage/start', {}, {}, function (url, res, err) {
+          try {
+            App.onResponse(url, res, err)
+            if (DEBUG) {
+              App.log('test  App.request >> res.data = ' + JSON.stringify(res.data, null, '  '))
+            }
+          } catch (e) {
+            App.log('test  App.request >> } catch (e) {\n' + e.message)
+          }
+
+          App.test(false, accountIndex, isCross, callback)
+        })
+
       },
       /**回归测试
        * 原理：
@@ -7740,9 +7802,9 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 "class": document.class,
                 "this": document.this,
                 "constructor": document.constructor,
-                "classArgs": this.getRequest(document.classArgs, []),
+                "classArgs": this.getRequest(document.classArgs),
                 "method": document.method,
-                "methodArgs": this.getRequest(document.methodArgs, []),
+                "methodArgs": this.getRequest(document.methodArgs),
                 "static": document.static,
                 "timeout": document.timeout,
                 "ui": document.ui
@@ -7763,10 +7825,10 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 httpReq.constructor = document.constructor
               }
               if (httpReq.classArgs == null) {
-                httpReq.classArgs = this.getRequest(document.classArgs, [])
+                httpReq.classArgs = this.getRequest(document.classArgs)
               }
               if (httpReq.methodArgs == null) {
-                httpReq.methodArgs = this.getRequest(document.methodArgs, [])
+                httpReq.methodArgs = this.getRequest(document.methodArgs)
               }
               if (httpReq.this == null) {
                 httpReq.this = document.this
@@ -7822,7 +7884,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
       compareResponse: function (allCount, list, index, item, response, isRandom, accountIndex, justRecoverTest, err, ignoreTrend, isCross, callback) {
         var it = item || {} //请求异步
-        var d = (isRandom ? this.currentRemoteItem.Method : it.Method) || {} //请求异步
+        var cri = this.currentRemoteItem || {} //请求异步
+        var d = (isRandom ? cri.Method : it.Method) || {} //请求异步
         var r = isRandom ? it.Random : null //请求异步
         var tr = it.TestRecord || {} //请求异步
 
@@ -7876,7 +7939,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             rsp = JSONResponse.array2object(rsp, 'return', ['return'], true)
             rsp = JSONResponse.array2object(rsp, 'type', ['type'], true)
           }
-          tr.compare = JSONResponse.compareResponse(standard, rsp, '', isML, null, ['call()[]'], ignoreTrend) || {}
+          tr.compare = JSONResponse.compareResponse(standard, rsp, '', isML, null, ['call()[]', '@time'], ignoreTrend) || {}
           tr.compare.duration = it.durationHint
         }
 
@@ -8049,6 +8112,31 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                   if (typeof autoTestCallback == 'function') {
                     autoTestCallback('已完成回归测试')
                   }
+
+                  App.request(false, REQUEST_TYPE_JSON, App.project + '/coverage/report', {}, {}, function (url, res, err) {
+                    try {
+                      App.onResponse(url, res, err)
+                      if (DEBUG) {
+                        App.log('test  App.request >> res.data = ' + JSON.stringify(res.data, null, '  '))
+                      }
+                    } catch (e) {
+                      App.log('test  App.request >> } catch (e) {\n' + e.message)
+                    }
+
+                    App.coverage = res.data
+                    if (IS_BROWSER) {
+                      setTimeout(function () {
+                        var url = StringUtil.trim((App.coverage || {}).url)
+                        if (StringUtil.isEmpty(url, false)) {
+                          url = App.project + "/htmlcov/index.html"
+                        }
+                        if (url.startsWith('/')) {
+                          url = App.project + url
+                        }
+                        window.open(url)
+                      }, 2000)
+                    }
+                  })
                 }
               }
             }
@@ -8469,6 +8557,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             }
 
             const isNewRandom = isRandom && random.id <= 0
+            const userId = this.User.id
 
             //TODO 先检查是否有重复名称的！让用户确认！
             // if (isML != true) {
@@ -8476,6 +8565,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             const req = {
               Random: isNewRandom != true ? null : {
                 toId: random.toId,
+                userId: userId,
                 documentId: random.documentId,
                 name: random.name,
                 count: random.count,
@@ -8484,12 +8574,14 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               TestRecord: isDuration ? Object.assign(testRecord, {
                 id: undefined,
                 host: this.getBaseUrl(),
+                userId: userId,
                 testAccountId: this.getCurrentAccountId(),
                 duration: item.duration,
                 minDuration: minDuration,
                 maxDuration: maxDuration,
                 compare: JSON.stringify(testRecord.compare || {}),
               }) : {
+                userId: userId,
                 documentId: isNewRandom ? null : (isRandom ? random.documentId : document.id),
                 randomId: isRandom && ! isNewRandom ? random.id : null,
                 host: this.getBaseUrl(),
@@ -9018,6 +9110,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               if (standardObj == null) {
                 standardObj = JSONResponse.updateStandard({},
                   isReq ? App.getRequest(vInput.value) : App.jsoncon == null ? null : JSON.parse(App.jsoncon)
+                  , ['@time']
                 )
               }
 
