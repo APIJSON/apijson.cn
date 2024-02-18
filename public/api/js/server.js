@@ -1,6 +1,6 @@
 const Koa = require('koa');
 //const cors = require('koa2-cors');
-const bodyParser = require('koa-bodyparser');
+// const bodyParser = require('koa-bodyparser');
 // const Vue = require('vue');
 const {getRequestFromURL, App} = require('./main');
 // const { createBundleRenderer } = require('vue-server-renderer')
@@ -69,7 +69,7 @@ const PORT = 3000;
 
 var done = false;
 const app = new Koa();
-app.use(bodyParser());
+// app.use(bodyParser());
 app.use(async ctx => {
   console.log(ctx);
   var origin = ctx.get('Origin') || ctx.get('origin');
@@ -79,11 +79,13 @@ app.use(async ctx => {
   ctx.set('Access-Control-Allow-Headers', "*");
   ctx.set('Access-Control-Allow-Credentials', 'true');
   ctx.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,PUT,DELETE,OPTIONS,TRACE');
+//    ctx.set('Access-Control-Expose-Headers', "*");
 
   if (ctx.method == null || ctx.method.toUpperCase() == 'OPTIONS') {
      ctx.status = 200;
      return;
   }
+
   if (ctx.path == '/test/start' || (isLoading != true && ctx.path == '/test')) {
     if (isLoading && ctx.path == '/test/start') {
       ctx.status = 200;
@@ -130,7 +132,10 @@ app.use(async ctx => {
     isCrossEnabled = App.isCrossEnabled;
 
     ctx.status = ctx.response.status = 200; // 302;
-    ctx.body = ctx.response.body = 'Auto testing in node...';
+    ctx.body = ctx.response.body = JSON.stringify({
+      'code': 200,
+      'msg': 'Auto testing in node...'
+    });
 
     // setTimeout(function () {  // 延迟无效
     ctx.redirect('/test/status');
@@ -143,8 +148,17 @@ app.use(async ctx => {
       // ctx.redirect('/status');
     }
 
+    var server = App.server;
+    var ind = server == null ? -1 : server.indexOf('?');
+
     ctx.status = ctx.response.status = 200;  // progress >= 1 ? 200 : 302;
-    ctx.body = ctx.response.body = (message || (progress < 1 || isLoading ? 'Auto testing in node...' : 'Done auto testing in node.')) + timeMsg + progressMsg;
+    ctx.body = ctx.response.body = JSON.stringify({
+      'code': 200,
+      'msg': (message || (progress < 1 || isLoading ? 'Auto testing in node...' : 'Done auto testing in node.')) + timeMsg + progressMsg,
+      'progress': progress,
+      'reportId': App.reportId,
+      'link': server + (ind < 0 ? '?' : '&') + 'reportId=' + App.reportId
+    });
   }
   else if (ctx.path == '/test/compare' || ctx.path == '/test/ml') {
     done = false;
