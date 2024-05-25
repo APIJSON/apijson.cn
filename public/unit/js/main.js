@@ -8331,7 +8331,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
       onClickTest: function (callback) {
         this.isRandomTest = false
         this.isStatisticsEnabled = true
-        this.reportId = new Date().getTime();
+        this.reportId = new Date().getTime()
+        this.caseShowType = 1
 
         // 自动往右移动，避免断言结果遮挡太多接口名称、URL
         var split_obj = IS_BROWSER ? $('.splitx') : null
@@ -10455,7 +10456,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         this.isEncodeEnabled = this.getCache('', 'isEncodeEnabled', this.isEncodeEnabled)
         this.isEnvCompareEnabled = this.getCache('', 'isEnvCompareEnabled', this.isEnvCompareEnabled)
         //预览了就不能编辑了，点开看会懵 this.isPreviewEnabled = this.getCache('', 'isPreviewEnabled', this.isPreviewEnabled)
-        this.isStatisticsEnabled = this.getCache('', 'isStatisticsEnabled', this.isStatisticsEnabled)
+        this.isStatisticsEnabled = false // this.getCache('', 'isStatisticsEnabled', this.isStatisticsEnabled)
         this.isHeaderShow = this.getCache('', 'isHeaderShow', this.isHeaderShow)
         this.isRandomShow = this.getCache('', 'isRandomShow', this.isRandomShow)
       } catch (e) {

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>UIAuto-UI测试&前后端自动分bug</title>
+  <title>UIGO-零代码快准稳录制回放 App UI</title>
   <meta charset="utf-8" />
-  <meta name="keywords" content="apijson,api,json,auto,unit,unitauto,自动化UI回归测试,机器学习UI回归测试,回归测试,机器学习,UI测试,自动化,UI自动化"/>
-  <meta name="description" content="机器学习UI测试平台，零代码、全方位、自动化 测试 UI 的正确性和可用性。"/>
+  <meta name="keywords" content="apijson,api,json,auto,ui,uiauto,uigo,unit,unitauto,自动化UI回归测试,机器学习UI回归测试,回归测试,机器学习,UI测试,自动化,UI自动化,功能测试,功能自动化,App测试,App自动化,录制回放,零代码,低代码"/>
+  <meta name="description" content="📱 零代码快准稳 UI 智能录制回放平台 🚀 自动兼容任意宽高比分辨率屏幕，自动精准等待网络请求，录制回放快、准、稳！"/>
 
   <!-- 登录 <<<<<<<<<<<<<<<<<<<< -->
   <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
@@ -69,7 +69,7 @@
 
     <img src="img/logo.png" class="logo-img"/>
     <a class="logo" href="http://apijson.cn" target="_blank">
-      <span class="on">UIAuto</span><span >: &lt;APIJSON/&gt;.cn(内测中)</span>
+      <span class="on">UIGO</span><span >: &lt;APIJSON/&gt;.cn</span>
     </a>
     <a v-show="isDelayShow" >2s</a>
     <iframe v-show="User.id == null || User.id <= 0" src="https://ghbtns.com/github-btn.html?user=Tencent&amp;repo=APIJSON&amp;type=star&amp;count=true&amp;size=small" frameborder="0" scrolling="0" width="160px" height="18px"></iframe>
@@ -82,13 +82,16 @@
     </div>
 
     <div class="top-right">
-
-      <a v-show="User.id == null || User.id <= 0" href="https://git.code.tencent.com/Tencent_Open_Source/APIJSON" target="_blank" >
+      <a style="padding: 6px" v-show="User.id == null || User.id <= 0" href="https://git.code.tencent.com/Tencent_Open_Source/APIJSON" target="_blank" >
         <img class="ui inline black image" height="24" src="http://apijson.cn/images/tencent_open_logo.png">
       </a>
 
-      <a v-show="User.id == null || User.id <= 0" href="https://gitee.com/Tencent/APIJSON" target="_blank">
+      <a style="padding: 6px" v-show="User.id == null || User.id <= 0" href="https://gitee.com/Tencent/APIJSON" target="_blank">
         <img class="ui inline black image" height="24" src="https://gitee.com/logo-black.svg?20171024" width="60">
+      </a>
+
+      <a style="padding-left: 6px" v-show="User.id == null || User.id <= 0" href="https://gitee.com/Tencent/APIJSON" target="_blank">
+        <img style="margin-bottom: -1px" height="18" src="https://gitee.com/Tencent/APIJSON/badge/star.svg?theme=gvp">
       </a>
 
       <a v-show="User.id != null && User.id > 0" href="javascript:void(0)" @click="logout(true)">

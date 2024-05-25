@@ -569,7 +569,7 @@
       branch: 'countArray',
       database: 'MYSQL',// 'POSTGRESQL',
       schema: 'sys',
-      server: 'http://apijson.cn:8080',  // admin.Flow does not exist  'http://apijson.org:8080',
+      server: 'http://apijson.cn:9090',  // admin.Flow does not exist  'http://apijson.org:8080',
       // server: 'http://47.74.39.68:9090',  // apijson.org
       project: 'http://apijson.cn:8081',  //apijson.cn
       language: CodeUtil.LANGUAGE_KOTLIN,
@@ -2038,10 +2038,10 @@
       saveCache: function (url, key, value) {
         var cache = this.getCache(url);
         cache[key] = value
-        localStorage.setItem('UIAuto:' + url, JSON.stringify(cache))
+        localStorage.setItem('UIGO:' + url, JSON.stringify(cache))
       },
       getCache: function (url, key) {
-        var cache = localStorage.getItem('UIAuto:' + url)
+        var cache = localStorage.getItem('UIGO:' + url)
         try {
           cache = JSON.parse(cache)
         } catch(e) {
@@ -2908,9 +2908,9 @@
         vOutput.value += (
           '\n\n\n## 包和类文档\n自动查数据库表和字段属性来生成 \n\n' + d
         + '<h3 align="center">关于</h3>'
-        + '<p align="center">UIAuto-零代码 UI 测试'
-        + '<br>零代码 UI 测试、前后端自动分 Bug'
-        + '<br>由 <a href="https://github.com/TommyLemon/UIAuto" target="_blank">UIAuto(前端网页工具)</a>, <a href="https://github.com/Tencent/APIJSON" target="_blank">APIJSON(后端接口服务)</a> 等提供技术支持'
+        + '<p align="center">UIGO - 📱 零代码快准稳 UI 智能录制回放平台'
+        + '<br> 🚀 自动兼容任意宽高比分辨率屏幕，自动精准等待网络请求，录制回放快、准、稳！'
+        + '<br>由 <a href="https://github.com/TommyLemon/UIGO" target="_blank">UIGO(前端网页工具)</a>, <a href="https://github.com/Tencent/APIJSON" target="_blank">APIJSON(后端接口服务)</a> 等提供技术支持'
         + '<br>遵循 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache-2.0 开源协议</a>'
         + '<br>Copyright &copy; 2019-' + new Date().getFullYear() + ' Tommy Lemon'
         + '<br><a href="https://beian.miit.gov.cn/" target="_blank"><span >粤ICP备18005508号-1</span></a>'
@@ -3257,7 +3257,7 @@
             "class": 'UIAutoApp', // 'UIAutoApp',
             "constructor": 'getInstance',
             "method": isRecord ? 'prepareRecord' : 'prepareReplay',
-            "methodArgs": isRecord ? null : [ inputList ]
+            "methodArgs": isRecord ? ["boolean:true", "boolean:true"] : [ inputList, "int:0", "boolean:true", "boolean:true"]
           }, header, function (url_, res_, err_) {
             try {
               App.onResponse(url_, res_, err_)
@@ -3287,7 +3287,7 @@
                 App.log('test  App.request >> } catch (e) {\n' + e.message)
               }
 
-              App.loopRandomTestResult(list, inputList, allCount, 0, header)
+              App.loopRandomTestResult(list, inputList, isRecord ? -1 : allCount, 0, header)
 
             });
 
@@ -3351,9 +3351,9 @@
 
           offset = Math.max(offset, App.currentOutputList.length || 0)
 
-          var outputList = (res.data || {})['return'] || []
+          var outputList = (res.data || {})['return']
           if (outputList == null || outputList.length <= 0) {
-            if (err == null && outputList == null && (res.data || {}).code == 200) {
+            if (err == null && outputList instanceof Array && (res.data || {}).code == 200) {
               App.testRandomProcess = ''
               alert("测试完成")
             }
@@ -3403,10 +3403,10 @@
             }
           }
 
-          if (offset < allCount) {
+          if (allCount < 0 || offset < allCount) {
             App.loopRandomTestResult(list, inputList, allCount, offset + outputList.length, header)
           }
-          else {
+          else if (allCount >= 0) {
             App.testRandomProcess = ''
             alert("测试完成")
           }
