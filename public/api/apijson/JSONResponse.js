@@ -476,6 +476,54 @@ var JSONResponse = {
   COMPARE_CODE_CHANGE: 11,
   COMPARE_THROW_CHANGE: 12,
 
+  getCompareShowObj: function(cmp, status, response) {
+     var it = cmp;
+     var p = cmp.path
+     it.compareType = cmp.code;
+     it.compareMessage = (StringUtil.isEmpty(p, true) ? '' : p + '  ') + (cmp.msg || '查看结果')
+     switch (it.code) {
+            case JSONResponse.COMPARE_ERROR:
+              it.compareColor = 'red'
+              it.hintMessage = (status != null && status != 200 ? status + ' ' : '') + '请求出错！'
+              break;
+            case JSONResponse.COMPARE_NO_STANDARD:
+              it.compareColor = 'green'
+              it.hintMessage = '确认正确后点击[对的，纠正]'
+              break;
+            case JSONResponse.COMPARE_KEY_MORE:
+            case JSONResponse.COMPARE_VALUE_MORE:
+            case JSONResponse.COMPARE_EQUAL_EXCEPTION:
+              it.compareColor = 'green'
+              it.hintMessage = '新增字段/新增值 等'
+              break;
+            case JSONResponse.COMPARE_LENGTH_CHANGE:
+            case JSONResponse.COMPARE_VALUE_CHANGE:
+              it.compareColor = 'blue'
+              it.hintMessage = '值改变 等'
+              break;
+            case JSONResponse.COMPARE_VALUE_EMPTY:
+            case JSONResponse.COMPARE_KEY_LESS:
+              it.compareColor = 'orange'
+              it.hintMessage = '缺少字段/整数变小数 等'
+              break;
+            case JSONResponse.COMPARE_FORMAT_CHANGE:
+            case JSONResponse.COMPARE_NUMBER_TYPE_CHANGE:
+            case JSONResponse.COMPARE_TYPE_CHANGE:
+            case JSONResponse.COMPARE_CODE_CHANGE:
+            case JSONResponse.COMPARE_THROW_CHANGE:
+              var code = response == null ? null : response[JSONResponse.KEY_CODE]
+              it.compareColor = 'red'
+              it.hintMessage = (code != null && code != JSONResponse.CODE_SUCCESS
+               ? code + ' ' : (status != null && status != 200 ? status + ' ' : '')) + '状态码/异常/值类型 改变等'
+              break;
+            default:
+              it.compareColor = 'white'
+              it.hintMessage = '结果正确'
+              break;
+          }
+    return it;
+  },
+
   /**测试compare: 对比 新的请求与上次请求的结果
    0-相同，无颜色；
    1-对象新增字段或数组新增值，绿色；
@@ -483,8 +531,9 @@ var JSONResponse = {
    3-对象缺少字段/整数变小数，黄色；
    4-code/值类型 改变，红色；
    */
-  compareResponse: function(res, target, real, folder, isMachineLearning, codeName, exceptKeys, ignoreTrend) {
-    var tStatus = (target || {}).status || 200;
+  compareResponse: function(res, target, real, folder, isMachineLearning, codeName, exceptKeys, ignoreTrend, noBizCode) {
+    target = target || {}
+    var tStatus = target.status || 200;
     var rStatus = (res || {}).status;
     if (rStatus != null && rStatus != tStatus) {
       return {
@@ -494,8 +543,8 @@ var JSONResponse = {
       }
     }
     codeName = StringUtil.isEmpty(codeName, true) ? JSONResponse.KEY_CODE : codeName;
-    var tCode = (target || {})[codeName];
-    var rCode = (real || {})[codeName];
+    var tCode = (isMachineLearning != true && noBizCode) ? 0 : (target || {})[codeName];
+    var rCode = noBizCode ? tCode : (real || {})[codeName];
 
     //解决了弹窗提示机器学习更新标准异常，但导致所有项测试结果都变成状态码 code 改变
     // if (real == null) {
@@ -539,7 +588,7 @@ var JSONResponse = {
     }
 
     var tThrw = target.throw;
-    var rThrw = real.throw;
+    var rThrw = noBizCode ? tThrw : real.throw;
 
     var exceptions = target.exceptions || [];
     if (rCode != tCode || rThrw != tThrw) {
@@ -572,11 +621,12 @@ var JSONResponse = {
       };
     }
 
-    delete target[codeName];
-    delete real[codeName];
-
-    delete target.throw;
-    delete real.throw;
+    if (noBizCode != true) {
+        delete target[codeName];
+        delete real[codeName];
+        delete target.throw;
+        delete real.throw;
+    }
 
     //可能提示语变化，也要提示
     // delete target.msg;
@@ -588,11 +638,14 @@ var JSONResponse = {
         ? JSONResponse.compareWithStandard(target, real, folder, exceptKeys, ignoreTrend)
         : JSONResponse.compareWithBefore(target, real, folder, exceptKeys);
     } finally {
-      target[codeName] = tCode;
-      real[codeName] = rCode;
-
-      target.throw = tThrw;
-      real.throw = rThrw;
+      if (isMachineLearning || noBizCode != true) {
+        target[codeName] = tCode;
+      }
+      if (noBizCode != true) {
+        real[codeName] = rCode;
+        target.throw = tThrw;
+        real.throw = rThrw;
+      }
     }
 
     if (exceptions.length > 0 && (target.repeat || 0) <= 0 && (result || {}).code < JSONResponse.COMPARE_VALUE_CHANGE) {
@@ -776,7 +829,7 @@ var JSONResponse = {
     }
 
     if (right instanceof Object) {
-      var m = JSON.parse(JSON.stringify(left));
+      var m = parseJSON(JSON.stringify(left));
       for (var k in right) {
         m[k] = JSONResponse.deepMerge(m[k], right[k]);
       }
@@ -873,8 +926,8 @@ var JSONResponse = {
     };
 
     var realType = JSONResponse.getType(real);
-    if (type != realType && (type != 'number' || realType != 'integer')) { //类型改变
-      log('compareWithStandard  type != getType(real) >> return COMPARE_TYPE_CHANGE');
+    if (type != realType && type != 'undefined' && (type != 'number' || realType != 'integer')) { //类型改变
+      log('compareWithStandard  type != realType && type != undefined && (type != number || realType != integer) >> return COMPARE_TYPE_CHANGE');
 
       max = {
         code: JSONResponse.COMPARE_TYPE_CHANGE,
@@ -934,7 +987,7 @@ var JSONResponse = {
         }
         log('compareWithStandard  for tk = ' + tk + ' >> ');
 
-        each = JSONResponse.compareWithStandard(firstVal[tk], real[tk], JSONResponse.getAbstractPath(folder,  tk), exceptKeys);
+        each = JSONResponse.compareWithStandard(firstVal[tk], real[tk], JSONResponse.getAbstractPath(folder, tk), exceptKeys);
         if (max.code < each.code) {
           max = each;
         }
@@ -983,7 +1036,7 @@ var JSONResponse = {
         }
         else if (format instanceof Array == false && format instanceof Object) {
           try {
-            var realObj = JSON.parse(real);
+            var realObj = parseJSON(real);
             var result = JSONResponse.compareWithStandard(format, realObj, folder, exceptKeys, ignoreTrend);
             if (guess == true) {
               result.code -= 1;
@@ -1209,7 +1262,7 @@ var JSONResponse = {
   },
 
 
-  updateFullStandard: function (standard, currentResponse, isML) {
+  updateFullStandard: function (standard, currentResponse, isML, noBizCode) {
     if (currentResponse == null) {
       return standard;
     }
@@ -1223,7 +1276,7 @@ var JSONResponse = {
     var msg = currentResponse.msg;
 
     var hasCode = standard.code != null;
-    var isCodeChange = standard.code != code;
+    var isCodeChange = noBizCode != true && standard.code != code;
     var exceptions = standard.exceptions || [];
 
     delete currentResponse.code; //code必须一致
@@ -1247,8 +1300,14 @@ var JSONResponse = {
 
     var stddObj = isML ? (isCodeChange && hasCode ? standard : JSONResponse.updateStandard(standard, currentResponse)) : {};
 
-    currentResponse.code = code;
-    currentResponse.throw = thrw;
+//    if (noBizCode != true) {
+        currentResponse.code = code;
+        currentResponse.throw = thrw;
+//    }
+
+    if (hasCode || isML) {
+      stddObj.code = code || 0;
+    }
 
     if (isCodeChange) {
       if (hasCode != true) {  // 走正常分支
@@ -1542,7 +1601,7 @@ var JSONResponse = {
         } catch (e) {
           log(e)
           try {
-            var realObj = JSON.parse(real);
+            var realObj = parseJSON(real);
             var format2 = JSONResponse.updateStandard(target.format, realObj, exceptKeys, ignoreTrend, key);
             if (format2 != null) {
               target.format = format2;
@@ -1635,6 +1694,85 @@ var JSONResponse = {
     return tgt;
   },
 
+  /**根据 APIJSON 引用赋值路径精准地修改值
+   */
+  setValByPath: function(target, pathKeys, val, isTry) {
+    var depth = pathKeys == null ? 0 : pathKeys.length
+    if (depth <= 0) {
+      return target;
+    }
+
+    var tgt = target;
+    var parent = target;
+    for (var i = 0; i < depth - 1; i ++) {
+      var k = pathKeys[i];
+      if (k == null) {
+        return null;
+      }
+      k = decodeURI(k);
+
+      if (tgt instanceof Object) {
+        if (k == '') {
+          if (tgt instanceof Array) {
+              k = 0;
+          } else {
+              ks = Object.keys(tgt);
+              k = ks == null ? null : ks[0];
+              if (k == null) {
+                return null;
+              }
+          }
+        }
+        else {
+          if (tgt instanceof Array) {
+            try {
+              var n = Number.parseInt(k);
+              if (Number.isSafeInteger(n)) {
+                k = n >= 0 ? n : n + tgt.length;
+              }
+            } catch (e) {
+            }
+          }
+        }
+
+        parent = tgt;
+        tgt = tgt[k];
+        continue;
+      }
+
+      if (tgt == null) {
+        try {
+          var n = Number.parseInt(k);
+          if (Number.isSafeInteger(n)) {
+            k = n >= 0 ? n : n + tgt.length;
+          }
+        } catch (e) {
+        }
+
+        tgt = Number.isInteger(k) ? [] : {};
+        if (i == 0 && parent == null) {
+          parent = target = tgt;
+        } else {
+          parent[k] = tgt;
+        }
+
+        parent = tgt;
+        tgt = tgt[k];
+
+        continue;
+      }
+
+      if (isTry != true) {
+        throw new Error('setValByPath 语法错误，' + k + ': value 中 value 类型应该是 Object 或 Array ！');
+      }
+
+      return null;
+    }
+
+    tgt[pathKeys[depth - 1]] = val;
+
+    return target;
+  },
 
   /**根据路径精准地更新测试标准中的键值对
    */

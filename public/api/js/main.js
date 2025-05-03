@@ -93,12 +93,12 @@
   }
 
   Vue.component('vue-item', {
-    props: ['jsondata', 'theme'],
+    props: ['jsondata', 'theme', 'thiz'],
     template: '#item-template'
   })
 
   Vue.component('vue-outer', {
-    props: ['jsondata', 'isend', 'path', 'theme'],
+    props: ['jsondata', 'isend', 'thiz', 'path', 'theme'],
     template: '#outer-template'
   })
 
@@ -108,7 +108,7 @@
   })
 
   Vue.component('vue-val', {
-    props: ['field', 'val', 'isend', 'path', 'theme'],
+    props: ['field', 'val', 'isend', 'thiz', 'path', 'theme'],
     template: '#val-template'
   })
 
@@ -194,15 +194,14 @@
 
         try {
           if (val instanceof Array) {
-            if (val[0] instanceof Object && (val[0] instanceof Array == false)) {  // && JSONObject.isArrayKey(key, null, isRestful)) {
               // alert('onRenderJSONItem  key = ' + key + '; val = ' + JSON.stringify(val))
 
-              var ckey = key.substring(0, key.lastIndexOf('[]'));
+              var ckey = key == null ? null : key.substring(0, key.lastIndexOf('[]'));
 
-              var aliaIndex = ckey.indexOf(':');
+              var aliaIndex = ckey == null ? -1 : ckey.indexOf(':');
               var objName = aliaIndex < 0 ? ckey : ckey.substring(0, aliaIndex);
 
-              var firstIndex = objName.indexOf('-');
+              var firstIndex = objName == null ? -1 : objName.indexOf('-');
               var firstKey = firstIndex < 0 ? objName : objName.substring(0, firstIndex);
 
               for (var i = 0; i < val.length; i++) {
@@ -210,23 +209,53 @@
 
                 var vi = val[i]
 
-                if (JSONObject.isTableKey(firstKey, val, isRestful)) {
-                  // var newVal = JSON.parse(JSON.stringify(val[i]))
+                if (JSONResponse.isObject(vi) && JSONObject.isTableKey(firstKey || '', vi, isRestful)) {
+                  // var newVal = parseJSON(JSON.stringify(val[i]))
                   if (vi == null) {
                     continue
                   }
 
-                  var newVal = {}
+                  var curPath = cPath + '/' + i;
+                  var curTable = firstKey;
+                  var thiz = {
+                    _$_path_$_: curPath,
+                    _$_table_$_: curTable
+                  };
+
+                  var newVal = {};
                   for (var k in vi) {
-                    newVal[k] = vi[k] //提升性能
+                    newVal[k] = vi[k]; //提升性能
+                    if (App.isFullAssert) {
+                        try {
+                          var cri = App.currentRemoteItem || {};
+                          var tr = cri.TestRecord || {};
+                          var d = cri.Document || {};
+                          var standard = App.isMLEnabled ? tr.standard : tr.response;
+                          var standardObj = StringUtil.isEmpty(standard, true) ? null : parseJSON(standard);
+                          var tests = App.tests[String(App.currentAccountIndex)] || {};
+                          var responseObj = (tests[d.id] || {})[0]
+
+                          var pathUri = (StringUtil.isEmpty(curPath, false) ? '' : curPath + '/') + k;
+                          var pathKeys = StringUtil.split(pathUri, '/');
+                          var target = App.isMLEnabled ? JSONResponse.getStandardByPath(standardObj, pathKeys) : JSONResponse.getValByPath(standardObj, pathKeys);
+                          var real = JSONResponse.getValByPath(responseObj, pathKeys);
+                          var cmp = App.isMLEnabled ? JSONResponse.compareWithStandard(target, real, pathUri) : JSONResponse.compareWithBefore(target, real, pathUri);
+//                          cmp.path = pathUri;
+                          var cmpShowObj = JSONResponse.getCompareShowObj(cmp);
+                          thiz[k] = [cmpShowObj.compareType, cmpShowObj.compareColor, cmpShowObj.compareMessage];
+                          var countKey = '_$_' + cmpShowObj.compareColor + 'Count_$_';
+                          thiz[countKey] = thiz[countKey] == null ? 1 : thiz[countKey] + 1;
+                        } catch (e) {
+                          thiz[k] = [JSONResponse.COMPARE_ERROR, 'red', e.message];
+                          var countKey = '_$_redCount_$_';
+                          thiz[countKey] = thiz[countKey] == null ? 1 : thiz[countKey] + 1;
+                        }
+                    }
+
                     delete vi[k]
                   }
 
-                  vi._$_this_$_ = JSON.stringify({
-                    path: cPath + '/' + i,
-                    table: firstKey
-                  })
-
+                  vi._$_this_$_ = JSON.stringify(thiz)
                   for (var k in newVal) {
                     vi[k] = newVal[k]
                   }
@@ -238,27 +267,57 @@
                 // this.$children[i]._$_this_$_ = key
                 // alert('this.$children[i]._$_this_$_ = ' + this.$children[i]._$_this_$_)
               }
-            }
           }
           else if (val instanceof Object) {
-            var aliaIndex = key.indexOf(':');
+            var aliaIndex = key == null ? -1 : key.indexOf(':');
             var objName = aliaIndex < 0 ? key : key.substring(0, aliaIndex);
 
-            // var newVal = JSON.parse(JSON.stringify(val))
+            // var newVal = parseJSON(JSON.stringify(val))
 
-            var newVal = {}
+            var curPath = (StringUtil.isEmpty(path, false) ? '' : path + '/') + key;
+            var curTable = JSONObject.isTableKey(objName, val, isRestful) ? objName : null;
+            var thiz = {
+              _$_path_$_: curPath,
+              _$_table_$_: curTable
+            };
+
+            var newVal = {};
             for (var k in val) {
-              newVal[k] = val[k] //提升性能
-              delete val[k]
+              newVal[k] = val[k]; //提升性能
+              if (App.isFullAssert) {
+                  try {
+                    var cri = App.currentRemoteItem || {};
+                    var tr = cri.TestRecord || {};
+                    var d = cri.Document || {};
+                    var standard = App.isMLEnabled ? tr.standard : tr.response;
+                    var standardObj = StringUtil.isEmpty(standard, true) ? null : parseJSON(standard);
+                    var tests = App.tests[String(App.currentAccountIndex)] || {};
+                    var responseObj = (tests[d.id] || {})[0]
+
+                    var pathUri = (StringUtil.isEmpty(curPath, false) ? '' : curPath + '/') + k;
+                    var pathKeys = StringUtil.split(pathUri, '/');
+                    var target = App.isMLEnabled ? JSONResponse.getStandardByPath(standardObj, pathKeys) : JSONResponse.getValByPath(standardObj, pathKeys);
+                    var real = JSONResponse.getValByPath(responseObj, pathKeys);
+            //              c = JSONResponse.compareWithBefore(target, real, path);
+                    var cmp = App.isMLEnabled ? JSONResponse.compareWithStandard(target, real, pathUri) : JSONResponse.compareWithBefore(target, real, pathUri);
+//                    cmp.path = pathUri;
+                    var cmpShowObj = JSONResponse.getCompareShowObj(cmp);
+                    thiz[k] = [cmpShowObj.compareType, cmpShowObj.compareColor, cmpShowObj.compareMessage];
+                    var countKey = '_$_' + cmpShowObj.compareColor + 'Count_$_';
+                    thiz[countKey] = thiz[countKey] == null ? 1 : thiz[countKey] + 1;
+                  } catch (e) {
+                    thiz[k] = [JSONResponse.COMPARE_ERROR, 'red', e.message];
+                    var countKey = '_$_redCount_$_';
+                    thiz[countKey] = thiz[countKey] == null ? 1 : thiz[countKey] + 1;
+                  }
+              }
+
+              delete val[k];
             }
 
-            val._$_this_$_ = JSON.stringify({
-              path: (StringUtil.isEmpty(path, false) ? '' : path + '/') + key,
-              table: JSONObject.isTableKey(objName, val, isRestful) ? objName : null
-            })
-
+            val._$_this_$_ = JSON.stringify(thiz)
             for (var k in newVal) {
-              val[k] = newVal[k]
+              val[k] = newVal[k];
             }
 
             // val = Object.assign({ _$_this_$_: objName }, val) //解决多显示一个逗号 ,
@@ -266,7 +325,6 @@
             // this._$_this_$_ = key  TODO  不影响 JSON 的方式，直接在组件读写属性
             // alert('this._$_this_$_ = ' + this._$_this_$_)
           }
-
 
         } catch (e) {
           if (DEBUG) {
@@ -287,9 +345,9 @@
        * @param key
        * @param $event
        */
-      Vue.prototype.setResponseHint = function (val, key, $event) {
+      Vue.prototype.setResponseHint = function (val, key, $event, isAssert, color) {
         console.log('setResponseHint')
-        this.$refs.responseKey.setAttribute('data-hint', isSingle ? '' : this.getResponseHint(val, key, $event));
+        this.$refs.responseKey.setAttribute('data-hint', isSingle ? '' : this.getResponseHint(val, key, $event, isAssert, color));
       }
       /**获取 Response JSON 的注释
        * 方案一：
@@ -309,7 +367,7 @@
        * @param key
        * @param $event
        */
-      Vue.prototype.getResponseHint = function (val, key, $event) {
+      Vue.prototype.getResponseHint = function (val, key, $event, isAssert, color) {
         // alert('setResponseHint  key = ' + key + '; val = ' + JSON.stringify(val))
 
         var s = ''
@@ -318,7 +376,7 @@
           var standardObj = null;
           try {
             var currentItem = App.isTestCaseShow ? App.remotes[App.currentDocIndex] : App.currentRemoteItem;
-            standardObj = JSON.parse(((currentItem || {}).TestRecord || {}).standard);
+            standardObj = parseJSON(((currentItem || {}).TestRecord || {}).standard);
           } catch (e3) {
             log(e3)
           }
@@ -337,18 +395,18 @@
 
             // alert('valString = ' + valString)
 
-            var i = valString.indexOf('"_$_this_$_":  "')
+            var i = valString.indexOf('"_$_this_$_":')
             if (i >= 0) {
-              valString = valString.substring(i + '"_$_this_$_":  "'.length)
+              valString = valString.substring(i + '"_$_this_$_":'.length)
               i = valString.indexOf('}"')
-              if (i >= 0) {
-                valString = valString.substring(0, i + 1)
+              var i2 = valString.indexOf('"{')
+              if (i >= 0 && i2 >= 0 && i2 < i) {
+                valString = valString.substring(i2 + 1, i + 1)
                 // alert('valString = ' + valString)
-                var _$_this_$_ = JSON.parse(valString) || {}
-                path = _$_this_$_.path
-                table = _$_this_$_.table
+                var _$_this_$_ = parseJSON(valString) || {}
+                path = _$_this_$_._$_path_$_
+                table = _$_this_$_._$_table_$_
               }
-
 
               var aliaIndex = key == null ? -1 : key.indexOf(':');
               var objName = aliaIndex < 0 ? key : key.substring(0, aliaIndex);
@@ -369,16 +427,17 @@
 
             // alert('valString = ' + valString)
 
-            var i = valString.indexOf('"_$_this_$_":  "')
+            var i = valString.indexOf('"_$_this_$_":')
             if (i >= 0) {
-              valString = valString.substring(i + '"_$_this_$_":  "'.length)
+              valString = valString.substring(i + '"_$_this_$_":'.length)
               i = valString.indexOf('}"')
-              if (i >= 0) {
-                valString = valString.substring(0, i + 1)
+              var i2 = valString.indexOf('"{')
+              if (i >= 0 && i2 >= 0 && i2 < i) {
+                valString = valString.substring(i2 + 1, i + 1)
                 // alert('valString = ' + valString)
-                var _$_this_$_ = JSON.parse(valString) || {}
-                path = _$_this_$_ == null ? '' : _$_this_$_.path
-                table = _$_this_$_ == null ? '' : _$_this_$_.table
+                var _$_this_$_ = parseJSON(valString) || {}
+                path = _$_this_$_ == null ? '' : _$_this_$_._$_path_$_
+                table = _$_this_$_ == null ? '' : _$_this_$_._$_table_$_
               }
             }
 
@@ -392,7 +451,7 @@
               var firstKey = firstIndex < 0 ? objName : objName.substring(0, firstIndex);
 
               // alert('key = ' + key + '; firstKey = ' + firstKey + '; firstIndex = ' + firstIndex)
-              if (JSONObject.isTableKey(firstKey, null, isRestful)) {
+              if (JSONObject.isTableKey(firstKey || '', null, isRestful)) {
                 table = firstKey
 
                 var s0 = '';
@@ -408,8 +467,30 @@
                 }
 
                 var pathUri = (StringUtil.isEmpty(path) ? '' : path + '/') + (StringUtil.isEmpty(column) ? key : column);
+                var c;
+                if (isAssert) {
+                    try {
+                      var tr = App.currentRemoteItem.TestRecord || {};
+                      var d = App.currentRemoteItem.Document || {};
+                      var standard = App.isMLEnabled ? tr.standard : tr.response;
+                      var standardObj = StringUtil.isEmpty(standard, true) ? null : parseJSON(standard);
+                      var tests = App.tests[String(App.currentAccountIndex)] || {};
+                      var responseObj = (tests[d.id] || {})[0]
 
-                var c = CodeUtil.getCommentFromDoc(docObj == null ? null : docObj['[]'], table, isRestful ? key : null, method, App.database, App.language, true, false, pathUri.split('/'), isRestful, val, true, standardObj);
+                      var pathKeys = StringUtil.split(pathUri, '/');
+                      var target = App.isMLEnabled ? JSONResponse.getStandardByPath(standardObj, pathKeys) : JSONResponse.getValByPath(standardObj, pathKeys);
+                      var real = JSONResponse.getValByPath(responseObj, pathKeys);
+        //              c = JSONResponse.compareWithBefore(target, real, path);
+                      var cmp = App.isMLEnabled ? JSONResponse.compareWithStandard(target, real, path) : JSONResponse.compareWithBefore(target, real, path);
+//                      cmp.path = pathUri;
+                      return JSONResponse.getCompareShowObj(cmp);
+                    } catch (e) {
+                      s += '\n' + e.message
+                    }
+                } else {
+                    c = CodeUtil.getCommentFromDoc(docObj == null ? null : docObj['[]'], table, isRestful ? key : null, method, App.database, App.language, true, false, pathUri.split('/'), isRestful, val, true, standardObj);
+                }
+
                 s = (StringUtil.isEmpty(path) ? '' : path + '/') + key + ' 中 '
                   + (
                     StringUtil.isEmpty(c, true) ? '' : table + ': '
@@ -432,7 +513,29 @@
           // alert('setResponseHint  table = ' + table + '; column = ' + column)
 
           var pathUri = (StringUtil.isEmpty(path) ? '' : path + '/') + key;
-          var c = CodeUtil.getCommentFromDoc(docObj == null ? null : docObj['[]'], table, isRestful ? key : column, method, App.database, App.language, true, false, pathUri.split('/'), isRestful, val, true, standardObj);
+          var c;
+          if (isAssert) {
+            try {
+              var tr = App.currentRemoteItem.TestRecord || {};
+              var d = App.currentRemoteItem.Document || {};
+              var standard = App.isMLEnabled ? tr.standard : tr.response;
+              var standardObj = StringUtil.isEmpty(standard, true) ? null : parseJSON(standard);
+              var tests = App.tests[String(App.currentAccountIndex)] || {};
+              var responseObj = (tests[d.id] || {})[0]
+
+              var pathKeys = StringUtil.split(pathUri, '/');
+              var target = App.isMLEnabled ? JSONResponse.getStandardByPath(standardObj, pathKeys) : JSONResponse.getValByPath(standardObj, pathKeys);
+              var real = JSONResponse.getValByPath(responseObj, pathKeys);
+//              c = JSONResponse.compareWithBefore(target, real, path);
+              var cmp = App.isMLEnabled ? JSONResponse.compareWithStandard(target, real, path) : JSONResponse.compareWithBefore(target, real, path);
+//              cmp.path = pathUri;
+              return JSONResponse.getCompareShowObj(cmp);
+            } catch (e) {
+              s += '\n' + e.message
+            }
+          } else {
+            c = CodeUtil.getCommentFromDoc(docObj == null ? null : docObj['[]'], table, isRestful ? key : column, method, App.database, App.language, true, false, pathUri.split('/'), isRestful, val, true, standardObj);
+          }
 
           s += pathUri + (StringUtil.isEmpty(c, true) ? '' : ': ' + c)
         }
@@ -441,8 +544,89 @@
         }
 
         return s;
-      }
+      },
 
+      /**显示 Response JSON 的注释
+       * @author TommyLemon
+       * @param val
+       * @param key
+       * @param $event
+       */
+      Vue.prototype.setResponseCounts = function (val, key, $event, isAssert) {
+        console.log('setResponseCounts')
+        this.$refs.responseGreenAssert.setAttribute('data-content', isSingle ? '' : this.getResponseGreenCount(val, key, $event));
+        this.$refs.responseBlueAssert.setAttribute('data-content', isSingle ? '' : this.getResponseBlueCount(val, key, $event));
+        this.$refs.responseOrangeAssert.setAttribute('data-content', isSingle ? '' : this.getResponseOrangeCount(val, key, $event));
+        this.$refs.responseRedAssert.setAttribute('data-content', isSingle ? '' : this.getResponseRedCount(val, key, $event));
+      },
+      /**获取 Response 断言失败 的数量
+       * @author TommyLemon
+       * @param val
+       * @param key
+       * @param $event
+       */
+      Vue.prototype.setResponseAllCount = function (val, key, $event) {
+        return this.setResponseHint(val, key, $event, true, 'all')
+      },
+      /**获取 Response 断言失败 的数量
+       * @author TommyLemon
+       * @param val
+       * @param key
+       * @param $event
+       */
+      Vue.prototype.getResponseAllCount = function (val, key, $event) {
+        return this.getResponseGreenCount(val, key, $event) + this.getResponseBlueCount(val, key, $event) + this.getResponseOrangeCount(val, key, $event) + this.getResponseRedCount(val, key, $event);
+      },
+      Vue.prototype.setResponseColorCount = function (val, key, $event) {
+        console.log('setResponseColorCount')
+        var assert = isSingle ? null : this.getResponseHint(val, key, $event, true, 'all')
+        var responseAssert = $event.target; // this.$refs.responseAssert
+//        responseAssert.innerText = (StringUtil.trim(assert.count) || '1');
+//        $(responseAssert).attr('data-hint', assert == null ? '' : StringUtil.trim(assert.hintMessage));
+//        responseAssert.setAttribute('data-content', assert == null ? '' : (StringUtil.trim(assert.count) || '1'));
+        responseAssert.setAttribute('data-hint', assert == null ? '' : StringUtil.trim(assert.compareMessage));
+//        $(responseAssert).attr('background', assert == null ? '' : assert.compareColor);
+//        $(responseAssert).attr('visibility', assert == null || assert.code == 0 ? 'hidden' : 'show');
+      },
+      Vue.prototype.setResponseCount = function (val, key, $event, color) {
+        console.log('setResponseCount')
+//        var count = isSingle ? 0 : this.getResponseCount(val, key, $event, color)
+        var assert = isSingle ? null : this.getResponseHint(val, key, $event, true, 'all')
+        var responseAssert = $event.target; // this.$refs['response' + StringUtil.firstCase(color, true) + 'Assert']
+//        responseAssert.innerText = (StringUtil.trim(assert.count) || '1');
+        $(responseAssert).attr('data-hint', assert == null ? '' : StringUtil.trim(assert.compareMessage));
+//        responseAssert.setAttribute('data-content', assert == null ? '' : (StringUtil.trim(assert.count) || '1'));
+//        responseAssert.setAttribute('data-hint', assert == null ? '' : StringUtil.trim(assert.hintMessage));
+//        $(responseAssert).attr('background', assert == null ? '' : assert.compareColor);
+//        $(responseAssert).attr('visibility', assert == null || assert.code == 0 ? 'hidden' : 'show');
+      },
+      Vue.prototype.getResponseCount = function (val, key, $event, color) {
+        return this.getResponseHint(val, key, $event, true, color)
+      },
+      Vue.prototype.setResponseGreenCount = function (val, key, $event, isAssert) {
+        this.setResponseCount(val, key, $event, 'green')
+      },
+      Vue.prototype.getResponseGreenCount = function (val, key, $event) {
+        return this.getResponseHint(val, key, $event, true, 'green')
+      },
+      Vue.prototype.setResponseBlueCount = function (val, key, $event, isAssert) {
+        this.setResponseCount(val, key, $event, 'blue')
+      },
+      Vue.prototype.getResponseBlueCount = function (val, key, $event) {
+        return this.getResponseHint(val, key, $event, true, 'blue')
+      },
+      Vue.prototype.setResponseOrangeCount = function (val, key, $event, isAssert) {
+        this.setResponseCount(val, key, $event, 'orange')
+      },
+      Vue.prototype.getResponseOrangeCount = function (val, key, $event) {
+        return this.getResponseHint(val, key, $event, true, 'orange')
+      },
+      Vue.prototype.setResponseRedCount = function (val, key, $event, isAssert) {
+        this.setResponseCount(val, key, $event, 'red')
+      },
+      Vue.prototype.getResponseRedCount = function (val, key, $event) {
+        return this.getResponseHint(val, key, $event, true, 'red')
+      }
     }
   })
 
@@ -523,7 +707,7 @@ https://github.com/Tencent/APIJSON/issues
       var v = decodeURIComponent(part.substring(ind+1));
       if (tryParse == true) {
         try {
-          v = JSON.parse(v)
+          v = parseJSON(v)
         }
         catch (e) {
           console.log(e)
@@ -626,7 +810,7 @@ https://github.com/Tencent/APIJSON/issues
   var CTX_PUT = 'CTX_PUT' // CTX_PUT('key', val)
 
   function get4Path(obj, path, defaultVal, msg) {
-    var val = JSONResponse.getValByPath(obj, StringUtil.split(path, '/'))
+    var val = path == null || path == '' ? obj : JSONResponse.getValByPath(obj, StringUtil.split(path, '/'))
     if (val == null && defaultVal == undefined) {
       throw new Error('找不到 ' + path + ' 对应在 obj 中的非 null 值！' + StringUtil.get(msg))
     }
@@ -1335,16 +1519,120 @@ https://github.com/Tencent/APIJSON/issues
             } catch (ex) {
               log(ex)
             }
-            if (isSingle || ret instanceof Array || (ret instanceof Object == false)) {
-              this.jsonhtml = ret
+
+            var method = this.getMethod();  // m 已经 toUpperCase 了
+            var isRestful = ! JSONObject.isAPIJSONPath(method);
+
+            var path = null;
+            var key = null;
+
+            if (isSingle || ! JSONResponse.isObject(vi)) {
+              var val = ret;
+              if (isSingle != true && val instanceof Array) {
+                  // alert('onRenderJSONItem  key = ' + key + '; val = ' + JSON.stringify(val))
+                  var ckey = key == null ? null : key.substring(0, key.lastIndexOf('[]'));
+
+                  var aliaIndex = ckey == null ? -1 : ckey.indexOf(':');
+                  var objName = aliaIndex < 0 ? ckey : ckey.substring(0, aliaIndex);
+
+                  var firstIndex = objName == null ? -1 : objName.indexOf('-');
+                  var firstKey = firstIndex < 0 ? objName : objName.substring(0, firstIndex);
+
+                  for (var i = 0; i < val.length; i++) {
+                    var vi = val[i]
+
+                    if (JSONResponse.isObject(vi) && JSONObject.isTableKey(firstKey || '', vi, isRestful)) {
+
+                      var curPath = '' + i;
+                      var curTable = firstKey;
+                      var thiz = {
+                        _$_path_$_: curPath,
+                        _$_table_$_: curTable
+                      };
+
+                      var newVal = {};
+                      for (var k in vi) {
+                        newVal[k] = vi[k]; //提升性能
+                        if (this.isFullAssert) {
+                            try {
+                              var cri = this.currentRemoteItem || {};
+                              var tr = cri.TestRecord || {};
+                              var d = cri.Document || {};
+                              var standard = this.isMLEnabled ? tr.standard : tr.response;
+                              var standardObj = StringUtil.isEmpty(standard, true) ? null : parseJSON(standard);
+                              var tests = this.tests[String(this.currentAccountIndex)] || {};
+                              var responseObj = (tests[d.id] || {})[0]
+
+                              var pathUri = (StringUtil.isEmpty(curPath, false) ? '' : curPath + '/') + k;
+                              var pathKeys = StringUtil.split(pathUri, '/');
+                              var target = this.isMLEnabled ? JSONResponse.getStandardByPath(standardObj, pathKeys) : JSONResponse.getValByPath(standardObj, pathKeys);
+                              var real = JSONResponse.getValByPath(responseObj, pathKeys);
+                              var cmp = this.isMLEnabled ? JSONResponse.compareWithStandard(target, real, pathUri) : JSONResponse.compareWithBefore(target, real, pathUri);
+//                              cmp.path = pathUri;
+                              var cmpShowObj = JSONResponse.getCompareShowObj(cmp);
+                              thiz[k] = [cmpShowObj.compareType, cmpShowObj.compareColor, cmpShowObj.compareMessage];
+                              var countKey = '_$_' + cmpShowObj.compareColor + 'Count_$_';
+                              thiz[countKey] = thiz[countKey] == null ? 1 : thiz[countKey] + 1;
+                            } catch (e) {
+                              thiz[k] = [JSONResponse.COMPARE_ERROR, 'red', e.message];
+                              var countKey = '_$_redCount_$_';
+                              thiz[countKey] = thiz[countKey] == null ? 1 : thiz[countKey] + 1;
+                            }
+                        }
+
+                        delete vi[k]
+                      }
+
+                      vi._$_this_$_ = JSON.stringify(thiz)
+                      for (var k in newVal) {
+                        vi[k] = newVal[k]
+                      }
+                    }
+
+                  }
+                }
+
+                this.jsonhtml = val;
             }
             else {
-              this.jsonhtml = Object.assign({
-                _$_this_$_: JSON.stringify({
-                  path: null,
-                  table: null
-                })
-              }, ret)
+                var thiz = {
+                   _$_path_$_: null,
+                   _$_table_$_: null
+                };
+
+                for (var k in ret) {
+                  if (this.isFullAssert) {
+                      try {
+                        var cri = this.currentRemoteItem || {};
+                        var tr = cri.TestRecord || {};
+                        var d = cri.Document || {};
+                        var standard = this.isMLEnabled ? tr.standard : tr.response;
+                        var standardObj = StringUtil.isEmpty(standard, true) ? null : parseJSON(standard);
+                        var tests = this.tests[String(this.currentAccountIndex)] || {};
+                        var responseObj = (tests[d.id] || {})[0]
+
+                        var pathUri = k;
+                        var pathKeys = StringUtil.split(pathUri, '/');
+                        var target = this.isMLEnabled ? JSONResponse.getStandardByPath(standardObj, pathKeys) : JSONResponse.getValByPath(standardObj, pathKeys);
+                        var real = JSONResponse.getValByPath(responseObj, pathKeys);
+                //              c = JSONResponse.compareWithBefore(target, real, path);
+                        var cmp = this.isMLEnabled ? JSONResponse.compareWithStandard(target, real, pathUri) : JSONResponse.compareWithBefore(target, real, pathUri);
+//                        cmp.path = pathUri;
+                        var cmpShowObj = JSONResponse.getCompareShowObj(cmp);
+                        thiz[k] = [cmpShowObj.compareType, cmpShowObj.compareColor, cmpShowObj.compareMessage];
+                        var countKey = '_$_' + cmpShowObj.compareColor + 'Count_$_';
+                        thiz[countKey] = thiz[countKey] == null ? 1 : thiz[countKey] + 1;
+                      } catch (e) {
+                        thiz[k] = [JSONResponse.COMPARE_ERROR, 'red', e.message];
+                        var countKey = '_$_redCount_$_';
+                        thiz[countKey] = thiz[countKey] == null ? 1 : thiz[countKey] + 1;
+                      }
+                  }
+                }
+
+                this.jsonhtml = Object.assign({
+                    _$_this_$_: JSON.stringify(thiz)
+                }, ret)
             }
 
           }
@@ -1613,7 +1901,7 @@ https://github.com/Tencent/APIJSON/issues
         var jsonStr = json == null ? null : (typeof json == 'string' ? json : JSON.stringify(json))
         if (this.isTestCaseShow != true && jsonStr == null) { // StringUtil.isEmpty(jsonStr)
           try {
-            jsonStr = JSON.stringify(encode(JSON.parse(vInput.value)))
+            jsonStr = JSON.stringify(encode(parseJSON(vInput.value)))
           } catch (e) {  // 可能包含注释
             log(e)
             jsonStr = encode(StringUtil.trim(vInput.value))
@@ -1660,7 +1948,7 @@ https://github.com/Tencent/APIJSON/issues
         var name = item == null ? '' : StringUtil.get(item.name);
         target.value = text = before + name + after
         if (target == vScript) { // 不这样会自动回滚
-          App.scripts[App.scriptType][App.scriptBelongId][App.isPreScript ? 'pre' : 'post'].script = text
+          this.scripts[this.scriptType][this.scriptBelongId][this.isPreScript ? 'pre' : 'post'].script = text
         }
         else if (target == vInput) {
           inputted = target.value;
@@ -1686,7 +1974,7 @@ https://github.com/Tencent/APIJSON/issues
           }
 
           if (isInputValue != true) {
-            App.showOptions(target, text, before + name + (isSingle ? "'" : '"') + ': ', after.substring(3), true);
+            this.showOptions(target, text, before + name + (isSingle ? "'" : '"') + ': ', after.substring(3), true);
           }
         } else {
           target.selectionStart = selectionStart;
@@ -1934,7 +2222,7 @@ https://github.com/Tencent/APIJSON/issues
                       apiMap[url] = {
                         name: name,
                         request: typeAndParam.param,
-                        response: api.res_body == null ? null : JSON.parse(api.res_body),
+                        response: api.res_body == null ? null : parseJSON(api.res_body),
                         detail: name
                         + '\n' + (api.up_time == null ? '' : (typeof api.up_time != 'number' ? api.up_time : new Date(1000*api.up_time).toLocaleString()))
                         + '\nhttp://apijson.cn/yapi/project/1/interface/api/' + api._id
@@ -2146,10 +2434,10 @@ https://github.com/Tencent/APIJSON/issues
         this.adminRequest(url, req, {}, function (url, res, err) {
           App.onResponse(url, res, err)
 
-          var rpObj = res.data || {}
+          var data = res.data || {}
 
           if (isDeleteRandom) {
-            if (rpObj.Random != null && JSONResponse.isSuccess(rpObj.Random)) {
+            if (data.Random != null && JSONResponse.isSuccess(data.Random)) {
               if (((item.Random || {}).toId || 0) <= 0) {
                 App.randoms.splice(item.index, 1)
               }
@@ -2164,7 +2452,7 @@ https://github.com/Tencent/APIJSON/issues
             App.selectChainGroup(App.currentChainGroupIndex, null)
           }
           else {
-            if (rpObj.Document != null && JSONResponse.isSuccess(rpObj.Document)) {
+            if (data.Document != null && JSONResponse.isSuccess(data.Document)) {
               App.remotes.splice(item.index, 1)
               App.showTestCase(true, App.isLocalShow)
             }
@@ -2310,9 +2598,9 @@ https://github.com/Tencent/APIJSON/issues
                 '@order': 'date-'
               }
             }, {}, function (url, res, err) {
-              var rpObj = res.data
-              if (JSONResponse.isSuccess(rpObj) != true) {
-                App.log(err != null ? err : (rpObj == null ? '' : rpObj.msg))
+              var data = res.data
+              if (JSONResponse.isSuccess(data) != true) {
+                App.log(err != null ? err : (data == null ? '' : data.msg))
                 return
               }
 
@@ -2330,14 +2618,14 @@ https://github.com/Tencent/APIJSON/issues
 
               var bs = scripts
 
-              var pre = rpObj['Script:pre']
+              var pre = data['Script:pre']
               if (pre != null && pre.script != null) {
-                bs.pre = originItem['Script:pre'] = rpObj['Script:pre']
+                bs.pre = originItem['Script:pre'] = data['Script:pre']
               }
 
-              var post = rpObj['Script:post']
+              var post = data['Script:post']
               if (post != null && post.script != null) {
-                bs.post = originItem['Script:post'] = rpObj['Script:post']
+                bs.post = originItem['Script:post'] = data['Script:post']
               }
 
               originItem.scripts = scripts
@@ -2411,6 +2699,9 @@ https://github.com/Tencent/APIJSON/issues
 
         vUrl.value = item.host + bu
         this.showUrl(false, bu)
+
+        this.saveCache('', 'URL_BASE', baseUrl)
+        this.saveCache('', 'projectHost', this.projectHost)
       },
 
       listProjectHost: function() {
@@ -2438,14 +2729,14 @@ https://github.com/Tencent/APIJSON/issues
         }
 
         this.request(true, REQUEST_TYPE_POST, REQUEST_TYPE_JSON, this.server + '/get', req, {}, function (url, res, err) {
-          var rpObj = res.data
-          if (JSONResponse.isSuccess(rpObj) != true) {
-            App.log(err != null ? err : (rpObj == null ? '' : rpObj.msg))
+          var data = res.data
+          if (JSONResponse.isSuccess(data) != true) {
+            App.log(err != null ? err : (data == null ? '' : data.msg))
             return
           }
 
           var projectHosts = App.getCache('', 'projectHosts', [])
-          var list = rpObj['TestRecord[]'] || []
+          var list = data['TestRecord[]'] || []
 //          var phs = []
 //          for (var i = 0; i < list.length; i ++) {
 //            var item = list[i] || {}
@@ -2495,8 +2786,8 @@ https://github.com/Tencent/APIJSON/issues
 
         this.adminRequest('/put', req, {}, function (url, res, err) {
           App.onResponse(url, res, err)
-          var rpObj = res.data
-          if (JSONResponse.isSuccess(rpObj)) {
+          var data = res.data
+          if (JSONResponse.isSuccess(data)) {
              App.listProjectHost()
           }
         })
@@ -2586,7 +2877,7 @@ https://github.com/Tencent/APIJSON/issues
             saveTextAs(txt, clazz)
           }
           else {
-            var res = JSON.parse(this.jsoncon)
+            var res = parseJSON(this.jsoncon)
             res = this.removeDebugInfo(res)
 
             var s = ''
@@ -2692,13 +2983,13 @@ https://github.com/Tencent/APIJSON/issues
             this.request(true, REQUEST_TYPE_POST, REQUEST_TYPE_JSON, url, req, {}, function (url, res, err) {
               App.onResponse(url, res, err)
 
-              var rpObj = res.data || {}
+              var data = res.data || {}
               var isPut = url.indexOf('/put') >= 0
-              var ok = JSONResponse.isSuccess(rpObj)
-              alert((isPut ? '修改' : '上传') + (ok ? '成功' : '失败！\n' + StringUtil.get(err != null ? err.message : rpObj.msg)))
+              var ok = JSONResponse.isSuccess(data)
+              alert((isPut ? '修改' : '上传') + (ok ? '成功' : '失败！\n' + StringUtil.get(err != null ? err.message : data.msg)))
 
               if (ok && ! isPut) {
-                script.id = (rpObj.Script || {}).id
+                script.id = (data.Script || {}).id
               }
             })
 
@@ -2741,7 +3032,7 @@ https://github.com/Tencent/APIJSON/issues
 
           this.isTestCaseShow = false
 
-          const currentResponse = this.view != 'code' || StringUtil.isEmpty(this.jsoncon, true) ? {} : this.removeDebugInfo(JSON.parse(this.jsoncon));
+          const currentResponse = this.view != 'code' || StringUtil.isEmpty(this.jsoncon, true) ? {} : this.removeDebugInfo(parseJSON(this.jsoncon));
 
           const after = isSingle ? this.switchQuote(inputted) : inputted;  // this.toDoubleJSON(inputted);
           const inputObj = this.getRequest(after, {});
@@ -2752,7 +3043,7 @@ https://github.com/Tencent/APIJSON/issues
           if (isExportRandom != true) {
             var commentStddObj = null
             try {
-              commentStddObj = JSON.parse(isEditResponse ? tr.standard : doc.standard);
+              commentStddObj = parseJSON(isEditResponse ? tr.standard : doc.standard);
             }
             catch(e) {
               log(e)
@@ -2780,7 +3071,7 @@ https://github.com/Tencent/APIJSON/issues
           const isML = this.isMLEnabled;
           const stddObj = isML ? JSONResponse.updateStandard({}, currentResponse) : {};
           stddObj.status = (this.currentHttpResponse || {}).status || 200;
-          stddObj.code = code;
+          stddObj.code = code || 0;
           stddObj.throw = thrw;
           currentResponse.code = code;
           currentResponse.throw = thrw;
@@ -2846,7 +3137,6 @@ https://github.com/Tencent/APIJSON/issues
             commentObj = JSONResponse.updateStandard({}, mapReq2);
           }
 
-
           var callback = function (randomName, constConfig, constJson) {
             // 用现成的测试过的更好，Response 与 Request 严格对应
             // var mapReq = {};
@@ -2865,7 +3155,7 @@ https://github.com/Tencent/APIJSON/issues
             //       var k = cfgLine.substring(0, ind).replaceAll('/', '.'); // .trim();
             //       var v = cfgLine.substring(ind + 1).trim();
             //       try {
-            //         v = JSON.parse(v);
+            //         v = parseJSON(v);
             //       }
             //       catch (e) {
             //         log(e)
@@ -2879,6 +3169,7 @@ https://github.com/Tencent/APIJSON/issues
             //   commentObj = JSONResponse.updateStandard({}, mapReq2);
             // }
 
+            const userId = App.User.id;
             const methods = App.methods;
             const method = App.isShowMethod() ? App.method : null;
             const extName = App.exTxt.name;
@@ -2888,6 +3179,7 @@ https://github.com/Tencent/APIJSON/issues
             const req = isExportRandom && btnIndex <= 0 ? {
               format: false,
               'Random': {
+                userId: userId,
                 toId: 0,
                 chainGroupId: cgId,
                 chainId: cId,
@@ -2897,6 +3189,8 @@ https://github.com/Tencent/APIJSON/issues
                 config: config
               },
               'TestRecord': {
+                'userId': userId,
+                'documentId': documentId,
                 'host': StringUtil.isEmpty(baseUrl, true) ? null : baseUrl,
                 'chainGroupId': cgId,
                 'chainId': cId,
@@ -2908,6 +3202,7 @@ https://github.com/Tencent/APIJSON/issues
               format: false,
               'Document': isEditResponse ? null : {
                 'id': did == null ? undefined : did,
+                'userId': userId,
                 'project': StringUtil.isEmpty(project, true) ? null : project,
 //                'testAccountId': currentAccountId,
 //                'chainGroupId': cgId,
@@ -2923,6 +3218,7 @@ https://github.com/Tencent/APIJSON/issues
                 'detail': App.getExtraComment() || ((App.currentRemoteItem || {}).Document || {}).detail,
               },
               'TestRecord': isEditResponse != true && did != null ? null : {
+                'userId': userId,
 //                'chainGroupId': cgId,
                 'documentId': isEditResponse ? did : undefined,
                 'randomId': 0,
@@ -2938,10 +3234,10 @@ https://github.com/Tencent/APIJSON/issues
             App.request(true, REQUEST_TYPE_POST, REQUEST_TYPE_JSON, url, req, {}, function (url, res, err) {
               App.onResponse(url, res, err)
 
-              var rpObj = res.data || {}
+              var data = res.data || {}
 
               if (isExportRandom && btnIndex <= 0) {
-                if (JSONResponse.isSuccess(rpObj)) {
+                if (JSONResponse.isSuccess(data)) {
                   App.randoms = []
                   App.showRandomList(true, (App.currentRemoteItem || {}).Document)
                 }
@@ -2949,10 +3245,10 @@ https://github.com/Tencent/APIJSON/issues
               else {
                 var isPut = url.indexOf('/put') >= 0
 
-                if (JSONResponse.isSuccess(rpObj) != true) {
+                if (JSONResponse.isSuccess(data) != true) {
                   if (isPut) {  // 修改失败就转为新增
                     App.currentRemoteItem = null;
-                    alert('修改失败，请重试(自动转为新增)！' + StringUtil.trim(rpObj.msg))
+                    alert('修改失败，请重试(自动转为新增)！' + StringUtil.trim(data.msg))
                   }
                 }
                 else {
@@ -2996,7 +3292,7 @@ https://github.com/Tencent/APIJSON/issues
 
                   const isGenerate = StringUtil.isEmpty(config, true);
                   var req = isGenerate != true ? null : (isReleaseRESTful ? mapReq : App.getRequest(vInput.value, {}))
-                  App.newAndUploadRandomConfig(baseUrl, req, (rpObj.Document || {}).id, config, App.requestCount, function (url, res, err) {
+                  App.newAndUploadRandomConfig(baseUrl, req, (data.Document || {}).id, config, App.requestCount, function (url, res, err) {
 
 
 
@@ -3581,7 +3877,7 @@ https://github.com/Tencent/APIJSON/issues
 
         var jsonData = null
         try {
-          jsonData = JSON.parse(docUrl)
+          jsonData = parseJSON(docUrl)
         }
         catch (e) {}
 
@@ -3898,7 +4194,7 @@ https://github.com/Tencent/APIJSON/issues
             break
           default:
             type = REQUEST_TYPE_JSON
-            parameters = api.req_body_other == null ? null : JSON.parse(api.req_body_other)
+            parameters = api.req_body_other == null ? null : parseJSON(api.req_body_other)
 
             var params = parameters.properties || {}
             var required = parameters.required || []
@@ -3973,7 +4269,7 @@ https://github.com/Tencent/APIJSON/issues
       },
 
       //上传第三方平台的 API 至 APIAuto
-      uploadThirdPartyApi: function(method, type, name, url, parameters, json, header, description, creator, rspObj) {
+      uploadThirdPartyApi: function(method, type, name, url, parameters, json, header, description, creator, data) {
         if (typeof json == 'string') {
           json = parseJSON(json)
         }
@@ -4021,7 +4317,7 @@ https://github.com/Tencent/APIJSON/issues
 
         var commentObj = JSONResponse.updateStandard({}, reqObj);
         CodeUtil.parseComment(req, null, url, this.database, this.language, true, commentObj, true)
-        var standard = this.isMLEnabled ? JSONResponse.updateStandard({}, rspObj) : null
+        var standard = this.isMLEnabled ? JSONResponse.updateStandard({}, data) : null
 
         name = StringUtil.get(name)
         if (name.length > 100) {
@@ -4062,14 +4358,14 @@ https://github.com/Tencent/APIJSON/issues
                 'randomId': 0,
                 'host': StringUtil.isEmpty(baseUrl, true) ? null : baseUrl,
                 'testAccountId': currentAccountId,
-                'response': rspObj == null ? '' : JSON.stringify(rspObj, null, '    '),
+                'response': data == null ? '' : JSON.stringify(data, null, '    '),
                 'standard': standard == null ? '' : JSON.stringify(standard, null, '    '),
               },
               'tag': isRandom ? 'Random' : 'Document'
             }, {}, function (url, res, err) {
               //太卡 App.onResponse(url, res, err)
-              var rpObj = res.data || {}
-              var tblObj = isRandom ? rpObj.Random : rpObj.Document
+              var data = res.data || {}
+              var tblObj = isRandom ? data.Random : data.Document
               if (tblObj.id != null && tblObj.id > 0) {
                 App.uploadDoneCount ++
                 if (isRandom) {
@@ -4257,7 +4553,7 @@ https://github.com/Tencent/APIJSON/issues
                 App.onResponse(url, res, err)
 
                 var data = res.data || {}
-                var user = JSONResponse.isSuccess(data) ? data.user : null
+                var user = data.user || data.userObj || data.userObject || data.userRsp || data.userResp || data.userBean || data.userData || data.data || data.User || data.Data
                 if (user == null) {
                   if (callback != null) {
                     callback(false, index, err)
@@ -4268,11 +4564,12 @@ https://github.com/Tencent/APIJSON/issues
                   baseUrl = App.getBaseUrl(vUrl.value)
 
                   item.baseUrl = item.baseUrl || baseUrl
-                  item.id = user.id
-                  item.name = user.name
+                  item.id = user.id || user.userId || user.user_id || user.userid  // TODO 工具函数直接遍历 key 判断可能的名称
+                  item.name = user.name || user.nickname || user.nickName || user.user_name || user.username || user.userName
+//                  item.phone = user.phone = user.mobile || user.mobileNo || user.mobileNum || user.mobileNumber || user.phone || user.phoneNo || user.phoneNum || user.phoneNumber || user.mobile_no || user.mobile_num || user.mobile_number || user.phone_no || user.phone_num || user.phone_number
                   item.remember = data.remember
                   item.isLoggedIn = true
-                  item.token = headers.token || headers.Token || data.token || data.Token || user.token || user.Token
+                  item.token = headers.token || headers.Token || data.token || data.Token || user.token || user.Token || user.accessToken || user.access_token || data.accessToken || data.access_token
                   item.cookie = res.cookie || headers.cookie || headers.Cookie || headers['set-cookie'] || headers['Set-Cookie']
 
                   App.accounts[App.currentAccountIndex] = item
@@ -4431,6 +4728,7 @@ https://github.com/Tencent/APIJSON/issues
             'count': count || 0,
             'page': page || 0,
             'Chain': {
+              'userId': userId,
               'toGroupId': groupId,
               'groupName$': search,
 //              '@raw': '@column',
@@ -4445,6 +4743,7 @@ https://github.com/Tencent/APIJSON/issues
               'join': '&/Document',
               'Chain': {
                 // TODO 后续再支持嵌套子组合 'toGroupId': groupId,
+                'userId': userId,
                 'groupId@': '[]/Chain/groupId',
                 '@column': "id,groupId,documentId,randomId,rank",
                 '@order': 'rank+,id+',
@@ -4963,15 +5262,23 @@ https://github.com/Tencent/APIJSON/issues
         }
       },
 
+      lastCaseReqTime: 0,
       onTestCaseListResponse: function(show, url, res, err) {
+        var time = res == null || res.config == null || res.config.metadata == null ? 0 : (res.config.metadata.startTime || 0)
+        if (time < this.lastCaseReqTime) {
+          return
+        }
+
+        this.lastCaseReqTime = time;
+
         this.onResponse(url, res, err)
 
-        var rpObj = res.data
+        var data = res.data
 
-        if (JSONResponse.isSuccess(rpObj)) {
+        if (JSONResponse.isSuccess(data)) {
           this.isTestCaseShow = true
           this.isLocalShow = false
-          this.testCases = App.remotes = rpObj['[]']
+          this.testCases = App.remotes = data['[]']
           this.getCurrentRandomSummary().summaryType = 'total' // App.onClickSummary('total', true)
           if (this.isChainShow && this.currentChainGroupIndex >= 0) {
             var chain = this.chainGroups[this.currentChainGroupIndex]
@@ -5223,22 +5530,22 @@ https://github.com/Tencent/APIJSON/issues
 
         App.onResponse(url, res, err)
 
-        var rpObj = res.data
+        var data = res.data
 
-        if (JSONResponse.isSuccess(rpObj)) {
+        if (JSONResponse.isSuccess(data)) {
           App.isRandomListShow = ! isSub
           App.isRandomSubListShow = isSub
           if (isSub) {
             if (App.currentRandomItem == null) {
               App.currentRandomItem = {}
             }
-            App.randomSubs = App.currentRandomItem.subs = App.currentRandomItem['[]'] = rpObj['[]']
+            App.randomSubs = App.currentRandomItem.subs = App.currentRandomItem['[]'] = data['[]']
           }
           else {
             if (App.currentRemoteItem == null) {
               App.currentRemoteItem = {}
             }
-            App.randoms = App.currentRemoteItem.randoms = rpObj['[]']
+            App.randoms = App.currentRemoteItem.randoms = data['[]']
           }
           this.getCurrentRandomSummary().summaryType = 'total' // App.onClickSummary('total', true)
 
@@ -5273,9 +5580,9 @@ https://github.com/Tencent/APIJSON/issues
       getCache: function (url, key, defaultValue) {
         var cache = localStorage.getItem('APIAuto:' + url)
         try {
-          cache = JSON.parse(cache)
+          cache = parseJSON(cache)
         } catch(e) {
-          this.log('login  this.send >> try { cache = JSON.parse(cache) } catch(e) {\n' + e.message)
+          this.log('login  this.send >> try { cache = parseJSON(cache) } catch(e) {\n' + e.message)
         }
         cache = cache || {}
         var val = key == null ? cache : cache[key]
@@ -5339,9 +5646,9 @@ https://github.com/Tencent/APIJSON/issues
         }
 
         this.request(true, REQUEST_TYPE_POST, REQUEST_TYPE_JSON, '/get', req, {}, function (url, res, err) {
-          var rpObj = res.data
-          if (JSONResponse.isSuccess(rpObj) != true) {
-            App.log(err != null ? err : (rpObj == null ? '' : rpObj.msg))
+          var data = res.data
+          if (JSONResponse.isSuccess(data) != true) {
+            App.log(err != null ? err : (data == null ? '' : data.msg))
             return
           }
 
@@ -5356,25 +5663,25 @@ https://github.com/Tencent/APIJSON/issues
             ss['0'] = bs = {}
           }
 
-          var pre = rpObj['Script:pre']
+          var pre = data['Script:pre']
           if (pre != null && pre.script != null) {
-            bs.pre = rpObj['Script:pre']
+            bs.pre = data['Script:pre']
           }
-          var post = rpObj['Script:post']
+          var post = data['Script:post']
           if (post != null && post.script != null) {
-            bs.post = rpObj['Script:post']
+            bs.post = data['Script:post']
           }
 
-          // delete rpObj['Script:pre']
-          // delete rpObj['Script:post']
+          // delete data['Script:pre']
+          // delete data['Script:post']
 
           var cs = scripts.account
           if (cs == null) {
             scripts.account = cs = {}
           }
 
-          for (let key in rpObj) {
-            var val = rpObj[key]
+          for (let key in data) {
+            var val = data[key]
             var pre = val == null || key.startsWith('account_') != true ? null : val['Script:pre']
             if (pre == null) {
               continue
@@ -5627,7 +5934,7 @@ https://github.com/Tencent/APIJSON/issues
                 App.request(isAdminOperation, loginMethod, loginType, App.getBaseUrl(App.otherEnv) + loginUrl
                     , loginReq, loginHeader, function(url_, res_, err_) {
                       var data = res_.data
-                      var user = JSONResponse.isSuccess(data) ? data.user : null
+                      var user = data.user || data.userObj || data.userObject || data.userRsp || data.userResp || data.userBean || data.userData || data.data || data.User || data.Data
                       if (user != null) {
                         var headers = res.headers || {}
                         App.otherEnvTokenMap[req.phone + '@' + baseUrl] = headers.token || headers.Token || data.token || data.Token || user.token || user.Token
@@ -5652,20 +5959,21 @@ https://github.com/Tencent/APIJSON/issues
       onLoginResponse: function(isAdmin, req, url, res, err, loginMethod, loginType, loginUrl, loginReq, loginRandom, loginHeader) {
         res = res || {}
         if (isAdmin) {
-          var rpObj = res.data || {}
+          var data = res.data || {}
 
-          if (JSONResponse.isSuccess(rpObj) != true) {
-            alert('登录失败，请检查网络后重试。\n' + rpObj.msg + '\n详细信息可在浏览器控制台查看。')
+          var user = data.user || data.userObj || data.userObject || data.userRsp || data.userResp || data.userBean || data.userData || data.data || data.User || data.Data
+          if (user == null) {
+            alert('登录失败，请检查网络后重试。\n' + data.msg + '\n详细信息可在浏览器控制台查看。')
             App.onResponse(url, res, err)
           }
           else {
-            var user = rpObj.user || {}
-
-            if (user.id > 0) {
-              user.remember = rpObj.remember
-              user.phone = req.phone
+            if (user != null) {
+              var headers = res.headers || {}
+              user.remember = data.remember
+              user.phone = req.mobile || req.mobileNo || req.mobileNum || req.mobileNumber || req.phone || req.phoneNo || req.phoneNum || req.phoneNumber || req.mobile_no || req.mobile_num || req.mobile_number || req.phone_no || req.phone_num || req.phone_number
               user.password = req.password
-              user.cookie = res.cookie || (res.headers || {}).cookie
+              user.token = headers.token || headers.Token || data.token || data.Token || user.token || user.Token || user.accessToken || user.access_token || data.accessToken || data.access_token
+              user.cookie = res.cookie || headers.cookie || headers.Cookie || headers['set-cookie'] || headers['Set-Cookie']
               App.User = user
             }
 
@@ -5695,12 +6003,13 @@ https://github.com/Tencent/APIJSON/issues
           //由login按钮触发，不能通过callback回调来实现以下功能
           var data = res.data || {}
           if (JSONResponse.isSuccess(data)) {
-            var user = data.user || {}
+            var headers = res.headers || {}
+            var user = data.user || data.userObj || data.userObject || data.userRsp || data.userResp || data.userBean || data.userData || data.data || data.User || data.Data
             App.accounts.push({
               isLoggedIn: true,
               baseUrl: App.getBaseUrl(),
               id: user.id,
-              name: user.name,
+              name: user.name || user.nickname || user.nickName || user.user_name || user.username || user.userName,
               phone: req.phone,
               password: req.password,
               remember: data.remember,
@@ -5710,7 +6019,8 @@ https://github.com/Tencent/APIJSON/issues
               loginReq: loginReq,
               loginRandom: loginRandom,
               loginHeader: loginHeader,
-              cookie: res.cookie || (res.headers || {}).cookie
+              cookie: res.cookie || headers.cookie,
+              token: headers.token || headers.Token || data.token || data.Token || user.token || user.Token || user.accessToken || user.access_token || data.accessToken || data.access_token
             })
 
             var lastItem = App.accounts[App.currentAccountIndex]
@@ -5747,12 +6057,12 @@ https://github.com/Tencent/APIJSON/issues
         this.send(isAdminOperation, function (url, res, err) {
           App.onResponse(url, res, err)
 
-          var rpObj = res.data
+          var data = res.data
 
-          if (JSONResponse.isSuccess(rpObj)) {
+          if (JSONResponse.isSuccess(data)) {
             alert('注册成功')
 
-            var privacy = rpObj.Privacy || {}
+            var privacy = data.Privacy || {}
 
             App.account = privacy.phone
             App.loginType = 'login'
@@ -5779,12 +6089,12 @@ https://github.com/Tencent/APIJSON/issues
         this.send(isAdminOperation, function (url, res, err) {
           App.onResponse(url, res, err)
 
-          var rpObj = res.data
+          var data = res.data
 
-          if (JSONResponse.isSuccess(rpObj)) {
+          if (JSONResponse.isSuccess(data)) {
             alert('重置密码成功')
 
-            var privacy = rpObj.Privacy || {}
+            var privacy = data.Privacy || {}
 
             App.account = privacy.phone
             App.loginType = 'login'
@@ -5984,14 +6294,14 @@ https://github.com/Tencent/APIJSON/issues
           try {
             var standardObj = null;
             try {
-              standardObj = JSON.parse(currentItem.standard);
+              standardObj = parseJSON(currentItem.standard);
             } catch (e3) {
               log(e3)
             }
 
             var isAPIJSONRouter = false;
             try {
-              var apijson = JSON.parse(currentItem.apijson);
+              var apijson = parseJSON(currentItem.apijson);
               isAPIJSONRouter = JSONResponse.isObject(apijson)
             } catch (e3) {
               log(e3)
@@ -6478,6 +6788,8 @@ https://github.com/Tencent/APIJSON/issues
         const wait = wait_ != null ? wait_ : (this.wait || 0)
         var retry = retry_ != null ? retry_ : (this.retry || 0)
 
+        var evalPostScript = function () {}
+
         const onHttpResponse = function (res) {
           App.currentHttpResponse = res
           clearTimeout(errHandler)
@@ -6602,8 +6914,6 @@ https://github.com/Tencent/APIJSON/issues
           return true
         }
 
-        var evalPostScript = function () {}
-
         var sendRequest = function (isAdminOperation, method, type, url, req, header, callback) {
           var hs = ""
           if (isDelegate && header != null) {
@@ -6616,6 +6926,8 @@ https://github.com/Tencent/APIJSON/issues
             }
           }
 
+          var isParam = HTTP_URL_ARG_TYPES.indexOf(type) >= 0
+
           if (req != null && JSONResponse.getType(req) == 'object') { // 支持 URL 里有 Path Variable，例如 http://apijson.cn:8080/{method}/{table}
             var ind = -1 // 支持 ?id={id} 这种动态参数  url.indexOf('?')
             var uri = ind < 0 ? url : url.substring(0, ind)
@@ -6625,8 +6937,12 @@ https://github.com/Tencent/APIJSON/issues
                 var v = k == null ? null : req[k]
                 var kind = uri.indexOf('{' + k + '}')
                 if (kind >= 0) {
-                   uri = uri.replaceAll('${' + k + '}', v).replaceAll('{{' + k + '}}', v).replaceAll('{' + k + '}', v)
-                   continue
+                  if (v instanceof Array) {
+                    var multiInd = uri.indexOf(':=')
+                  }
+
+                  uri = uri.replaceAll('${' + k + '}', v).replaceAll('{{' + k + '}}', v).replaceAll('{' + k + '}', v)
+                  continue
                 }
 
                 newReq[k] = v
@@ -6635,6 +6951,22 @@ https://github.com/Tencent/APIJSON/issues
             url = uri + (ind < 0 ? '' : url.substring(ind))
             req = newReq
           }
+
+          axios.interceptors.request.use(function (config) {
+            config.metadata = { startTime: new Date().getTime()}
+            return config;
+          }, function (error) {
+            return Promise.reject(error);
+          });
+          axios.interceptors.response.use(function (response) {
+            response.config.metadata.endTime = new Date().getTime()
+            response.duration = response.config.metadata.endTime - response.config.metadata.startTime
+            return response;
+          }, function (error) {
+            error.config.metadata.endTime = new Date().getTime();
+            error.duration = error.config.metadata.endTime - error.config.metadata.startTime;
+            return Promise.reject(error);
+          });
 
           // axios.defaults.withcredentials = true
           axios({
@@ -6648,7 +6980,7 @@ https://github.com/Tencent/APIJSON/issues
                   App.isEncodeEnabled ? encodeURI(url) : url
                 )
             ),
-            params: HTTP_URL_ARG_TYPES.indexOf(type) >= 0 ? req : null,
+            params: isParam ? req : null,
             data: HTTP_JSON_TYPES.indexOf(type) >= 0 ? req : (HTTP_FORM_DATA_TYPES.indexOf(type) >= 0 ? toFormData(req) : null),
             headers: header,  //Accept-Encoding（HTTP Header 大小写不敏感，SpringBoot 接收后自动转小写）可能导致 Response 乱码
             withCredentials: true, //Cookie 必须要  type == REQUEST_TYPE_JSON
@@ -6792,7 +7124,8 @@ https://github.com/Tencent/APIJSON/issues
           url = (isAdminOperation ? this.server : this.getBaseUrl()) + url
         }
 
-        var isDelegate = (isAdminOperation == false && this.isDelegateEnabled) || (isAdminOperation && url.indexOf('://apijson.cn:9090') > 0)
+        var isDelegate = (isAdminOperation == false && this.isDelegateEnabled)
+         || (isAdminOperation && (url.indexOf('://apijson.cn:9090') > 0 || url.indexOf('.devin.ai') > 0))
 
         if (header != null && header.Cookie != null) {
           if (isDelegate) {
@@ -6851,13 +7184,21 @@ https://github.com/Tencent/APIJSON/issues
         retryReq()
       },
 
-
+      lastReqTime: 0,
       /**请求回调
        */
       onResponse: function (url, res, err) {
         if (res == null) {
           res = {}
+        } else {
+          var time = res.config == null || res.config.metadata == null ? null : res.config.metadata.startTime;
+          if (time != null && time > 0 && time < this.lastReqTime) {
+            return
+          }
+
+          this.lastReqTime = time == null || time <= 0 ? 0 : time;
         }
+
         if (DEBUG) {
           log('onResponse url = ' + url + '\nerr = ' + err + '\nreq = \n'
             + (res.request == null || res.request.data == null ? 'null' : JSON.stringify(res.request.data))
@@ -7163,6 +7504,155 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
       doOnKeyUp: function (event, type, isFilter, item) {
         var keyCode = event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode);
         var isEnter = keyCode == 13
+
+        if (type == 'ask') {
+          if (isEnter) {
+            var isRes = false;
+            if (StringUtil.isEmpty(vAskAI.value) && StringUtil.isNotEmpty(this.jsoncon, true) ) {
+              var res = JSON.parse(this.jsoncon);
+//              res = this.removeDebugInfo(res);
+              delete res['trace:stack']
+              delete res['debug:info|help']
+              vAskAI.value = JSON.stringify(res)
+              isRes = true;
+            }
+
+            const user_query = StringUtil.trim(vAskAI.value);
+            if (StringUtil.isEmpty(user_query)) {
+              return;
+            }
+
+            function onMessage(item) {
+              var data2 = item == null ? null : item.data
+              if (data2 == null || item.type != 'chunk') {
+                return;
+              }
+
+              var answer = StringUtil.get(typeof data2 == 'string' ? data2 : (data instanceof Array ? data2.join() : JSON.stringify(data2)))
+                .replaceAll('/wiki/Tencent/APIJSON#', 'https://deepwiki.com/Tencent/APIJSON/').replaceAll('/wiki/TommyLemon/APIAuto#', 'https://deepwiki.com/TommyLemon/APIAuto/');
+              App.view = 'markdown';
+              vOutput.value += answer;
+              markdownToHTML(vOutput.value)
+            }
+
+            function queryResult() {
+                App.request(true, REQUEST_TYPE_GET, REQUEST_TYPE_PARAM, 'https://api.devin.ai/ada/query/' + App.uuid, {}, {}, function (url, res, err) {
+//                    App.onResponse(url, res, err)
+                    var data = res.data || {}
+//                    var isOk = JSONResponse.isSuccess(data)
+
+                    var msg = ''; // isOk ? '' : ('\nmsg: ' + StringUtil.get(data.msg))
+                    if (err != null) {
+                        msg += '\nerr: ' + err.message
+                        vOutput.value = err.message
+                        App.view = 'error';
+                        return
+                    }
+
+                    var queries = data.queries || []
+                    var last = queries[queries.length - 1] || {}
+                    var query = last.user_query || user_query
+                    var response = last.response || []
+                    var answer = '#### ' + query + '\n<br/>';
+                    for (var i = 0; i < response.length; i ++) {
+                      //                      onMessage(response[i])
+                      var item = response[i];
+                      var data2 = item == null ? null : item.data;
+                      if (data2 == null || item.type != 'chunk') {
+                          continue;
+                      }
+
+                      answer += '\n' + StringUtil.trim(typeof data2 == 'string' ? data2 : (data2 instanceof Array ? data2.join() : JSON.stringify(data2)))
+                        .replaceAll('/wiki/Tencent/APIJSON#', 'https://deepwiki.com/Tencent/APIJSON/').replaceAll('/wiki/TommyLemon/APIAuto#', 'https://deepwiki.com/TommyLemon/APIAuto/');
+                    }
+
+                    answer += '\n<br/>\n';
+
+                    App.view = 'markdown';
+                    vOutput.value = answer;
+                    markdownToHTML(answer); // vOutput.value)
+                })
+
+//                App.uuid = null; // 解决第一次后的都不生效
+                vAskAI.value = '';
+            }
+
+            function askAI() {
+              vOutput.value = '#### ' + user_query + '\n<br/>';
+              App.loadingCount ++;
+              const ws = new WebSocket('wss://api.devin.ai/ada/ws/query/' + App.uuid);
+
+              // 连接成功
+              ws.onopen = () => {
+                console.log('WebSocket connected');
+                // 这里通常不需要主动发送内容，除非协议需要
+              };
+
+              // 收到消息
+              ws.onmessage = (event) => {
+                try {
+                  const data = JSON.parse(event.data);
+                  console.log('Message:', data);
+                  onMessage(data)
+
+                  if (data.type === 'chunk') {
+                    console.log('Chunk Data:', data.data);
+                  }
+                } catch (err) {
+                  console.error('Failed to parse message:', event.data);
+                }
+              };
+
+              // 连接关闭
+              ws.onclose = () => {
+                console.log('WebSocket closed');
+                App.loadingCount --;
+                queryResult();
+              };
+
+              // 错误处理
+              ws.onerror = (err) => {
+                console.error('WebSocket error:', err);
+                queryResult();
+              };
+
+            }
+
+            // 可能少调用了 https://api2.amplitude.com/2/httpapi 导致不能同一个会话二次请求
+//            if (StringUtil.isEmpty(this.uuid, true)) {
+              this.uuid = crypto.randomUUID();
+//            }
+
+            this.request(true, REQUEST_TYPE_POST, REQUEST_TYPE_JSON, 'https://api.devin.ai/ada/query', {
+              "engine_id": "multihop",
+              "user_query": "<relevant_context>" + (isRes ? "这是用 HTTP 接口工具 TommyLemon/APIAuto 发请求后的响应结果，分析并" : "") + "用中文回答：</relevant_context>" + user_query,
+              "keywords": [],
+              "repo_names": [
+                "Tencent/APIJSON"
+              ],
+              "additional_context": "",
+              "query_id": this.uuid,
+              "use_notes": false,
+              "generate_summary": false
+            }, {}, function (url, res, err) {
+              App.onResponse(url, res, err)
+              var data = res.data || {}
+//              var isOk = JSONResponse.isSuccess(data)
+
+              var msg = ''; // isOk ? '' : ('\nmsg: ' + StringUtil.get(data.msg))
+              if (err != null) {
+                msg += '\nerr: ' + err.message
+                vOutput.value = err.message
+                App.view = 'error';
+                return
+              }
+
+              askAI();
+            })
+          }
+          return
+        }
+
         if (type == 'option') {
           if (isEnter) {
             this.selectInput(item);
@@ -7173,14 +7663,16 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         if (type == 'project') {
           if (isEnter || item.host == (this.projectHost || {}).host) {
             this.projectHost = {project: item.project}
+            this.saveCache('', 'projectHost', this.projectHost)
           }
           return
         }
 
         var project = (this.projectHost || {}).project
 
-        if (isFilter && type == 'caseGroup') {
+        if (isFilter && (type == 'caseGroup' || type == 'chainGroup')) {
           this.isCaseGroupEditable = true
+//          this.isChainGroupEditable = true
         }
 
         var obj = event.srcElement ? event.srcElement : event.target;
@@ -7308,6 +7800,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
               App.options = options
               document.activeElement = vOption // vChainAdd.focusout()
+              currentTarget = vChainAdd
               vOption.focus()
               //              App.showOptions(target, text, before, after);
 
@@ -7580,16 +8073,16 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           case CodeUtil.LANGUAGE_KOTLIN:
             s += '\n#### <= Android-Kotlin: 空对象用 HashMap&lt;String, Any&gt;()，空数组用 ArrayList&lt;Any&gt;()\n'
               + '```kotlin \n'
-              + CodeUtil.parseKotlinRequest(null, JSON.parse(rq), 0, isSingle, false, false, this.type, this.getBaseUrl(), '/' + this.getMethod(), this.urlComment)
+              + CodeUtil.parseKotlinRequest(null, parseJSON(rq), 0, isSingle, false, false, this.type, this.getBaseUrl(), '/' + this.getMethod(), this.urlComment)
               + '\n ``` \n注：对象 {} 用 mapOf("key": value)，数组 [] 用 listOf(value0, value1)\n';
             break;
           case CodeUtil.LANGUAGE_JAVA:
             s += '\n#### <= Android-Java: 同名变量需要重命名'
               + ' \n ```java \n'
-              + StringUtil.trim(CodeUtil.parseJavaRequest(null, JSON.parse(rq), 0, isSingle, false, false, this.type, '/' + this.getMethod(), this.urlComment))
+              + StringUtil.trim(CodeUtil.parseJavaRequest(null, parseJSON(rq), 0, isSingle, false, false, this.type, '/' + this.getMethod(), this.urlComment))
               + '\n ``` \n注：' + (isSingle ? '用了 APIJSON 的 JSONRequest, JSONResponse 类，也可使用其它类封装，只要 JSON 有序就行\n' : 'LinkedHashMap&lt;&gt;() 可替换为 fastjson 的 JSONObject(true) 等有序JSON构造方法\n');
 
-            var serverCode = CodeUtil.parseJavaServer(this.type, '/' + this.getMethod(), this.database, this.schema, JSON.parse(rq), isSingle);
+            var serverCode = CodeUtil.parseJavaServer(this.type, '/' + this.getMethod(), this.database, this.schema, parseJSON(rq), isSingle);
             if (StringUtil.isEmpty(serverCode, true) != true) {
               s += '\n#### <= Server-Java: RESTful 等非 APIJSON 规范的 API'
                 + ' \n ```java \n'
@@ -7598,48 +8091,48 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             }
             break;
           case CodeUtil.LANGUAGE_C_SHARP:
-            s += '\n#### <= Unity3D-C\#: 键值对用 {"key", value}' +
+            s += '\n#### <= Unity3D-C\\#: 键值对用 {"key", value}' +
               '\n ```csharp \n'
-              + CodeUtil.parseCSharpRequest(null, JSON.parse(rq), 0)
+              + CodeUtil.parseCSharpRequest(null, parseJSON(rq), 0)
               + '\n ``` \n注：对象 {} 用 new JObject{{"key", value}}，数组 [] 用 new JArray{value0, value1}\n';
             break;
 
           case CodeUtil.LANGUAGE_SWIFT:
             s += '\n#### <= iOS-Swift: 空对象用 [ : ]'
               + '\n ```swift \n'
-              + CodeUtil.parseSwiftRequest(null, JSON.parse(rq), 0)
+              + CodeUtil.parseSwiftRequest(null, parseJSON(rq), 0)
               + '\n ``` \n注：对象 {} 用 ["key": value]，数组 [] 用 [value0, value1]\n';
             break;
 //          case CodeUtil.LANGUAGE_OBJECTIVE_C:
 //            s += '\n#### <= iOS-Objective-C \n ```objective-c \n'
-//              + CodeUtil.parseObjectiveCRequest(null, JSON.parse(rq))
+//              + CodeUtil.parseObjectiveCRequest(null, parseJSON(rq))
 //              + '\n ```  \n';
 //            break;
 
           case CodeUtil.LANGUAGE_GO:
             s += '\n#### <= Web-Go: 对象 key: value 会被强制排序，每个 key: value 最后都要加逗号 ","'
               + ' \n ```go \n'
-              + CodeUtil.parseGoRequest(null, JSON.parse(rq), 0)
+              + CodeUtil.parseGoRequest(null, parseJSON(rq), 0)
               + '\n ``` \n注：对象 {} 用 map[string]interface{} {"key": value}，数组 [] 用 []interface{} {value0, value1}\n';
             break;
           case CodeUtil.LANGUAGE_C_PLUS_PLUS:
             s += '\n#### <= Web-C++: 使用 RapidJSON'
               + ' \n ```cpp \n'
-              + StringUtil.trim(CodeUtil.parseCppRequest(null, JSON.parse(rq), 0, isSingle))
+              + StringUtil.trim(CodeUtil.parseCppRequest(null, parseJSON(rq), 0, isSingle))
               + '\n ``` \n注：std::string 类型值需要判断 RAPIDJSON_HAS_STDSTRING\n';
             break;
 
           case CodeUtil.LANGUAGE_PHP:
             s += '\n#### <= Web-PHP: 空对象用 (object) ' + (isSingle ? '[]' : 'array()')
               + ' \n ```php \n'
-              + CodeUtil.parsePHPRequest(null, JSON.parse(rq), 0, isSingle)
+              + CodeUtil.parsePHPRequest(null, parseJSON(rq), 0, isSingle)
               + '\n ``` \n注：对象 {} 用 ' + (isSingle ? '[\'key\' => value]' : 'array("key" => value)') + '，数组 [] 用 ' + (isSingle ? '[value0, value1]\n' : 'array(value0, value1)\n');
             break;
 
           case CodeUtil.LANGUAGE_PYTHON:
             s += '\n#### <= Web-Python: 注释符用 \'\#\''
               + ' \n ```python \n'
-              + CodeUtil.parsePythonRequest(null, JSON.parse(rq), 0, isSingle, vInput.value)
+              + CodeUtil.parsePythonRequest(null, parseJSON(rq), 0, isSingle, vInput.value)
               + '\n ``` \n注：关键词转换 null: None, false: False, true: True';
             break;
 
@@ -7868,6 +8361,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         })
       },
 
+      lastDocReqTime: 0,
       onDocumentListResponse: function(url, res, err, callback) {
         if (err != null || res == null || res.data == null) {
           log('getDoc  err != null || res == null || res.data == null >> return;');
@@ -7876,6 +8370,13 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           }
           return;
         }
+
+        var time = res.config == null || res.config.metadata == null ? 0 : (res.config.metadata.startTime || 0)
+        if (time < this.lastDocReqTime) {
+          return
+        }
+
+        this.lastDocReqTime = time;
 
 //        log('getDoc  docRq.responseText = \n' + docRq.responseText);
         docObj = res.data || {};  //避免后面又调用 onChange ，onChange 又调用 getDoc 导致死循环
@@ -7908,7 +8409,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             map[StringUtil.toLowerCase(item.schema) + '.' + StringUtil.toLowerCase(item.name)] = item
 
             function getShowString(method, lineItemCount) {
-              var roles = item[method] == null ? null : JSON.parse(item[method])
+              var roles = item[method] == null ? null : parseJSON(item[method])
               var rs = []
               if (roles != null) {
                 var schemaStr = StringUtil.isEmpty(item.schema) ? 'null' : "'" + item.schema + "'"
@@ -9056,7 +9557,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           var header = this.getHeader(vHeader.value)
           var callback = null
 
-          var data = isPre ? undefined : (this.jsoncon == null ? null : JSON.parse(this.jsoncon))
+          var data = isPre ? undefined : (this.jsoncon == null ? null : parseJSON(this.jsoncon))
           var res = isPre ? undefined : {
             data: data
           }
@@ -9241,14 +9742,14 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         var random = item.Random = item.Random || {}
         var subs = item['[]'] || []
         var existCount = subs.length
-        subs = existCount <= 0 ? subs : JSON.parse(JSON.stringify(subs))
+        subs = existCount <= 0 ? subs : parseJSON(JSON.stringify(subs))
 
         var count = random.count || 0
         var respCount = 0;
 
         for (var i = 0; i < count; i ++) {
           // var constConfig = i < existCount ? ((subs[i] || {}).Random || {}).config : this.getRandomConstConfig(random.config, random.id) //第1遍，把 key : expression 改为 key : value
-          // var constJson = this.getRandomJSON(JSON.parse(JSON.stringify(json)), constConfig, random.id) //第2遍，用新的 random config 来修改原 json
+          // var constJson = this.getRandomJSON(parseJSON(JSON.stringify(json)), constConfig, random.id) //第2遍，用新的 random config 来修改原 json
 
           const which = i;
           var rawConfig = testSubList && i < existCount ? ((subs[i] || {}).Random || {}).config : random.config
@@ -9264,7 +9765,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
           try {
             this.parseRandom(
-              JSON.parse(JSON.stringify(json)), rawConfig, random.id
+              parseJSON(JSON.stringify(json)), rawConfig, random.id
               , ! testSubList, testSubList && i >= existCount, testSubList && i >= existCount
               , function (randomName, constConfig, constJson) {
 
@@ -9860,7 +10361,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 toEval = 'get4Path((ctx || {}).ctx, ' + (value == 'CTX_GET()' ? JSON.stringify(path) : '') + value.substring(start + 1);
               }
               else if (fun == CTX_PUT) {
-                var as = StringUtil.split(value.substring(start + 1, end), ', ')
+                var as = StringUtil.split(value.substring(start + 1, end), ', ') || []
                 if (as.length >= 2) {
                   as[1] = 'get4Path(((ctx || {}).pre || {}).data, ' + StringUtil.trim(as[1]) + ')'
                 }
@@ -10187,6 +10688,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 //         })
       },
 
+      isFullAssert: true,
       toTestDocIndexes: [],
 
       startTest: function (list, allCount, isRandom, accountIndex, isCross, callback) {
@@ -10216,6 +10718,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
       },
 
       startTestSingle: function (list, allCount, index, item, isRandom, accountIndex, isCross, callback, singleCallback, ctx) {
+          this.isFullAssert = false
           try {
             const isMLEnabled = this.isMLEnabled
             const standardKey = isMLEnabled != true ? 'response' : 'standard'
@@ -10258,8 +10761,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             const header = hdr
 
             const caseScript = {
-              pre: (item['Script:pre'] || {}).script,
-              post: (item['Script:post'] || {}).script
+              pre: (item['Script:pre'] || {}),
+              post: (item['Script:post'] || {})
             }
 
             const method = document.method
@@ -10312,7 +10815,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                   }, caseScript)
 
                 }, caseScript)
-            }, caseScript.pre, {
+            }, (caseScript.pre || {}).script, {
                 list: list,
                 allCount: allCount,
                 index: index,
@@ -10363,9 +10866,10 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
 
         if (err != null) {
           var status = res == null ? null : res.status
+          var rsp = (err.response || {}).data || {}
           tr.compare = {
             code: JSONResponse.COMPARE_ERROR, //请求出错
-            msg: '请求出错！',
+            msg: StringUtil.trim(StringUtil.trim(rsp.code) + ' ' + StringUtil.trim(rsp.message)) || err.message || '请求出错！',
             path: (status != null && status != 200 ? status + ' ' : '') + err.message
           }
         }
@@ -10377,7 +10881,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             stdd = stdd || ((this.currentRemoteItem || {}).TestRecord || {})[standardKey]
           }
 
-          var standard = typeof stdd != 'string' ? stdd : (StringUtil.isEmpty(stdd, true) ? null : JSON.parse(stdd))
+          var standard = typeof stdd != 'string' ? stdd : (StringUtil.isEmpty(stdd, true) ? null : parseJSON(stdd))
           tr.compare = JSONResponse.compareResponse(res, standard, this.removeDebugInfo(response) || {}, '', isML, null, null, ignoreTrend) || {}
           tr.compare.duration = it.durationHint
         }
@@ -10386,6 +10890,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
       },
 
       onTestResponse: function(res, allCount, list, index, it, d, r, tr, response, cmp, isRandom, accountIndex, justRecoverTest, isCross, callback, singleCallback) {
+        this.isFullAssert = false
         tr = tr || {}
         cmp = cmp || {}
         tr.compare = cmp
@@ -10943,7 +11448,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         saveTextAs(
           '# APIJSON自动化回归测试-前\n主页: https://github.com/Tencent/APIJSON'
           + '\n\n接口名称: \n' + (document.version > 0 ? 'V' + document.version : 'V*') + ' ' + document.name
-          + '\n返回结果: \n' + JSON.stringify(JSON.parse(testRecord.response || '{}'), null, '    ')
+          + '\n返回结果: \n' + JSON.stringify(parseJSON(testRecord.response || '{}'), null, '    ')
           , '测试：' + document.name + '-前.txt'
         )
 
@@ -10969,7 +11474,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 '# APIJSON自动化回归测试-标准\n主页: https://github.com/Tencent/APIJSON'
                 + '\n\n接口名称: \n' + (document.version > 0 ? 'V' + document.version : 'V*') + ' ' + document.name
                 + '\n测试结果: \n' + JSON.stringify(testRecord.compare || '{}', null, '    ')
-                + '\n测试标准: \n' + JSON.stringify(JSON.parse(testRecord.standard || '{}'), null, '    ')
+                + '\n测试标准: \n' + JSON.stringify(parseJSON(testRecord.standard || '{}'), null, '    ')
                 , '测试：' + document.name + '-标准.txt'
               )
             }, 5000)
@@ -10983,7 +11488,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
        * @param index
        * @param item
        */
-      handleTest: function (right, index, item, isRandom, isDuration, isCross) {
+      handleTest: function (right, index, item, path, isRandom, isDuration, isCross) {
         item = item || {}
         var random = item.Random = item.Random || {}
         var document;
@@ -11008,14 +11513,26 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           // this.currentRandomSubIndex = -1
           document = item.Document = item.Document || {}
         }
+
+        this.isFullAssert = true
+
         var testRecord = item.TestRecord = item.TestRecord || {}
+        var pathKeys = StringUtil.split(path, '/') || [];
+        var pathNames = pathKeys.slice(0, pathKeys.length - 1);
+        var lastKey = pathKeys[pathKeys.length - 1];
 
         var tests = this.tests[String(this.currentAccountIndex)] || {}
         var currentResponse = (tests[isRandom ? random.documentId : document.id] || {})[
           isRandom ? (random.id > 0 ? random.id : (random.toId + '' + random.id)) : 0
-        ] || {}
+        ]
 
-        var rawRspStr = JSON.stringify(currentResponse)
+        if (pathKeys.length > 0) {
+          var curRsp = StringUtil.isEmpty(testRecord.response) ? {} : parseJSON(testRecord.response);
+          JSONResponse.setValByPath(curRsp, pathKeys, JSONResponse.getValByPath(currentResponse, pathKeys));
+          currentResponse = curRsp;
+        }
+
+        const rawRspStr = currentResponse == null ? null : JSON.stringify(currentResponse)
 
         const list = isRandom ? (random.toId == null || random.toId <= 0 ? this.randoms : this.randomSubs) : this.testCases
 
@@ -11033,7 +11550,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           this.jsoncon = res || ''
         }
         else {
-          var url
+          var url;
 
           if (isBefore) { //撤回原来错误提交的校验标准
             if (isDuration) {
@@ -11076,7 +11593,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 item.TestRecord = null
               }
 
-              App.updateTestRecord(0, list, index, item, JSON.parse(rawRspStr), isRandom, true, App.currentAccountIndex, isCross)
+              App.updateTestRecord(0, list, index, item, rawRspStr == null ? null : parseJSON(rawRspStr), isRandom, true, App.currentAccountIndex, isCross)
             })
           }
           else { //上传新的校验标准
@@ -11088,8 +11605,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             // }
             var isML = this.isMLEnabled;  // 异常分支不合并内容，只记录 code, throw, msg 等关键信息
 
-            var standard
-            var stddObj
+            var standard;
+            var stddObj;
 
             var minDuration = testRecord.minDuration
             var maxDuration = testRecord.maxDuration
@@ -11122,8 +11639,12 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               }
             }
             else {
-              standard = (StringUtil.isEmpty(testRecord.standard, true) ? null : JSON.parse(testRecord.standard)) || {}
-              stddObj = JSONResponse.updateFullStandard(standard, JSON.parse(rawRspStr), isML)
+              standard = (StringUtil.isEmpty(testRecord.standard, true) ? null : parseJSON(testRecord.standard)) || {}
+              if (pathKeys.length <= 0) {
+                stddObj = JSONResponse.updateFullStandard(standard, rawRspStr == null ? null : parseJSON(rawRspStr), isML)
+              } else if (isML) {
+                stddObj = JSONResponse.updateStandardByPath(standard, pathNames, lastKey, rawRspStr == null ? null : parseJSON(rawRspStr))
+              }
             }
 
             const isNewRandom = isRandom && random.id <= 0
@@ -11243,7 +11764,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 //   }
                 // }
 
-                App.updateTestRecord(0, list, index, item, JSON.parse(rawRspStr), isRandom, true, App.currentAccountIndex, isCross)
+                App.updateTestRecord(0, list, index, item, rawRspStr == null ? null : parseJSON(rawRspStr), isRandom, true, App.currentAccountIndex, isCross)
               }
 
             })
@@ -11334,7 +11855,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               )
             )) {
               setTimeout(function () {
-                window.open(vUrl.value + "/" + encodeURIComponent(JSON.stringify(encode(JSON.parse(vInput.value)))))
+                window.open(vUrl.value + "/" + encodeURIComponent(JSON.stringify(encode(parseJSON(vInput.value)))))
               }, 2000)
             }
           }, Math.max(2000, delayTime))
@@ -11361,7 +11882,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         }
 
         if (setting == null) {
-          setting = StringUtil.isEmpty(rawReq.setting, true) ? null : JSON.parse(StringUtil.trim(rawReq.setting, true))
+          setting = StringUtil.isEmpty(rawReq.setting, true) ? null : parseJSON(StringUtil.trim(rawReq.setting, true))
         }
 
         if (setting == null) {
@@ -11649,13 +12170,13 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               var standardObj = null;
               try {
                 var currentItem = App.isTestCaseShow ? App.remotes[App.currentDocIndex] : App.currentRemoteItem;
-                standardObj = JSON.parse(((currentItem || {})[isReq ? 'Document' : 'TestRecord'] || {}).standard);
+                standardObj = parseJSON(((currentItem || {})[isReq ? 'Document' : 'TestRecord'] || {}).standard);
               } catch (e3) {
                 log(e3)
               }
               if (standardObj == null) {
                 standardObj = JSONResponse.updateStandard({},
-                  isReq ? App.getRequest(vInput.value) : App.jsoncon == null ? null : JSON.parse(App.jsoncon)
+                  isReq ? App.getRequest(vInput.value) : App.jsoncon == null ? null : parseJSON(App.jsoncon)
                 )
               }
 
@@ -12434,6 +12955,11 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           '\n} catch (e) {\n' + e.message)
       }
       try { //这里是初始化，不能出错
+        var projectHost = this.getCache('', 'projectHost')
+        if (projectHost != null) {
+            this.projectHost = projectHost
+        }
+
         var projectHosts = this.getCache('', 'projectHosts')
         if (projectHosts != null && projectHosts.length >= 1) {
           this.projectHosts = projectHosts
@@ -12529,10 +13055,10 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
       //无效，只能在index里设置 vUrl.value = this.getCache('', 'URL_BASE')
 
       this.listHistory()
-      if (this.isScriptShow) {
+//      if (this.isScriptShow) {
         this.changeScriptType()
         this.listScript()
-      }
+//      }
 
       var isLoggedIn = this.User != null && this.User.id != null && this.User.id > 0
       if (isLoggedIn) {
@@ -12558,7 +13084,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           isSingle = ! isSingle
 
           var hasTestArg = false  // 避免 http://localhost:63342/APIAuto/index.html?_ijt=fh8di51h7qip2d1s3r3bqn73nt 这种无意义参数
-          if (StringUtil.isEmpty(rawReq.method, true) == false) {
+          if (StringUtil.isNotEmpty(rawReq.method, true)) {
             hasTestArg = true
             App.method = StringUtil.toUpperCase(rawReq.method, true)
             if (App.methods == null) {
@@ -12568,7 +13094,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               App.methods.push(App.method)
             }
           }
-          if (StringUtil.isEmpty(rawReq.type, true) == false) {
+          if (StringUtil.isNotEmpty(rawReq.type, true)) {
             hasTestArg = true
             App.type = StringUtil.toUpperCase(rawReq.type, true)
             if (App.types == null) {
@@ -12579,30 +13105,36 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             }
           }
 
-          if (StringUtil.isEmpty(rawReq.url, true) == false) {
+          if (StringUtil.isNotEmpty(rawReq.url, true)) {
             hasTestArg = true
             vUrl.value = StringUtil.trim(rawReq.url)
           }
 
-          if (StringUtil.isEmpty(rawReq.json, true) == false) {
+          var decode = false
+          if (StringUtil.isNotEmpty(rawReq.decode, true)) {
             hasTestArg = true
-            vInput.value = StringUtil.trim(rawReq.json)
+            decode = rawReq.decode == 'true'
           }
 
-          if (StringUtil.isEmpty(rawReq.header, true) == false) {
+          if (StringUtil.isNotEmpty(rawReq.json, true)) {
+            hasTestArg = true
+            vInput.value = StringUtil.trim(decode ? rawReq.json.replaceAll('\\\\', '') : rawReq.json)
+          }
+
+          if (StringUtil.isNotEmpty(rawReq.header, true)) {
             hasTestArg = true
             vHeader.value = StringUtil.trim(rawReq.header, true)
             App.isHeaderShow = true
           }
 
-          if (StringUtil.isEmpty(rawReq.random, true) == false) {
+          if (StringUtil.isNotEmpty(rawReq.random, true)) {
             hasTestArg = true
             vRandom.value = StringUtil.trim(rawReq.random, true)
             App.isRandomShow = true
             App.isRandomListShow = false
           }
 
-          if (StringUtil.isEmpty(rawReq.reportId, true) == false) {
+          if (StringUtil.isNotEmpty(rawReq.reportId, true)) {
             try {
               App.reportId = + StringUtil.trim(rawReq.reportId, true)
               if (Number.isNaN(App.reportId)) {
@@ -12621,10 +13153,10 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           var delayTime = 0
 
           // URL 太长导致截断和乱码
-          if (StringUtil.isEmpty(rawReq.setting, true) == false) {
+          if (StringUtil.isNotEmpty(rawReq.setting, true)) {
             var save = rawReq.save == 'true'
             try {
-              var setting = JSON.parse(StringUtil.trim(rawReq.setting, true)) || {}
+              var setting = parseJSON(StringUtil.trim(rawReq.setting, true)) || {}
 
               if ((setting.count != null && setting.count != App.count)
                 || (setting.page != null && setting.page != App.page)
@@ -12670,7 +13202,8 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         // alert(event.key) 小写字母 i 而不是 KeyI
 
         var target = event.target;
-        if (target == vSearch || target == vTestCaseSearch || target == vCaseGroupSearch || target == vChainGroupSearch || target == vChainGroupAdd || target == vChainAdd) {
+        if (target == vAskAI || target == vSearch || target == vTestCaseSearch || target == vCaseGroupSearch
+          || target == vChainGroupSearch || target == vChainGroupAdd || target == vChainAdd) {
           return
         }
 
