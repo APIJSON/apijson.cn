@@ -195,10 +195,10 @@ var JSONResponse = {
     }
 
     if (obj instanceof Array == false && obj instanceof Object) {
-      return obj[JSONResponse.KEY_CODE] == JSONResponse.CODE_SUCCESS;
+      obj = obj[JSONResponse.KEY_CODE];
     }
 
-    return obj == JSONResponse.CODE_SUCCESS
+    return obj == JSONResponse.CODE_SUCCESS || obj == 200 || (typeof obj == 'string' && (obj.toUpperCase() == "OK" || obj.toUpperCase() == "SUCCESS" || obj.toUpperCase() == "SUCCEED"))
   },
 
   /**校验服务端是否存在table
@@ -208,9 +208,6 @@ var JSONResponse = {
   isExist: function(count) {
     return count > 0;
   },
-
-
-
 
 
   /**格式化key名称
@@ -533,18 +530,27 @@ var JSONResponse = {
    */
   compareResponse: function(res, target, real, folder, isMachineLearning, codeName, exceptKeys, ignoreTrend, noBizCode) {
     target = target || {}
-    var tStatus = target.status || 200;
-    var rStatus = (res || {}).status;
-    if (rStatus != null && rStatus != tStatus) {
+    codeName = StringUtil.isEmpty(codeName, true) ? JSONResponse.KEY_CODE : codeName;
+
+    var tStatus = target.status; // || 200;
+    if (tStatus == null && StringUtil.isNotEmpty(target)) { // target[codeName] != null) {
+      tStatus = 200;
+    }
+    var rStatus = (res || {}).status || 200;
+    // if (rStatus == null && real[codeName] != null) {
+    //   rStatus = 200;
+    // }
+
+    if (tStatus != null && rStatus != tStatus) {
       return {
         code: JSONResponse.COMPARE_CODE_CHANGE,
         msg: 'HTTP Status Code 改变！' + tStatus + ' -> ' + rStatus,
         path: ''
       }
     }
-    codeName = StringUtil.isEmpty(codeName, true) ? JSONResponse.KEY_CODE : codeName;
-    var tCode = (isMachineLearning != true && noBizCode) ? 0 : (target || {})[codeName];
-    var rCode = noBizCode ? tCode : (real || {})[codeName];
+
+    var tCode = (isMachineLearning != true && noBizCode) ? JSONResponse.CODE_SUCCESS : (target || {})[codeName];
+    var rCode = noBizCode ? tCode : (real || {})[codeName]; // || (real == null || real == {} ? null : JSONResponse.CODE_SUCCESS);
 
     //解决了弹窗提示机器学习更新标准异常，但导致所有项测试结果都变成状态码 code 改变
     // if (real == null) {
@@ -555,11 +561,11 @@ var JSONResponse = {
     //   };
     // }
 
-    if (tCode == null) {
-      if (typeof rCode == 'number' && (rCode%10 != 0 || (rCode >= 400 && rCode < 600))) {
+    if (tStatus == null) { // tCode == null) {
+      if (rCode != JSONResponse.CODE_SUCCESS && rCode != 200) {
         return {
           code: JSONResponse.COMPARE_CODE_CHANGE, //未上传对比标准
-          msg: '没有校验标准，且状态码 ' + rCode + ' 在 [400, 599] 内或不是 0, 200 等以 0 结尾的数',
+          msg: '没有校验标准，且状态码 ' + rCode + ' 不是成功值！',
           path: folder == null ? '' : folder
         };
       }
@@ -605,7 +611,7 @@ var JSONResponse = {
       if (find != null) {
         return {
           code: JSONResponse.COMPARE_EQUAL_EXCEPTION,
-          msg: '符合异常分支 ' + rCode + (StringUtil.isEmpty(rThrw) ? '' : ' ' + rThrw + ':') + ' ' + StringUtil.trim(find.msg),
+          msg: '符合异常分支 ' + rCode + (StringUtil.isEmpty(rThrw) ? '' : ' ' + rThrw + ':') + ' ' + StringUtil.trim(find[JSONResponse.KEY_MSG]),
           path: folder == null ? '' : folder
         };
       }
@@ -623,9 +629,9 @@ var JSONResponse = {
 
     if (noBizCode != true) {
         delete target[codeName];
-        delete real[codeName];
+        real[codeName] = typeof rCode == 'undefined' ? undefined : null; // delete real[codeName];
         delete target.throw;
-        delete real.throw;
+        real.throw = typeof rThrw == 'undefined' ? rThrw : null; // delete real.throw;
     }
 
     //可能提示语变化，也要提示
@@ -876,6 +882,9 @@ var JSONResponse = {
 
     var type = target.type;
     log('compareWithStandard  type = target.type = ' + type + ' >>');
+    if (StringUtil.isEmpty(type) || ['null', 'undefined'].indexOf(type) >= 0) {
+      type = null;
+    }
 
     var valueLevel = target.valueLevel;
     log('compareWithStandard  valueLevel = target.valueLevel = ' + valueLevel + ' >>');
@@ -926,7 +935,11 @@ var JSONResponse = {
     };
 
     var realType = JSONResponse.getType(real);
-    if (type != realType && type != 'undefined' && (type != 'number' || realType != 'integer')) { //类型改变
+    if (StringUtil.isEmpty(realType) || ['null', 'undefined'].indexOf(realType) >= 0) {
+      realType = null;
+    }
+
+    if (type != realType && type != null && (type != 'number' || realType != 'integer')) { //类型改变
       log('compareWithStandard  type != realType && type != undefined && (type != number || realType != integer) >> return COMPARE_TYPE_CHANGE');
 
       max = {
@@ -1026,7 +1039,7 @@ var JSONResponse = {
         var format = target.format;
         if (typeof format == 'string' && FORMAT_PRIORITIES[format] != null) {
           var verifier = max.code < JSONResponse.COMPARE_FORMAT_CHANGE && StringUtil.isNotEmpty(format, true)
-              ? FORMAT_VERIFIERS[format] : null;
+             && StringUtil.isNotEmpty(real, true) ? FORMAT_VERIFIERS[format] : null;
           if (typeof verifier == 'function' && verifier(real) != true) {
               max.code = JSONResponse.COMPARE_FORMAT_CHANGE - (guess != true ? 0 : 1);
               max.msg = '不是 ' + format + " 格式！";
@@ -1271,16 +1284,18 @@ var JSONResponse = {
       standard = {};
     }
 
-    var code = currentResponse.code;
+    var code = currentResponse[JSONResponse.KEY_CODE];
     var thrw = currentResponse.throw;
-    var msg = currentResponse.msg;
+    var msg = currentResponse[JSONResponse.KEY_MSG];
 
     var hasCode = standard.code != null;
     var isCodeChange = noBizCode != true && standard.code != code;
     var exceptions = standard.exceptions || [];
 
-    delete currentResponse.code; //code必须一致
-    delete currentResponse.throw; //throw必须一致
+    // delete currentResponse[JSONResponse.KEY_CODE]; //code必须一致
+    // delete currentResponse.throw; //throw必须一致
+    currentResponse[JSONResponse.KEY_CODE] = null; //code必须一致
+    currentResponse.throw = null; //throw必须一致
 
     var find = false;
     if (isCodeChange && hasCode) {  // 走异常分支
@@ -1294,14 +1309,15 @@ var JSONResponse = {
       }
 
       if (find) {
-        delete currentResponse.msg;
+        // delete currentResponse[JSONResponse.KEY_MSG];
+        currentResponse[JSONResponse.KEY_MSG] = null;
       }
     }
 
     var stddObj = isML ? (isCodeChange && hasCode ? standard : JSONResponse.updateStandard(standard, currentResponse)) : {};
 
 //    if (noBizCode != true) {
-        currentResponse.code = code;
+        currentResponse[JSONResponse.KEY_CODE] = code;
         currentResponse.throw = thrw;
 //    }
 
@@ -1315,7 +1331,7 @@ var JSONResponse = {
         stddObj.throw = thrw;
       }
       else {  // 走异常分支
-        currentResponse.msg = msg;
+        currentResponse[JSONResponse.KEY_MSG] = msg;
 
         if (find != true) {
           exceptions.push({
@@ -1361,7 +1377,7 @@ var JSONResponse = {
 
     var notEmpty = target.notEmpty;
     log('updateStandard  notEmpty = target.notEmpty = ' + notEmpty + ' >>');
-    if (real != null && typeof real != 'boolean' && typeof real != 'number') {
+    if (notEmpty !== false && real != null && typeof real != 'boolean' && typeof real != 'number') {
       notEmpty = target.notEmpty = StringUtil.isNotEmpty(real, true);
     }
 
@@ -1632,16 +1648,17 @@ var JSONResponse = {
 
   /**根据 APIJSON 引用赋值路径精准地获取值
    */
-  getValByPath: function(target, pathKeys, isTry) {
-    if (target == null) {
-      return null;
-    }
-
-    var tgt = target;
-    var depth = pathKeys == null ? 0 : pathKeys.length
+  getValByPath: function(target, pathKeys, isTry, isDesc, arr4Multi, isUnique) {
+    var depth = target == null || pathKeys == null ? 0 : pathKeys.length
     if (depth <= 0) {
       return target;
     }
+
+    if (StringUtil.isString(pathKeys)) {
+      pathKeys = StringUtil.splitPath(pathKeys, false);
+    }
+
+    var tgt = target;
 
     for (var i = 0; i < depth; i ++) {
       if (tgt == null) {
@@ -1655,19 +1672,47 @@ var JSONResponse = {
       k = decodeURI(k)
 
       if (tgt instanceof Object) {
-        if (k == '') {
+        if (k == '') { // TODO 用 * 表示多个？
           if (tgt instanceof Array) {
-              k = 0;
-          } else {
-              ks = Object.keys(tgt);
-              k = ks == null ? null : ks[0];
-              if (k == null) {
-                return null;
+              for (var j = 0; j < tgt.length; j ++) {
+                var ind = isDesc ? tgt.length - 1 - j : j;
+                var val = tgt[ind];
+                if (i >= depth - 1) {
+                  if (val != null && arr4Multi == null) {
+                    return val;
+                  }
+                }
+
+                var ks = pathKeys.slice(i + 1);
+                var child = JSONResponse.getValByPath(val, ks, isTry, isDesc, arr4Multi, isUnique);
+                if (child != null && arr4Multi == null) {
+                  return child;
+                }
               }
+
+          } else {
+            var tks = Object.keys(tgt)
+            for (var j = 0; j < tks.length; j ++) {
+              var ind = isDesc ? tks.length - 1 - j : j;
+              var k2 = tks[ind];
+              var val = tgt[k2];
+              if (i >= depth - 1) {
+                if (val != null && arr4Multi == null) {
+                  return val;
+                }
+              }
+
+              var ks = pathKeys.slice(i + 1);
+              var child = JSONResponse.getValByPath(val, ks, isTry, isDesc, arr4Multi, isUnique);
+              if (child != null && arr4Multi == null) {
+                return child;
+              }
+            }
+
+            return null;
           }
         }
         else {
-          k = decodeURI(k)
           if (tgt instanceof Array) {
             try {
               var n = Number.parseInt(k);
@@ -1689,6 +1734,10 @@ var JSONResponse = {
       }
 
       return null;
+    }
+
+    if (arr4Multi != null && ! (isUnique && arr4Multi.includes(tgt))) {
+      arr4Multi.push(tgt);
     }
 
     return tgt;
@@ -1716,7 +1765,7 @@ var JSONResponse = {
           if (tgt instanceof Array) {
               k = 0;
           } else {
-              ks = Object.keys(tgt);
+              var ks = Object.keys(tgt);
               k = ks == null ? null : ks[0];
               if (k == null) {
                 return null;
@@ -1735,21 +1784,25 @@ var JSONResponse = {
           }
         }
 
-        parent = tgt;
+        if (tgt[k] != null) {
+          parent = tgt;
+        }
         tgt = tgt[k];
-        continue;
+        // continue;
       }
 
       if (tgt == null) {
-        try {
-          var n = Number.parseInt(k);
-          if (Number.isSafeInteger(n)) {
-            k = n >= 0 ? n : n + tgt.length;
+        if (parent instanceof Array) {
+          try {
+            var n = Number.parseInt(k);
+            if (Number.isSafeInteger(n)) {
+              k = n >= 0 ? n : n + parent.length;
+            }
+          } catch (e) {
           }
-        } catch (e) {
         }
 
-        tgt = Number.isInteger(k) ? [] : {};
+        tgt = Number.isInteger(pathKeys[i + 1]) ? [] : {};
         if (i == 0 && parent == null) {
           parent = target = tgt;
         } else {
@@ -1757,9 +1810,13 @@ var JSONResponse = {
         }
 
         parent = tgt;
-        tgt = tgt[k];
+        // tgt = tgt[k];
 
         continue;
+      }
+
+      if (tgt instanceof Object) {
+        continue
       }
 
       if (isTry != true) {
@@ -1811,6 +1868,15 @@ var JSONResponse = {
               var n = Number.parseInt(k);
               if (Number.isSafeInteger(n)) {
                 k = n > 0 ? n : n + tgt.length;
+              }
+            } catch (e) {
+            }
+        } else if (tgt instanceof Object && tgt.type == 'array') {
+            try {
+              var n = Number.parseInt(k);
+              if (Number.isSafeInteger(n)) {
+                tgt = tgt.values[0];
+                continue;
               }
             } catch (e) {
             }
@@ -1886,6 +1952,11 @@ var JSONResponse = {
           tgt.values[0] = child;
         }
 
+        if (k == 0) {
+          tgt = child;
+          continue;
+        }
+
         if (child[k] == null) {
           child[k] = {};
         }
@@ -1911,11 +1982,57 @@ var JSONResponse = {
     comment = ind < 0 ? comment : comment.substring(ind + 1)
     var nullable = prefix.endsWith('?')
     var notEmpty = prefix.endsWith('!')
-    var name = nullable || notEmpty ? prefix.substring(0, prefix.length - 1) : prefix
-    if (StringUtil.isName(name)) {
-       tgt.name = name
-    } else {
-       nullable = notEmpty = null
+    var path = nullable || notEmpty ? prefix.substring(0, prefix.length - 1) : prefix
+    // sys.User.id|apijson.Moment.userId
+    var names = StringUtil.split(path, '|') || []
+    for (var i = 0; i < names.length; i ++) {
+      var name = names[i] || ''
+
+      var ks = name.split('.') || []
+      var grandName = ks[ks.length - 3]
+      var parentName = ks[ks.length - 2]
+      name = ks[ks.length - 1] || name
+
+      if (StringUtil.isName(name)) {
+        if (StringUtil.isNotEmpty(grandName, true)) {
+          var gn = tgt.grandName
+          var gns = gn instanceof Array ? gn.concat(grandName) : (StringUtil.isEmpty(gn, true) ? [grandName] : [gn, grandName])
+          tgt.grandName = gns.length <= 1 ? gns[0] : gns.join('|') // gns
+        }
+
+        if (StringUtil.isNotEmpty(parentName, true)) {
+          var pn = tgt.parentName
+          var pns = pn instanceof Array ? pn.concat(parentName) : (StringUtil.isEmpty(pn, true) ? [parentName] : [pn, parentName])
+          tgt.parentName = pns.length <= 1 ? pns[0] : pns.join('|') // pns
+        }
+
+        var n = tgt.name
+        var ns = n instanceof Array ? n.concat(name) : (StringUtil.isEmpty(n, true) ? [name] : [n, name])
+        tgt.name = ns.length <= 1 ? ns[0] : ns.join('|') // ns
+
+        tgt.comment = comment
+
+        if (tgt.type == 'array') {
+          var values = tgt.values || []
+          var child = values[0]
+          if (child instanceof Object && ! Array.isArray(child)) {
+            if (StringUtil.isEmpty(child.parentName, true)) {
+              child.grandName = tgt.grandName
+              child.parentName = tgt.parentName
+            }
+
+            if (StringUtil.isEmpty(child.name, true)) {
+              child.name = tgt.name
+            }
+
+            if (StringUtil.isEmpty(child.comment, true)) {
+              child.comment = tgt.comment
+            }
+          }
+        }
+      } else {
+        nullable = notEmpty = null
+      }
     }
 
     tgt.type = JSONResponse.getType(real)
@@ -2005,7 +2122,7 @@ var JSONResponse = {
 
       //String 类型在 长度超过一定值 或 不是 常量名 时，改成 无限模型
       //不用 type 判断类型，这样可以保证 lengthType 不会自动升级
-      if (isLength != true && typeof real == 'string' && (real.length > 20 || StringUtil.isConstName(real) != true)) {
+      if (isLength != true && typeof real == 'string' && (real.length > StringUtil.MAX_NAME_LENGTH || StringUtil.isConstName(real) != true)) {
         if (level != 2) { //自定义模型不受影响
           target[levelName] = 3;
         }
@@ -2168,8 +2285,10 @@ var JSONResponse = {
     switch (type) {
       case 'boolean':
         return 2;
-      case 'number':
+      case 'integer':
         return 10;
+      case 'number':
+        return 5;
       case 'string':
         return 10;
     }

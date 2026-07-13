@@ -18,13 +18,23 @@
  */
 var StringUtil = {
   TAG: 'StringUtil',
+  MAX_NAME_LENGTH: 30,
+  MAX_NICK_NAME_LENGTH: 20,
+  MAX_CONST_NAME_LENGTH: 30,
+
+  isString: function(s) {
+    return typeof s == 'string';
+  },
+  isNotString: function(s) {
+    return ! StringUtil.isString(s);
+  },
 
   /**获取string,为null则返回''
    * @param s
    * @return
    */
   get: function(s) {
-    return s == null ? '' : (JSONResponse.isString(s) ? s : JSON.stringify(s));
+    return s == null ? '' : (typeof s == 'string' ? s : JSON.stringify(s));
   },
 
   /**获取去掉前后空格后的string,为null则返回''
@@ -40,7 +50,7 @@ var StringUtil = {
    * @return
    */
   noBlank: function(s) {
-    return s == null ? '' : s.replace(/ /g, '');
+    return StringUtil.get(s).replace(/ /g, '');
   },
 
   /**判断字符是否为空
@@ -65,7 +75,7 @@ var StringUtil = {
       return s <= 0;
     }
 
-    if (trim) {
+    if (trim !== false && typeof s == 'string') {
       s = s.trim();
     }
     return s.length <= 0;
@@ -79,30 +89,88 @@ var StringUtil = {
    * @param s
    * @return
    */
-  isName(s) {
-    return s != null && s.length > 0 && /[a-zA-Z_]/.test(s.substring(0, 1)) && /^[0-9a-zA-Z_]+$/.test(s);
+  isName: function(s) {
+    var l = StringUtil.length(s);
+    return l >= 2 && l <= StringUtil.MAX_NAME_LENGTH && /[a-zA-Z_]/.test(s.substring(0, 1)) && /^[0-9a-zA-Z_]+$/.test(s);
   },
 
   /**判断是否为代码名称，只能包含字母，数字或下划线
    * @param s
    * @return
    */
-  isBigName(s) {
-    return s != null && s.length > 0 && /[A-Z]/.test(s.substring(0, 1)) && /^[0-9a-zA-Z_]+$/.test(s);
+  isBigName: function(s) {
+    var l = StringUtil.length(s);
+    return l >= 2 && l <= StringUtil.MAX_NAME_LENGTH && /[A-Z]/.test(s.substring(0, 1)) && /^[0-9a-zA-Z_]+$/.test(s);
   },
 
   /**判断是否为代码名称，只能包含字母，数字或下划线
    * @param s
    * @return
    */
-  isSmallName(s) {
-    return s != null && s.length > 0 && /[a-z]/.test(s.substring(0, 1)) && /^[0-9a-zA-Z_]+$/.test(s);
+  isSmallName: function(s) {
+    var l = StringUtil.length(s);
+    return l >= 1 && l <= StringUtil.MAX_NAME_LENGTH && /[a-z]/.test(s.substring(0, 1)) && /^[0-9a-zA-Z_]+$/.test(s);
   },
 
-  isConstName(s) {
-    return s != null && s.length > 0 && /[A-Z_]/.test(s.substring(0, 1)) && /^[0-9A-Z_]+$/.test(s);
+  isConstName: function(s) {
+    var l = StringUtil.length(s);
+    return l >= 2 && l <= StringUtil.MAX_CONST_NAME_LENGTH && /[A-Z_]/.test(s.substring(0, 1)) && /^[0-9A-Z_]+$/.test(s);
   },
 
+  SYNTAX_NAMES: ['bool', 'boolean', 'int', 'integer', 'num', 'number', 'str', 'string', 'arr', 'array', 'obj', 'object'
+    , 'type', 'class', 'fun', 'func', 'function', 'var', 'variable', 'val', 'value', 'const', 'is', 'as', 'id', 'index', 'unique'
+    , 'select', 'insert', 'update', 'delete', 'query', 'mutate', 'sleep', 'no', 'yes', 'and', 'or', 'not', 'cast', 'first', 'last'
+    , 'from', 'join', 'on', 'at', 'in', 'out', 'where', 'by', 'having', 'limit', 'offset', 'find', 'list', 'get', 'set', 'put', 'remove'
+    , 'slice', 'splice', 'reduce', 'add', 'minus', 'push', 'pop', 'list', 'dict', 'map', 'trim', 'of'
+  ],
+  COLUMN_NAMES: ['page', 'count', 'size', 'pagesize', 'pagenum', 'pageno', 'col', 'column', 'name', 'age', 'sex', 'gender', 'amount'
+    , 'email', 'phone', 'tel', 'telephone', 'detail', 'describe', 'description', 'total', 'index', 'position', 'key', 'row', 'len', 'length', 'data'
+  ],
+
+  isBizName: function(s) {
+    if (typeof s != 'string' || StringUtil.length(s) < 3) {
+      return false;
+    }
+    if (StringUtil.isBigName(s) && ! StringUtil.isConstName(s)) {
+      return true;
+    }
+    if (! StringUtil.isName(s)) {
+      return false;
+    }
+
+    s = s.toLowerCase();
+    var names = StringUtil.SYNTAX_NAMES || [];
+    for (var i = 0; i < names.length; i ++) {
+      if (s.endsWith(names[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  },
+
+  isSchemaName: function(s) {
+    return typeof s == 'string' && StringUtil.isBizName(s.replaceAll('-', ''));
+  },
+  isTableName: function(s) {
+    if (StringUtil.isBigName(s) && ! StringUtil.isConstName(s)) {
+      return true;
+    }
+    if (! StringUtil.isBizName(s)) {
+      return false;
+    }
+
+    s = s.toLowerCase();
+    var names = StringUtil.COLUMN_NAMES || [];
+    for (var i = 0; i < names.length; i ++) {
+      var n = names[i];
+      if (s.endsWith(n)) {
+        return false;
+      }
+    }
+
+    return true;
+  },
 
   /**添加后缀
    * @param key
@@ -141,7 +209,7 @@ var StringUtil = {
    * @return
    */
   toUpperCase: function(s, trim) {
-    s = trim ? StringUtil.trim(s) : StringUtil.get(s);
+    s = trim !== false ? StringUtil.trim(s) : StringUtil.get(s);
     return s.toUpperCase();
   },
   /**全部小写
@@ -149,8 +217,57 @@ var StringUtil = {
    * @return
    */
   toLowerCase: function(s, trim) {
-    s = trim ? StringUtil.trim(s) : StringUtil.get(s);
+    s = trim !== false ? StringUtil.trim(s) : StringUtil.get(s);
     return s.toLowerCase();
+  },
+
+  getTableName: function(s) {
+    s = StringUtil.trim(s);
+    var keys = s.split('_');
+    if (keys.length > 1) {
+      return keys[keys.length - 2];
+    }
+
+    var hasBig = false;
+    var lastInd = -1;
+    for (var i = s.length - 1; i >= 0; i--) {
+      var c = s.substring(i, i + 1);
+      var isBig = /[A-Z]/.test(c)
+      if (lastInd >= 1 && (isBig || i <= 0)) {
+        return s.substring(i, lastInd + 1);
+      }
+
+      if (hasBig && lastInd < 0 && ! isBig) {
+        lastInd = i;
+      }
+      hasBig = hasBig || isBig
+    }
+
+    return '';
+  },
+  getColumnName: function(s) {
+    s = StringUtil.trim(s);
+    var keys = s.split('_');
+    if (keys.length > 1) {
+      return keys[keys.length - 1];
+    }
+
+    var hasBig = false;
+    var lastInd = -1;
+    for (var i = s.length - 1; i >= 0; i--) {
+      var c = s.substring(i, i + 1);
+      var isBig = /[A-Z]/.test(c)
+      if (lastInd >= 0 && (isBig != hasBig || i <= 0)) {
+        return s.substring(lastInd + (isBig ? 0 : 1));
+      }
+
+      if (hasBig && lastInd < 0 && ! isBig) {
+        lastInd = i;
+      }
+      hasBig = hasBig || isBig
+    }
+
+    return s;
   },
 
   split: function (s, separator, trim) {
@@ -158,7 +275,10 @@ var StringUtil = {
       return null;
     }
 
-    if (trim) {
+    if (typeof s != 'string') {
+      s = StringUtil.get(s);
+    }
+    else if (trim !== false) {
       s = s.trim();
     }
 
@@ -166,7 +286,7 @@ var StringUtil = {
       separator = ',';
     }
 
-    if (trim) {
+    if (trim !== false) {
       while (s.startsWith(separator)) {
         s = s.substring(1);
       }
@@ -182,6 +302,10 @@ var StringUtil = {
     return s.split(separator);
   },
 
+  splitPath: function (s, trim) {
+    return StringUtil.split(s, '/', trim);
+  },
+
   isNumber: function (s) {
     return typeof s == 'string' && /^[0-9]+$/.test(s);
   },
@@ -189,7 +313,10 @@ var StringUtil = {
   join: function (arr, separator) {
     return arr == null ? '' : arr.join(separator);
   },
-  length: function (s) {
+  length: function (s, trim) {
+    if (trim !== false && typeof s == 'string') {
+      s = StringUtil.trim(s);
+    }
     return s == null ? 0 : s.length;
   },
   limitLength: function (s, maxLen, ellipsize) {
@@ -248,9 +375,37 @@ var StringUtil = {
   isFileUrl: function (s) {
     return StringUtil.isUrl(s, ['file']);
   },
-  isPath: function (s) {
+  isFilePath: function (s) {
+    return StringUtil.isPath(s, false);
+  },
+  isUrlPath: function (s) {
+    return StringUtil.isPath(s, true);
+  },
+  isPath: function (s, allowQuery) {
+    if (StringUtil.isEmpty(s)) {
+      return false;
+    }
+
+    if (allowQuery) {
+      var ind = s.indexOf('#')
+      if (ind >= 0) {
+        s = s.substring(0, ind);
+      }
+      ind = s.indexOf('?')
+      if (ind >= 0) {
+        s = s.substring(0, ind);
+      }
+    }
+
+    if (s.startsWith('/')) {
+      s = s.substring(1);
+    }
+    if (s.endsWith('/')) {
+      s = s.substring(0, s.length - 1);
+    }
+
     var arr = StringUtil.split(s, '/');
-    if (arr == null || arr.length <= 1) {
+    if (arr == null || arr.length <= 0) { // 1) {
       return false;
     }
 
@@ -418,8 +573,72 @@ var StringUtil = {
        return false;
      }
 
-     return ((key.startsWith('is') || key.startsWith('Is')) && /[a-z]/g.test(k) != true)
-      || (key.startsWith('IS') && /[A-Za-z]/g.test(k) != true);
+     if (((key.startsWith('is') || key.startsWith('Is')) && /[a-z]/g.test(k) != true)
+       || (key.startsWith('IS') && /[A-Za-z]/g.test(k) != true)) {
+       return true;
+     }
+
+     k = key.substring(3, 4);
+     if (StringUtil.isEmpty(k, true)) {
+       return false;
+     }
+
+     if (((key.startsWith('has') || key.startsWith('Has')) && /[a-z]/g.test(k) != true)
+       || (key.startsWith('HAS') && /[A-Za-z]/g.test(k) != true)) {
+       return true;
+     }
+
+     if (((key.startsWith('can') || key.startsWith('Can')) && /[a-z]/g.test(k) != true)
+       || (key.startsWith('CAN') && /[A-Za-z]/g.test(k) != true)) {
+       return true;
+     }
+
+     k = key.substring(4, 5);
+     if (StringUtil.isEmpty(k, true)) {
+       return false;
+     }
+
+     if (((key.startsWith('have') || key.startsWith('Have')) && /[a-z]/g.test(k) != true)
+       || (key.startsWith('HAVE') && /[A-Za-z]/g.test(k) != true)) {
+       return true;
+     }
+
+     k = key.substring(5, 6);
+     if (StringUtil.isEmpty(k, true)) {
+       return false;
+     }
+
+     if (((key.startsWith('shall') || key.startsWith('Shall')) && /[a-z]/g.test(k) != true)
+       || (key.startsWith('SHALL') && /[A-Za-z]/g.test(k) != true)) {
+       return true;
+     }
+
+     k = key.substring(6, 7);
+     if (StringUtil.isEmpty(k, true)) {
+       return false;
+     }
+
+     if (((key.startsWith('should') || key.startsWith('Should')) && /[a-z]/g.test(k) != true)
+       || (key.startsWith('SHOULD') && /[A-Za-z]/g.test(k) != true)) {
+       return true;
+     }
+
+     if (((key.startsWith('enable') || key.startsWith('Enable')) && /[a-z]/g.test(k) != true)
+       || (key.startsWith('ENABLE') && /[A-Za-z]/g.test(k) != true)) {
+       return true;
+     }
+
+     k = key.substring(7, 8);
+     if (StringUtil.isEmpty(k, true)) {
+       return false;
+     }
+
+     if (((key.startsWith('disable') || key.startsWith('Disable')) && /[a-z]/g.test(k) != true)
+       || (key.startsWith('DISABLE') && /[A-Za-z]/g.test(k) != true)) {
+       return true;
+     }
+
+     return false;
   },
   isIntKey: function (key) {
      return StringUtil.isKeyOfCategory(key, 'Int') || StringUtil.isKeyOfCategory(key, 'Integer');
@@ -551,7 +770,8 @@ var StringUtil = {
      return StringUtil.isKeyOfCategory(key, 'Latitude');
   },
   isNameKey: function (key) {
-     return StringUtil.isKeyOfCategory(key, 'Name');
+     var l = StringUtil.length(key);
+     return l >= 2 && l <= 30 && StringUtil.isKeyOfCategory(key, 'Name');
   },
   isPathKey: function (key) {
      return StringUtil.isKeyOfCategory(key, 'Path');
@@ -563,10 +783,10 @@ var StringUtil = {
      return StringUtil.isKeyOfCategory(key, 'Uri');
   },
   isDateKey: function (key) {
-     return StringUtil.isKeyOfCategory(key, 'Date');
+     return ['createat', 'createdat', 'updateat', 'updatedat'].indexOf(StringUtil.get(key).toLowerCase()) >= 0 || StringUtil.isKeyOfCategory(key, 'Date');
   },
   isTimeKey: function (key) {
-     return StringUtil.isKeyOfCategory(key, 'Time');
+     return ['createat', 'createdat', 'updateat', 'updatedat'].indexOf(StringUtil.get(key).toLowerCase()) >= 0 || StringUtil.isKeyOfCategory(key, 'Time');
   },
   isKeyOfCategory: function (key, category) {
      if (StringUtil.isEmpty(key, true) || StringUtil.isEmpty(category, true) || key.length < category.length) {
@@ -605,6 +825,30 @@ var StringUtil = {
   },
   CATEGORY_MAP: { // from TYPE_CATEGORY_KEYS
 //    'count': 'integer'
+  },
+
+  toRandom: function (s) {
+    return StringUtil.toForm(s, true)
+  },
+  toHeader: function (s) {
+    return StringUtil.toForm(s)
+  },
+  toForm: function (s, quote) {
+    if (s == null) {
+      return '';
+    }
+
+    var json = parseJSON(s) || {};
+    var newStr = '';
+    for (var k in json) {
+      var v = json[k];
+      if (v instanceof Object || v instanceof Array) {
+        v = JSON.stringify(v);
+      }
+      newStr += '\n' + k + ': ' + (quote && typeof v == 'string' ? "'" + v.replaceAll("'", "\\'") + "'" : StringUtil.trim(v));
+    }
+
+    return StringUtil.trim(newStr);
   }
 
 };

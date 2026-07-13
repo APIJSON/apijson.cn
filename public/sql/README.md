@@ -2,12 +2,15 @@
   SQLAuto
 </h1>
  
-<p align="center">☔ 智能零代码测试 SQL、任意增删改查、任意 SQL 模板变量、一键批量生成参数组合、快速构造大量测试数据</p>
+<p align="center">☔ 智能零代码测试 SQL、任意增删改查、任意 SQL 模板变量、一键批量生成参数组合、快速构造大量测试数据。<br />用户包含 某市值 4000亿+ 500 强巨头、某营收数十亿企业、某热门数据库创业公司 等多家大中小企业。</p>
+
 
 <p align="center" >
+  <a href="https://deepwiki.com/TommyLemon/SQLAuto">English</a>
   <a href="https://github.com/TommyLemon/SQLAuto#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B">快速上手</a>
   <a href="https://space.bilibili.com/437134249/search/video?keyword=apiauto">视频教程</a>
   <a href="http://apijson.cn/sql">在线体验</a>
+  <a href="https://deepwiki.com/TommyLemon/SQLAuto">AI 问答</a>
 </p>
 
 <img width="1440" alt="018AD342-6A7B-4D4E-ACC2-523196580221" src="https://user-images.githubusercontent.com/5738175/189524723-a178d4e8-c2ef-4adb-ac0a-9d4b627f42ad.png">
@@ -147,21 +150,26 @@ https://github.com/TommyLemon/APIAuto/issues
 ### 技术交流
 ##### 关于作者
 [https://github.com/TommyLemon](https://github.com/TommyLemon)<br />
-<img width="1279" alt="image" src="https://user-images.githubusercontent.com/5738175/199979403-ace8b574-cd64-4582-8c19-b51571945214.png">
+<img width="1280" src="https://github.com/TommyLemon/UIGO/assets/5738175/ec77df98-ff9b-43aa-b2f1-2fce2549d276">
 
-##### QQ群聊
 如果有什么问题或建议可以 [去 APIAuto 提 issue](https://github.com/TommyLemon/APIAuto/issues)，交流技术，分享经验。<br >
 如果你解决了某些 bug，或者新增了一些功能，欢迎 [提 PR 贡献代码](https://github.com/Tencent/APIJSON/blob/master/CONTRIBUTING.md)，感激不尽。
 <br />
 <br />
 
-### 其它项目
+### 生态项目
 
-[APIJSON](https://github.com/Tencent/APIJSON) 🚀 腾讯零代码、全功能、强安全 ORM 库 🏆 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构
+[APIJSON](https://github.com/Tencent/APIJSON) 🏆 腾讯实时 零代码、全功能、强安全 ORM 库 🚀 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构
 
 [APIAuto](https://github.com/TommyLemon/APIAuto) 敏捷开发最强大易用的 HTTP 接口工具，机器学习零代码测试、生成代码与静态检查、生成文档与光标悬浮注释，集 文档、测试、Mock、调试、管理 于一体的一站式体验
 
-[UnitAuto](https://github.com/TommyLemon/UnitAuto) 机器学习单元测试平台，零代码、全方位、自动化 测试 方法/函数 的正确性和可用性
+[CVAuto](https://github.com/TommyLemon/CVAuto) 👁 零代码零标注 CV AI 自动化测试平台 🚀 免除大量人工画框和打标签等，直接快速测试 CV 计算机视觉 AI 图像识别算法
+
+[UnitAuto](https://github.com/TommyLemon/UnitAuto) ☀️ 最先进、最省事、ROI 最高的单元测试，零代码、全方位、自动化 测试 方法/函数，用户包含腾讯、快手、某 500 强巨头等
+
+[UIGO](https://github.com/TommyLemon/UIGO) 📱 零代码快准稳 UI 智能录制回放平台 🚀 3 像素内自动精准定位，2 毫秒内自动精准等待，用户包含腾讯，微信团队邀请分享
+
+[UIGOX](https://github.com/TommyLemon/UIGOX) UIGO 的 AndroidX 版 📱 零代码快准稳 UI 智能录制回放平台 🚀 3 像素内自动精准定位，2 毫秒内自动精准等待
 
 [apijson-doc](https://github.com/vincentCheng/apijson-doc) APIJSON 官方文档，提供排版清晰、搜索方便的文档内容展示，包括设计规范、图文教程等
 
@@ -190,9 +198,10 @@ https://github.com/TommyLemon/APIAuto/issues
 [Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary) Android MVP 快速开发框架，Demo 全面，注释详细，使用简单，代码严谨
 
 ### 持续更新
-https://github.com/TommyLemon/SQLAuto/commits/master
+https://github.com/TommyLemon/SQLAuto/commits
 
 
 ### 我要赞赏
-创作不易，右上角点 ⭐Star 支持下本项目吧，谢谢 ^_^ <br />
+创作不易、坚持更难，右上角点亮 ⭐Star 支持下本项目吧，谢谢 ^_^ <br />
 https://gitee.com/TommyLemon/SQLAuto
+

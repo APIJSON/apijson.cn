@@ -58,7 +58,7 @@ var CodeUtil = {
   DATABASE_KINGBASE: 'KINGBASE',
   DATABASE_TIDB: 'TIDB',
   DATABASE_TDENGINE: 'TDENGINE',
-  DATABASE_NEBULA: 'NEBULA',
+  DATABASE_SURREALDB: 'SURREALDB',
   DATABASE_PRESTO: 'PRESTO',
   DATABASE_TRINO: 'TRINO',
   DATABASE_INFLUXDB: 'INFLUXDB',
@@ -68,6 +68,13 @@ var CodeUtil = {
   DATABASE_KAFKA: 'KAFKA',
   DATABASE_MARIADB: 'MARIADB',
   DATABASE_HIVE: 'HIVE',
+  DATABASE_SNOWFLAKE: 'SNOWFLAKE',
+  DATABASE_DATABRICKS: 'DATABRICKS',
+  DATABASE_MILVUS: 'MILVUS',
+  DATABASE_IOTDB: 'IOTDB',
+  DATABASE_DUCKDB: 'DUCKDB',
+  DATABASE_CASSANDRA: 'CASSANDRA',
+  DATABASE_MONGODB: 'MONGODB',
 
   type: 'JSON',
   database: 'MYSQL',
@@ -259,7 +266,7 @@ var CodeUtil = {
               }
               else {
                 try {
-                  value = JSON.parse(value)
+                  value = parseJSON(value)
                 }
                 catch (e) {
                   console.log(e)
@@ -965,13 +972,13 @@ var CodeUtil = {
 
           s += '\n\n//回调实体类'
             + '\n@Keep'
-            + '\nopen class ' + responseType + '<T> : BaseResponse<T> {'
+            + '\nopen class ' + responseType + '<T, M, L> : BaseResponse<T, M, L> {'
             + '\n' + nextPadding + '@Transient'
             + '\n' + nextPadding + 'open var ' + varName + ': ' + dataType + CodeUtil.initEmptyValue4Type(dataType, true, true) + '\n'
             + '\n}\n'
             + '\n//通用 HTTP 解析实体基类，全局存一份'
             + '\n@Keep'
-            + '\nopen class BaseResponse<T> {'
+            + '\nopen class BaseResponse<T, M, L> {'
             + '\n' + nextPadding + '@Transient'
             + '\n' + nextPadding + 'open var code: Int' + CodeUtil.initEmptyValue4Type('Int', true, true) + '\n'
             + '\n' + nextPadding + '@Transient'
@@ -1159,40 +1166,40 @@ var CodeUtil = {
           }
 
           s += '\n\n' +
-            'public class ' + responseType + '<T> extends Response<T> {\n' +
+            'public class ' + responseType + '<T, M, L> extends Response<T, M, L> {\n' +
             nextPrefix + 'private ' + dataType + ' ' + varName + ';\n\n' +
             nextPrefix + 'public '+ dataType + ' get' + modelName + '() {\n' +
             nextNextPrefix + 'return ' + varName + ';\n' +
             nextPrefix + '}\n' +
-            nextPrefix + 'public ' + responseType + '<T> set' + modelName + '(' + dataType + ' ' + varName + ') {\n' +
+            nextPrefix + 'public ' + responseType + '<T, M, L> set' + modelName + '(' + dataType + ' ' + varName + ') {\n' +
             nextNextPrefix + 'this.' + varName + ' = ' + varName + ';\n' +
             nextNextPrefix + 'return this;\n' +
             nextPrefix + '}\n' +
             '}';
 
           s += '\n\n' +
-            'public class Response<T> {\n' +
+            'public class Response<T, M, L> {\n' +
             nextPrefix + 'private int code;\n' +
             nextPrefix + 'private String msg;\n' +
             nextPrefix + 'private T data;\n\n' +
             nextPrefix + 'public int getCode() {\n' +
             nextNextPrefix + 'return code;\n' +
             nextPrefix + '}\n' +
-            nextPrefix + 'public Response<T> setCode(int code) {\n' +
+            nextPrefix + 'public Response<T, M, L> setCode(int code) {\n' +
             nextNextPrefix + 'this.code = code;\n' +
             nextNextPrefix + 'return this;\n' +
             nextPrefix + '}\n\n' +
             nextPrefix + 'public String getMsg() {\n' +
             nextNextPrefix + 'return msg;\n' +
             nextPrefix + '}\n' +
-            nextPrefix + 'public Response<T> setMsg(String msg) {\n' +
+            nextPrefix + 'public Response<T, M, L> setMsg(String msg) {\n' +
             nextNextPrefix + 'this.msg = msg;\n' +
             nextNextPrefix + 'return this;\n' +
             nextPrefix + '}\n\n' +
             nextPrefix + 'public T getData() {\n' +
             nextNextPrefix + 'return data;\n' +
             nextPrefix + '}\n' +
-            nextPrefix + 'public Response<T> setData(T data) {\n' +
+            nextPrefix + 'public Response<T, M, L> setData(T data) {\n' +
             nextNextPrefix + 'this.data = data;\n' +
             nextNextPrefix + 'return this;\n' +
             nextPrefix + '}\n' +
@@ -1839,7 +1846,7 @@ var CodeUtil = {
     return CodeUtil.parseCode(name, resObj, {
 
       onParseParentStart: function () {
-        return depth > 0 || StringUtil.isEmpty(name_, true) == false ? '' : CodeUtil.getBlank(depth) + varKey + ' ' + name + ' = JSON.parse(resultJson) \n';
+        return depth > 0 || StringUtil.isEmpty(name_, true) == false ? '' : CodeUtil.getBlank(depth) + varKey + ' ' + name + ' = parseJSON(resultJson) \n';
       },
 
       onParseParentEnd: function () {
@@ -2685,7 +2692,7 @@ res_data = rep.json()
     else if (format instanceof Array == false && format instanceof Object) {
       s += prefix2 + varName + '_json = json.loads(' + varName + ')'
       try {
-        var realObj = JSON.parse(real);
+        var realObj = parseJSON(real);
         var cs = CodeUtil.parsePythonResponseByStandard(varName + '_json', key, format, realObj, depth, isSmart, true, funDefs, funNames);
         if (StringUtil.isNotEmpty(cs, true)) {
           s += '\n' + padding + cs.trim();
@@ -2749,7 +2756,7 @@ res_data = rep.json()
     return CodeUtil.parseCode(name, resObj, {
 
       onParseParentStart: function () {
-        return depth > 0 || StringUtil.isEmpty(name_, true) == false ? '' : CodeUtil.getBlank(depth) + varKey + ' ' + name + ': object = JSON.parse(resultJson); \n';
+        return depth > 0 || StringUtil.isEmpty(name_, true) == false ? '' : CodeUtil.getBlank(depth) + varKey + ' ' + name + ': object = parseJSON(resultJson); \n';
       },
 
       onParseParentEnd: function () {
@@ -3770,7 +3777,7 @@ res_data = rep.json()
       delete reqObj.orderBy;
     }
 
-    // var columnStr = (StringUtil.isEmpty(colums, true) ? '' : StringUtil.trim(colums));
+    // var columnStr = (StringUtil.isEmpty(columns, true) ? '' : StringUtil.trim(columns));
     var quote = database == 'MYSQL' ? '`' : '"';
     var tablePath = (StringUtil.isEmpty(schema, true) ? '' : quote + schema + quote + '.') + quote + modelName + quote;
     if (isPost) {
@@ -3789,11 +3796,11 @@ res_data = rep.json()
         '    DELETE FROM ' + tablePath;
     }
     else {
-      var colums = Object.keys(reqObj);
+      var columns = Object.keys(reqObj);
       var cs = '';
-      if (colums != null && colums.length > 0) {
-        for (var i = 0; i < colums.length; i++) {
-          cs += (i <= 0 ? '' : ', ') + quote + colums[i] + quote; //需要尽可能保留原字段 [] 肯定不是字段名 JSONResponse.getVariableName(colums[i]) + quote;
+      if (columns != null && columns.length > 0) {
+        for (var i = 0; i < columns.length; i++) {
+          cs += (i <= 0 ? '' : ', ') + quote + columns[i] + quote; //需要尽可能保留原字段 [] 肯定不是字段名 JSONResponse.getVariableName(columns[i]) + quote;
         }
       }
 
@@ -6219,7 +6226,7 @@ res_data = rep.json()
     OWNER: '拥有者',
     ADMIN: '管理员'
   },
-  DATABASE_KEYS: ['MYSQL', 'POSTGRESQL', 'SQLSERVER', 'ORACLE', 'DB2', 'DAMENG', 'KINGBASE', 'MARIADB', 'SQLITE', 'INFLUXDB', 'TDENGINE', 'PRESTO', 'TRINO', 'HIVE', 'TIDB', 'CLICKHOUSE', 'ELASTICSEARCH', 'REDIS'], // , 'KAFKA'],
+  DATABASE_KEYS: ['MYSQL', 'POSTGRESQL', 'SQLSERVER', 'ORACLE', 'DB2', 'DAMENG', 'KINGBASE', 'MARIADB', 'SQLITE', 'INFLUXDB', 'TDENGINE', 'PRESTO', 'TRINO', 'HIVE', 'TIDB', 'CLICKHOUSE', 'ELASTICSEARCH', 'REDIS', 'IOTDB', 'SURREALDB', 'DUCKDB', 'CASSANDRA', 'MONGODB', 'SNOWFLAKE', 'DATABRICKS', 'MILVUS'], // , 'KAFKA'],
 
   getComment4Function: function (funCallStr, method, language) {
     if (typeof funCallStr != 'string') {
@@ -7362,7 +7369,7 @@ res_data = rep.json()
   },
 
   getType4Request: function (value) {
-    // return t != 'string' ? t : typeof JSON.parse(value);
+    // return t != 'string' ? t : typeof parseJSON(value);
     if (value instanceof Array) {
       return 'array'
     }

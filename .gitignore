@@ -8,3 +8,4 @@ src/_drafts
 package-lock.json
 .avoscloud/
 .idea/
+/public/api/.npm-cache

@@ -118,7 +118,7 @@
                 var cPath = (StringUtil.isEmpty(path, false) ? '' : path + '/') + key;
 
                 if (JSONObject.isTableKey(firstKey, val, isRestful)) {
-                  // var newVal = JSON.parse(JSON.stringify(val[i]))
+                  // var newVal = parseJSON(JSON.stringify(val[i]))
 
                   var newVal = {}
                   for (var k in val[i]) {
@@ -148,7 +148,7 @@
             var aliaIndex = key.indexOf(':');
             var objName = aliaIndex < 0 ? key : key.substring(0, aliaIndex);
 
-            // var newVal = JSON.parse(JSON.stringify(val))
+            // var newVal = parseJSON(JSON.stringify(val))
 
             var newVal = {}
             for (var k in val) {
@@ -238,7 +238,7 @@
               if (i >= 0) {
                 valString = valString.substring(0, i + 1)
                 // alert('valString = ' + valString)
-                var _$_this_$_ = JSON.parse(valString) || {}
+                var _$_this_$_ = parseJSON(valString) || {}
                 path = _$_this_$_.path
                 table = _$_this_$_.table
               }
@@ -270,7 +270,7 @@
               if (i >= 0) {
                 valString = valString.substring(0, i + 1)
                 // alert('valString = ' + valString)
-                var _$_this_$_ = JSON.parse(valString) || {}
+                var _$_this_$_ = parseJSON(valString) || {}
                 path = _$_this_$_.path
                 table = _$_this_$_.table
               }
@@ -536,7 +536,8 @@
       currentDocItem: {},
       currentRemoteItem: {},
       currentRandomItem: {},
-      currentOutputList: [],
+      eventList: [],
+      outputList: [],
       isAdminOperation: false,
       loginType: 'login',
       isExportRemote: false,
@@ -565,7 +566,8 @@
       isVideoFirst: false,
       type: OPERATE_TYPE_REVIEW,
       types: [ OPERATE_TYPE_RECORD, OPERATE_TYPE_REVIEW, OPERATE_TYPE_REPLAY ],
-      host: 'uiauto.UIAutoApp.', // 'unitauto.test.TestUtil.',
+//      host: 'uiauto.UIAutoApp', // 'unitauto.test.TestUtil.',
+      host: 'uigo.x.UIAutoApp', // 'unitauto.test.TestUtil.',
       branch: 'countArray',
       database: 'MYSQL',// 'POSTGRESQL',
       schema: 'sys',
@@ -713,9 +715,9 @@
           vUrl.value = (isAdminOperation ? this.server : baseUrl) + branchUrl
         }
         else {  //隐藏(固定)URL Host
-          if (isAdminOperation) {
-            this.host = this.server
-          }
+//          if (isAdminOperation) {
+//            this.host = this.server
+//          }
           vUrl.value = branchUrl
         }
 
@@ -779,8 +781,8 @@
         if (index <= 0) {
           throw new Error('必须要有类名！完整的 URL 必须符合格式 package.Class.method ！')
         }
-        url = url.substring(0, index)
-        index = url.lastIndexOf('.')
+        // url = url.substring(0, index)
+        // index = url.lastIndexOf('.')
         var clazz = StringUtil.trim(index < 0 ? url : url.substring(index + 1))
         if (App.language == 'Java' || App.language == 'JavaScript' || App.language == 'TypeScript') {
           if (/[A-Z]{0}[A-Za-z0-9_]/.test(clazz) != true) {
@@ -796,8 +798,8 @@
         if (index <= 0) {
           throw new Error('必须要有类名！完整的 URL 必须符合格式 package.Class.method ！')
         }
-        url = url.substring(0, index)
-        index = url.lastIndexOf('.')
+        // url = url.substring(0, index)
+        // index = url.lastIndexOf('.')
         return StringUtil.trim(index < 0 ? '' : url.substring(0, index))
       },
       //获取请求的tag
@@ -968,7 +970,8 @@
       showConfig: function (show, index) {
         App.isConfigShow = false
         if (App.isTestCaseShow) {
-          if (index == 3 || index == 4 || index == 5 || index == 10) {
+//          if (index == 3 || index == 4 || index == 5 || index == 10) {
+          if (index == 4 || index == 5 || index == 10) {
             App.showTestCase(false, false)
           }
         }
@@ -980,12 +983,13 @@
             case 0:
             case 1:
             case 2:
+            case 3:
             case 6:
             case 7:
             case 8:
             case 10:
               App.exTxt.name = index == 0 ? App.database : (index == 1 ? App.schema : (index == 2
-                ? App.language : (index == 6 ? App.server : (index == 8 ? App.project : '/method/list'))))
+                ? App.language : (index == 3 ? App.host : (index == 6 ? App.server : (index == 8 ? App.project : '/method/list')))))
               App.isConfigShow = true
 
               if (index == 0) {
@@ -1008,11 +1012,11 @@
                   , App.getRequest(vInput.value), App.getHeader(vHeader.value))
               }
               break
-            case 3:
-              App.host = App.getBaseUrl()
-              App.showUrl(false, new String(vUrl.value).substring(App.host.length)) //没必要导致必须重新获取 Response，App.onChange(false)
-              App.remotes = null
-              break
+//            case 3:
+//              App.host = App.getBaseUrl()
+//              App.showUrl(false, new String(vUrl.value).substring(App.host.length)) //没必要导致必须重新获取 Response，App.onChange(false)
+//              App.remotes = null
+//              break
             case 4:
               App.isHeaderShow = show
               App.saveCache('', 'isHeaderShow', show)
@@ -1029,12 +1033,13 @@
         }
         else if (index == 3) {
           var host = StringUtil.get(App.host)
-          var branch = new String(vUrl.value)
-          App.host = ''
-          vUrl.value = host + branch //保证 showUrl 里拿到的 baseUrl = App.host (http://apijson.cn:8080/put /balance)
-          App.setBaseUrl() //保证自动化测试等拿到的 baseUrl 是最新的
-          App.showUrl(false, branch) //没必要导致必须重新获取 Response，App.onChange(false)
-          App.remotes = null
+//          var branch = new String(vUrl.value)
+          App.host = host
+//          vUrl.value = host + branch //保证 showUrl 里拿到的 baseUrl = App.host (http://apijson.cn:8080/put /balance)
+//          App.setBaseUrl() //保证自动化测试等拿到的 baseUrl 是最新的
+//          App.showUrl(false, branch) //没必要导致必须重新获取 Response，App.onChange(false)
+//          App.remotes = null
+          App.saveCache('', 'host', host)
         }
         else if (index == 4) {
           App.isHeaderShow = show
@@ -1347,7 +1352,7 @@
             saveTextAs(txt, clazz)
           }
           else {
-            var res = JSON.parse(App.jsoncon)
+            var res = parseJSON(App.jsoncon)
             res = this.removeDebugInfo(res)
 
             var s = ''
@@ -1419,14 +1424,14 @@
           App.isTestCaseShow = false
 
           var currentAccountId = App.getCurrentAccountId()
-          var currentResponse = StringUtil.isEmpty(App.jsoncon, true) ? {} : App.removeDebugInfo(JSON.parse(App.jsoncon));
+          var currentResponse = StringUtil.isEmpty(App.jsoncon, true) ? {} : App.removeDebugInfo(parseJSON(App.jsoncon));
 
           var code = currentResponse.code;
           var thrw = currentResponse.throw;
           delete currentResponse.code; //code必须一致
           delete currentResponse.throw; //throw必须一致
 
-          var rsp = JSON.parse(JSON.stringify(currentResponse || {}))
+          var rsp = parseJSON(JSON.stringify(currentResponse || {}))
           rsp = JSONResponse.array2object(rsp, 'methodArgs', ['methodArgs'], true)
 
           var isML = App.isMLEnabled;
@@ -1516,6 +1521,10 @@
 
             doc = null
             App.onChange(false)
+            break
+          case 3:
+            App.host = App.exTxt.name
+            App.saveCache('', 'host', App.host)
             break
           case 6:
             App.server = App.exTxt.name
@@ -1619,7 +1628,7 @@
             },
             'Output': {
               'inputId': 0,
-	      'host': App.getBaseUrl(),
+              'host': App.getBaseUrl(),
               'testAccountId': currentAccountId,
               'response': ''
             },
@@ -1940,9 +1949,9 @@
               'Flow': {
                 '@order': 'time-',
                 'userId{}': [0, App.User.id],
-                'name$*~': search,
+                'name*~': search,
                 'detail*~': search,
-                '@combine': StringUtil.isEmpty(search) ? null : 'name$*~,detail*~'
+                '@combine': StringUtil.isEmpty(search) ? null : 'name*~,detail*~'
               },
               'Device': {
                 'id@': '/Flow/deviceId'
@@ -2043,9 +2052,9 @@
       getCache: function (url, key) {
         var cache = localStorage.getItem('UIGO:' + url)
         try {
-          cache = JSON.parse(cache)
+          cache = parseJSON(cache)
         } catch(e) {
-          App.log('login  App.send >> try { cache = JSON.parse(cache) } catch(e) {\n' + e.message)
+          App.log('login  App.send >> try { cache = parseJSON(cache) } catch(e) {\n' + e.message)
         }
         cache = cache || {}
         return key == null ? cache : cache[key]
@@ -2803,16 +2812,16 @@
           case CodeUtil.LANGUAGE_KOTLIN:
             s += '\n#### <= Android-Kotlin: 空对象用 HashMap&lt;String, Any&gt;()，空数组用 ArrayList&lt;Any&gt;()\n'
               + '```kotlin \n'
-              + CodeUtil.parseKotlinRequest(null, JSON.parse(rq), 0, isSingle, false, false, App.type, App.getBaseUrl(), '/' + App.getMethod(), App.urlComment)
+              + CodeUtil.parseKotlinRequest(null, parseJSON(rq), 0, isSingle, false, false, App.type, App.getBaseUrl(), '/' + App.getMethod(), App.urlComment)
               + '\n ``` \n注：对象 {} 用 mapOf("key": value)，数组 [] 用 listOf(value0, value1)\n';
             break;
           case CodeUtil.LANGUAGE_JAVA:
             s += '\n#### <= Android-Java: 同名变量需要重命名'
               + ' \n ```java \n'
-              + StringUtil.trim(CodeUtil.parseJavaRequest(null, JSON.parse(rq), 0, isSingle, false, false, App.type, '/' + App.getMethod(), App.urlComment))
+              + StringUtil.trim(CodeUtil.parseJavaRequest(null, parseJSON(rq), 0, isSingle, false, false, App.type, '/' + App.getMethod(), App.urlComment))
               + '\n ``` \n注：' + (isSingle ? '用了 APIJSON 的 JSONRequest, JSONResponse 类，也可使用其它类封装，只要 JSON 有序就行\n' : 'LinkedHashMap&lt;&gt;() 可替换为 fastjson 的 JSONObject(true) 等有序JSON构造方法\n');
 
-            var serverCode = CodeUtil.parseJavaServer(App.type, '/' + App.getMethod(), App.database, App.schema, JSON.parse(rq), isSingle);
+            var serverCode = CodeUtil.parseJavaServer(App.type, '/' + App.getMethod(), App.database, App.schema, parseJSON(rq), isSingle);
             if (StringUtil.isEmpty(serverCode, true) != true) {
               s += '\n#### <= Server-Java: RESTful 等非 APIJSON 规范的 API'
                 + ' \n ```java \n'
@@ -2823,46 +2832,46 @@
           case CodeUtil.LANGUAGE_C_SHARP:
             s += '\n#### <= Unity3D-C\#: 键值对用 {"key", value}' +
               '\n ```csharp \n'
-              + CodeUtil.parseCSharpRequest(null, JSON.parse(rq), 0)
+              + CodeUtil.parseCSharpRequest(null, parseJSON(rq), 0)
               + '\n ``` \n注：对象 {} 用 new JObject{{"key", value}}，数组 [] 用 new JArray{value0, value1}\n';
             break;
 
           case CodeUtil.LANGUAGE_SWIFT:
             s += '\n#### <= iOS-Swift: 空对象用 [ : ]'
               + '\n ```swift \n'
-              + CodeUtil.parseSwiftRequest(null, JSON.parse(rq), 0)
+              + CodeUtil.parseSwiftRequest(null, parseJSON(rq), 0)
               + '\n ``` \n注：对象 {} 用 ["key": value]，数组 [] 用 [value0, value1]\n';
             break;
           case CodeUtil.LANGUAGE_OBJECTIVE_C:
             s += '\n#### <= iOS-Objective-C \n ```objective-c \n'
-              + CodeUtil.parseObjectiveCRequest(null, JSON.parse(rq))
+              + CodeUtil.parseObjectiveCRequest(null, parseJSON(rq))
               + '\n ```  \n';
             break;
 
           case CodeUtil.LANGUAGE_GO:
             s += '\n#### <= Web-Go: 对象 key: value 会被强制排序，每个 key: value 最后都要加逗号 ","'
               + ' \n ```go \n'
-              + CodeUtil.parseGoRequest(null, JSON.parse(rq), 0)
+              + CodeUtil.parseGoRequest(null, parseJSON(rq), 0)
               + '\n ``` \n注：对象 {} 用 map[string]interface{} {"key": value}，数组 [] 用 []interface{} {value0, value1}\n';
             break;
           case CodeUtil.LANGUAGE_C_PLUS_PLUS:
             s += '\n#### <= Web-C++: 使用 RapidJSON'
               + ' \n ```cpp \n'
-              + StringUtil.trim(CodeUtil.parseCppRequest(null, JSON.parse(rq), 0, isSingle))
+              + StringUtil.trim(CodeUtil.parseCppRequest(null, parseJSON(rq), 0, isSingle))
               + '\n ``` \n注：std::string 类型值需要判断 RAPIDJSON_HAS_STDSTRING\n';
             break;
 
           case CodeUtil.LANGUAGE_PHP:
             s += '\n#### <= Web-PHP: 空对象用 (object) ' + (isSingle ? '[]' : 'array()')
               + ' \n ```php \n'
-              + CodeUtil.parsePHPRequest(null, JSON.parse(rq), 0, isSingle)
+              + CodeUtil.parsePHPRequest(null, parseJSON(rq), 0, isSingle)
               + '\n ``` \n注：对象 {} 用 ' + (isSingle ? '[\'key\' => value]' : 'array("key" => value)') + '，数组 [] 用 ' + (isSingle ? '[value0, value1]\n' : 'array(value0, value1)\n');
             break;
 
           case CodeUtil.LANGUAGE_PYTHON:
             s += '\n#### <= Web-Python: 注释符用 \'\#\''
               + ' \n ```python \n'
-              + CodeUtil.parsePythonRequest(null, JSON.parse(rq), 0, isSingle, vInput.value)
+              + CodeUtil.parsePythonRequest(null, parseJSON(rq), 0, isSingle, vInput.value)
               + '\n ``` \n注：关键词转换 null: None, false: False, true: True';
             break;
 
@@ -3207,7 +3216,7 @@
       },
       testRandom: function (show, testList) {
         this.isRandomEditable = false
-        const isRecord = App.type == OPERATE_TYPE_RECORD
+        const isRecord = this.type == OPERATE_TYPE_RECORD
 
         if (testList != true && testSubList != true) {
           this.testRandomProcess = ''
@@ -3237,7 +3246,7 @@
             alert('请先获取随机配置\n点击[查看列表]按钮')
             return
           }
-          App.testRandomProcess = doneCount >= allCount ? '' : ('正在准备...')
+          this.testRandomProcess = doneCount >= allCount ? '' : ('正在准备...')
 
           // if (testSubList) {
           //   this.resetCount(this.currentRandomItem)
@@ -3252,9 +3261,12 @@
             inputList[i] = list[i].Input
           }
 
-          App.request(false, REQUEST_TYPE_JSON, App.project + '/method/invoke', {
-            "package": 'uiauto', // 'uiauto',
-            "class": 'UIAutoApp', // 'UIAutoApp',
+          var pkg = this.getPackage(this.host) || 'uiauto'
+          var cls = this.getClass(this.host) || 'UIAutoApp'
+
+          this.request(false, REQUEST_TYPE_JSON, this.project + '/method/invoke', {
+            "package": pkg, // 'uiauto',
+            "class": cls, // 'UIAutoApp',
             "constructor": 'getInstance',
             "method": isRecord ? 'prepareRecord' : 'prepareReplay',
             "methodArgs": isRecord ? ["boolean:true", "boolean:true"] : [ inputList, "int:0", "boolean:true", "boolean:true"]
@@ -3274,8 +3286,8 @@
 
             App.testRandomProcess = '正在' + (isRecord ? '录制' : '回放') + '...'
             App.request(false, REQUEST_TYPE_JSON, App.project + '/method/invoke', {
-              "package": 'uiauto', // 'uiauto',
-              "class": 'UIAutoApp', // 'UIAutoApp',
+              "package": pkg, // 'uiauto',
+              "class": cls, // 'UIAutoApp',
               "constructor": 'getInstance',
               "method": 'onClickPlay',
               "static": false
@@ -3287,8 +3299,11 @@
                 App.log('test  App.request >> } catch (e) {\n' + e.message)
               }
 
-              App.loopRandomTestResult(list, inputList, isRecord ? -1 : allCount, 0, header)
-
+              if (isRecord) {
+                App.loopEventList(list, inputList, allCount, 0, header)
+              } else {
+                App.loopRandomTestResult(list, inputList, allCount, 0, header)
+              }
             });
 
           });
@@ -3324,19 +3339,21 @@
           // }
         }
       },
-
-      loopRandomTestResult: function (list, inputList, allCount, offset, header) {
-        App.request(false, REQUEST_TYPE_JSON, App.project + '/method/invoke', {
+      loopEventList: function (list, inputList, allCount, offset, header) {
+        list = list || []
+        var pkg = this.getPackage(this.host) || 'uiauto'
+        var cls = this.getClass(this.host) || 'UIAutoApp'
+        this.request(false, REQUEST_TYPE_JSON, App.project + '/method/invoke', {
           "static": true,
-          "package": 'uiauto', // 'uiauto',
-          "class": 'UIAutoApp', // 'UIAutoApp',
-          "method": 'getOutputList',
+          "package": pkg, // 'uiauto',
+          "class": cls, // 'UIAutoApp',
+          "method": 'getEventList',
           "methodArgs": [{  // UIAutoApp app
-          //   "type": "uiauto.UIAutoApp",
-          //   "value": null  // TODO 可能要 {}
-          // },{  // int limit
+            //   "type": "uiauto.UIAutoApp",
+            //   "value": null  // TODO 可能要 {}
+            // },{  // int limit
             "type": "int",
-            "value": 100
+            "value": 20
           },{  // int offset
             "type": "int",
             "value": offset
@@ -3349,7 +3366,108 @@
             App.log('test  App.request >> } catch (e2) {\n' + e.message)
           }
 
-          offset = Math.max(offset, App.currentOutputList.length || 0)
+          offset = Math.max(offset, list.length || 0)
+
+          var eventList = (res.data || {})['return']
+          var count = eventList == null ? 0 : eventList.length
+          if (count <= 0) {
+            if (err == null && eventList instanceof Array && (res.data || {}).code == 200) {
+               App.testRandomProcess = ''
+               alert("录制完成")
+            }
+            else {
+              setTimeout(function () {
+                App.loopEventList(list, inputList, allCount, offset, header)
+              }, 2000)
+            }
+            return;
+          }
+
+          for (var j = 0; j < count; j++) {
+            const input = eventList[j]
+            if (input == null) {
+              continue
+            }
+
+            input.id = input.id || - j - allCount
+
+            allCount ++
+            list.push({
+              Input: input
+            })
+
+//            if (StringUtil.isEmpty(input.name)) {
+              var type = input.type || 0
+              var action = input.action || 0
+              var obj = input || {}
+              if (type == InputUtil.EVENT_TYPE_TOUCH) {
+                input.name = InputUtil.getTouchActionName(action)
+                    + "\npointerCount: " + (obj.pointerCount || 0) + ", x: " + Math.round(obj.x || 0) + ", y: " + Math.round(obj.y || 0)
+                    + "\nsplitX: " + Math.round(obj.splitX || 0) + ", splitY: " + Math.round(obj.splitY || 0) + " " + InputUtil.getOrientationName(obj.orientation)
+              } else if (type == InputUtil.EVENT_TYPE_KEY) {
+                if (obj.edit) {
+                  input.name = "EDIT " + EditTextEvent.getWhenName(obj.when)
+                      + "\n[" + (obj.selectStart || 0) + ", " + (obj.selectEnd || 0) + "] " + StringUtil.trim(obj.text)
+                } else {
+                  input.name = InputUtil.getKeyActionName(action)
+                      + "\nrepeatCount: " + (obj.repeatCount || 0) + ", scanCode: " + InputUtil.getScanCodeName(obj.scanCode)
+                      + "         " + InputUtil.getKeyCodeName(obj.keyCode)
+                }
+              } else if (type == InputUtil.EVENT_TYPE_UI) {
+                var fragment = StringUtil.trim(obj.fragment);
+
+                input.name = InputUtil.getUIActionName(action)
+                    + "\nactivity: " + StringUtil.trim(obj.activity) + (StringUtil.isEmpty(fragment, true) ? "" : "\nfragment: " + fragment)
+              } else if (type == InputUtil.EVENT_TYPE_HTTP) {
+                var isReq = action >= 0 && action != InputUtil.HTTP_ACTION_RESPONSE;
+                input.name = InputUtil.getHTTPActionName(action) + " " + StringUtil.trim(obj.format)
+                    + "\nURL: " + StringUtil.trim(obj.url)
+                    + "\n\nREQUEST: \n" + StringUtil.trim(obj.request)
+                    + (isReq ? "" : "\n\n\nRESPONSE: \n" + StringUtil.trim(obj.response))
+                    + "\n"
+              } else {
+                input.name = (input.name || "UNKNOWN !!!")
+              }
+//            }
+
+          }
+
+          App.randoms = list
+          setTimeout(function () {
+            App.loopRandomTestResult(list, inputList, allCount, offset, header, true)
+            App.loopEventList(list, inputList, allCount, offset + count, header)
+          }, 1000)
+        });
+      },
+
+      loopRandomTestResult: function (list, inputList, allCount, offset, header, once) {
+        list = list || []
+        var pkg = this.getPackage(this.host) || 'uiauto'
+        var cls = this.getClass(this.host) || 'UIAutoApp'
+        this.request(false, REQUEST_TYPE_JSON, App.project + '/method/invoke', {
+          "static": true,
+          "package": pkg, // 'uiauto',
+          "class": cls, // 'UIAutoApp',
+          "method": 'getOutputList',
+          "methodArgs": [{  // UIAutoApp app
+          //   "type": "uiauto.UIAutoApp",
+          //   "value": null  // TODO 可能要 {}
+          // },{  // int limit
+            "type": "int",
+            "value": 10
+          },{  // int offset
+            "type": "int",
+            "value": offset
+          }]
+        }, header, function (url, res, err) {
+          try {
+            App.onResponse(url, res, err)
+            App.log('test  App.request >> res.data = ' + JSON.stringify(res.data, null, '  '))
+          } catch (e) {
+            App.log('test  App.request >> } catch (e2) {\n' + e.message)
+          }
+
+          offset = Math.max(offset, App.outputList.length || 0)
 
           var outputList = (res.data || {})['return']
           if (outputList == null || outputList.length <= 0) {
@@ -3357,7 +3475,7 @@
               App.testRandomProcess = ''
               alert("测试完成")
             }
-            else {
+            else if (once != true) {
               setTimeout(function () {
                 App.loopRandomTestResult(list, inputList, allCount, offset, header)
               }, 2000)
@@ -3365,11 +3483,11 @@
             return;
           }
 
-          if (App.currentOutputList == null || App.currentOutputList.length <= 0) {
-            App.currentOutputList = outputList
+          if (App.outputList == null || App.outputList.length <= 0) {
+            App.outputList = outputList
           }
           else {
-            App.currentOutputList.push(outputList)
+            App.outputList.push(outputList)
           }
 
           App.picDelayTime = 0
@@ -3386,7 +3504,8 @@
             // 部分非手动触发的事件(切换界面、HTTP 请求 Response 等) 导致位移不准确，必须全量匹配 var ind = j + offset
             for (var k = 0; k < list.length; k++) {
               const ik = list[k]
-              if (ik != null && ik.Input != null && ik.Input.id == oInputId) {
+              const input = ik == null ? null : ik.Input;
+              if (input != null && ik.Input.id == oInputId) {
                 const resultIndex = k
                 setTimeout(function () {  // 让图片切换更平滑，且保持和选项断言结果同时出现
                   App.compareResponse(allCount, list, resultIndex, ik, {
@@ -3404,9 +3523,13 @@
           }
 
           if (allCount < 0 || offset < allCount) {
-            App.loopRandomTestResult(list, inputList, allCount, offset + outputList.length, header)
+            if (once != true) {
+              setTimeout(function () {
+                App.loopRandomTestResult(list, inputList, allCount, offset + outputList.length, header)
+              }, 200)
+            }
           }
-          else if (allCount >= 0) {
+          else if (allCount >= 0 && (once != true)) {
             App.testRandomProcess = ''
             alert("测试完成")
           }
@@ -3422,19 +3545,19 @@
         var random = item.Input = item.Input || {}
         var subs = item['[]'] || []
         var existCount = subs.length
-        subs = existCount <= 0 ? subs : JSON.parse(JSON.stringify(subs))
+        subs = existCount <= 0 ? subs : parseJSON(JSON.stringify(subs))
 
         var count = random.count || 0
         var respCount = 0;
 
         for (var i = 0; i < count; i ++) {
           // var constConfig = i < existCount ? ((subs[i] || {}).Input || {}).config : this.getRandomConstConfig(random.config, random.id) //第1遍，把 key : expression 改为 key : value
-          // var constJson = this.getRandomJSON(JSON.parse(JSON.stringify(json)), constConfig, random.id) //第2遍，用新的 random config 来修改原 json
+          // var constJson = this.getRandomJSON(parseJSON(JSON.stringify(json)), constConfig, random.id) //第2遍，用新的 random config 来修改原 json
 
           const which = i;
           var rawConfig = testSubList && i < existCount ? ((subs[i] || {}).Input || {}).config : random.config
           this.parseRandom(
-            JSON.parse(JSON.stringify(json)), rawConfig, random.id
+            parseJSON(JSON.stringify(json)), rawConfig, random.id
             , ! testSubList, testSubList && i >= existCount, testSubList && i >= existCount
             , function (randomName, constConfig, constJson) {
 
@@ -4038,13 +4161,13 @@
         }
         else {
           var standardKey = App.isMLEnabled != true ? 'response' : 'standard'
-          var standard = StringUtil.isEmpty(tr[standardKey], true) ? null : JSON.parse(tr[standardKey])
+          var standard = StringUtil.isEmpty(tr[standardKey], true) ? null : parseJSON(tr[standardKey])
 
-          var rsp = JSON.parse(JSON.stringify(App.removeDebugInfo(response) || {}))
+          var rsp = parseJSON(JSON.stringify(App.removeDebugInfo(response) || {}))
           rsp = JSONResponse.array2object(rsp, 'methodArgs', ['methodArgs'], true)
 
           var afterImgUrl = (rsp.Output || {}).screenshotUrl
-          var beforeRsp = StringUtil.isEmpty(afterImgUrl) || StringUtil.isEmpty(tr.response, true) ? null : JSON.parse(tr.response)
+          var beforeRsp = StringUtil.isEmpty(afterImgUrl) || StringUtil.isEmpty(tr.response, true) ? null : parseJSON(tr.response)
           App.showImgDiff(beforeRsp == null ? null : (beforeRsp.Output || {}).screenshotUrl, afterImgUrl)
 
           tr.compare = JSONResponse.compareResponse(standard, rsp, '', App.isMLEnabled, null, ['call()[]']) || {}
@@ -4275,7 +4398,7 @@
         saveTextAs(
           '# APIJSON自动化回归测试-前\n主页: https://github.com/Tencent/APIJSON'
           + '\n\n接口名称: \n' + document.name
-          + '\n返回结果: \n' + JSON.stringify(JSON.parse(testRecord.response || '{}'), null, '    ')
+          + '\n返回结果: \n' + JSON.stringify(parseJSON(testRecord.response || '{}'), null, '    ')
           , '测试：' + document.name + '-前.txt'
         )
 
@@ -4301,7 +4424,7 @@
                 '# APIJSON自动化回归测试-标准\n主页: https://github.com/Tencent/APIJSON'
                 + '\n\n接口名称: \n' + document.name
                 + '\n测试结果: \n' + JSON.stringify(testRecord.compare || '{}', null, '    ')
-                + '\n测试标准: \n' + JSON.stringify(JSON.parse(testRecord.standard || '{}'), null, '    ')
+                + '\n测试标准: \n' + JSON.stringify(parseJSON(testRecord.standard || '{}'), null, '    ')
                 , '测试：' + document.name + '-标准.txt'
               )
             }, 5000)
@@ -4351,7 +4474,7 @@
           this.view = 'code'
           this.jsoncon = res || ''
 
-          var beforeRsp = (StringUtil.isEmpty(testRecord.response, true) ? null : JSON.parse(testRecord.response)) || {}
+          var beforeRsp = (StringUtil.isEmpty(testRecord.response, true) ? null : parseJSON(testRecord.response)) || {}
           var beforeImgUrl = (beforeRsp.Output || {}).screenshotUrl
           var afterImgUrl = (currentResponse.Output || {}).screenshotUrl
 
@@ -4425,7 +4548,7 @@
             // }
 
 
-            var standard = (StringUtil.isEmpty(testRecord.standard, true) ? null : JSON.parse(testRecord.standard)) || {};
+            var standard = (StringUtil.isEmpty(testRecord.standard, true) ? null : parseJSON(testRecord.standard)) || {};
 
             var code = currentResponse.code;
             var thrw = currentResponse.throw;
@@ -4438,7 +4561,7 @@
             delete currentResponse.code; //code必须一致
             delete currentResponse.throw; //throw必须一致
 
-            var rsp = JSON.parse(JSON.stringify(currentResponse || {}))
+            var rsp = parseJSON(JSON.stringify(currentResponse || {}))
             rsp = JSONResponse.array2object(rsp, 'methodArgs', ['methodArgs'], true)
 
             var find = false;
