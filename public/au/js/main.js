@@ -1479,13 +1479,15 @@ https://github.com/Tencent/APIJSON/issues
       database: 'MYSQL', // 查文档必须，除非后端提供默认配置接口  // 用后端默认的，避免用户总是没有配置就问为什么没有生成文档和注释  'MYSQL',// 'POSTGRESQL',
       schema: 'sys',  // 查文档必须，除非后端提供默认配置接口  // 用后端默认的，避免用户总是没有配置就问为什么没有生成文档和注释   'sys',
       otherEnv: 'http://localhost:8080',  // 其它环境服务地址，用来对比当前的
-      server: '', // 'http://apijson.cn:8080', // 'http://localhost:8080', //  Chrome 90+ 跨域问题非常难搞，开发模式启动都不行了
+      server: 'http://apijson.cn:9090', // 'http://localhost:8080', //  Chrome 90+ 跨域问题非常难搞，开发模式启动都不行了
       // server: 'http://47.74.39.68:9090',  // apijson.org
-      projectHost: {host: 'http://192.168.31.5:8080', project: 'APIJSON'},  // apijson.cn
+      projectHost: {host: 'http://192.168.31.5:8080', project: 'uigox.demo'},  // apijson.cn
       thirdParty: 'SWAGGER /v2/api-docs',  //apijson.cn
       // thirdParty: 'RAP /repository/joined /repository/get',
       // thirdParty: 'YAPI /api/interface/list_menu /api/interface/get',
       projectHosts: [
+        {host: 'http://192.168.31.5:8080', project: 'uigox.demo'},
+        {host: 'http://192.168.12.345:8080', project: 'uigo.demo'},
         {host: 'http://192.168.31.5:8080', project: 'APIJSON'},
         {host: 'http://apijson.cn:8080', project: 'APIJSON-UIGO'},
         {host: 'http://192.168.31.5:8080', project: 'UIGOX'},
@@ -2696,7 +2698,7 @@ https://github.com/Tencent/APIJSON/issues
               });
             }
 
-        
+
           var originItem = item
           item.random = (originItem.Input || originItem.Random || {}).config
 
@@ -3098,7 +3100,7 @@ https://github.com/Tencent/APIJSON/issues
 
           this.isTestCaseShow = false
           const isRandomSubListShow = this.isRandomSubListShow
-          
+
           const currentResponse = this.view != 'code' || StringUtil.isEmpty(this.jsoncon, true) ? {} : this.removeDebugInfo(parseJSON(this.jsoncon));
 
           const after = isSingle ? this.switchQuote(inputted) : inputted;  // this.toDoubleJSON(inputted);
@@ -6425,9 +6427,9 @@ https://github.com/Tencent/APIJSON/issues
        */
       transfer: function () {
         isSingle = ! isSingle;
-        
+
         vInput.value = this.switchQuote(vInput.value);
-        
+
         this.isVideoFirst = isSingle;
         this.isTestCaseShow = false;
 
@@ -7921,7 +7923,7 @@ https://github.com/Tencent/APIJSON/issues
         if (stage != 'after') {
           return;
         }
-        
+
         const img = this.imgMap[stage];
         const canvas = this.canvasMap[stage];
         const [x, y] = this.getCanvasXY(stage, event);
@@ -8032,7 +8034,7 @@ https://github.com/Tencent/APIJSON/issues
         }
 
         this.isDrawingBox = false;
-        event.preventDefault();  
+        event.preventDefault();
       },
       onMousemove: function(stage, event) {
         // 画框时的实时更新
@@ -8240,7 +8242,7 @@ https://github.com/Tencent/APIJSON/issues
         var startY = drawingBox.startY;
         var endX = drawingBox.endX = x;
         var endY = drawingBox.endY = y;
-        
+
         // 计算框的实际坐标（确保左上角和右下角正确）
         const minX = Math.min(startX, endX);
         const maxX = Math.max(startX, endX);
@@ -8257,7 +8259,7 @@ https://github.com/Tencent/APIJSON/issues
         }
 
         this.showLabelModal(event.clientX, event.clientY); // 位置总是在右下角 this.showLabelModal(stage, maxX, maxY);
-        
+
         event.preventDefault();
       },
 
@@ -8267,12 +8269,12 @@ https://github.com/Tencent/APIJSON/issues
         if (stage != 'after' || ! (hoverId != null || this.isDrawingBox || this.isDragging || this.isResizing || this.isRotating)) {
           return;
         }
-        
+
         const canvas = this.canvasMap[stage];
         if (! canvas) {
           return;
         }
-        
+
         const ctx = canvas.getContext('2d');
         if (! ctx) {
           return;
@@ -8320,7 +8322,7 @@ https://github.com/Tencent/APIJSON/issues
         const centerY = minY + height / 2;
 
         ctx.save();
-        
+
         // 如果有旋转，应用旋转变换
         if (degree !== 0) {
           ctx.translate(centerX, centerY);
@@ -8344,7 +8346,7 @@ https://github.com/Tencent/APIJSON/issues
             {x: minX, y: maxY},           // 左下
             {x: maxX, y: maxY}            // 右下
           ];
-          
+
           corners.forEach(corner => {
             ctx.beginPath();
             ctx.arc(corner.x, corner.y, 5, 0, 2 * Math.PI);
@@ -8356,14 +8358,14 @@ https://github.com/Tencent/APIJSON/issues
             {x: maxX, y: minY},           // 右上
             {x: minX, y: maxY}            // 左下
           ];
-          
+
           ctx.strokeStyle = '#4ECDC4';
           ctx.lineWidth = 2;
           rotationHandles.forEach(handle => {
             ctx.beginPath();
             ctx.arc(handle.x, handle.y, 8, 0, 2 * Math.PI);
             ctx.stroke();
-            
+
             // 绘制旋转指示线
             ctx.beginPath();
             ctx.moveTo(handle.x, handle.y - 12);
@@ -8410,13 +8412,13 @@ https://github.com/Tencent/APIJSON/issues
       applyRotation: function(x, y, centerX, centerY, angle) {
         const cos = Math.cos(angle);
         const sin = Math.sin(angle);
-        
+
         const translatedX = x - centerX;
         const translatedY = y - centerY;
-        
+
         const rotatedX = translatedX * cos - translatedY * sin;
         const rotatedY = translatedX * sin + translatedY * cos;
-        
+
         return {
           x: rotatedX + centerX,
           y: rotatedY + centerY
@@ -8428,19 +8430,19 @@ https://github.com/Tencent/APIJSON/issues
         // 直接使用鼠标事件的页面坐标
         let x = clientX + 10;
         let y = clientY + 10;
-        
+
         // 边界检查，确保弹窗不会超出屏幕
         const modalWidth = 300;  // 弹窗宽度
         const modalHeight = 200; // 弹窗高度
-        
+
         if (x + modalWidth > window.innerWidth) {
           x = clientX - modalWidth - 10;
         }
-        
+
         if (y + modalHeight > window.innerHeight) {
           y = clientY - modalHeight - 10;
         }
-        
+
         this.labelModalPosition = {
           x: Math.max(10, x),  // 确保不会超出左边界
           y: Math.max(10, y)   // 确保不会超出上边界
@@ -8449,7 +8451,7 @@ https://github.com/Tencent/APIJSON/issues
         this.isLabelModalShow = true;
         // this.labelIndex = -1;
         // this.boxLabels = [];
-        
+
         // 聚焦到输入框
         this.$nextTick(() => {
           const input = document.getElementById('labelInput');
@@ -8529,7 +8531,7 @@ https://github.com/Tencent/APIJSON/issues
       initColorPicker: function() {
         const colorPickerContainer = document.getElementById('color-picker-container');
         if (! colorPickerContainer || this.colorPicker) return;
-        
+
         this.colorPicker = new iro.ColorPicker('#color-picker-container', {
             width: 250,
             color: this.selectedColor.hexString,
@@ -8546,7 +8548,7 @@ https://github.com/Tencent/APIJSON/issues
                 }
             ]
         });
-        
+
         this.colorPicker.on('color:change', (color) => {
             this.selectedColor = color; // .hexString;
             var label = this.currentLabel || this.boxLabels[this.labelIndex] || {}
@@ -8592,15 +8594,15 @@ https://github.com/Tencent/APIJSON/issues
           color: label.color,
           score: 1
         };
-        
+
         bboxes.push(newBox);
-        
+
         this.hideLabelModal();
         this.draw('after');
         // this.draw('diff');
         this.compute();
       },
-      
+
       showAndSend: function (branchUrl, req, isAdminOperation, callback) {
         this.showUrl(isAdminOperation, branchUrl)
         vInput.value = JSON.stringify(req, null, '    ')
@@ -9914,7 +9916,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                 name: r.name
               // },
               // TestRecord: {
-              //   id: 
+              //   id:
               //   img: r.img,
               //   file: r.file,
               //   size: r.size,
@@ -10745,7 +10747,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         this.currentRandomIndex = -1
         this.sameIds = []
         this.missTruth = {}
-        
+
         const isRecord = this.operate == OPERATE_TYPE_RECORD
         if (testList != true && testSubList != true) {
           this.testRandomProcess = ''
@@ -11130,7 +11132,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           }
         });
       },
-      
+
       /**事件配置，动态替换键值对
        * @param show
        * @param callback

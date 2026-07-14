@@ -9430,9 +9430,9 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           + (this.isTestCaseShow ? '' : output) + (
           '\n\n\n## 文档 \n\n 通用文档见 [APIJSON通用文档](https://github.com/Tencent/APIJSON/blob/master/Document.md#3.2) \n### 数据字典\n自动查数据库表和字段属性来生成 \n\n' + d
           + '<h3 align="center">关于</h3>'
-          + '<p align="center">APIAuto-机器学习 HTTP 接口工具'
-          + '<br>机器学习零代码测试、生成代码与静态检查、生成文档与光标悬浮注释'
-          + '<br>由 <a href="https://github.com/TommyLemon/APIAuto" target="_blank">APIAuto(前端网页工具)</a>, <a href="https://github.com/Tencent/APIJSON" target="_blank">APIJSON(后端接口服务)</a> 等提供技术支持'
+          + '<p align="center">CVAuto- 零代码零标注 CV AI 自动化测试工具'
+          + '<br>免除大量人工画框和打标签等，直接零代码快速自动化测试 CV 计算机视觉 AI 人工智能图像识别算法'
+          + '<br>由 <a href="https://github.com/TommyLemon/CVAuto" target="_blank">CVAuto(前端网页工具)</a>, <a href="https://github.com/Tencent/APIJSON" target="_blank">APIJSON(后端接口服务)</a> 等提供技术支持'
           + '<br>遵循 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache-2.0 开源协议</a>'
           + '<br>Copyright &copy; 2017-' + new Date().getFullYear() + ' Tommy Lemon'
           + '<br><a href="https://beian.miit.gov.cn/" target="_blank"><span >粤ICP备18005508号-1</span></a>'

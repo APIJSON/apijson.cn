@@ -139,8 +139,8 @@
       <button class="transfer" id="vTransfer" @click="transfer()">' / "</button>
       <div style="height: 100%;display: flex;flex-grow: 1">
            <input class="url" id="vUrlComment" :disabled="isEditResponse" type="text" style="width: 100%; position: absolute; z-index: -100; color: darkseagreen;background: #0000;"  />
-           <textarea class="url" id="vUrl" :disabled="isEditResponse" type="text" @keyup="doOnKeyUp(event)" 
-               placeholder="请输入 package.Class.method" 
+           <textarea class="url" id="vUrl" :disabled="isEditResponse" type="text" @keyup="doOnKeyUp(event)"
+               placeholder="请输入 package.Class.method"
                style="z-index: 0; background: #0000; padding-left: 2px; padding-right: 1px; scrollbar-width: none; " ></textarea>
       </div>
       <button class="send" id="vSend" @click="onClickSend()">{{ isEditResponse ? '模拟返回' : '远程执行' }}</button>
@@ -1122,6 +1122,23 @@ Ctrl + S 或 Command + S 保存当前用例；
 <script src="md/lib/jquery.flowchart.min.js"></script>
 
 <script src="md/editormd.js"></script>
+<!-- 百度统计 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  -->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    try {
+      var hm = document.createElement("script");
+//      hm.src = "https://hm.baidu.com/hm.js?b8fc421d7c0dc354c6c8fb5a2c4f7729"; //cn
+      hm.src = "https://hm.baidu.com/hm.js?965ec968d2d53b729b90efc7ffb3ead2"; //org
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    } catch (e) {
+      console.log('BaiduStatistics: catch\n' + e.message)
+    }
+  })();
+</script>
+<!-- 百度统计 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>  -->
 
+<script src="https://cdn.jsdelivr.net/npm/page-agent@1.10.0/dist/iife/page-agent.demo.js" crossorigin="true"></script>
 </body>
 </html>
