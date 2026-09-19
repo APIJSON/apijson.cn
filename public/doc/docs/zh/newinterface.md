@@ -28,7 +28,7 @@ APIJSON 3.7.0  版开始，依赖了 apijson-framework.jar 的不需要写任�
 
 #### 2.1）在 Access 表里加一行记录即可
 
-![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON/APIJSON_access_config-small.jpg) 
+![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON/APIJSON_access_config-small.jpg)
 
 <br />
 <br />
@@ -82,11 +82,11 @@ static { //注册权限
 
 <br />
 <br />
-                                                                             
+
 
 ## 请求参数校验 Request 表配置
 
-  ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON/APIJSON_request_config-small.jpg) 
+  ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIJSON/APIJSON_request_config-small.jpg)
 可这样设置 structure 字段来配置自动校验请求 JSON 参数： <br />
 ```json
 "VERIFY":{
@@ -104,11 +104,11 @@ static { //注册权限
 "INSERT": { "@role": "OWNER" }                     //如果没传@role就自动添加
 "UPDATE": { "id@": "User/id" }                     //强制放入键值对
 ```
-全部操作符见 [Operation.java](https://github.com/Tencent/APIJSON/blob/master/APIJSONORM/src/main/java/apijson/orm/Operation.java) 的注释
+全部操作符见 [Operation.java](https://github.com/APIJSON/APIJSON/blob/master/APIJSONORM/src/main/java/apijson/orm/Operation.java) 的注释
 <br />
 <br />
-  
+
 :first_quarter_moon_with_face:此处的介绍都只是简要介绍，只是为了引导刚刚接触 APIJSON 的道友快速了解 APIJSON，并不代表 APIJSON 只有这些功能，具体功能详情参考下列图表
-  
+
 #### 完整功能图表
-https://github.com/Tencent/APIJSON/blob/master/Document.md#3
+https://github.com/APIJSON/APIJSON/blob/master/Document.md#3

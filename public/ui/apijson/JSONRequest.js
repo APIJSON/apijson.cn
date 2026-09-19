@@ -1,4 +1,4 @@
-/*Copyright ©2017 TommyLemon(https://github.com/TommyLemon/APIAuto)
+/*Copyright ©2017 TommyLemon(https://github.com/TommyLemon/AutoUI)
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 const TAG_REQUEST_UTIL = 'RequestUtil';
 
-var URL_BASE = "apijson.demo.server"; // 基地址
+var URL_BASE = "http://localhost:5000"; // 基地址
 var URL_GET = URL_BASE + "/get"; // 常规获取数据方式
 var URL_HEAD = URL_BASE + "/head"; // 检查，默认是非空检查，返回数据总数
 var URL_GETS = URL_BASE + "/gets"; // 通过POST来GET数据，不显示请求内容和返回结果，一般用于对安全要求比较高的请求
@@ -28,6 +28,7 @@ var URL_HEADS = URL_BASE + "/heads"; // 通过POST来HEAD数据，不显示请�
 var URL_POST = URL_BASE + "/post"; // 新增(或者说插入)数据
 var URL_PUT = URL_BASE + "/put"; // 修改数据，只修改传入字段对应的值
 var URL_DELETE = URL_BASE + "/delete"; // 删除数据
+var APIJSON_METHODS = ["get", "head", "gets", "heads", "post", "put", "delete"]
 
 
 /**请求，全走HTTP POST
@@ -150,6 +151,35 @@ function encode(json) {
   return json;
 }
 
+/**解码JSON，反转义所有String
+ * @param json 任意类型
+ */
+function decode(json) {
+  // alertOfDebug("decode  before:\n" + format(JSON.stringify(json)));
+
+  if (typeof json == "string") { //json instanceof String) {
+    json = decodeURIComponent(json);
+  }
+  else if (json instanceof Array) {
+    // alertOfDebug("decode  json instanceof Array");
+
+    for (var i = 0; i < json.length; i ++) {
+      // alertOfDebug("json[" + i + "] = " + format(JSON.stringify(json[i])));
+      json[i] = decode(json[i]);
+    }
+  }
+  else if (json instanceof Object) {
+    // alertOfDebug("decode  json instanceof Object");
+    for (var key in json) {
+      // alertOfDebug("decode  json[" + key + "] = " + format(JSON.stringify(json[key])));
+      json[key] = decode(json[key]);
+    }
+  }
+  // alertOfDebug("decode  after:\n" + format(JSON.stringify(json)));
+
+  return json;
+}
+
 /**编码JSON，转义所有String
  * @param data 任意类型
  */
@@ -180,6 +210,10 @@ function toFormData(data) {
  * @param json
  */
 function format(json) {
+  if (json instanceof Object) {
+    return JSON.stringify(json, null, "\t");
+  }
+
   try {
     return JSON.stringify(parseJSON(json), null, "\t");
   } catch(e) {
@@ -220,19 +254,30 @@ function log(tag, msg) {
 /**将json字符串转为JSON对象
  * @param s
  */
-function parseJSON(s) {
-  if (s instanceof Object) {
-    alertOfDebug("parseJSON  s instanceof JSON >> return s;");
-    return s;
-  }
-
+function parseJSON(s, defaultValue, isTry) {
   if (typeof s != "string") {
-    alertOfDebug("parseJSON  typeof json != string >> s = \"\" + s;");
-    s = "" + s;
+    alertOfDebug("parseJSON  typeof json != string >> s = " + s);
+    return s;
   }
   // alertOfDebug("parseJSON  s = \n" + s);
 
-  return JSON.parse(s);
+  if (StringUtil.isEmpty(s, true)) {
+    return defaultValue;
+  }
+
+  try {
+    return JSON.parse(s);
+  } catch (e) {
+    try {
+      return JSON5.parse(s)
+    } catch (e2) {
+      console.log('parseJSON  try JSON.parse(s) >> JSON5.parse(s) >> catch e = ' + e.message + '; e2 = ' + e2.message + "; s = " + s)
+      if (isTry) {
+        return defaultValue
+      }
+      throw e2
+    }
+  }
 }
 
 /**测试用的提示
@@ -437,5 +482,51 @@ function newArrayString(table, json, count, page) {
     + table + "\":" + JSON.stringify(json) + "}}";
 }
 
+
+
+function getRequestFromURL(url_, tryParse) {
+  var url = url_ || window.location.search;
+
+  var index = url == null ? -1 : url.indexOf("?")
+  if(index < 0) { //判断是否有参数
+    return null;
+  }
+
+  var theRequest = null;
+  var str = url.substring(index + 1);  //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+  var arr = str.split("&");  //截除“&”生成一个数组
+
+  var len = arr == null ? 0 : arr.length;
+  for(var i = 0; i < len; i++) {
+    var part = arr[i];
+    var ind = part == null ? -1 : part.indexOf("=");
+    if (ind <= 0) {
+      continue
+    }
+
+    if (theRequest == null) {
+      theRequest = {};
+    }
+
+    var v = decodeURIComponent(part.substring(ind+1));
+    if (tryParse == true) {
+      try {
+        v = parseJSON(v)
+      }
+      catch (e) {
+        console.log(e)
+      }
+    }
+
+    theRequest[part.substring(0, ind)] = v;
+  }
+
+  return theRequest;
+}
+
+
+if (typeof module == 'object') {
+  module.exports = this;
+}
 
 //常用请求>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

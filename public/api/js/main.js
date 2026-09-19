@@ -733,7 +733,7 @@
 https://github.com/TommyLemon/APIAuto/issues
 
 如果是请求 APIJSON 后端服务，则使用以下链接：
-https://github.com/Tencent/APIJSON/issues
+https://github.com/APIJSON/APIJSON/issues
 
 There may be something wrong, you can follow by the steps:
 1. Check whether the network connection is available, you can open the address with a browser: https://www.google.com/search?q=%22APIJSON%22
@@ -749,7 +749,7 @@ There may be something wrong, you can follow by the steps:
 https://github.com/TommyLemon/APIAuto/issues
 
 If you are requesting an APIJSON backend service, use the following link:
-https://github.com/Tencent/APIJSON/issues
+https://github.com/APIJSON/APIJSON/issues
 
 
 
@@ -3227,7 +3227,7 @@ https://github.com/Tencent/APIJSON/issues
         if (this.isExportRemote == false) { //下载到本地
 
           if (this.isTestCaseShow) { //文档
-            saveTextAs('# ' + this.exTxt.name + '\n主页: https://github.com/Tencent/APIJSON'
+            saveTextAs('# ' + this.exTxt.name + '\n主页: https://github.com/APIJSON/APIJSON'
               + '\n\nBASE_URL: ' + this.getBaseUrl()
               + '\n\n\n## 测试用例(Markdown格式，可用工具预览) \n\n' + this.getDoc4TestCase()
               + (this.view != 'markdown' ? '' : '\n\n\n\n\n\n\n\n## 文档(Markdown格式，可用工具预览) \n\n' + doc)
@@ -3332,7 +3332,7 @@ https://github.com/Tencent/APIJSON/issues
                 break;
             }
 
-            saveTextAs('# ' + this.exTxt.name + '\n主页: https://github.com/Tencent/APIJSON'
+            saveTextAs('# ' + this.exTxt.name + '\n主页: https://github.com/APIJSON/APIJSON'
               + '\n\n\nURL: ' + StringUtil.get(vUrl.value)
               + '\n\n\nHeader:\n' + StringUtil.get(vHeader.value)
               + '\n\n\nRequest:\n' + StringUtil.get(vInput.value)
@@ -8763,7 +8763,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
               }
 
               var answer = StringUtil.get(typeof data2 == 'string' ? data2 : (data instanceof Array ? data2.join() : JSON.stringify(data2)))
-                .replaceAll('/wiki/Tencent/APIJSON#', 'https://deepwiki.com/Tencent/APIJSON/').replaceAll('/wiki/TommyLemon/APIAuto#', 'https://deepwiki.com/TommyLemon/APIAuto/');
+                .replaceAll('/wiki/APIJSON/APIJSON#', 'https://deepwiki.com/APIJSON/APIJSON/').replaceAll('/wiki/TommyLemon/APIAuto#', 'https://deepwiki.com/TommyLemon/APIAuto/');
               App.view = 'markdown';
               vOutput.value += answer;
               markdownToHTML(vOutput.value)
@@ -8797,7 +8797,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
                       }
 
                       answer += '\n' + StringUtil.trim(typeof data2 == 'string' ? data2 : (data2 instanceof Array ? data2.join() : JSON.stringify(data2)))
-                        .replaceAll('/wiki/Tencent/APIJSON#', 'https://deepwiki.com/Tencent/APIJSON/').replaceAll('/wiki/TommyLemon/APIAuto#', 'https://deepwiki.com/TommyLemon/APIAuto/');
+                        .replaceAll('/wiki/APIJSON/APIJSON#', 'https://deepwiki.com/APIJSON/APIJSON/').replaceAll('/wiki/TommyLemon/APIAuto#', 'https://deepwiki.com/TommyLemon/APIAuto/');
                     }
 
                     answer += '\n<br/>\n';
@@ -9434,7 +9434,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
             + '\nAPIJSON 中文文档: https://github.com/vincentCheng/apijson-doc '
             + '\nAPIJSON 英文文档: https://github.com/ruoranw/APIJSONdocs '
             + '\nAPIJSON 官方网站: https://github.com/APIJSON/apijson.cn '
-            + '\nAPIJSON -Java版: https://github.com/Tencent/APIJSON '
+            + '\nAPIJSON -Java版: https://github.com/APIJSON/APIJSON '
             + '\nAPIJSON - C# 版: https://github.com/liaozb/APIJSON.NET '
             + '\nAPIJSON - Go 版: https://github.com/glennliao/apijson-go '
             + '\nAPIJSON - PHP版: https://github.com/kvnZero/hyperf-APIJSON '
@@ -9472,11 +9472,11 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           + (this.isTestCaseShow ? '' : output) + (
           '\n\n\n登录后点 ↑ 上方左侧最后图标按钮显示用例详情，- 移除、↑ 点 Tab 登录(红色)/退出(黑色)测试账号、+ 添加'
           + '\n点左上角 测试用例 可切换 远程在线 \| 场景串联 \| 本地历史，点它们右侧 (10\|50) 切换显示 分组 \| 用例'
-          + '\n## 文档 \n\n 通用文档见 [APIJSON通用文档](https://github.com/Tencent/APIJSON/blob/master/Document.md#3.2) \n### 数据字典\n自动查数据库表和字段属性来生成 \n\n' + d
+          + '\n## 文档 \n\n 通用文档见 [APIJSON通用文档](https://github.com/APIJSON/APIJSON/blob/master/Document.md#3.2) \n### 数据字典\n自动查数据库表和字段属性来生成 \n\n' + d
           + '<h3 align="center">关于</h3>'
           + '<p align="center">APIAuto-机器学习 HTTP 接口工具'
           + '<br>机器学习零代码测试、生成代码与静态检查、生成文档与光标悬浮注释'
-          + '<br>由 <a href="https://github.com/TommyLemon/APIAuto" target="_blank">APIAuto(前端网页工具)</a>, <a href="https://github.com/Tencent/APIJSON" target="_blank">APIJSON(后端接口服务)</a> 等提供技术支持'
+          + '<br>由 <a href="https://github.com/TommyLemon/APIAuto" target="_blank">APIAuto(前端网页工具)</a>, <a href="https://github.com/APIJSON/APIJSON" target="_blank">APIJSON(后端接口服务)</a> 等提供技术支持'
           + '<br>遵循 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache-2.0 开源协议</a>'
           + '<br>Copyright &copy; 2017-' + new Date().getFullYear() + ' Tommy Lemon'
           + '<br><a href="https://beian.miit.gov.cn/" target="_blank"><span >粤ICP备18005508号-1</span></a>'
@@ -13218,7 +13218,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
         var testRecord = item.TestRecord = item.TestRecord || {}
 
         saveTextAs(
-          '# APIJSON自动化回归测试-前\n主页: https://github.com/Tencent/APIJSON'
+          '# APIJSON自动化回归测试-前\n主页: https://github.com/APIJSON/APIJSON'
           + '\n\n接口名称: \n' + (document.version > 0 ? 'V' + document.version : 'V*') + ' ' + document.name
           + '\n返回结果: \n' + JSON.stringify(parseJSON(testRecord.response || '{}'), null, '    ')
           , '测试：' + document.name + '-前.txt'
@@ -13235,7 +13235,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           var accountIdStr = String(curAccount.isLoggedIn ? curAccount.id || '' : '')
           var tests = App.tests[accountIdStr] || {}
           saveTextAs(
-            '# APIJSON自动化回归测试-后\n主页: https://github.com/Tencent/APIJSON'
+            '# APIJSON自动化回归测试-后\n主页: https://github.com/APIJSON/APIJSON'
             + '\n\n接口名称: \n' + (document.version > 0 ? 'V' + document.version : 'V*') + ' ' + document.name
             + '\n返回结果: \n' + JSON.stringify(tests[document.id][isRandom ? random.id : 0] || {}, null, '    ')
             , '测试：' + document.name + '-后.txt'
@@ -13245,7 +13245,7 @@ Content-Type: ` + contentType) + (StringUtil.isEmpty(headerStr, true) ? '' : hea
           if (StringUtil.isEmpty(testRecord.standard, true) == false) {
             setTimeout(function () {
               saveTextAs(
-                '# APIJSON自动化回归测试-标准\n主页: https://github.com/Tencent/APIJSON'
+                '# APIJSON自动化回归测试-标准\n主页: https://github.com/APIJSON/APIJSON'
                 + '\n\n接口名称: \n' + (document.version > 0 ? 'V' + document.version : 'V*') + ' ' + document.name
                 + '\n测试结果: \n' + JSON.stringify(testRecord.compare || '{}', null, '    ')
                 + '\n测试标准: \n' + JSON.stringify(parseJSON(testRecord.standard || '{}'), null, '    ')

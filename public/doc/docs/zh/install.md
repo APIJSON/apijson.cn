@@ -36,7 +36,7 @@ Eclipse 导入：
 为了方便修改源代码，你可以像我一样不添加`libs/apijson-orm.jar`文件到`Build Path`中。而是`libs/apijson-orm.jar`的源码，复制到当前项目里。
 
 源代码在 <br >
-https://github.com/Tencent/APIJSON/tree/master/APIJSONORM
+https://github.com/APIJSON/APIJSON/tree/master/APIJSONORM
 
 ## 错误修改
 

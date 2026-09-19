@@ -3,7 +3,7 @@
 ## 接口开发
 
 首先是看名字`APIJSON`，API是说这个项目是属于接口开发的项目，JSON是指传输数据格式是JSON格式。介于各位看官的水平高低不齐，这里就先为没有项目经验朋友啰嗦两句接口开发的内容。有经验的朋友可以跳到`A2`继续查看。完整的详细介绍见项目首页 <br >
-https://github.com/Tencent/APIJSON#--apijson
+https://github.com/APIJSON/APIJSON#--apijson
 
 ## 功能说明
 

@@ -1,7 +1,7 @@
 <h1 align="center" style="text-align:center;">
   APIAuto
 </h1>
- 
+
 <p align="center">☔ HTTP 接口 机器学习零代码测试 和 一站式智能开发管理 工具</p>
 
 <p align="center" >
@@ -21,7 +21,7 @@
 集合 文档、测试、Mock、调试、管理 的一站式体验，还有 **AI 问答** 和一键 格式化、注释/取消注释 等高效快捷键。<br />
 在常用功能上远超 Postman, Swagger, YApi 等各种 开源、商业 的 API 文档/测试 工具，并能一键导入用例和文档。<br />
 支持 GET, POST, PUT, PATCH, DELETE, HEAD 等各种 HTTP Method 及 Content-Type, URL /{Path}/{Variable}。<br />
-不仅适用于 RESTful、类 RESTful、GRPC 的 API，还是腾讯 [APIJSON](https://github.com/Tencent/APIJSON) 官方建议的文档与测试工具。<br />
+不仅适用于 RESTful、类 RESTful、GRPC 的 API，还是腾讯 [APIJSON](https://github.com/APIJSON/APIJSON) 官方建议的文档与测试工具。<br />
 腾讯内部用户包括 IEG 互动娱乐事业群、TEG 技术工程事业群、CSIG 云与智慧事业群 的多个部门及团队， <br />
 外部用户包含 华为、工商银行某地分行、500 强上市公司传音、跨境电商巨头 SHEIN、行业领头羊社保科技 等。
 
@@ -36,7 +36,7 @@
 ![](https://raw.githubusercontent.com/TommyLemon/StaticResources/master/APIAuto/APIAuto_Tencent_TEG_AITestCircle_quick_and_slow.gif)
 
 
-#### 腾讯内先后被 TEG 工具开发组、微信支付部门、IEG 工具开发组、CDG 金融支付组、IEG PC 游戏平台部 邀请分享了 
+#### 腾讯内先后被 TEG 工具开发组、微信支付部门、IEG 工具开发组、CDG 金融支付组、IEG PC 游戏平台部 邀请分享了
 * APIAuto-机器学习 HTTP 接口工具
 * 零代码测试工具与实践(API•单元•UI)
 * 零代码开发和测试(API测试•单元测试•API开发)
@@ -130,7 +130,7 @@ Bilibili：https://search.bilibili.com/all?keyword=APIAuto
 因为这些接口不支持 CORS 跨域，所以需要开启托管服务代理。<br />
 可以复制 Chrome 等浏览器、Charles 等抓包工具的请求文本，<br />
 粘贴到 APIAuto 的 URL 输入框，会自动填充 URL, JSON, Header 等。<br />
-https://github.com/TommyLemon/APIAuto/issues/16 
+https://github.com/TommyLemon/APIAuto/issues/16
 
 #### 百度
 ![APIAuto_request_thirdparty_api_baidu](https://user-images.githubusercontent.com/5738175/154853951-558b9ce0-b8a5-4f35-a811-3c3fbee1235a.gif)
@@ -164,7 +164,7 @@ https://www.bilibili.com/video/BV1JZ4y1d7c8
 右上角登录的默认管理员账号为 13000082001 密码为 123456，<br />
 右侧上方中间 3 个标签是默认的测试用户账号，点击登录/退出，左侧 - 删除，右侧 + 新增。<br />
 <br />
-**自动生成文档、自动管理测试用例 这两个功能 需要部署 APIJSON 后端，建议用 APIJSONBoot 系列之一 Demo，见** <br /> 
+**自动生成文档、自动管理测试用例 这两个功能 需要部署 APIJSON 后端，建议用 APIJSONBoot 系列之一 Demo，见** <br />
 https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server
 
 **建议使用已 [内置 APIAuto](https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server/APIJSONBoot-MultiDataSource/src/main/resources/static) 的 [APIJSONBoot-MultiDataSource](https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server/APIJSONBoot-MultiDataSource)，可以避免以下常见问题 1, 3, 4**
@@ -190,7 +190,7 @@ http://apijson.cn/api/?send=true&type=JSON&url=http%3A%2F%2Fapijson.cn%3A8080%2F
 
 #### 5.在界面手动填写 URL、参数 JSON、请求头 等再点击上传/分享按钮
 可点击分享按钮生成分享链接，用浏览器打开即可自动填充。 <br />
-退出登录后可设置 使用的请求类型，全部类型为 PARAM,JSON,FORM,DATA,GRPC 
+退出登录后可设置 使用的请求类型，全部类型为 PARAM,JSON,FORM,DATA,GRPC
 
 <br />
 
@@ -246,7 +246,7 @@ https://github.com/TommyLemon/APIAuto/issues/9
 
 #### 2.没有生成文档
 右上角设置项与数据库实际配置不一致 等  <br />
-https://github.com/Tencent/APIJSON/issues/85
+https://github.com/APIJSON/APIJSON/issues/85
 
 #### 3.托管服务器访问不了
 不能代理接口、不能展示文档、不能对断言结果纠错 等 <br />
@@ -293,13 +293,13 @@ https://github.com/TommyLemon/APIAuto/issues
 ![image](https://github.com/user-attachments/assets/c4aa8573-f8b3-4973-8c37-29677c06ac3b)
 
 如果有什么问题或建议可以 [提 issue](https://github.com/TommyLemon/APIAuto/issues)，交流技术，分享经验。<br >
-如果你解决了某些 bug，或者新增了一些功能，欢迎 [提 PR 贡献代码](https://github.com/Tencent/APIJSON/blob/master/CONTRIBUTING.md)，感激不尽。
+如果你解决了某些 bug，或者新增了一些功能，欢迎 [提 PR 贡献代码](https://github.com/APIJSON/APIJSON/blob/master/CONTRIBUTING.md)，感激不尽。
 <br />
 <br />
 
 ### 生态项目
 
-[APIJSON](https://github.com/Tencent/APIJSON) 🏆 腾讯实时 零代码、全功能、强安全 ORM 库 🚀 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构
+[APIJSON](https://github.com/APIJSON/APIJSON) 🏆 腾讯实时 零代码、全功能、强安全 ORM 库 🚀 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构
 
 [CVAuto](https://github.com/TommyLemon/CVAuto) 👁 零代码零标注 CV AI 自动化测试平台 🚀 免除大量人工画框和打标签等，直接快速测试 CV 计算机视觉 AI 图像识别算法
 
@@ -320,7 +320,7 @@ https://github.com/TommyLemon/APIAuto/issues
 [APIJSON.NET](https://github.com/liaozb/APIJSON.NET) C# 版 APIJSON ，支持 MySQL, PostgreSQL, SQL Server, Oracle, SQLite
 
 [apijson-go](https://github.com/glennliao/apijson-go) Go 版 APIJSON ， 基于Go(>=1.18) + GoFrame2, 支持查询、单表增删改、权限管理等
-  
+
 [apijson-go](https://gitee.com/tiangao/apijson-go) Go 版 APIJSON ，支持单表查询、数组查询、多表一对一关联查询、多表一对多关联查询 等
 
 [apijson-hyperf](https://github.com/kvnZero/hyperf-APIJSON.git) PHP 版 APIJSON，基于 Hyperf 支持 MySQL
@@ -345,7 +345,7 @@ https://github.com/TommyLemon/APIAuto/commits/master
 ### 我要赞赏
 腾讯、中国邮政、字节跳动、阿里巴巴、美团、网易、百度、京东、滴滴、平安、SHEIN、快手、携程、Bilibili、微众银行、VIVO、 <br />
 58 集团、中兴 等 和国外 NVIDIA, Amazon, SAP, ThoughtWorks, Red Hat 等各大知名大厂员工点了 Star，感谢大家的支持~ <br />
-![image](https://github.com/TommyLemon/APIAuto/assets/5738175/723e1c9c-7cf7-431a-b29a-b878e99c7e39) 
+![image](https://github.com/TommyLemon/APIAuto/assets/5738175/723e1c9c-7cf7-431a-b29a-b878e99c7e39)
 
 **创作不易、坚持更难，右上角点亮 ⭐Star 支持/收藏下本项目吧，谢谢 ^_^** <br />
 https://github.com/TommyLemon/APIAuto

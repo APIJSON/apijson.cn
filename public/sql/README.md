@@ -1,7 +1,7 @@
 <h1 align="center" style="text-align:center;">
   SQLAuto
 </h1>
- 
+
 <p align="center">☔ 智能零代码测试 SQL、任意增删改查、任意 SQL 模板变量、一键批量生成参数组合、快速构造大量测试数据。<br />用户包含 某市值 4000亿+ 500 强巨头、某营收数十亿企业、某热门数据库创业公司 等多家大中小企业。</p>
 
 
@@ -24,7 +24,7 @@
 <img width="1440" alt="018AD342-6A7B-4D4E-ACC2-523196580221" src="https://user-images.githubusercontent.com/5738175/189524723-a178d4e8-c2ef-4adb-ac0a-9d4b627f42ad.png">
 
 如果 SQL 语句是 INSERT 插入语句，则可以快速生成 1000+ 条测试数据(表记录)，方便前后端联调接口，可按规则生成。
-例如 
+例如
 ```sql
 INSERT INTO sys.apijson_user(id, sex, name) VALUES(${id}, ${sex}, ${name})
 ```
@@ -52,8 +52,8 @@ name: 'Test ' + new Date().toLocaleTimeString()  // 通过代码自定义
 右侧上方中间 3 个标签是默认的测试用户账号，点击登录/退出，左侧 - 删除，右侧 + 新增。<br />
 <br />
 
-**后端需要部署 APIJSON-Demo 5.2.5+ 的 APIJSONBoot-MultiDataSource** <br /> 
-DemoSQLConfig 改下 getDBAccount, getDBUri 等返回值，具体见 <br /> 
+**后端需要部署 APIJSON-Demo 5.2.5+ 的 APIJSONBoot-MultiDataSource** <br />
+DemoSQLConfig 改下 getDBAccount, getDBUri 等返回值，具体见 <br />
 https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server
 
 <br />
@@ -127,7 +127,7 @@ https://github.com/TommyLemon/APIAuto/issues/9
 
 #### 2.没有生成文档
 右上角设置项与数据库实际配置不一致 等  <br />
-https://github.com/Tencent/APIJSON/issues/85
+https://github.com/APIJSON/APIJSON/issues/85
 
 #### 3.托管服务器访问不了
 不能代理接口、不能展示文档、不能对断言结果纠错 等 <br />
@@ -153,13 +153,13 @@ https://github.com/TommyLemon/APIAuto/issues
 <img width="1280" src="https://github.com/TommyLemon/UIGO/assets/5738175/ec77df98-ff9b-43aa-b2f1-2fce2549d276">
 
 如果有什么问题或建议可以 [去 APIAuto 提 issue](https://github.com/TommyLemon/APIAuto/issues)，交流技术，分享经验。<br >
-如果你解决了某些 bug，或者新增了一些功能，欢迎 [提 PR 贡献代码](https://github.com/Tencent/APIJSON/blob/master/CONTRIBUTING.md)，感激不尽。
+如果你解决了某些 bug，或者新增了一些功能，欢迎 [提 PR 贡献代码](https://github.com/APIJSON/APIJSON/blob/master/CONTRIBUTING.md)，感激不尽。
 <br />
 <br />
 
 ### 生态项目
 
-[APIJSON](https://github.com/Tencent/APIJSON) 🏆 腾讯实时 零代码、全功能、强安全 ORM 库 🚀 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构
+[APIJSON](https://github.com/APIJSON/APIJSON) 🏆 腾讯实时 零代码、全功能、强安全 ORM 库 🚀 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构
 
 [APIAuto](https://github.com/TommyLemon/APIAuto) 敏捷开发最强大易用的 HTTP 接口工具，机器学习零代码测试、生成代码与静态检查、生成文档与光标悬浮注释，集 文档、测试、Mock、调试、管理 于一体的一站式体验
 
@@ -180,7 +180,7 @@ https://github.com/TommyLemon/APIAuto/issues
 [APIJSON.NET](https://github.com/liaozb/APIJSON.NET) C# 版 APIJSON ，支持 MySQL, PostgreSQL, SQL Server, Oracle, SQLite
 
 [apijson-go](https://github.com/glennliao/apijson-go) Go 版 APIJSON ， 基于Go(>=1.18) + GoFrame2, 支持查询、单表增删改、权限管理等
-  
+
 [apijson-go](https://gitee.com/tiangao/apijson-go) Go 版 APIJSON ，支持单表查询、数组查询、多表一对一关联查询、多表一对多关联查询 等
 
 [apijson-hyperf](https://github.com/kvnZero/hyperf-APIJSON.git) PHP 版 APIJSON，基于 Hyperf 支持 MySQL

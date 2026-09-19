@@ -162,7 +162,7 @@ a:active svg, a:hover svg{
   left: 0;
   top: 50px;
   bottom: 0;
-  width: 43%;
+  width: 56%;
   box-shadow: 1px 1px 1px rgba(245, 244, 244, 0.52);
   padding-top: 40px;
   padding-bottom: 10px;
@@ -176,9 +176,12 @@ a:active svg, a:hover svg{
   top: 0px;
   display: flex;
   align-items: center;
-  z-index: 100;
+  z-index: 101;
   background-color: #FFF;
   box-shadow: 1px 1px 1px rgba(244, 243, 243, 0.64)
+}
+.side-left > .left-bar {
+  z-index: 101;
 }
 
 .left-panel {
@@ -210,10 +213,10 @@ textarea {
 
 .side-right {
   position: absolute;
-  left: 43%;
+  left: 56%;
   top: 50px;
   bottom: 0;
-  width: 57%;
+  width: 56%;
   padding-left: 5px;
   padding-bottom: 10px;
   display: flex;
@@ -263,7 +266,8 @@ textarea {
 }
 
 .right-bar {
-  height: 40px;
+  height: auto;
+  min-height: 40px;
   border-bottom: #DDD 1px solid;
   width: 100%;
   position: absolute;
@@ -271,7 +275,7 @@ textarea {
   padding-right: 10px;
   display: flex;
   align-items: center;
-  z-index: 100;
+  z-index: 101;
   background-color: #FFF;
   box-shadow: 1px 1px 1px rgba(244, 243, 243, 0.64)
 }
@@ -327,11 +331,15 @@ textarea {
   border-top: 0;
 }
 
+.pop a {
+  padding: 10px;
+}
+
 .pop-btn {
   display: inline-block;
   position: relative
 }
-.pop-btn:hover .pop, .pop:hover {
+.pop-btn:hover .pop, .pop:hover, .pop:focus-within {
   display: block;
 }
 
@@ -374,26 +382,31 @@ textarea {
   position: absolute;
   text-align: center;
   width: 370px;
-  background-color: #b5b5b5;
+  background-color: #cccccc;
   left: 50%;
   margin-left: -500px;
   margin-top: 192px;
-  padding: 30px;
-  z-index: 100;
-  border: #dadada  10px solid;
-
+  padding-top: 30px;
+  padding-bottom: 12px;
+  padding-left: 10px;
+  padding-right: 10px;
+  z-index: 300;
+  border: #bbbbbb  1px solid;
+  border-radius: 6px;
 }
 
 .save-box input {
   padding: 10px;
   border: none;
   outline: none;
-  width: 200px;
+  width: 100%;
+  text-align: center;
 }
 
 .save-box button {
   border:  none;
   padding: 8px 20px;
+  margin-top: 10px;
   cursor: pointer;
   outline: none;
 }
@@ -466,7 +479,7 @@ textarea {
 }
 /* .json-link:link, .json-link:visited {
   color: #717171;
-  text-decoration: none 
+  text-decoration: none
 } */
 .json-link:hover, .json-link:active {
   color: #3ab54a!important;
@@ -478,8 +491,8 @@ textarea {
   position: absolute;
   top: 50px;
   bottom: 0;
-  left: 43%;
-  z-index: 100;
+  left: 56%;
+  z-index: 102;
   cursor: w-resize;
   border-right: rgba(221, 221, 221, 0.34) 1px solid;
   border-left: rgba(221, 221, 221, 0.34) 1px solid;
@@ -545,7 +558,6 @@ table.diff thead th.texttitle {
   background-color: #FFF;
 }
 
-
 .historys li {
   display: block;
   padding: 10px;
@@ -563,6 +575,87 @@ table.diff thead th.texttitle {
 }
 
 .historys svg {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+  right: 5px;
+  width: 15px;
+  height: 15px;
+}
+
+.method-pop {
+  left: 0;
+  right: auto;
+  top: 100%
+}
+.method-pop li {
+  display: block;
+  padding: 0;
+  padding-right: 0;
+  border-bottom: 0;
+  overflow: visible;
+}
+.method-pop li a {
+  display: block;
+  width: 100%;
+  height: 28px;
+  line-height: 28px;
+  padding: 0;
+  border-bottom: #DDD 1px solid;
+  box-sizing: border-box;
+  color: black;
+  text-align: center;
+}
+.type-pop {
+  left: 0;
+  right: auto;
+  top: 100%
+}
+.type-pop li {
+  display: block;
+  padding: 0;
+  padding-right: 0;
+  border-bottom: 0;
+  overflow: visible;
+}
+.type-pop li a {
+  display: block;
+  width: 100%;
+  height: 28px;
+  line-height: 28px;
+  padding: 0;
+  padding-left: 4px;
+  border-bottom: #DDD 1px solid;
+  box-sizing: border-box;
+  color: black;
+  text-align: left;
+}
+
+.projects {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+
+  background-color: #FFF;
+}
+
+.projects li {
+  display: block;
+  padding: 10px;
+  border-bottom: #DDD 1px solid;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right: 20px;
+  position: relative
+}
+
+.projects li a {
+  display: inline-block;
+  width: 100%;
+}
+
+.projects svg {
   position: absolute;
   display: inline-block;
   cursor: pointer;
@@ -622,4 +715,319 @@ table.diff thead th.texttitle {
   background-color: #d9edf7;
   border-color: #bce8f1;
   color: #31708f;
+}
+
+/* 标签弹窗样式 */
+.label-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1010;
+}
+
+.label-modal {
+  position: absolute;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 300px;
+  max-width: 400px;
+  z-index: 1001;
+}
+
+.label-modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-picker {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.color-option {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.color-option:hover {
+  border-color: #ccc;
+}
+
+.color-option.active {
+  border-color: #333;
+}
+
+.label-input-container {
+  display: flex;
+  flex: 1;
+  gap: 5px;
+}
+
+.label-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.add-label-btn {
+  padding: 8px 12px;
+  background: #4ECDC4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.add-label-btn:hover {
+  background: #45B7D1;
+}
+
+.label-list {
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.label-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  color: black;
+  font-size: 14px;
+}
+
+.label-text {
+  flex: 1;
+}
+
+.label-remove {
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.label-remove:hover {
+  opacity: 0.7;
+}
+
+.label-modal-footer {
+  padding: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.save-btn, .cancel-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.save-btn {
+  background: #4ECDC4;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #45B7D1;
+}
+
+.cancel-btn {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+/* 颜色选择器弹窗样式 */
+.color-picker-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1020;
+}
+
+.color-picker-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  min-width: 300px;
+  z-index: 1021;
+}
+
+.color-picker-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.color-picker-header h4 {
+  margin: 0;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.color-picker-body {
+  padding: 20px;
+}
+
+.color-info {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.current-color {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+}
+
+.color-picker-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.confirm-btn, .cancel-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.confirm-btn {
+  background: #4ECDC4;
+  color: white;
+}
+
+.confirm-btn:hover {
+  background: #45B7D1;
+}
+
+.cancel-btn {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+.vContainer{
+  margin-top: 45px;
+  position:absolute;
+  inset:0;
+  display:table-column;
+  flex-direction:column;
+  gap:12px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:white;
+  z-index: 100;
+  object-fit:contain;
+  text-align: left;
+  padding-left: 10px;
+}
+
+/* 行 */
+.vRow{
+  display:flex;
+  gap:16px; /* 左右固定间距 */
+  object-fit:contain;
+  width: auto;
+}
+
+/* 单元 */
+.vCell{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  height: 100%;
+  width: auto;
+  object-fit:contain;
+}
+
+/* 标题 */
+.vTitle{
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+/* 图片区域 */
+.vBox{
+  position:relative;
+  width:auto;
+  min-height:320px;
+  height: 100%;
+  object-fit:contain;
+}
+
+/* overlay */
+.vBox img,
+.vBox canvas{
+  position:absolute;
+  inset:0;
+  min-width: 180px;
+  width:auto;
+  height:100%;
+  object-fit:contain;
 }

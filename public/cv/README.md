@@ -1,7 +1,7 @@
 <h1 align="center" style="text-align:center;">
   CVAuto
 </h1>
- 
+
 <p align="center">👁 <b>零代码零标注 CV AI 自动化测试平台</b> 🚀 <br><b>零代码快速自动化测试 CV 计算机视觉 AI 人工智能图像识别算法的功能、效果、性能</b><br>适合 算法 应用/开发 工程师/专家、算法测试 工程师/专家、AI/机器学习/算法 工程师/专家/研究员/科学家 等</p>
 
 <p align="center" >
@@ -38,7 +38,7 @@
 * **人脸识别**：根据脸部特征 识别出具体是谁
 * **旋转校正**：对有直边的物体 校正歪斜角度
 
-**本项目基于 机器学习零代码自动化接口工具 APIAuto 定制，原理和使用可参考相关文档及视频** 
+**本项目基于 机器学习零代码自动化接口工具 APIAuto 定制，原理和使用可参考相关文档及视频**
 
 ### 演讲稿件
 [APIAuto-机器学习 HTTP 接口工具](https://github.com/TommyLemon/StaticResources/tree/master/APIAuto/Share) <br />
@@ -62,7 +62,7 @@ Bilibili：https://search.bilibili.com/all?keyword=APIAuto
 因为这些接口不支持 CORS 跨域，所以需要开启托管服务代理。<br />
 可以复制 Chrome 等浏览器、Charles 等抓包工具的请求文本，<br />
 粘贴到 CVAuto 的 URL 输入框，会自动填充 URL, JSON, Header 等。<br />
-https://github.com/TommyLemon/APIAuto/issues/16 
+https://github.com/TommyLemon/APIAuto/issues/16
 
 #### 百度
 ![APIAuto_request_thirdparty_api_baidu](https://user-images.githubusercontent.com/5738175/154853951-558b9ce0-b8a5-4f35-a811-3c3fbee1235a.gif)
@@ -97,10 +97,10 @@ https://www.bilibili.com/video/BV1JZ4y1d7c8
 右侧上方中间 3 个标签是默认的测试用户账号，点击登录/退出，左侧 - 删除，右侧 + 新增。<br />
 <br />
 
-**图片推理预测服务接口 可使用贵公司已部署的，或者在你的电脑部署本项目示例推理服务 AIServer：** <br /> 
+**图片推理预测服务接口 可使用贵公司已部署的，或者在你的电脑部署本项目示例推理服务 AIServer：** <br />
 https://github.com/TommyLemon/CVAuto/tree/main/AIServer
 
-**自动生成文档、自动管理测试用例 这两个功能 需要部署 APIJSON 后端，建议用 APIJSONBoot 系列之一 Demo，见** <br /> 
+**自动生成文档、自动管理测试用例 这两个功能 需要部署 APIJSON 后端，建议用 APIJSONBoot 系列之一 Demo，见** <br />
 https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server
 
 **建议使用已 [内置 CVAuto](https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server/APIJSONBoot-MultiDataSource/src/main/resources/static) 的 [APIJSONBoot-MultiDataSource](https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server/APIJSONBoot-MultiDataSource)，可以避免以下常见问题 1, 3, 4**
@@ -126,7 +126,7 @@ http://apijson.cn/api/?send=true&type=JSON&url=http%3A%2F%2Fapijson.cn%3A8080%2F
 
 #### 5.在界面手动填写 URL、参数 JSON、请求头 等再点击上传/分享按钮
 可点击分享按钮生成分享链接，用浏览器打开即可自动填充。 <br />
-退出登录后可设置 使用的请求类型，全部类型为 PARAM,JSON,FORM,DATA,GRPC 
+退出登录后可设置 使用的请求类型，全部类型为 PARAM,JSON,FORM,DATA,GRPC
 
 <br />
 
@@ -182,7 +182,7 @@ https://github.com/TommyLemon/APIAuto/issues/9
 
 #### 2.没有生成文档
 右上角设置项与数据库实际配置不一致 等  <br />
-https://github.com/Tencent/APIJSON/issues/85
+https://github.com/APIJSON/APIJSON/issues/85
 
 #### 3.托管服务器访问不了
 不能代理接口、不能展示文档、不能对断言结果纠错 等 <br />
@@ -208,13 +208,13 @@ https://github.com/TommyLemon/APIAuto/issues
 ![TommyLemon-GItHub](https://github.com/user-attachments/assets/4c2d9e75-01f7-4072-bed3-cfbd10076512)
 
 如果有什么问题或建议可以 [去 APIAuto 提 issue](https://github.com/TommyLemon/APIAuto/issues)，交流技术，分享经验。<br >
-如果你解决了某些 bug，或者新增了一些功能，欢迎 [提 PR 贡献代码](https://github.com/Tencent/APIJSON/blob/master/CONTRIBUTING.md)，感激不尽。
+如果你解决了某些 bug，或者新增了一些功能，欢迎 [提 PR 贡献代码](https://github.com/APIJSON/APIJSON/blob/master/CONTRIBUTING.md)，感激不尽。
 <br />
 <br />
 
 ### 生态项目
 
-[APIJSON](https://github.com/Tencent/APIJSON) 🏆 腾讯实时 零代码、全功能、强安全 ORM 库 🚀 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构
+[APIJSON](https://github.com/APIJSON/APIJSON) 🏆 腾讯实时 零代码、全功能、强安全 ORM 库 🚀 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构
 
 [APIAuto](https://github.com/TommyLemon/APIAuto) ☔ 敏捷开发最强大易用的接口工具，零代码测试与 AI 问答、生成代码与静态检查、生成文档与光标悬浮注释，腾讯、华为、SHEIN、传音、工行等使用
 
